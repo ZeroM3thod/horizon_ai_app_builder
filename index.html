@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Horizon | The Essence of Nature</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fbf9f8;
+            overflow-x: hidden;
+            /* Scaled down base font size for mobile */
+            font-size: 9px;
+            width: 100vw;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 0.5px solid rgba(255, 255, 255, 0.6);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 20;
+            font-size: 14px !important;
+        }
+        /* Custom scaling for the dense layout */
+        .desktop-mini-grid {
+            display: grid !important;
+            grid-template-columns: repeat(4, 1fr) !important;
+        }
+        .desktop-mini-row {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                "primary": "#b42907",
+                "on-surface": "#1b1c1c",
+                "on-surface-variant": "#5a413b",
+                "background": "#fbf9f8",
+                "surface": "#fbf9f8",
+                "lavender": "#C084FC",
+                "glass-border": "rgba(255, 255, 255, 0.6)",
+                "surface-container-low": "#f5f3f3"
+              },
+              "borderRadius": {
+                "DEFAULT": "0.5rem",
+                "lg": "1rem",
+                "xl": "1.5rem",
+                "full": "9999px"
+              },
+              "spacing": {
+                "gutter": "8px",
+                "card-internal": "12px",
+                "unit": "4px",
+                "section-gap": "32px",
+                "container-padding": "12px"
+              },
+              "fontFamily": {
+                "display-xl": ["Plus Jakarta Sans"],
+                "headline-lg": ["Plus Jakarta Sans"],
+                "body-md": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                "headline-md": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                "label-caps": ["7px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "700"}],
+                "display-xl": ["24px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                "headline-lg": ["18px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                "body-md": ["9px", {"lineHeight": "1.4", "fontWeight": "400"}],
+                "body-lg": ["10px", {"lineHeight": "1.4", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background">
+<!-- TopNavBar: Desktop layout preserved on mobile -->
+<nav class="fixed top-2 left-1/2 -translate-x-1/2 w-[94%] z-50 glass-card rounded-full shadow-sm backdrop-blur-xl">
+<div class="flex justify-between items-center px-4 py-2">
+<div class="flex items-center gap-4">
+<a class="font-display-xl text-[14px] tracking-tighter text-on-surface flex items-center" href="#">
+<span class="w-5 h-5 bg-on-surface text-surface flex items-center justify-center rounded-sm mr-1.5 text-[10px] font-bold">H</span>
+                Horizon
+            </a>
+<div class="flex gap-3">
+<a class="text-[8px] font-bold text-primary border-b border-primary" href="#">Collections</a>
+<a class="text-[8px] text-on-surface-variant" href="#">New Arrivals</a>
+<a class="text-[8px] text-on-surface-variant" href="#">Sourcing</a>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="material-symbols-outlined !text-[14px]" data-icon="search">search</button>
+<button class="material-symbols-outlined !text-[14px]" data-icon="shopping_bag">shopping_bag</button>
+</div>
+</div>
+</nav>
+<main>
+<!-- Hero Section: Scaled desktop layout -->
+<section class="relative h-[300px] flex items-center justify-center pt-8 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img alt="Gourmet Spices" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHSNgaSwUn0nxj291Oyw4OgMx4xlS1YF0hmtRKDeeiQ-QVKftZNq7ZiSIPmS-LR_rkxz4Hae-tQKUzvk0XmRDhKWmP5Z0E43MkwLz6Hbxi-Fgb7XGVT_3HLbHTxhjGcfUMGIDM-XXj1WGRbjqhXHbNA_5qdpAhuFS9W_7iHhy0Wcs8wg4Sz9AVoWvsbzdYglW469J2PCoFGxFrORr8a4-1vzTh-LOWZ0VyPBP223IUFTC6qA_KQ_Yps-5cuOad0uqLipUJnkeDFr4"/>
+<div class="absolute inset-0 bg-black/10"></div>
+</div>
+<div class="container mx-auto px-container-padding text-center relative z-10">
+<div class="inline-block px-2 py-0.5 mb-2 rounded-full glass-card border border-glass-border">
+<span class="font-label-caps text-primary uppercase">Innovation meets purity</span>
+</div>
+<h1 class="font-display-xl text-[24px] mb-2 max-w-xs mx-auto leading-tight text-on-surface">
+                The Essence of <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-lavender">Nature.</span>
+</h1>
+<p class="font-body-md text-on-surface mb-4 max-w-[200px] mx-auto drop-shadow-sm font-semibold">
+                Hand-selected gourmet dry fruits and artisanal masalas.
+            </p>
+<div class="flex gap-2 justify-center items-center">
+<a class="px-4 py-2 rounded-full bg-on-surface text-surface text-[8px] font-bold shadow-lg" href="#collection">Shop Spices</a>
+<a class="px-4 py-2 rounded-full glass-card text-on-surface text-[8px] font-bold" href="#collection">Explore</a>
+</div>
+</div>
+</section>
+<!-- Curated Collections: 4-column horizontal grid -->
+<section class="py-8 px-container-padding" id="collection">
+<div class="flex justify-between items-end mb-4">
+<div>
+<h2 class="font-headline-lg text-[14px]">Curated Collections</h2>
+<p class="text-[8px] text-on-surface-variant max-w-[150px]">Exceptional quality curated for you.</p>
+</div>
+<a class="font-label-caps text-primary border-b border-primary pb-0.5" href="#">View All</a>
+</div>
+<div class="desktop-mini-grid gap-2">
+<!-- Product Card 1 -->
+<div class="group">
+<div class="relative aspect-[4/5] rounded-lg overflow-hidden glass-card mb-2">
+<img alt="Almonds" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3UlbrW-epWhubVse1P7ssge5l9GyYfVfjFJ4Pm_AWWfDOr1iyYV59hIanTggUDsvhb4DNGexRt4552ev3ihKBXPOqnbj9gMWUPt02-CP6bvVpEXo6D-ZlKbNm1nPbPpxJWTxjb1sP8yOT63xdzK7ZFFcPDOnY720SqMlRaW1OvgVPS5H_FmUMD89tCoQW_X2Xx8072She87NgF4veX5l60eblWIWvGdLtODMFlerqrrxfvczFxpC9XjqFX5wER1sJvwSGNmryufI"/>
+<button class="absolute bottom-1.5 right-1.5 w-5 h-5 rounded-full glass-card flex items-center justify-center bg-white/80">
+<span class="material-symbols-outlined !text-[10px]" data-icon="add">add</span>
+</button>
+</div>
+<h3 class="text-[8px] font-bold leading-tight">Californian Almonds</h3>
+<p class="text-[7px] text-primary font-bold">$24.00</p>
+</div>
+<!-- Product Card 2 -->
+<div class="group">
+<div class="relative aspect-[4/5] rounded-lg overflow-hidden glass-card mb-2">
+<img alt="Turmeric" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcQ9RAjpBCppCr5UcwVn9_r6PIj9wJTR5b-y5m8ItiecKjCfbbVS5pFYjc23QLfRjVF0Cs4D9vptHsTWlYM9iRMEes8Q0Kdpw1beJ417VUlzJa0vcxeg8F0j1d7nkEzyRyABE_106VQ9axEcDW1XIWuhip3PUC9XqSZIXbA6M6f9r01QaEn5oqLx88uhxQqH6vLgqwEbPv1O8zpxk1J-yH0EBLT1eRTtrp18t8VvzQoQ71iFD2fB-8PMtunTiruv8RB-pwWF_PiGw"/>
+<button class="absolute bottom-1.5 right-1.5 w-5 h-5 rounded-full glass-card flex items-center justify-center bg-white/80">
+<span class="material-symbols-outlined !text-[10px]" data-icon="add">add</span>
+</button>
+</div>
+<h3 class="text-[8px] font-bold leading-tight">Turmeric Powder</h3>
+<p class="text-[7px] text-primary font-bold">$12.00</p>
+</div>
+<!-- Product Card 3 -->
+<div class="group">
+<div class="relative aspect-[4/5] rounded-lg overflow-hidden glass-card mb-2">
+<img alt="Nuts" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCN7Fon_ViyyzvPHXk7mV_0wQ2YTrtbRTm7J_OQHCYmRfqTmp7FJhXAdSCYawrd_zQ7cnGarmnV69ahsQFxBvIULJz3aQgjKQftsI8gAQa1KabOJsXniwNuhHrjjKjB2ul3SyXHkNqje0XRSat3GwMyXivBDP0-h5H2RoR9h8EQKAPpQc3yz1ssSs_mKceuyKLlBLL3dU-eqqkKqpsu-IQcoJjqFazdHidK0Qw_QBieVqsNQTTKewHPwvGQSAuOWXOYgG-UYpGdrW8"/>
+<button class="absolute bottom-1.5 right-1.5 w-5 h-5 rounded-full glass-card flex items-center justify-center bg-white/80">
+<span class="material-symbols-outlined !text-[10px]" data-icon="add">add</span>
+</button>
+</div>
+<h3 class="text-[8px] font-bold leading-tight">Mixed Nut Platter</h3>
+<p class="text-[7px] text-primary font-bold">$38.00</p>
+</div>
+<!-- Product Card 4 -->
+<div class="group">
+<div class="relative aspect-[4/5] rounded-lg overflow-hidden glass-card mb-2">
+<img alt="Spices" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFIPEhbdI_wOG86Q6N8XbnoEkmaVfEqWLveVZTSazZS6QThklXn0kuwResyr-7mTzpLL-KTsDFm06k-sHa1UY14dpgApo2308SwzC215zrxKDubV-Rtw_SxjMTFMHb7GVEfwIVOkRvrbXe2Uo4WTrHj4hSC-eFiJYOQmDO5BGeq-gZZ7FV1uLcd9_6HSOK71qHs8ZdPceZsjBf_OzqXl15rXqPnK77cu7IHunbj5GdenGwDjIcQ78uZGDBlUPf_EuCJOinNFJaKQg"/>
+<button class="absolute bottom-1.5 right-1.5 w-5 h-5 rounded-full glass-card flex items-center justify-center bg-white/80">
+<span class="material-symbols-outlined !text-[10px]" data-icon="add">add</span>
+</button>
+</div>
+<h3 class="text-[8px] font-bold leading-tight">Star Anise Mix</h3>
+<p class="text-[7px] text-primary font-bold">$15.00</p>
+</div>
+</div>
+</section>
+<!-- Category Showcase: Side-by-side banners -->
+<section class="pb-8 px-container-padding">
+<div class="desktop-mini-row gap-2">
+<div class="relative group h-[120px] w-1/2 rounded-lg overflow-hidden flex items-end p-2">
+<img alt="Seasonal" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjyqhcXjxzODDZgYWbKXscbsI2fleRdRM3zqbXtTU2yXRWsTvARjSbmGgPIbaj4HhbbQW1OwzO88gWUZXPt8V_es8Klq9uejXaPx0OMvLPg9pe6JP9ba1ToOIXyYUmG6FOXRFwcr5bEiC_WJ0Us7z6I1OUOSvqJg8n-4Fdy5QHj26PUzG1EeDX6QY-wfZ-WmDPvEnwF7H7l-uwbR5BIt_K9_uwQu7KypQ_obPXM7EyVgZ_FaWIKgtDG_ypq-Bi-gBPGUyihrXX-V8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+<div class="relative z-10">
+<span class="text-[6px] text-white uppercase font-bold">Limited</span>
+<h2 class="text-[10px] text-white font-bold leading-tight">Seasonal Harvests</h2>
+<a class="text-[7px] text-white underline" href="#">Explore</a>
+</div>
+</div>
+<div class="relative group h-[120px] w-1/2 rounded-lg overflow-hidden flex items-end p-2">
+<img alt="Sourcing" class="absolute inset-0 w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCm1NVUDlC5TC91uDXTlPchbjBWuMOx1PAd5w62vB12eV9Mtv6JHSsaB1LkGqCgBaJ_AKfSjbArVtTdBdZGicmym9nMxQ9AOmJU31h6vChK31JiMMBLVvuMKqFo-t-JqIVIRnDfN8FXiMJBhu1ZMoLAd7CAIgPjLWYMSlRj6hwjQVA6_-Gg2OTB9y2ffPkGZXM8ZH997kXptvqO-Ql_xAz38H2ApiYPV27puWDsoggEm4auBSOrSLCo8cH9vjq_Uy_2H6boNF2hL4o"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+<div class="relative z-10">
+<span class="text-[6px] text-white uppercase font-bold">Our Commitment</span>
+<h2 class="text-[10px] text-white font-bold leading-tight">Ethical Sourcing</h2>
+<a class="text-[7px] text-white underline" href="#">Learn More</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Artisanal Recipes: 3-column desktop layout -->
+<section class="py-8 px-container-padding bg-surface-container-low">
+<div class="text-center mb-4">
+<span class="font-label-caps text-primary">KITCHEN INSPIRATION</span>
+<h2 class="text-[14px] font-bold">Artisanal Recipes</h2>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<div class="glass-card rounded-lg overflow-hidden bg-white pb-2">
+<img alt="Recipe 1" class="h-16 w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBB6tf1Q9cvhKBnmYX4IKca8OC9RBw7uIqa2JP7dawGXuFnlJJmw4DQW5PUVVQ0ynAPK9GDmXOloA7JmLyBoEd07lAg0KOR1Mvm8oHhkt9Iitn9U0wMRoUujo7rPfyuMkygYmgcWxaZANCd8HE2QKLPT3G-cVLK30RI1SRf7B_uZZEE86dM-wMI2KXZMZ6ME4j5Czp40K-Zbk6HJLjA9hdbvPYEAER0GcxJh6pjtavnG7nIhFOkvT8eDWbUg-IkF6el91x3NxEh74A"/>
+<h3 class="text-[8px] font-bold px-1.5 mt-1">Golden Milk</h3>
+</div>
+<div class="glass-card rounded-lg overflow-hidden bg-white pb-2">
+<img alt="Recipe 2" class="h-16 w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAi-edAehrBoV_oXTNvYmONqM16JQ_hyMD9KRBEXBhzjzQ8P7EI7KNmeDb369TBD1hOFUnHN9abssRgvCzxAQr9TZhZHpouwbfkzJKzWtcXxtey1TmHGL_3yX8YUXukUbbiTZbJVISvYLDdFyqZTIVrUBNrjaXKhfQQgeL3ZcrpEqcSF2AsiF5JbJ3eYLChNwgYY6Mfw3W-brxTBwpJvGgzRZHjc8yC8pl3LUfJkARGBOSdsMMGy-iUZ_1Qw8hLarLcMxZmix5ozo4"/>
+<h3 class="text-[8px] font-bold px-1.5 mt-1">Spiced Nut Mix</h3>
+</div>
+<div class="glass-card rounded-lg overflow-hidden bg-white pb-2">
+<img alt="Recipe 3" class="h-16 w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBL5Pf_iW_bRdS-_1PffDDN8KWt5RIWfndGaBCqx3N0_FX_G4tNGdzu_XjZRTVzXMx6JrNVasisle1WgSfYtSVjDP55XzEKkmZDUzNEP56wkNUisx-vkG9k98p9wzC6i-9Y1_ngM5UVmMaNTpEb0qTc7ccIb6qNoY-tl4o436a4zVp5Ii_XiyIGfgnY32PETroH9ZhN65sajNHti04RBhVdEoEMZXPFR8UB_aTZYf11-7SRtukvJxkF9DMH6LccO7EY8tl4VWOSnUo"/>
+<h3 class="text-[8px] font-bold px-1.5 mt-1">Saffron Custard</h3>
+</div>
+</div>
+</section>
+<!-- Testimonials: 3-column desktop layout -->
+<section class="py-8 px-container-padding">
+<div class="text-center mb-4">
+<span class="font-label-caps text-primary">VOICES OF HORIZON</span>
+<h2 class="text-[14px] font-bold">Loved by Connoisseurs</h2>
+</div>
+<div class="grid grid-cols-3 gap-2">
+<div class="glass-card p-2 rounded-lg">
+<p class="text-[7px] italic leading-tight mb-2">"Unparalleled quality. Transformation in every dish."</p>
+<div class="flex items-center gap-1">
+<div class="w-4 h-4 rounded-full bg-gray-200"></div>
+<span class="text-[6px] font-bold">Chef Marcus</span>
+</div>
+</div>
+<div class="glass-card p-2 rounded-lg">
+<p class="text-[7px] italic leading-tight mb-2">"Fresh almonds that actually taste like almonds."</p>
+<div class="flex items-center gap-1">
+<div class="w-4 h-4 rounded-full bg-gray-200"></div>
+<span class="text-[6px] font-bold">Sarah J.</span>
+</div>
+</div>
+<div class="glass-card p-2 rounded-lg">
+<p class="text-[7px] italic leading-tight mb-2">"The minimal aesthetic matches the purity inside."</p>
+<div class="flex items-center gap-1">
+<div class="w-4 h-4 rounded-full bg-gray-200"></div>
+<span class="text-[6px] font-bold">Julian V.</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Narrative Section: 3-column icons -->
+<section class="bg-surface-container-low py-8">
+<div class="container mx-auto px-container-padding text-center">
+<h2 class="text-[14px] font-bold mb-4">Purity in Every Grain</h2>
+<div class="grid grid-cols-3 gap-4">
+<div class="text-center">
+<span class="material-symbols-outlined !text-[18px] text-primary mb-1">eco</span>
+<h3 class="text-[8px] font-bold">Naturally Sourced</h3>
+</div>
+<div class="text-center">
+<span class="material-symbols-outlined !text-[18px] text-primary mb-1">sunny</span>
+<h3 class="text-[8px] font-bold">Sun-Dried</h3>
+</div>
+<div class="text-center">
+<span class="material-symbols-outlined !text-[18px] text-primary mb-1">verified</span>
+<h3 class="text-[8px] font-bold">Zero Additives</h3>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter -->
+<section class="py-8 px-container-padding text-center">
+<div class="glass-card p-4 rounded-xl">
+<h2 class="text-[14px] font-bold mb-1">Join the Inner Circle</h2>
+<p class="text-[8px] text-on-surface-variant mb-4">Exclusive access to seasonal harvests.</p>
+<div class="flex gap-2 max-w-[200px] mx-auto">
+<input class="flex-grow px-3 py-1.5 rounded-full glass-card text-[8px] border border-glass-border" placeholder="Email" type="email"/>
+<button class="px-3 py-1.5 rounded-full bg-on-surface text-surface text-[8px] font-bold">Join</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer: Full width with side-by-side columns -->
+<footer class="border-t border-gray-200 bg-surface-container-low pt-8 pb-4">
+<div class="px-container-padding flex flex-row justify-between items-start gap-4">
+<div class="w-1/3">
+<h2 class="text-[12px] font-bold mb-1">Horizon</h2>
+<p class="text-[7px] text-on-surface-variant leading-tight">Architecting nature's finest gifts with modern elegance.</p>
+</div>
+<div class="flex flex-row gap-6 w-2/3 justify-end text-right">
+<div class="flex flex-col gap-1">
+<span class="text-[6px] font-bold uppercase opacity-50">Shop</span>
+<a class="text-[7px]" href="#">Fruits</a>
+<a class="text-[7px]" href="#">Masalas</a>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-[6px] font-bold uppercase opacity-50">Legal</span>
+<a class="text-[7px]" href="#">Privacy</a>
+<a class="text-[7px]" href="#">Terms</a>
+</div>
+<div class="flex flex-col gap-1">
+<span class="text-[6px] font-bold uppercase opacity-50">Contact</span>
+<a class="text-[7px]" href="#">Support</a>
+<a class="text-[7px]" href="#">Press</a>
+</div>
+</div>
+</div>
+<div class="text-center mt-6">
+<p class="text-[6px] opacity-40">© 2024 Horizon. All rights reserved.</p>
+</div>
+</footer>
+<script>
+    // Minimal script to preserve the requested interaction
+    let lastScrollTop = 0;
+    const navbar = document.querySelector('nav');
+    window.addEventListener('scroll', function() {
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        if (scrollTop > lastScrollTop && scrollTop > 50) {
+            navbar.style.transform = 'translate(-50%, -150%)';
+        } else {
+            navbar.style.transform = 'translate(-50%, 0)';
+        }
+        lastScrollTop = scrollTop;
+    });
+</script>
+</body></html>

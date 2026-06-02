@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Horizon - Build Limitless Apps</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-fixed": "#181e00",
+                        "secondary": "#556500",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#ff8a65",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e8e2d7",
+                        "on-primary-fixed-variant": "#7f2a0d",
+                        "tertiary": "#326578",
+                        "on-primary-fixed": "#3a0b00",
+                        "on-surface": "#1d1c15",
+                        "on-error-container": "#93000a",
+                        "primary": "#9f4122",
+                        "surface-container-low": "#f9f3e8",
+                        "surface-tint": "#9f4122",
+                        "secondary-fixed": "#d6ed7a",
+                        "tertiary-container": "#80b1c7",
+                        "on-surface-variant": "#56423c",
+                        "surface-bright": "#fff9ee",
+                        "on-tertiary-fixed": "#001f29",
+                        "on-secondary-fixed-variant": "#3f4c00",
+                        "on-tertiary-container": "#074457",
+                        "outline-variant": "#ddc0b8",
+                        "surface": "#fff9ee",
+                        "secondary-container": "#d6ed7a",
+                        "inverse-primary": "#ffb59e",
+                        "secondary-fixed-dim": "#bbd062",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#dfd9cf",
+                        "surface-variant": "#e8e2d7",
+                        "outline": "#89726b",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#bbe9ff",
+                        "on-secondary": "#ffffff",
+                        "inverse-on-surface": "#f6f0e5",
+                        "primary-fixed-dim": "#ffb59e",
+                        "surface-container": "#f3ede2",
+                        "primary-fixed": "#ffdbd0",
+                        "on-background": "#1d1c15",
+                        "on-secondary-container": "#5a6c00",
+                        "surface-container-high": "#ede8dd",
+                        "inverse-surface": "#333029",
+                        "on-primary-container": "#752305",
+                        "tertiary-fixed-dim": "#9ccee4",
+                        "on-tertiary-fixed-variant": "#154d5f",
+                        "surface-container-lowest": "#ffffff",
+                        "background": "#fff9ee"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "32px",
+                        "container-padding": "64px",
+                        "unit": "8px",
+                        "section-gap": "120px",
+                        "card-internal": "40px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "display-xl": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                        "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "display-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+<!-- Navigation -->
+<nav class="fixed top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-full border border-outline-variant/30 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-xl shadow-sm shadow-[0_8px_32px_rgba(0,0,0,0.05)] z-50 flex justify-between items-center px-8 py-3">
+<a class="font-display-xl text-headline-md tracking-tighter text-primary dark:text-primary-fixed-dim flex items-center gap-2" href="#">
+<img alt="Horizon Logo" class="h-8 w-auto object-contain" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAB4CAYAAADc36SXAAAQAElEQVR4AeydCZxdVX3Hz3mhUAtpbBG7Wa22BrS1gSIopSUzg2JpYxtKQytFbKtVKS1KMhPqgsSFFpIZUGoR29oPtloCWJVotWGZGbACSo2oIIvrx31XArgE8o6/3508MvO4953z7n13/03Of869Zz/fM7n/e9bbMfoRAREQAREQgRQEpEBSQFMUERABERABY6RA9FcgAmURUL4iUHMCUiA1b0AVXwREQATKIiAFUhZ55SsCIiACNSdQYwVSc/IqvgiIgAjUnIAUSM0bUMUXAREQgbIISIGURV75ikCNCajoIkACUiCkIBEBERABERiagBTI0MgUQQREQAREgASkQEihaFF+IiACItAAAlIgDWhEVUEEREAEyiAgBVIGdeUpAiJQFgHlO0ICUiAjhKmkREAERKBNBKRA2tTaqqsIiIAIjJCAFMgIYbYhKdVRBERABHoEpEB6JGSLgAiIgAgMRUAKZChcCiwCIiACZRGoXr5SINVrE5VIBERABGpBQAqkFs2kQoqACIhA9QhIgVSvTVSifAgoVREQgRETkAIZMVAlJwIiIAJtISAF0paWVj1FQAREYMQEghXIiPNVciIgAiIgAjUn0DgF4s4fe4ybGVvjNk+c5qbHz4Vc6raMXwP7Dtg7F2Tik7DpBr+J10VhGQdxa96eKr4IiIAIFEag9grEbTIdt2X1UVAQVBa3mmWdLxrXeY/pmIuNsS+HPM9Y+wzYh8BeviDmSbDpBj/ziigs4yAu0rnVbYFSmRl7OtM2+hGB0gmoACJQTQK1VSBu8/iJ6EW81ew//jVjl91oFpTFKpP5x64yFkrFdW5i2szDTY+tzZysEhABERCBhhGolQJxzlg80E9y0xN3mY59h7H2VMhBubWJtQch/VON6byLebqZiXUsQ275KWEREAERqBGB2igQd8H4ajMz8RE80C8H35WQUDOqcCuNM1eY6fEPu5nxY0eVqNIRAREQgboSqLwCcZvHDnXT43Oma+cB+TBIucbapxpnr0VPiJPwh5dbGOUuAiIgAuURqKwC4VARJrMxRW53GGPHTNV+ool5cwuU26tY1qoVT+URgUoQUCEaTaCSCsSdf/RyDFdtM9acY4y1prI/LJt9Ncsalbmy5VTBREAERGD0BCqnQNzMsStNZ99bUNU1kLqYNSyzO+/ox9alwCqnCIiACGQlUCkFAuUxbpy7BZ2Og7NWrPD41h5slu23I6rDyDJXQiIgAiJQXQKVUSBuemwDlMc1QPXTkHoaaw5kHdz0+Jn1rIBKLQIiIALhBCqhQNzmieOM62xGsZdB6m6WGWen3eax36t7RVR+EWgzAdXdT6B0BeI2H/NE0zFXGovfpiE/FnWxna0Yzlpp9CMCIiACDSVQqgKJVi519nkv2NZ32AqFjzXWrDDd7jZ30dOqVrdLUF7nkUfCP6v5JhIYlM/74d9WcwYqPojNjfCXEYHKEyhNgbhNY/uYZfteCULNfUvnxPqu/be2cp8IGlZGBESg2QRKUyBmf/tGY+yzTPN/jjczExc2v5qqoQiIQNsIlKJA3JaxMWPti1oE+yVRnVtUYVVVBESgNAKFZVyKAoHyeG1hNaxMRnZTZYqigoiACIjACAgUrkBc9G0N+zsjKHu9krB2tZb21qvJVFoREIHBBApXIMZ0XjO4SA327djzGly7xlRNFREBEQgjUKgCwTzAn6FYT4EY88wz2yVRpe2qPQyiO/1qLYEvo+bXDpCPwk9GBCpPoDAF4jYZ5GX/ofJE8i6g7Zy7wCLvjJR+hQn8N8r2zAFyOvxkRKDyBPBQH3EZk5I7YOKFmDx/fJJ3i9yfYJZPnNqi+qqqIiACDSVQnAIxbqyhDIevlnM6J2t4aoohAiJQMQKFKBD35sN/whh7vFn8c82FxrRJFtfdWSmQxTzSX48j6l9Bzob8C4TH4rwDNq+5YIFzbgfgviiDv3Pz58jsjZBtkDdB/g5yJKQIU1YeK5Ax/3+fBptL9N8K+32QyyD/DOES9mNhl2H2Q6bPgfCw1n+H/R4IhxBZrrNwvQoik5JAIQrE3LOcfzxVOxMqJbIRRLNmhZsZe/oIUmpjEk9Gpfkw+CrsWchbIFzZ99ew/wByIoTXfDjwAXYv7vnA+GPYwxoqH4dIScJzxeAdGSqJu3H1NgjnMJ4N+8WQiyAfgtwGeRlkH0ias7A+iXhJ5RiVO/NANsHmGQh5KeR7ECqMi2G/EsIhWioUKvC/wf05EC4a+DpsKtWFhTS4GdIMqifLsTg5nuf2T3D4GuS/IFOQv4TwQ3X8W2C5+JJxK9zugPwthMoGlkwogWIUSKejN+7+Ful21vY76X4ggV+BL78XcztsPgx+Hnao4QODSoQPcT5EQuOFhjsOAfmAZBlxGWt+Ha58E34Qdt3NBCpwF4Tt8TzYoebRCEil+nHY2yGrIXkYlo8r2agUqEh8eRyCAFQ2d8L+DYhMIIFOYLhswWoy5p+tksPGdlIg4ch+H0H5QOAbLy5TGz7EOYzxbqTwUxCfcZ4A9P81hLkSshziM5f7AlTcn88LDkfx4Z/1EFQqXfYg2SsbZbWpNK5DgoOUObxjDeP8L3yeAJEJIMA/iIBg6YO46bFDDE+lTZ9EM2OCScSmmbUbZa0uQGL/Awl5k0SwIPNHCPUByC9CshjOeVB5hA7Pbs2SWclx2eO7GmXgcBSH4XCZ2fD5w6X9/5k5JWOozJ+PdNiTgJXa/BJicjjMwpbxEGADeoJk9LYdjfUnIRSbJDI990twcSYkD/NbSJQT3YN6Ir6HCCfMD0U6IeaDCPQZSB3Nvig0ex2cy8TlyM0pxhgufMiS8O8i8r9BRmGYFoc9R5FWo9PIX4E4wzeXRkNMXbnqsvku6sQ3uizyKKSRxXCII+8Tmw9HATmkBSuV+ckhYl0xRNiygv4oIWOurPrNBL9ROXPhQ5b2/tWYgnwbbpz7uhA2hfNUXVyHmBNCArU9TP4KxEiBDPgjk3KNh/MzcObqKlhew2W7nMg9AiH3h3BO4g9hc2nvvbB95k8RgCu3YGU230cK74JwWObNsBd/WTCrArkF6fEBGCJcEfV2hOdS1XfCDjEsO+cP+sPy4NON/Y4J99NwXwfhXNMjYHOJLBcOcOUVbr2GPU4OIXkDBgTgUupDEO5PIOv3CHf/c57jZtz7DF9gfGFa75+/Aln72jWtO/cq9JwvshnNn2DTUuGw1WM8leLSUa6o4gPrPxD2/yF8CHKYiGv9X4f7wyA3QXzmXARYBsliOCH8RCTAoY9XwOZqo6Nh8wHKfRFcTorb1IZKkg/AEOFy5lOQE5VY6BDycxGew2ywlhj2PpY4xNx8Cm5cxszVcVToXA78Q7hxtRXnfbhklg/kL8HNZ87xBfD4M1++FHD/zbdiwn4Rblxi7CvLQQh3IERmAIH8FciDuwaNMQ8oWgu8xCapkbmPIMmv534MLjjZCSvRUJn8Nny5KgdWojkYPlRGsFIZLmml4vhKTGw+QP8ixj1vJx4bxHmLkIUCf4/CxPVU+AbvO0GCe184FMgeEpJJNFzyy14ih0cTA8GDQ1lPgp3W8MXB19vjy8dMQAbszQYEa2+QIhRIyPLGdrbA7gfZzW9n3ZNrzbfnxyV7Rz4cmvlEdBX2K2QI5gVhScWG4vj6PbE+5ThyKI+9sF8IyP5fEeZ8SJwJUaqvQsSQoUIEM+yF8QHP60HC0wUG+Sf5scfx+iTPPvfr++7jbsN6IHExW+KWvwLZ/YAekkl/TLvVO4tBw6GaGOeHnHbi6tWQYcwOBOYOcViJ5mnwSbNUmEMmVdrfwf/TfAPnPASqNNBwPoXHj8QF4hJlDmvF+fXcuMN+2Lpzme3negkk2DyiJsFroDPLc//AEHs9Oey29y7+SjvT47k85Mo/toducrm4+oL7WnXm1TDne22f+UEuzOudqO/hwaGQb6ao4uUBcThOHxBsSRBOyHJIZIljiTfsDXHjpa8I3JjJxQO7EwJSAfl6MDwqJiF6ovMD8OE8CaxEwyEx7lpPDJDgwbmXBK+HOd8HFyp/WImGy5cTPeVh+I2OvDE4dlvzzqSm6VeWDc8L4oM8iwQO6SxpOvZWfct/Q94clyS65yYkXppjLHiW0p4sSrdeghKcAfEZTiRzpRp7c0lhfznJY5E75z8W3QZfhrRFmmXD/FBXcCEQ0Pc3OqoNk8iqmSb/HoiJxj2bSS97raqqXLkaZx7VyyJ800QSQ5m4tfz9CYQ8fPrj8P7T+OUrE1feINhQpiptyKNxuGvfV3jOV/AFwbcKKU8FwrbwlTNNDyR0+KqXt+/voRdOdgKB/BWIlQJJYG+M2Ji+nzwfWhyq8SmfNAokzXBaX7Uz33KpLk+c9f1/5kGOXFbM5bW+TH1twYcvV7n50onzD+m5pGkLDkvF5ZfktivJoy3uWevp+4PLmj7i26q8oaEsVTNik6JFvpAiTi+KL26aJee+Zam9vPOyudT0KiTO4T9YAw03CvJcsYGBAj0/GxguLljIUFOathg0JBdXDr5UxLnLLZBAAQpEPZABbSHluhROCA/fBsOlKS698+3859EXS2P474YdNvGnGB6C80XcdR4y3MPhLW4sDE3d1xbcZ2JDE+sLF9K74JLcvmje2zLbwlu4JgbIX4FomCb570Zs+tnEbcTrD8MHV79b6L3vCPLhhqMWci3rodXb68Hd7wslSf7N41Wmkr1jffjBrliPPY5coZT22JGQ49LTtIV6FHsapygrfwXiulzmWFR96pWP2PS31zfg4DvsjmcZIdjQhktSfcMizH/YhJMOIBw2nWHC89gVHiPPuQ9fPJ7HxVODfVz70/EpEIYPUQQM1y8hLwFp2qI/H93nTCB3BWIn5+80zvGoh6VVCT0vqinhltbekEnEpt+93fc8/ffzHgQhD5+4JEIedmmW5A77YI4r27Bu3InP85x88fj/jt8+SbPfKM/eoK8NOUHPfSq++sm/ZAK5K5CoftbyK1/R5d5fbb+y/Cpe2yHE1Z9LiOPce27cv5DmiAnfDncub+WBiL18Qu2iFQi/4Bdy7DknqrmhMM1cAuvOSXKfMg856oRpLRburWCPaLFb/zXPLkuj9PrT0X3OBIpRIN2uFEh/Q3a6UiD9TBbufV+n4wRsyEF4C6kt/ObBizykb+Eu/jf/RtMs62SvKT7F0buehCR5VDysgYbzB89CCCoBWKkM6+U7/mU1Uh723KqXIw53ucNKNFwYkOgpj+oQKEaBrLj3OuOMb9dndajkX5KddsO85obiOfOoEt+bL3sTvrfYXuqc6A1ZfXRxL8KQth0yfNrgVII8Ft4Xn0tZeSDl7YMCBvqF5MeDGA8NTI8nG/jOMeOyaH7LJDBJBSuTQCEKxL7oIw8Y6/iGt7euw5wZ1YSwe2uOK/d+/JJJJuB782VMhuEnTA/gTYLwq3Ifgx+PJYeVaHhyLXfdJwYo2ePJyJ/Hrfu+gPgAwvEofA5f8Uj0o3DP49iHisL9QwAAB2RJREFUEX5DBdEiwx3jvlNruZSYE/UvRYwkZcphK57CezXC+Mw/IsB3IDI1IFCIAok4OKchmwgEfokFIAw0HKLy7RpnAs/HL062boHN4zn4JUMexDeJew6D8KHrmy/h3o+Q86OQZGmGCs5XDxaOJ+jy/xkVCA8W5IN9Dh7DCNkjykMm5Ch8bmLkIY7/h1ivhPCb4itgT0BeA/kwhB/ZoiLBZaLhx7/YlokB5FEtAsUpkPvnrzDO+Y5xrhadpNJkcXfuNkMWWdJoflyebsshqpA5Ce7EpsLgQ5ZvrvwyIR9CIauUSJJj+L4hM4YrU0JWkOVVPj782bsISZ8f7+IXDG9AYLYhJ8PPxvXiXg1uYw2Hrk6O9ZFjZQkUpkDsJtM1xnECrbIwCimYdWcvsCgktzpnwi/cUTHkWQe+NW/LM4OGpP0G1MN3BDuCZDL8amPVFXmmCjYxcmEKhPDs1PxWKBF2c3nbRrnRTs5ziKGNdU9TZ358iN/TzmNJJ7/EN+zu7DR1aEqc3jfWR10f9jLZ2wxV5KPOX+llIFCoAonK6Ry7tNFl6365LseBW1ftjBV+E+IfDeGELqzMhg8sKqUXIiUdfQEIgYY77l+MsBxm4p4ZXGY2PG+LK7N4knDmxJRA8QQKVyDohcyjF7K9+KqWnaPbvlD3sstRy/w5UX4ESp51eSffcjkeT6WE5GRSELgMcfj5X0544zK1uQgxnwLhRD8smToSKFyBRJCcy3tsO8qmUr86ZkMVylPjMnBSlsMoPI2Xc2l3BNaFm+m4n4ErgnisB1cnBUZVsAQCZM8Jc6544zxS6LlVO5AeV3k9Hja/nph2lzyiy1SBQCkKBG/itxlnuAGpCgzyLwPqatfP3Z5/RkE5cBjCIuQg4cMaQTIZ7hgflEfoKqn+QnCJKvcKcG/EkfDkvgcqlEtwzZVYl8Lm/TrY3AvBrxxygpZLWeE0lOEHigbVgX5pzs/i2zfjJgkfzosLmhQuD3cq2sV5D7qmQliPAD8HORbyAsgmCNvgvbC5OZMvi2zrn8U9FQ7v006W++o77PwqT2celGbWHi+q3GxTigKJkE7Ovsw4N6qP20RJVvOX225Y12oWru6l4kotHn1ChXIaKsNzsng+E++5auhOuMkUQ4DniL0FWXGnOdvg2bg+HcIeBzcRc5kubttsmlf30hSIteiD7Pd9TMi5Jv8nv9vs3rUuqmvz/nZUIxEQgZYTKE2BkLs940M7zW6zFqqkiedk7TTdB9fYsz44qhUrRj8iIAIiUCUCpSoQgrBnzd1lOu5kKJEu7xshznTxb53deEPIcRyNqHIBlVAWIiACFSNQugIhD7th7n3GmubskUBd7MbZkIPjWH2JCIiACNSSQCUUCMnZydnzjHVcZsnjqOlUR9lprJ2I6lLH0qvMIiACIhBHIMGtMgqE5UNPZJvZ7Y40xqVd5sdkyhHn7oLyOMJuuC7NctFyyqxcRUAERCADgUopENZjYU7kh4cb567lfS3EuVnT3UXlcXctyqtCioAIiMAICFROgbBOdv1N3zH3z/GTnNwcRqfqijPT5nGPOk6rrarbROWXTCUQgWYSqKQCIWq7yXQxl3Ca6bgxDGndTLdqibuZZbNTs1P2pCt1KF+1GkelEQERKIBAZRVIr+52/dz1dnLuKAxprYXc1nMvzXZmh+l2j2eZWLbSyqGMRUAERKBkApVXIMaYCJGdmrsKw1qrjOs+xzhT/P6KhTxPNpOzT7Ub53k0Q1Qu/RIBERCBthKojQJhA0XDWlPzW+3U7EoMa50IRfI2uPMzprByMUjbvd2Y7gnM007OXqZjSXLhrERFQARqSKBWCmQxXzs590481J9rHnvgo0139zFQJtPwH8UqKKYxg7RWM23kc4q+IggaMu0koFqLwAACtVUgvTpxAttuvP4DUCZTdnL2YPOI7nLMURzGXgOUypkI9wbj3FXGuI/h/p5IomsHNwM/gzDdE6I4iMs0IJOQG5g24suIgAiIgAjEEKi9Aumvkz19/j67cf5W9hqgVF4PRfBSOzW31k7OHWqnZh8ZSXQ9B7dZ+M0izPy7oziI25+e7kVABERABOIJNE6BxFezLFflKwIiIALNJSAF0ty2Vc1EQAREIFcCUiC54lXiIiACZRFQvvkTkALJn7FyEAEREIFGEpACaWSzqlIiIAIikD8BKZD8GdczB5VaBERABDwEpEA8gOQtAiIgAiIQT0AKJJ6LXEVABESgLAK1yVcKpDZNpYKKgAiIQLUISIFUqz1UGhEQARGoDQEpkNo0lQoaSkDhREAEiiEgBVIMZ+UiAiIgAo0jIAXSuCZVhURABESgGAIPVyDF5KtcREAEREAEak5ACqTmDajii4AIiEBZBKRAyiKvfEXg4QTkIgK1IiAFUqvmUmFFQAREoDoEpECq0xYqiQiIgAjUikCjFEityKuwIiACIlBzAlIgNW9AFV8EREAEyiIgBVIWeeUrAo0ioMq0kYAUSBtbXXUWAREQgREQkAIZAUQlIQIiIAJtJPBjAAAA///ClP3/AAAABklEQVQDAHha7DykZogcAAAAAElFTkSuQmCC"/>
+</a>
+<div class="hidden md:flex items-center gap-6">
+<a class="text-primary font-bold font-body-md text-body-md scale-95 active:scale-90 transition-transform" href="#">Product</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300 font-body-md text-body-md scale-95 active:scale-90 transition-transform" href="#">Use Cases</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300 font-body-md text-body-md scale-95 active:scale-90 transition-transform" href="#">Resources</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300 font-body-md text-body-md scale-95 active:scale-90 transition-transform" href="#">Pricing</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300 font-body-md text-body-md scale-95 active:scale-90 transition-transform" href="#">Enterprise</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors duration-300 scale-95 active:scale-90 transition-transform flex items-center justify-center">
+<span class="material-symbols-outlined">language</span>
+</button>
+<a class="bg-primary text-on-primary font-body-md text-body-md font-medium px-6 py-2 rounded-full hover:bg-primary/90 transition-colors duration-300 scale-95 active:scale-90 transition-transform" href="#">
+                Start Building
+            </a>
+</div>
+</nav>
+<main class="max-w-[1728px] mx-auto w-full">
+<!-- Section 1: Hero -->
+<section class="relative pt-48 pb-section-gap px-container-padding min-h-[90vh] flex flex-col items-center justify-center text-center overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-b from-tertiary-fixed/30 to-background -z-10"></div>
+<div class="inline-flex items-center gap-2 bg-surface/70 backdrop-blur-xl border border-outline-variant/50 rounded-full px-4 py-2 mb-8 shadow-sm">
+<span class="bg-secondary-container text-on-secondary-container font-label-caps text-label-caps px-2 py-1 rounded-full uppercase">NEW</span>
+<span class="font-body-md text-body-md text-on-surface">Say hello to your assistant</span>
+</div>
+<h1 class="font-display-xl text-[72px] leading-[1.1] tracking-tighter text-on-surface max-w-4xl mb-6">
+                Lorem ipsum into apps
+            </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-12">
+                Horizon lets you build lorem ipsum applications in minutes. An airy, minimalist workspace designed for seamless AI integration.
+            </p>
+<div class="w-full max-w-[870px] bg-surface rounded-3xl border border-outline-variant shadow-[0_24px_64px_rgba(159,65,34,0.08)] p-6 mb-8 backdrop-blur-xl">
+<div class="flex flex-col gap-4">
+<textarea class="w-full bg-transparent border-none resize-none font-body-lg text-body-lg text-on-surface placeholder:text-outline focus:ring-0 min-h-[80px]" placeholder="Describe the application you want to build..."></textarea>
+<div class="flex items-center justify-between pt-4 border-t border-surface-variant">
+<div class="flex items-center gap-3">
+<button class="p-2 rounded-full hover:bg-surface-variant transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">add</span>
+</button>
+<div class="flex items-center gap-2 bg-surface-variant rounded-full px-4 py-2 cursor-pointer">
+<span class="font-body-md text-body-md text-on-surface-variant">Plan</span>
+<span class="material-symbols-outlined text-[20px]">toggle_on</span>
+</div>
+</div>
+<button class="bg-primary text-on-primary rounded-full w-12 h-12 flex items-center justify-center shadow-md hover:bg-primary/90 transition-colors scale-95 active:scale-90">
+<span class="material-symbols-outlined">arrow_upward</span>
+</button>
+</div>
+</div>
+</div>
+<div class="flex flex-wrap items-center justify-center gap-3">
+<button class="bg-secondary-fixed/20 text-on-surface border border-secondary-fixed/30 rounded-full px-5 py-2 font-body-md text-body-md hover:bg-secondary-fixed/30 transition-colors backdrop-blur-sm">Reporting Dashboard</button>
+<button class="bg-secondary-fixed/20 text-on-surface border border-secondary-fixed/30 rounded-full px-5 py-2 font-body-md text-body-md hover:bg-secondary-fixed/30 transition-colors backdrop-blur-sm">Gaming Platform</button>
+<button class="bg-secondary-fixed/20 text-on-surface border border-secondary-fixed/30 rounded-full px-5 py-2 font-body-md text-body-md hover:bg-secondary-fixed/30 transition-colors backdrop-blur-sm">CRM System</button>
+<button class="bg-secondary-fixed/20 text-on-surface border border-secondary-fixed/30 rounded-full px-5 py-2 font-body-md text-body-md hover:bg-secondary-fixed/30 transition-colors backdrop-blur-sm">Inventory Tracker</button>
+</div>
+</section>
+<!-- Section 2: Minimal Slogan -->
+<section class="py-section-gap px-container-padding bg-surface relative">
+<div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-primary-container/10 to-transparent"></div>
+<div class="max-w-5xl mx-auto text-center">
+<h2 class="font-display-xl text-[68px] leading-[1.2] font-normal text-on-surface tracking-tight">
+                    Consider lorem ipsum limitless.
+                </h2>
+</div>
+</section>
+<!-- Section 3: Feature 01 -->
+<section class="py-section-gap px-container-padding relative">
+<div class="absolute inset-0 bg-gradient-to-br from-tertiary-fixed-dim/20 to-inverse-primary/20 -z-10"></div>
+<div class="max-w-[1120px] mx-auto bg-surface/80 backdrop-blur-2xl rounded-[32px] border border-outline-variant/30 shadow-[0_32px_64px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col md:flex-row min-h-[595px]">
+<div class="p-card-internal flex-1 flex flex-col justify-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-6 tracking-widest">01 / 04</span>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-6">Create lorem ipsum workflows</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-md">
+                        Transform your ideas into functional applications seamlessly. Our intuitive builder lets you craft complex interfaces and logics without traditional coding constraints.
+                    </p>
+<a class="inline-flex items-center gap-2 bg-on-surface text-surface font-body-md text-body-md font-medium px-8 py-4 rounded-full w-fit hover:bg-on-surface/90 transition-colors" href="#">
+                        Start building
+                    </a>
+</div>
+<div class="flex-1 bg-surface-variant/50 relative overflow-hidden flex items-center justify-end border-l border-outline-variant/20">
+<div class="w-[120%] h-[80%] bg-inverse-surface rounded-l-2xl border border-outline shadow-2xl p-6 absolute right-[-10%] translate-y-[5%]">
+<div class="flex items-center justify-between border-b border-surface/10 pb-4 mb-4">
+<span class="text-surface font-headline-md text-headline-md">Horizon Tasks</span>
+<div class="flex gap-2">
+<div class="w-3 h-3 rounded-full bg-surface/20"></div>
+<div class="w-3 h-3 rounded-full bg-surface/20"></div>
+<div class="w-3 h-3 rounded-full bg-surface/20"></div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-4">
+<div class="bg-surface/5 rounded-lg p-4">
+<div class="h-2 w-16 bg-surface/20 rounded mb-4"></div>
+<div class="h-16 bg-surface/10 rounded mb-2"></div>
+<div class="h-16 bg-surface/10 rounded"></div>
+</div>
+<div class="bg-surface/5 rounded-lg p-4">
+<div class="h-2 w-16 bg-surface/20 rounded mb-4"></div>
+<div class="h-16 bg-surface/10 rounded mb-2"></div>
+</div>
+<div class="bg-surface/5 rounded-lg p-4">
+<div class="h-2 w-16 bg-surface/20 rounded mb-4"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Feature 02 -->
+<section class="py-section-gap px-container-padding relative">
+<div class="absolute inset-0 bg-gradient-to-br from-surface-container-highest to-secondary-fixed/20 -z-10"></div>
+<div class="max-w-[1120px] mx-auto bg-surface/80 backdrop-blur-2xl rounded-[32px] border border-outline-variant/30 shadow-[0_32px_64px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col md:flex-row min-h-[595px]">
+<div class="p-card-internal flex-1 flex flex-col justify-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant mb-6 tracking-widest">02 / 04</span>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-6">A backend for lorem ipsum</h3>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-md">
+                        Robust infrastructure generated instantly. From authentication to database schemas, Horizon writes the backend so you can focus on the user experience.
+                    </p>
+</div>
+<div class="flex-1 bg-gradient-to-br from-primary-container to-primary relative overflow-hidden flex items-center justify-center">
+<div class="w-[80%] bg-surface rounded-2xl shadow-xl p-6 relative">
+<div class="flex items-center gap-2 mb-6 border-b border-outline-variant/30 pb-4">
+<span class="material-symbols-outlined text-primary">terminal</span>
+<span class="font-headline-md text-headline-md text-on-surface text-lg">AI Build Log</span>
+</div>
+<div class="space-y-4 font-body-md text-body-md">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px] mt-0.5">check_circle</span>
+<span class="text-on-surface-variant">Initialized secure environment</span>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px] mt-0.5">check_circle</span>
+<span class="text-on-surface-variant">Wrote login/signup flows</span>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-secondary text-[20px] mt-0.5">check_circle</span>
+<span class="text-on-surface-variant">Provisioned database schema</span>
+</div>
+<div class="flex items-start gap-3 opacity-50">
+<span class="material-symbols-outlined text-outline text-[20px] mt-0.5 animate-pulse">sync</span>
+<span class="text-on-surface-variant">Deploying API routes...</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 5: Showcase -->
+<section class="py-section-gap bg-surface relative overflow-hidden">
+<div class="absolute inset-0" style="background-image: radial-gradient(#ff8a65 1px, transparent 1px); background-size: 32px 32px; opacity: 0.1;"></div>
+<div class="max-w-7xl mx-auto px-container-padding flex flex-col items-center justify-center mb-16 relative z-10">
+<div class="flex items-center gap-4 bg-surface-container-high rounded-full px-6 py-3 border border-outline-variant/50 shadow-sm">
+<span class="font-body-lg text-body-lg text-on-surface">Prompt</span>
+<span class="material-symbols-outlined text-primary">arrow_forward</span>
+<span class="font-body-lg text-body-lg text-on-surface font-medium">Application</span>
+</div>
+</div>
+<div class="w-full flex gap-6 overflow-x-auto px-8 pb-12 snap-x snap-mandatory hide-scrollbar relative z-10">
+<!-- Card 1 -->
+<div class="snap-center shrink-0 w-[400px] h-[500px] bg-surface rounded-3xl border border-outline-variant/40 shadow-lg flex flex-col overflow-hidden group">
+<div class="h-2/3 bg-tertiary-fixed relative overflow-hidden p-6">
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+<div class="relative z-10 h-full bg-white/90 backdrop-blur rounded-xl border border-white/50 shadow-md p-4">
+<div class="h-4 w-24 bg-surface-variant rounded mb-6"></div>
+<div class="grid grid-cols-2 gap-2 mb-4">
+<div class="h-20 bg-primary/10 rounded"></div>
+<div class="h-20 bg-secondary/10 rounded"></div>
+</div>
+<div class="h-8 bg-surface-variant rounded"></div>
+</div>
+</div>
+<div class="p-6 h-1/3 bg-surface flex flex-col justify-center">
+<h4 class="font-headline-md text-headline-md text-on-surface mb-2">Streaming Dashboard</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Real-time metrics and media management interface.</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="snap-center shrink-0 w-[400px] h-[500px] bg-surface rounded-3xl border border-outline-variant/40 shadow-lg flex flex-col overflow-hidden group">
+<div class="h-2/3 bg-secondary-container relative overflow-hidden p-6">
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+<div class="relative z-10 h-full bg-white/90 backdrop-blur rounded-xl border border-white/50 shadow-md p-4 flex flex-col">
+<div class="h-6 w-full bg-surface-variant rounded mb-4"></div>
+<div class="flex-1 border-t border-b border-surface-variant flex flex-col gap-2 py-2">
+<div class="h-4 bg-surface-variant/50 rounded w-full"></div>
+<div class="h-4 bg-surface-variant/50 rounded w-5/6"></div>
+<div class="h-4 bg-surface-variant/50 rounded w-full"></div>
+</div>
+<div class="h-8 w-24 bg-secondary mt-auto rounded-full self-end"></div>
+</div>
+</div>
+<div class="p-6 h-1/3 bg-surface flex flex-col justify-center">
+<h4 class="font-headline-md text-headline-md text-on-surface mb-2">Finance Ledger</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Secure transaction tracking and reporting tools.</p>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="snap-center shrink-0 w-[400px] h-[500px] bg-surface rounded-3xl border border-outline-variant/40 shadow-lg flex flex-col overflow-hidden group">
+<div class="h-2/3 bg-primary-fixed relative overflow-hidden p-6">
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+<div class="relative z-10 h-full bg-white/90 backdrop-blur rounded-xl border border-white/50 shadow-md p-4">
+<div class="flex gap-2 mb-4">
+<div class="w-10 h-10 rounded-full bg-primary/20"></div>
+<div class="flex-1 h-10 bg-surface-variant rounded"></div>
+</div>
+<div class="h-32 bg-surface-variant/30 rounded-lg border border-outline-variant/20"></div>
+</div>
+</div>
+<div class="p-6 h-1/3 bg-surface flex flex-col justify-center">
+<h4 class="font-headline-md text-headline-md text-on-surface mb-2">Travel Planner</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Interactive itinerary builder with map integration.</p>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="snap-center shrink-0 w-[400px] h-[500px] bg-surface rounded-3xl border border-outline-variant/40 shadow-lg flex flex-col overflow-hidden group">
+<div class="h-2/3 bg-surface-container-high relative overflow-hidden p-6">
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+<div class="relative z-10 h-full bg-white/90 backdrop-blur rounded-xl border border-white/50 shadow-md p-4 grid grid-cols-2 gap-2">
+<div class="bg-surface-variant/40 rounded aspect-square"></div>
+<div class="bg-surface-variant/40 rounded aspect-square"></div>
+<div class="bg-surface-variant/40 rounded aspect-square"></div>
+<div class="bg-surface-variant/40 rounded aspect-square"></div>
+</div>
+</div>
+<div class="p-6 h-1/3 bg-surface flex flex-col justify-center">
+<h4 class="font-headline-md text-headline-md text-on-surface mb-2">Meal Planner</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Visual recipe organizer and grocery list generator.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 6: Pricing -->
+<section class="py-section-gap px-container-padding bg-surface-container-lowest">
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Column 1: Info -->
+<div class="p-8 flex flex-col justify-center bg-surface-container-low rounded-[32px]">
+<h2 class="font-display-xl text-[48px] leading-tight text-on-surface mb-4">Simple, transparent pricing.</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8">Choose the plan that fits your ambition. No hidden fees.</p>
+</div>
+<!-- Column 2: Free -->
+<div class="p-8 bg-gradient-to-b from-tertiary-fixed to-secondary-fixed/40 rounded-[32px] border border-outline-variant/30 shadow-lg flex flex-col">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Start with lorem</h3>
+<div class="font-display-xl text-[56px] text-on-surface mb-6">$0<span class="font-body-md text-body-md text-on-surface-variant">/mo</span></div>
+<ul class="space-y-4 mb-8 flex-1 font-body-md text-body-md text-on-surface-variant">
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary">check</span> 3 Projects</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary">check</span> Community Support</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary">check</span> Basic UI Components</li>
+</ul>
+<button class="w-full bg-surface text-on-surface border border-outline-variant rounded-full py-4 font-body-md text-body-md hover:bg-surface-variant transition-colors">Get Started</button>
+</div>
+<!-- Column 3: Pro -->
+<div class="p-8 bg-gradient-to-b from-primary-container/80 to-inverse-primary/80 rounded-[32px] border border-outline-variant/30 shadow-xl flex flex-col relative overflow-hidden">
+<div class="absolute top-4 right-4 bg-on-surface text-surface text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Popular</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">Paid lorem</h3>
+<div class="font-display-xl text-[56px] text-on-surface mb-6">$20<span class="font-body-md text-body-md text-on-surface-variant">/mo</span></div>
+<ul class="space-y-4 mb-8 flex-1 font-body-md text-body-md text-on-surface-variant">
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-on-surface">check</span> Unlimited Projects</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-on-surface">check</span> Priority Support</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-on-surface">check</span> Custom Domains</li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-on-surface">check</span> Advanced Integrations</li>
+</ul>
+<button class="w-full bg-on-surface text-surface rounded-full py-4 font-body-md text-body-md hover:bg-on-surface/90 transition-colors shadow-md">Upgrade to Pro</button>
+</div>
+</div>
+<div class="mt-8 bg-surface-container rounded-[24px] p-8 flex flex-col md:flex-row items-center justify-between border border-outline-variant/30">
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-2">Enterprise needs?</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Custom SLAs, dedicated account management, and more.</p>
+</div>
+<button class="mt-4 md:mt-0 bg-transparent text-primary border border-primary rounded-full px-8 py-3 font-body-md text-body-md hover:bg-primary/5 transition-colors">Contact Sales</button>
+</div>
+</div>
+</section>
+<!-- Section 7: FAQ -->
+<section class="py-section-gap px-container-padding bg-surface">
+<div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16">
+<div class="lg:w-1/3">
+<h2 class="font-display-xl text-[64px] leading-[1.1] text-on-surface sticky top-32">
+                        Frequently asked questions
+                    </h2>
+</div>
+<div class="lg:w-2/3 flex flex-col">
+<!-- FAQ Item 1 -->
+<div class="border-b border-outline-variant/30 py-6 group cursor-pointer">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors text-xl">What is Horizon?</h3>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">add</span>
+</div>
+</div>
+<!-- FAQ Item 2 -->
+<div class="border-b border-outline-variant/30 py-6 group cursor-pointer">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors text-xl">How does Horizon work?</h3>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">add</span>
+</div>
+</div>
+<!-- FAQ Item 3 -->
+<div class="border-b border-outline-variant/30 py-6 group cursor-pointer">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors text-xl">Can I export my code?</h3>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">add</span>
+</div>
+</div>
+<!-- FAQ Item 4 -->
+<div class="border-b border-outline-variant/30 py-6 group cursor-pointer">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors text-xl">Is there a free trial?</h3>
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors">add</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 8: Final CTA -->
+<section class="py-section-gap px-container-padding bg-primary relative overflow-hidden flex items-center justify-center min-h-[70vh]">
+<!-- Decorative Arcs -->
+<div class="absolute w-[800px] h-[800px] border-[100px] border-white/10 rounded-full top-[-200px] right-[-200px]"></div>
+<div class="absolute w-[600px] h-[600px] border-[60px] border-black/5 rounded-full bottom-[-100px] left-[-100px]"></div>
+<div class="relative z-10 bg-surface rounded-[40px] p-16 max-w-4xl w-full text-center shadow-2xl border border-white/20 backdrop-blur-sm">
+<h2 class="font-display-xl text-[64px] leading-tight text-on-surface mb-10">
+                    So, what lorem are we building?
+                </h2>
+<a class="inline-flex items-center gap-3 bg-on-surface text-surface font-body-lg text-body-lg font-medium px-10 py-5 rounded-full hover:scale-105 transition-transform shadow-xl group" href="#">
+                    Get started
+                    <span class="material-symbols-outlined text-secondary-fixed group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+</section>
+</main>
+<!-- Footer Component from JSON -->
+<footer class="bg-surface dark:bg-surface-dim w-full py-section-gap border-t border-outline-variant/20 flat no shadows text-secondary dark:text-secondary-fixed-dim font-body-md text-body-md">
+<div class="max-w-7xl mx-auto px-container-padding flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="font-display-xl text-headline-md text-primary opacity-80 hover:opacity-100 transition-opacity flex items-center gap-2">
+<img alt="Horizon Logo" class="h-6 w-auto object-contain grayscale opacity-70" src="data:image/png;base64,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"/>
+</div>
+<div class="flex flex-wrap items-center justify-center gap-6">
+<a class="text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100 transition-opacity" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100 transition-opacity" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100 transition-opacity" href="#">Security</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100 transition-opacity" href="#">Status</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100 transition-opacity" href="#">Contact</a>
+</div>
+<div class="text-on-surface-variant text-sm">
+                © 2024 Horizon AI. Built for the future of SaaS.
+            </div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Horizon | The Future of Essentials</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fbf9f8;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 50%, rgba(255, 154, 158, 0.1) 0%, rgba(56, 189, 248, 0.05) 50%, rgba(192, 132, 252, 0.05) 100%);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed": "#d8ec80",
+                      "surface-container-highest": "#e4e2e2",
+                      "on-primary": "#ffffff",
+                      "tertiary": "#326578",
+                      "secondary-fixed-dim": "#bcd067",
+                      "surface-container-lowest": "#ffffff",
+                      "soft-pink": "#FF9A9E",
+                      "secondary-container": "#d5e97d",
+                      "sky-blue": "#38BDF8",
+                      "on-secondary": "#ffffff",
+                      "secondary": "#556500",
+                      "inverse-surface": "#303030",
+                      "on-tertiary-container": "#003140",
+                      "primary-container": "#ff5e3a",
+                      "error-container": "#ffdad6",
+                      "tertiary-fixed-dim": "#9ccee4",
+                      "on-primary-fixed-variant": "#8b1a00",
+                      "on-error-container": "#93000a",
+                      "surface-variant": "#e4e2e2",
+                      "on-surface": "#1b1c1c",
+                      "on-surface-variant": "#5a413b",
+                      "outline": "#8e7069",
+                      "on-secondary-container": "#596905",
+                      "glass-bg": "rgba(255, 255, 255, 0.4)",
+                      "error": "#ba1a1a",
+                      "on-background": "#1b1c1c",
+                      "surface-bright": "#fbf9f8",
+                      "primary-fixed-dim": "#ffb4a3",
+                      "primary": "#b42907",
+                      "outline-variant": "#e3beb6",
+                      "on-primary-fixed": "#3d0600",
+                      "surface": "#fbf9f8",
+                      "tertiary-fixed": "#baeaff",
+                      "on-tertiary-fixed-variant": "#144d5f",
+                      "lavender": "#C084FC",
+                      "surface-container-low": "#f5f3f3",
+                      "on-secondary-fixed": "#181e00",
+                      "inverse-primary": "#ffb4a3",
+                      "on-error": "#ffffff",
+                      "on-primary-container": "#5c0e00",
+                      "surface-dim": "#dbdad9",
+                      "glass-border": "rgba(255, 255, 255, 0.6)",
+                      "surface-tint": "#b42907",
+                      "on-tertiary-fixed": "#001f29",
+                      "background": "#fbf9f8",
+                      "inverse-on-surface": "#f2f0f0",
+                      "tertiary-container": "#699baf",
+                      "on-secondary-fixed-variant": "#3f4c00",
+                      "surface-container": "#efeded",
+                      "primary-fixed": "#ffdad2",
+                      "surface-container-high": "#eae8e7"
+              },
+              "borderRadius": {
+                      "DEFAULT": "1rem",
+                      "lg": "2rem",
+                      "xl": "3rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "gutter": "32px",
+                      "card-internal": "40px",
+                      "unit": "8px",
+                      "section-gap": "120px",
+                      "container-padding": "64px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Plus Jakarta Sans"],
+                      "label-caps": ["Plus Jakarta Sans"],
+                      "display-xl": ["Plus Jakarta Sans"],
+                      "headline-lg": ["Plus Jakarta Sans"],
+                      "display-xl-mobile": ["Plus Jakarta Sans"],
+                      "body-md": ["Plus Jakarta Sans"],
+                      "body-lg": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                      "headline-md": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                      "display-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                      "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "display-xl-mobile": ["40px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-background">
+<!-- TopNavBar -->
+<nav class="fixed top-4 left-1/2 -translate-x-1/2 w-[90%] md:w-[94%] max-w-[1728px] z-50 glass-card rounded-full shadow-sm backdrop-blur-xl transition-transform duration-300">
+<div class="flex justify-between items-center px-6 md:px-container-padding py-4">
+<div class="flex items-center gap-12">
+<a class="font-display-xl text-[28px] md:text-headline-lg tracking-tighter text-on-surface flex items-center" href="#">
+<span class="w-8 h-8 bg-on-surface text-surface flex items-center justify-center rounded-sm mr-2 text-xl font-bold">H</span>
+                    Horizon
+                </a>
+<div class="hidden md:flex gap-8">
+<a class="font-body-md text-primary border-b border-primary hover:text-primary transition-colors duration-300" href="#">Collections</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">New Arrivals</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">Sustainability</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-colors duration-300" href="#">About</a>
+</div>
+</div>
+<div class="flex items-center gap-4 md:gap-6">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all duration-200 active:scale-95" data-icon="search">search</button>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all duration-200 active:scale-95" data-icon="shopping_bag">shopping_bag</button>
+<div class="hidden sm:block w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="User profile" class="w-full h-full object-cover" data-alt="A professional studio headshot of a person with a clean, modern aesthetic. The lighting is soft and high-key, reflecting a light-mode UI design style. The background is a minimalist solid light grey, creating a serene and technical atmosphere consistent with a premium hardware brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBC6Z1V_v7DafldjPb2a3ZiZFVnLc5uOKiyNZwHORYdwp_n0bwk_0mblUbrsnGeodaTab3Muu4w_h_10pmu6vqup-1zSUX7ZLdeUVxoOJWgZDCrDbIObbNJ3OkKnl4Qnou-KbfIdM7uW3RAtcRxmC0PhpREbV_ufqqAljHaFo7HnzwD8tNb3XL_OUR9sW96adU0c0gwhAaRV6l0O6kq5jqV-6tk54J_rvAXnzG_dbvE8EyR07u_XL8DFMGu9uzEO9ODWc2DlyUQ-aI"/>
+</div>
+</div>
+</div>
+</nav>
+<main>
+<!-- Hero Section -->
+<section class="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden hero-gradient">
+<!-- Atmospheric Orbs -->
+<div class="absolute top-1/4 -left-20 w-96 h-96 bg-soft-pink opacity-20 blur-[100px] rounded-full"></div>
+<div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-sky-blue opacity-20 blur-[100px] rounded-full"></div>
+<div class="container mx-auto px-6 md:px-container-padding text-center relative z-10">
+<div class="inline-block px-4 py-1 mb-6 rounded-full glass-card border border-glass-border">
+<span class="font-label-caps text-label-caps text-primary tracking-widest uppercase">Innovation meets simplicity</span>
+</div>
+<h1 class="font-display-xl text-display-xl-mobile md:text-display-xl mb-8 max-w-4xl mx-auto leading-tight">
+                    The Future of <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-lavender">Essentials.</span>
+</h1>
+<p class="font-body-lg text-on-surface-variant mb-12 max-w-2xl mx-auto opacity-80">
+                    A collection of meticulously crafted hardware and lifestyle pieces designed for the modern architect of digital worlds. Minimalist in form, infinite in function.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+<a class="group relative inline-flex items-center justify-center px-10 py-5 rounded-full bg-on-surface text-surface font-headline-md transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg overflow-hidden" href="#collection">
+<span class="relative z-10">Shop Now</span>
+<div class="absolute inset-0 bg-gradient-to-r from-primary to-lavender opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+</a>
+<a class="px-10 py-5 rounded-full glass-card font-headline-md text-on-surface transition-all duration-300 hover:bg-surface-bright active:scale-95" href="#">
+                        The Narrative
+                    </a>
+</div>
+</div>
+<!-- Floating Hero Image Placeholder (Conceptual Hardware) -->
+<div class="absolute -bottom-24 left-1/2 -translate-x-1/2 w-full max-w-5xl opacity-40 md:opacity-100 pointer-events-none animate-float">
+<img alt="Hero hardware" class="w-full h-auto drop-shadow-2xl" data-alt="A hyper-minimalist tablet or electronic device laying on a reflective white surface. The product features clean edges and a premium metallic finish in light silver. The surrounding environment is bright and airy with soft directional lighting creating subtle gradients. The overall mood is optimistic and technical, embodying an ethereal future-forward aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcXZs4bQd4mVEBV1a2IxGlsv805bLinYqFJg3mmTn80q7ViVvZzKRKbGgP9CtFrZhpQMQR65eHp_FTai3FnPJJI6VkwA1NgjYgFNP-DxxtNBwkAXyQXNb8yR_AblFZkrLCrJiQ2E-aEkna1KGstDK-K9rFCAZeb1AxMaNUiSF4vhoYfOFKPbi-1k3Tn1fyKb4KIsqaK9x1-nLgDq7mGCLqMPoaRRsDy6lCxjCNKd_1DErmKvlcFH0luW_UbeVb46Qc71aOj1STN10"/>
+</div>
+</section>
+<!-- Featured Collection -->
+<section class="py-section-gap px-6 md:px-container-padding max-w-[1728px] mx-auto" id="collection">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+<div>
+<h2 class="font-headline-lg text-headline-lg mb-4">Summer Series '24</h2>
+<p class="font-body-md text-on-surface-variant max-w-xl">Curated tools for the forward-thinking creative, where every curve serves a purpose.</p>
+</div>
+<a class="font-label-caps text-label-caps text-primary border-b-2 border-primary pb-1 hover:opacity-70 transition-opacity" href="#">View All Series</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Product Card 1 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-[4/5] rounded-xl overflow-hidden glass-card mb-6 transition-transform duration-500 group-hover:-translate-y-2">
+<img alt="Core Watch" class="w-full h-full object-cover" data-alt="A close-up shot of a minimalist smartwatch with a circular brushed titanium face and a light grey silicone strap. The watch is presented on a clean, off-white background with soft, diffused lighting that emphasizes the product's sleek textures. The aesthetic is extremely high-end and minimalist, consistent with a modern light-mode interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCoAY5RWxn3tm59-cJzo2a4MuNNCK80alGwXBdTHI5WigDVG5mMz9UyYVVidrc_kfL7JA97QZbnJmm8IPh53b9tnrIyLzC_WYBLrq2E-zNyIDF00-lMsbWclZoTV9HK-SH9YrMEUcvCSeeEKCZ71vZZcEq8y77iI_Fo21VDCwYKYEOzRR_BL78Td8qTTiDhb6E4bCm4lohAoaJBDSt98m-JFdBUEtnKWb-a2TylDbzOKHPl6QRx_aog4WHMc_zFPaDLNheHJPWM1f0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+<button class="absolute bottom-6 right-6 w-12 h-12 rounded-full glass-card flex items-center justify-center translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 hover:bg-primary hover:text-white">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+<div class="px-2">
+<h3 class="font-headline-md text-headline-md text-[18px] mb-1">Horizon Core Watch</h3>
+<p class="font-body-md text-on-surface-variant mb-2">Architectural Grade Titanium</p>
+<p class="font-headline-md text-primary">$399</p>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-[4/5] rounded-xl overflow-hidden glass-card mb-6 transition-transform duration-500 group-hover:-translate-y-2">
+<img alt="Sonic Pods" class="w-full h-full object-cover" data-alt="Professional over-ear studio headphones in a matte chalk-white finish. The product is shot in a high-key environment with extremely soft shadows, evoking a sense of airiness and technical precision. The lighting is clean and modern, perfectly aligning with a premium hardware brand's optimistic and technical visual language." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBudaK_sUAa4FXJyZEXc7PhBXcBlNMf1b8UYSLjBhJVF2XL8R9jANhYUE_nJ55ET-w43jWjhhH0vpJHmg9kPdkucEDKX_at2f2zA32j1F70qgnpUxtjhvhm7Z_8zXZmv6it_reG5qIb9_lSK18hzRqn05G1PE4wiaRZR3_82LUb-X0mBZpcn-FcI4gsIS5naQyTr-j_pDP4flNX8u5J7G5k_F3X6goc8aZcm4RiIMHgqXTSgTteX0J8GvSxdByvioveN2199tqgFSw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+<button class="absolute bottom-6 right-6 w-12 h-12 rounded-full glass-card flex items-center justify-center translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 hover:bg-primary hover:text-white">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+<div class="px-2">
+<h3 class="font-headline-md text-headline-md text-[18px] mb-1">Sonic Pods Pro</h3>
+<p class="font-body-md text-on-surface-variant mb-2">Immersion Engineering</p>
+<p class="font-headline-md text-primary">$249</p>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-[4/5] rounded-xl overflow-hidden glass-card mb-6 transition-transform duration-500 group-hover:-translate-y-2">
+<img alt="Light Beam" class="w-full h-full object-cover" data-alt="A minimalist portable LED projector with a sleek, rounded rectangular form factor and a translucent glass top. It sits on a pristine light grey surface. The lighting is vibrant yet subtle, using warm and cool color accents to create a living, technical feel. The product looks like a high-end designer tool for the modern digital workspace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCY9FsThXYz3AiYO7g3w6j8ngeGSHzecCzrBsrT84q-1nKsH3hyz3VEyP7A0kbHK3892N7BzWdKXyEDboE6_etaqiTkDedleN0835qqfin95GwM76YJedEDh1JJmFmODFO2682sefhhfbjojmyZ6uyD413M-AoWuyu_7QRDhk2WBzHBNyJp0E5bLnsMPIjuJqDwvbbtoxT5cFsWSUVZWCo49eUIv4S8PZCV8QS_fYd6AWCXdL_XxazO7Mnoj_wJ8u4NxoBmG6EnQG4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+<button class="absolute bottom-6 right-6 w-12 h-12 rounded-full glass-card flex items-center justify-center translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 hover:bg-primary hover:text-white">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+<div class="px-2">
+<h3 class="font-headline-md text-headline-md text-[18px] mb-1">Light Beam Max</h3>
+<p class="font-body-md text-on-surface-variant mb-2">Adaptive 8K Projection</p>
+<p class="font-headline-md text-primary">$899</p>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-[4/5] rounded-xl overflow-hidden glass-card mb-6 transition-transform duration-500 group-hover:-translate-y-2">
+<img alt="Flux Station" class="w-full h-full object-cover" data-alt="A minimalist mechanical keyboard with a low-profile aluminum frame and white keys that glow with a soft, ethereal backlight. The shot is taken from a dynamic angle on a high-gloss white surface. The image emphasizes the technical precision and modern aesthetic of the hardware, with a lighting scheme that is bright, clean, and futuristic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUZL22Z9nC8toGwZLpCIXr2PQU0-BrB6XD2NiUOrcKBltN0fVMpjPO5bwbvJihY_AgSmtdYKcTY-fdXpaL8KlFuW74D1HP6bWxIJ1IdgJa6S__8Eug6YMZuLoAKWJOm2x05OZyAxIh1Bb-PZHA_QR3MBB3xPF4a5QZh8m5H-maGH17pdy5l1KwTpXoRGkDlo0QgAI5uuromJfNaF5Ea91jiFIjBkBKP2_VKW6OuhGlZbIJlW_Jf5VcBEhS6fYjmjZQS-4-7Zf0yK4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+<button class="absolute bottom-6 right-6 w-12 h-12 rounded-full glass-card flex items-center justify-center translate-y-12 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 hover:bg-primary hover:text-white">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</div>
+<div class="px-2">
+<h3 class="font-headline-md text-headline-md text-[18px] mb-1">Flux Station K1</h3>
+<p class="font-body-md text-on-surface-variant mb-2">Haptic Response Core</p>
+<p class="font-headline-md text-primary">$179</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Category Showcase -->
+<section class="pb-section-gap px-6 md:px-container-padding max-w-[1728px] mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- New Arrivals -->
+<div class="relative group h-[500px] rounded-xl overflow-hidden glass-card flex items-end">
+<img alt="New Arrivals" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A variety of sleek, minimalist tech lifestyle accessories arranged in a bento-style layout on a white, airy surface. The items include a thin watch, a modern bottle, and a small electronic device. The lighting is bright and high-key, creating a sense of limitless potential and clarity. The color palette is dominated by light greys and pristine whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjyqhcXjxzODDZgYWbKXscbsI2fleRdRM3zqbXtTU2yXRWsTvARjSbmGgPIbaj4HhbbQW1OwzO88gWUZXPt8V_es8Klq9uejXaPx0OMvLPg9pe6JP9ba1ToOIXyYUmG6FOXRFwcr5bEiC_WJ0Us7z6I1OUOSvqJg8n-4Fdy5QHj26PUzG1EeDX6QY-wfZ-WmDPvEnwF7H7l-uwbR5BIt_K9_uwQu7KypQ_obPXM7EyVgZ_FaWIKgtDG_ypq-Bi-gBPGUyihrXX-V8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
+<div class="relative z-10 p-card-internal w-full">
+<span class="font-label-caps text-label-caps text-primary uppercase mb-4 block">Seasonal Update</span>
+<h2 class="font-headline-lg text-headline-lg mb-6">New Arrivals</h2>
+<a class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-on-surface text-surface font-headline-md hover:scale-105 transition-all" href="#">
+                            Explore New
+                            <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Sustainability -->
+<div class="relative group h-[500px] rounded-xl overflow-hidden glass-card flex items-end">
+<div class="absolute inset-0 bg-gradient-to-br from-secondary-container to-tertiary-fixed opacity-40 mix-blend-overlay"></div>
+<img alt="Sustainability" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="A wide, minimalist interior of a modern sustainable office building with plenty of glass, light wood, and green plants. The space is flooded with natural sunlight, creating a warm yet highly technical and modern atmosphere. The image communicates a sense of optimistic, ethical progress and environmental consciousness in a professional setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCm1NVUDlC5TC91uDXTlPchbjBWuMOx1PAd5w62vB12eV9Mtv6JHSsaB1LkGqCgBaJ_AKfSjbArVtTdBdZGicmym9nMxQ9AOmJU31h6vChK31JiMMBLVvuMKqFo-t-JqIVIRnDfN8FXiMJBhu1ZMoLAd7CAIgPjLWYMSlRj6hwjQVA6_-Gg2OTB9y2ffPkGZXM8ZH997kXptvqO-Ql_xAz38H2ApiYPV27puWDsoggEm4auBSOrSLCo8cH9vjq_Uy_2H6boNF2hL4o"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
+<div class="relative z-10 p-card-internal w-full">
+<span class="font-label-caps text-label-caps text-on-secondary-container uppercase mb-4 block">Ethical Progress</span>
+<h2 class="font-headline-lg text-headline-lg mb-6">Sustainability</h2>
+<a class="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-on-surface text-surface font-headline-md hover:scale-105 transition-all" href="#">
+                            Our Commitment
+                            <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Trust & Narrative Section -->
+<section class="bg-surface-container-low py-section-gap">
+<div class="container mx-auto px-6 md:px-container-padding">
+<div class="max-w-3xl mx-auto text-center mb-20">
+<h2 class="font-headline-lg text-headline-lg mb-6">Minimalism with Purpose</h2>
+<p class="font-body-lg text-on-surface-variant">We believe the tools you use should be as intentional as the work you create. Horizon is more than an aesthetic—it's a commitment to clarity, longevity, and ethical innovation.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<div class="text-center">
+<div class="w-16 h-16 rounded-2xl glass-card flex items-center justify-center mx-auto mb-6 text-primary">
+<span class="material-symbols-outlined text-4xl" data-icon="eco">eco</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-4">Carbon Neutral</h3>
+<p class="font-body-md text-on-surface-variant px-4">Every Horizon product is shipped with a negative carbon footprint through strategic reforestation partnerships.</p>
+</div>
+<div class="text-center">
+<div class="w-16 h-16 rounded-2xl glass-card flex items-center justify-center mx-auto mb-6 text-primary">
+<span class="material-symbols-outlined text-4xl" data-icon="precision_manufacturing">precision_manufacturing</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-4">Atomic Precision</h3>
+<p class="font-body-md text-on-surface-variant px-4">Our manufacturing processes utilize robotic precision to ensure zero-waste and unmatched structural integrity.</p>
+</div>
+<div class="text-center">
+<div class="w-16 h-16 rounded-2xl glass-card flex items-center justify-center mx-auto mb-6 text-primary">
+<span class="material-symbols-outlined text-4xl" data-icon="all_inclusive">all_inclusive</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-4">Circular Lifecycle</h3>
+<p class="font-body-md text-on-surface-variant px-4">All hardware is designed to be disassembled, upgraded, or recycled, ensuring your essentials never reach a landfill.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-outline-variant bg-surface-container-low dark:bg-surface-container-lowest">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center px-6 md:px-container-padding py-section-gap max-w-[1728px] mx-auto gap-12">
+<div class="flex flex-col gap-6">
+<a class="font-headline-lg text-headline-lg text-on-surface" href="#">Horizon</a>
+<p class="font-body-md text-on-surface-variant max-w-xs opacity-80">
+                    Architecting a future where technology and humanity coexist in perfect, minimalist harmony.
+                </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-on-surface hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="public">public</span>
+</a>
+<a class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-on-surface hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="link">link</span>
+</a>
+</div>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-12 w-full md:w-auto">
+<div class="flex flex-col gap-4">
+<span class="font-label-caps text-label-caps text-on-surface uppercase opacity-50">Shop</span>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Collections</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Hardware</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Apparel</a>
+</div>
+<div class="flex flex-col gap-4">
+<span class="font-label-caps text-label-caps text-on-surface uppercase opacity-50">Legal</span>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Privacy Policy</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Terms of Service</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Shipping</a>
+</div>
+<div class="flex flex-col gap-4">
+<span class="font-label-caps text-label-caps text-on-surface uppercase opacity-50">Contact</span>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Support</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Careers</a>
+<a class="font-body-md text-on-surface-variant hover:text-primary transition-opacity" href="#">Press</a>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant/30 py-8 text-center">
+<p class="font-label-caps text-label-caps text-on-surface-variant/60">© 2024 Horizon. All rights reserved.</p>
+</div>
+</footer>
+<script>
+        // Micro-interaction for Navbar hide/show on scroll
+        let lastScrollTop = 0;
+        const navbar = document.querySelector('nav');
+        
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                navbar.style.transform = 'translate(-50%, -150%)';
+            } else {
+                navbar.style.transform = 'translate(-50%, 0)';
+            }
+            lastScrollTop = scrollTop;
+            
+            // Add shadow and reduce opacity on scroll
+            if (scrollTop > 50) {
+                navbar.classList.add('shadow-md');
+                navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.7)';
+            } else {
+                navbar.classList.remove('shadow-md');
+                navbar.style.backgroundColor = 'rgba(255, 255, 255, 0.4)';
+            }
+        });
+
+        // Hover effect for Interactive Arcs (simulated via gradient shift)
+        document.addEventListener('mousemove', (e) => {
+            const hero = document.querySelector('.hero-gradient');
+            if (hero) {
+                const x = (e.clientX / window.innerWidth) * 100;
+                const y = (e.clientY / window.innerHeight) * 100;
+                hero.style.background = `radial-gradient(circle at ${x}% ${y}%, rgba(255, 154, 158, 0.12) 0%, rgba(56, 189, 248, 0.08) 50%, rgba(192, 132, 252, 0.05) 100%)`;
+            }
+        });
+    </script>
+</body></html>
