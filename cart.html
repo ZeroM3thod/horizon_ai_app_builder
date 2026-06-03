@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Your Cart — Shuddhota Co.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+  }
+  .hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+  .qty-btn { transition: background-color 0.15s ease, color 0.15s ease; }
+  .qty-btn:hover { background-color: #9f4122; color: #fff; }
+
+  .cart-item { transition: opacity 0.3s ease, transform 0.3s ease, max-height 0.4s ease; overflow: hidden; }
+  .cart-item.removing { opacity: 0; transform: translateX(24px); max-height: 0; margin: 0; padding: 0; }
+
+  .product-sugg { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .product-sugg:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(159,65,34,0.12); }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-in { animation: fadeIn 0.4s ease forwards; }
+
+  @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .float-anim { animation: float 3s ease-in-out infinite; }
+
+  .sticky-checkout { transform: translateY(100%); transition: transform 0.3s ease; }
+  .sticky-checkout.visible { transform: translateY(0); }
+
+  input[type="checkbox"] { accent-color: #9f4122; }
+  input:focus { outline: none; }
+
+  .promo-input:focus { border-color: #9f4122; }
+
+  .add-btn { transition: background-color 0.15s ease, color 0.15s ease; }
+
+  /* Shipping progress bar */
+  .ship-bar-fill { transition: width 0.6s cubic-bezier(0.4,0,0.2,1); }
+</style>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "on-secondary-fixed": "#181e00","secondary": "#556500","on-tertiary": "#ffffff",
+          "primary-container": "#ff8a65","error-container": "#ffdad6","on-error": "#ffffff",
+          "surface-container-highest": "#e8e2d7","on-primary-fixed-variant": "#7f2a0d",
+          "tertiary": "#326578","on-primary-fixed": "#3a0b00","on-surface": "#1d1c15",
+          "on-error-container": "#93000a","primary": "#9f4122","surface-container-low": "#f9f3e8",
+          "surface-tint": "#9f4122","secondary-fixed": "#d6ed7a","tertiary-container": "#80b1c7",
+          "on-surface-variant": "#56423c","surface-bright": "#fff9ee","on-tertiary-fixed": "#001f29",
+          "on-secondary-fixed-variant": "#3f4c00","on-tertiary-container": "#074457",
+          "outline-variant": "#ddc0b8","surface": "#fff9ee","secondary-container": "#d6ed7a",
+          "inverse-primary": "#ffb59e","secondary-fixed-dim": "#bbd062","error": "#ba1a1a",
+          "surface-dim": "#dfd9cf","surface-variant": "#e8e2d7","outline": "#89726b",
+          "on-primary": "#ffffff","tertiary-fixed": "#bbe9ff","on-secondary": "#ffffff",
+          "inverse-on-surface": "#f6f0e5","primary-fixed-dim": "#ffb59e","surface-container": "#f3ede2",
+          "primary-fixed": "#ffdbd0","on-background": "#1d1c15","on-secondary-container": "#5a6c00",
+          "surface-container-high": "#ede8dd","inverse-surface": "#333029","on-primary-container": "#752305",
+          "tertiary-fixed-dim": "#9ccee4","on-tertiary-fixed-variant": "#154d5f",
+          "surface-container-lowest": "#ffffff","background": "#fff9ee"
+        },
+        borderRadius: { "DEFAULT": "1rem","lg": "2rem","xl": "3rem","full": "9999px" },
+        spacing: { "gutter": "32px","container-padding": "64px","unit": "8px","section-gap": "120px","card-internal": "40px" },
+        fontFamily: { "body-lg": ["Plus Jakarta Sans"],"label-caps": ["Plus Jakarta Sans"],"headline-lg": ["Plus Jakarta Sans"],"headline-md": ["Plus Jakarta Sans"],"display-xl": ["Plus Jakarta Sans"],"body-md": ["Plus Jakarta Sans"] },
+        fontSize: {
+          "body-lg": ["18px", {"lineHeight":"1.6","letterSpacing":"0","fontWeight":"400"}],
+          "label-caps": ["12px", {"lineHeight":"1","letterSpacing":"0.1em","fontWeight":"700"}],
+          "headline-lg": ["40px", {"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"700"}],
+          "headline-md": ["24px", {"lineHeight":"1.3","letterSpacing":"-0.01em","fontWeight":"600"}],
+          "display-xl": ["64px", {"lineHeight":"1.1","letterSpacing":"-0.04em","fontWeight":"800"}],
+          "body-md": ["16px", {"lineHeight":"1.6","letterSpacing":"0","fontWeight":"400"}]
+        }
+      }
+    }
+  }
+</script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+
+<!-- ─── NAVIGATION ─── -->
+<nav class="fixed top-3 md:top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-full border border-outline-variant/30 bg-surface/80 backdrop-blur-xl shadow-sm z-50 flex justify-between items-center px-4 md:px-8 py-2 md:py-3">
+  <a class="font-display-xl tracking-tighter text-primary flex items-center gap-1.5 md:gap-2 text-[15px] md:text-headline-md" href="product-detail.html">
+    <span class="material-symbols-outlined text-[20px] md:text-[28px]">shopping_basket</span>
+    <span class="hidden sm:inline">Shuddhota CO.</span>
+    <span class="sm:hidden font-bold">Shuddhota</span>
+  </a>
+  <div class="hidden md:flex items-center gap-6">
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors text-body-md" href="product-detail.html">Home</a>
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors text-body-md" href="#">Products</a>
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors text-body-md" href="#">Deals</a>
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors text-body-md" href="#">About</a>
+  </div>
+  <div class="flex items-center gap-2 md:gap-4">
+    <button class="text-primary flex items-center justify-center relative">
+      <span class="material-symbols-outlined text-[20px] md:text-[24px]" style="font-variation-settings:'FILL' 1">shopping_cart</span>
+      <span id="navCartBadge" class="absolute -top-1 -right-1 bg-primary text-on-primary text-[9px] md:text-[10px] font-bold w-3.5 h-3.5 md:w-4 md:h-4 rounded-full flex items-center justify-center">4</span>
+    </button>
+    <a class="hidden md:block bg-primary text-on-primary font-medium px-6 py-2 rounded-full hover:bg-primary/90 transition-colors text-body-md" href="#">Shop Now</a>
+    <button id="mobile-menu-btn" class="flex md:hidden text-on-surface-variant hover:text-primary transition-colors" onclick="toggleMobileMenu()">
+      <span id="hamburger-icon" class="material-symbols-outlined text-[22px]">menu</span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div id="mobile-menu" class="hidden fixed top-[60px] left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-[20px] border border-outline-variant/30 bg-surface/95 backdrop-blur-xl shadow-lg z-40 md:hidden">
+  <div class="flex flex-col py-3 px-2">
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="product-detail.html">Home</a>
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">Products</a>
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">Deals</a>
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">About</a>
+    <div class="h-px bg-outline-variant/20 mx-2 my-1"></div>
+    <a class="flex items-center justify-center gap-2 bg-primary text-on-primary font-medium text-[14px] py-3 px-4 rounded-xl hover:bg-primary/90 transition-colors" href="#">
+      Shop Now <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+    </a>
+  </div>
+</div>
+
+<main class="max-w-[1728px] mx-auto w-full">
+
+  <!-- ─── BREADCRUMB + TITLE ─── -->
+  <div class="pt-28 md:pt-36 pb-5 md:pb-7 px-6 md:px-container-padding">
+    <div class="max-w-7xl mx-auto">
+      <nav class="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant mb-4">
+        <a href="product-detail.html" class="hover:text-primary transition-colors">Home</a>
+        <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+        <span class="text-on-surface font-semibold">Cart</span>
+      </nav>
+      <div class="flex items-center gap-3">
+        <h1 class="font-display-xl text-[28px] md:text-[42px] font-bold tracking-tight text-on-surface">Your Cart</h1>
+        <span id="cartBadge" class="bg-primary text-on-primary text-[12px] font-bold w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-1">4</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── CART CONTENT ─── -->
+  <section class="px-6 md:px-container-padding pb-24 md:pb-32">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 xl:gap-10 items-start">
+
+        <!-- ════ LEFT: CART ITEMS ════ -->
+        <div class="lg:col-span-2 space-y-3 md:space-y-4">
+
+          <!-- Select all toolbar -->
+          <div class="flex items-center justify-between py-1.5 px-1">
+            <label class="flex items-center gap-2.5 cursor-pointer text-[13px] text-on-surface-variant select-none font-medium">
+              <input type="checkbox" id="selectAllCb" onchange="toggleSelectAll(this)" class="w-4 h-4 rounded cursor-pointer" checked/>
+              <span>Select All Items</span>
+            </label>
+            <button onclick="clearSelected()" class="text-[12px] text-error font-semibold hover:text-error/70 transition-colors flex items-center gap-1">
+              <span class="material-symbols-outlined text-[16px]">delete_sweep</span>
+              Remove Selected
+            </button>
+          </div>
+
+          <!-- ─── ITEM 1: Garam Masala ─── -->
+          <div id="item-1" class="cart-item bg-surface-container-low rounded-[20px] md:rounded-[24px] border border-outline-variant/40 p-4 md:p-5 flex gap-3 md:gap-4 shadow-sm">
+            <div class="flex items-start gap-3">
+              <input type="checkbox" class="item-cb w-4 h-4 rounded cursor-pointer mt-1 shrink-0" checked onchange="recalc()"/>
+              <a href="product-detail.html" class="w-[72px] h-[72px] md:w-24 md:h-24 rounded-[14px] overflow-hidden shrink-0 relative block" style="background:linear-gradient(135deg,#ff8a65 0%,#9f4122 40%,#5d1a0a 100%);">
+                <div class="absolute inset-0 flex flex-col items-center justify-center gap-1">
+                  <span class="material-symbols-outlined text-white/90" style="font-size:32px;font-variation-settings:'FILL' 1">local_fire_department</span>
+                  <span class="text-white text-[7px] font-bold tracking-wider">GARAM MASALA</span>
+                </div>
+              </a>
+            </div>
+            <div class="flex-1 min-w-0 flex flex-col gap-2">
+              <div class="flex items-start justify-between gap-2">
+                <div class="min-w-0">
+                  <a href="product-detail.html" class="font-semibold text-[14px] md:text-[16px] text-on-surface hover:text-primary transition-colors leading-snug block">Garam Masala Blend</a>
+                  <div class="flex items-center gap-2 mt-1 flex-wrap">
+                    <span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold tracking-wide rounded-full px-2.5 py-0.5">200g</span>
+                    <span class="text-on-surface-variant text-[11px]">Ground Masala</span>
+                  </div>
+                </div>
+                <button onclick="removeItem('item-1')" class="text-on-surface-variant hover:text-error transition-colors p-1 rounded-full hover:bg-error/10 shrink-0">
+                  <span class="material-symbols-outlined text-[18px]">close</span>
+                </button>
+              </div>
+              <div class="flex items-center gap-0.5">
+                <span class="text-primary text-[13px]">★★★★★</span>
+                <span class="text-[11px] text-on-surface-variant ml-1">(428)</span>
+              </div>
+              <div class="flex items-center justify-between gap-3 mt-auto">
+                <div class="flex items-center border-2 border-outline-variant rounded-full overflow-hidden">
+                  <button class="qty-btn w-8 h-8 md:w-9 md:h-9 flex items-center justify-center text-on-surface font-bold text-[15px]" onclick="changeQty('item-1',-1)">−</button>
+                  <span id="q-item-1" class="w-8 md:w-9 text-center font-bold text-[14px] text-on-surface">2</span>
+                  <button class="qty-btn w-8 h-8 md:w-9 md:h-9 flex items-center justify-center text-on-surface font-bold text-[15px]" onclick="changeQty('item-1',1)">+</button>
+                </div>
+                <div class="text-right">
+                  <p id="p-item-1" class="font-bold text-[17px] md:text-[20px] text-on-surface leading-none">৳498</p>
+                  <p class="text-[10px] md:text-[11px] text-on-surface-variant mt-0.5">৳249 each</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ─── ITEM 2: Turmeric Powder ─── -->
+          <div id="item-2" class="cart-item bg-surface-container-low rounded-[20px] md:rounded-[24px] border border-outline-variant/40 p-4 md:p-5 flex gap-3 md:gap-4 shadow-sm">
+            <div class="flex items-start gap-3">
+              <input type="checkbox" class="item-cb w-4 h-4 rounded cursor-pointer mt-1 shrink-0" checked onchange="recalc()"/>
+              <div class="w-[72px] h-[72px] md:w-24 md:h-24 rounded-[14px] overflow-hidden shrink-0 relative" style="background:linear-gradient(135deg,#ffe082 0%,#f9a825 50%,#e65100 100%);">
+                <div class="absolute inset-0 flex flex-col items-center justify-center gap-1">
+                  <span class="material-symbols-outlined text-white/90" style="font-size:32px;font-variation-settings:'FILL' 1">spa</span>
+                  <span class="text-white text-[7px] font-bold tracking-wider">TURMERIC</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex-1 min-w-0 flex flex-col gap-2">
+              <div class="flex items-start justify-between gap-2">
+                <div class="min-w-0">
+                  <p class="font-semibold text-[14px] md:text-[16px] text-on-surface leading-snug">Pure Turmeric Powder</p>
+                  <div class="flex items-center gap-2 mt-1 flex-wrap">
+                    <span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold tracking-wide rounded-full px-2.5 py-0.5">500g</span>
+                    <span class="text-on-surface-variant text-[11px]">Ground Masala</span>
+                  </div>
+                </div>
+                <button onclick="removeItem('item-2')" class="text-on-surface-variant hover:text-error transition-colors p-1 rounded-full hover:bg-error/10 shrink-0">
+                  <span class="material-symbols-outlined text-[18px]">close</span>
+                </button>
+              </div>
+              <div class="flex items-center gap-0.5">
+                <span class="text-primary text-[13px]">★★★★★</span>
+                <span class="text-[11px] text-on-surface-variant ml-1">(93)</span>
+              </div>
+              <div class="flex items-center justify-between gap-3 mt-auto">
+                <div class="flex items-center border-2 border-outline-variant rounded-full overflow-hidden">
+                  <button class="qty-btn w-8 h-8 md:w-9 md:h-9 flex items-center justify-center text-on-surface font-bold text-[15px]" onclick="changeQty('item-2',-1)">−</button>
+                  <span id="q-item-2" class="w-8 md:w-9 text-center font-bold text-[14px] text-on-surface">1</span>
+                  <button class="qty-btn w-8 h-8 md:w-9 md:h-9 flex items-center justify-center text-on-surface font-bold text-[15px]" onclick="changeQty('item-2',1)">+</button>
+                </div>
+                <div class="text-right">
+                  <p id="p-item-2" class="font-bold text-[17px] md:text-[20px] text-on-surface leading-none">৳189</p>
+                  <p class="text-[10px] md:text-[11px] text-on-surface-variant mt-0.5">৳189 each</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ─── ITEM 3: Cumin Seeds ─── -->
+          <div id="item-3" class="cart-item bg-surface-container-low rounded-[20px] md:rounded-[24px] border border-outline-variant/40 p-4 md:p-5 flex gap-3 md:gap-4 shadow-sm">
+            <div class="flex items-start gap-3">
+              <input type="checkbox" class="item-cb w-4 h-4 rounded cursor-pointer mt-1 shrink-0" checked onchange="recalc()"/>
+              <div class="w-[72px] h-[72px] md:w-24 md:h-24 rounded-[14px] overflow-hidden shrink-0 relative" style="background:linear-gradient(135deg,#d7ccc8 0%,#8d6e63 50%,#4e342e 100%);">
+                <div class="absolute inset-0 flex flex-col items-center justify-center gap-1">
+                  <span class="material-symbols-outlined text-white/90" style="font-size:32px;font-variation-settings:'FILL' 1">grain</span>
+                  <span class="text-white text-[7px] font-bold tracking-wider">CUMIN SEEDS</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex-1 min-w-0 flex flex-col gap-2">
+              <div class="flex items-start justify-between gap-2">
+                <div class="min-w-0">
+                  <p class="font-semibold text-[14px] md:text-[16px] text-on-surface leading-snug">Whole Cumin Seeds</p>
+                  <div class="flex items-center gap-2 mt-1 flex-wrap">
+                    <span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold tracking-wide rounded-full px-2.5 py-0.5">100g</span>
+                    <span class="text-on-surface-variant text-[11px]">Whole Spice</span>
+                  </div>
+                </div>
+                <button onclick="removeItem('item-3')" class="text-on-surface-variant hover:text-error transition-colors p-1 rounded-full hover:bg-error/10 shrink-0">
+                  <span class="material-symbols-outlined text-[18px]">close</span>
+                </button>
+              </div>
+              <div class="flex items-center gap-0.5">
+                <span class="text-primary text-[13px]">★★★★</span><span class="text-outline text-[13px]">★</span>
+                <span class="text-[11px] text-on-surface-variant ml-1">(47)</span>
+              </div>
+              <div class="flex items-center justify-between gap-3 mt-auto">
+                <div class="flex items-center border-2 border-outline-variant rounded-full overflow-hidden">
+                  <button class="qty-btn w-8 h-8 md:w-9 md:h-9 flex items-center justify-center text-on-surface font-bold text-[15px]" onclick="changeQty('item-3',-1)">−</button>
+                  <span id="q-item-3" class="w-8 md:w-9 text-center font-bold text-[14px] text-on-surface">1</span>
+                  <button class="qty-btn w-8 h-8 md:w-9 md:h-9 flex items-center justify-center text-on-surface font-bold text-[15px]" onclick="changeQty('item-3',1)">+</button>
+                </div>
+                <div class="text-right">
+                  <p id="p-item-3" class="font-bold text-[17px] md:text-[20px] text-on-surface leading-none">৳119</p>
+                  <p class="text-[10px] md:text-[11px] text-on-surface-variant mt-0.5">৳119 each</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ─── ITEM 4: Coriander Powder ─── -->
+          <div id="item-4" class="cart-item bg-surface-container-low rounded-[20px] md:rounded-[24px] border border-outline-variant/40 p-4 md:p-5 flex gap-3 md:gap-4 shadow-sm">
+            <div class="flex items-start gap-3">
+              <input type="checkbox" class="item-cb w-4 h-4 rounded cursor-pointer mt-1 shrink-0" checked onchange="recalc()"/>
+              <div class="w-[72px] h-[72px] md:w-24 md:h-24 rounded-[14px] overflow-hidden shrink-0 relative" style="background:linear-gradient(135deg,#c8e6c9 0%,#66bb6a 50%,#2e7d32 100%);">
+                <div class="absolute inset-0 flex flex-col items-center justify-center gap-1">
+                  <span class="material-symbols-outlined text-white/90" style="font-size:32px;font-variation-settings:'FILL' 1">eco</span>
+                  <span class="text-white text-[7px] font-bold tracking-wider">CORIANDER</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex-1 min-w-0 flex flex-col gap-2">
+              <div class="flex items-start justify-between gap-2">
+                <div class="min-w-0">
+                  <p class="font-semibold text-[14px] md:text-[16px] text-on-surface leading-snug">Coriander Powder</p>
+                  <div class="flex items-center gap-2 mt-1 flex-wrap">
+                    <span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold tracking-wide rounded-full px-2.5 py-0.5">200g</span>
+                    <span class="text-on-surface-variant text-[11px]">Ground Masala</span>
+                  </div>
+                </div>
+                <button onclick="removeItem('item-4')" class="text-on-surface-variant hover:text-error transition-colors p-1 rounded-full hover:bg-error/10 shrink-0">
+                  <span class="material-symbols-outlined text-[18px]">close</span>
+                </button>
+              </div>
+              <div class="flex items-center gap-0.5">
+                <span class="text-primary text-[13px]">★★★★</span><span class="text-primary text-[13px]">★</span>
+                <span class="text-[11px] text-on-surface-variant ml-1">(61)</span>
+              </div>
+              <div class="flex items-center justify-between gap-3 mt-auto">
+                <div class="flex items-center border-2 border-outline-variant rounded-full overflow-hidden">
+                  <button class="qty-btn w-8 h-8 md:w-9 md:h-9 flex items-center justify-center text-on-surface font-bold text-[15px]" onclick="changeQty('item-4',-1)">−</button>
+                  <span id="q-item-4" class="w-8 md:w-9 text-center font-bold text-[14px] text-on-surface">1</span>
+                  <button class="qty-btn w-8 h-8 md:w-9 md:h-9 flex items-center justify-center text-on-surface font-bold text-[15px]" onclick="changeQty('item-4',1)">+</button>
+                </div>
+                <div class="text-right">
+                  <p id="p-item-4" class="font-bold text-[17px] md:text-[20px] text-on-surface leading-none">৳149</p>
+                  <p class="text-[10px] md:text-[11px] text-on-surface-variant mt-0.5">৳149 each</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ─── EMPTY STATE ─── -->
+          <div id="emptyState" class="hidden fade-in text-center py-16 md:py-24 px-4">
+            <div class="float-anim inline-block mb-6">
+              <div class="w-24 h-24 rounded-full bg-surface-container flex items-center justify-center mx-auto border-2 border-dashed border-outline-variant/60">
+                <span class="material-symbols-outlined text-on-surface-variant" style="font-size:44px">shopping_basket</span>
+              </div>
+            </div>
+            <h3 class="font-bold text-[22px] md:text-[28px] text-on-surface mb-2">Your cart is empty</h3>
+            <p class="text-on-surface-variant text-[14px] md:text-body-md mb-8 max-w-xs mx-auto">No spices yet! Explore our collection and discover your kitchen's next secret weapon.</p>
+            <a href="product-detail.html" class="inline-flex items-center gap-2 bg-primary text-on-primary font-semibold px-8 py-3.5 rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20">
+              <span class="material-symbols-outlined text-[20px]">shopping_bag</span>
+              Browse Products
+            </a>
+          </div>
+
+          <!-- Continue shopping -->
+          <div id="continueBtn" class="pt-2">
+            <a href="product-detail.html" class="inline-flex items-center gap-1.5 text-[13px] md:text-body-md text-on-surface-variant hover:text-primary transition-colors font-medium">
+              <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+              Continue Shopping
+            </a>
+          </div>
+
+        </div>
+
+        <!-- ════ RIGHT: ORDER SUMMARY ════ -->
+        <div class="lg:col-span-1 lg:sticky lg:top-28 space-y-4">
+
+          <!-- Summary card -->
+          <div class="bg-surface-container-low rounded-[24px] border border-outline-variant/40 p-5 md:p-6 shadow-sm">
+            <h3 class="font-bold text-[18px] md:text-headline-md text-on-surface mb-5">Order Summary</h3>
+
+            <!-- Promo code -->
+            <div class="mb-5">
+              <div class="flex gap-2">
+                <div class="flex-1 relative">
+                  <span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-on-surface-variant text-[18px]">confirmation_number</span>
+                  <input id="promoInput" type="text" placeholder="Promo code" class="promo-input w-full bg-surface border-2 border-outline-variant rounded-2xl pl-9 pr-3 py-2.5 text-on-surface text-[14px] transition-colors placeholder:text-on-surface-variant/60"/>
+                </div>
+                <button onclick="applyPromo()" class="bg-on-surface text-surface font-semibold px-4 py-2.5 rounded-2xl text-[13px] hover:bg-on-surface/80 transition-colors whitespace-nowrap shrink-0">Apply</button>
+              </div>
+              <div id="promoMsg" class="hidden mt-2 text-[12px] font-medium items-center gap-1.5"></div>
+              <p class="text-[10px] text-on-surface-variant mt-1.5">Try <span class="font-semibold text-primary cursor-pointer" onclick="document.getElementById('promoInput').value='SHUDDHOTA10';applyPromo()">SHUDDHOTA10</span> for 10% off</p>
+            </div>
+
+            <!-- Breakdown -->
+            <div class="space-y-3 border-t border-outline-variant/30 pt-4">
+              <div class="flex justify-between text-[14px]">
+                <span class="text-on-surface-variant">Subtotal (<span id="itemCount">5</span> items)</span>
+                <span id="subtotalEl" class="text-on-surface font-medium">৳955</span>
+              </div>
+              <div class="flex justify-between text-[14px]">
+                <span class="text-on-surface-variant">Shipping</span>
+                <span id="shippingEl" class="text-secondary font-semibold">Free</span>
+              </div>
+              <div id="discountRow" style="display:none" class="flex justify-between text-[14px]">
+                <span class="text-secondary flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">local_offer</span> Discount</span>
+                <span id="discountEl" class="text-secondary font-bold">−৳0</span>
+              </div>
+            </div>
+
+            <div class="border-t-2 border-outline-variant/30 mt-4 pt-4 flex justify-between items-center">
+              <span class="font-bold text-[17px] md:text-[18px] text-on-surface">Total</span>
+              <div class="text-right">
+                <p id="totalEl" class="font-bold text-[24px] md:text-[28px] text-on-surface leading-none">৳955</p>
+                <p class="text-[10px] text-on-surface-variant mt-0.5">Incl. all taxes</p>
+              </div>
+            </div>
+
+            <!-- CTA -->
+            <a href="checkout.html" class="mt-5 w-full bg-primary text-on-primary font-semibold py-4 rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:scale-[1.01] flex items-center justify-center gap-2.5 text-[15px]">
+              <span class="material-symbols-outlined text-[20px]">lock</span>
+              Proceed to Checkout
+            </a>
+
+            <!-- Trust row -->
+            <div class="mt-4 flex items-center gap-2 justify-center flex-wrap">
+              <div class="flex items-center gap-1 text-[11px] text-on-surface-variant">
+                <span class="material-symbols-outlined text-secondary text-[14px]">shield</span>
+                Secure payment
+              </div>
+              <span class="text-outline-variant text-[10px]">·</span>
+              <div class="flex items-center gap-1 text-[11px] text-on-surface-variant">
+                <span class="material-symbols-outlined text-tertiary text-[14px]">replay</span>
+                7-day returns
+              </div>
+              <span class="text-outline-variant text-[10px]">·</span>
+              <div class="flex items-center gap-1 text-[11px] text-on-surface-variant">
+                <span class="material-symbols-outlined text-secondary text-[14px]">local_shipping</span>
+                Free ৳599+
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment methods -->
+          <div class="bg-surface-container-low rounded-[20px] border border-outline-variant/40 p-4 md:p-5 shadow-sm">
+            <p class="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider mb-3">We Accept</p>
+            <div class="grid grid-cols-4 gap-2">
+              <div class="flex flex-col items-center gap-1.5 bg-surface rounded-xl p-2.5 border border-outline-variant/30">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-[9px]" style="background:#E2136E">bK</div>
+                <span class="text-[9px] text-on-surface-variant font-medium">bKash</span>
+              </div>
+              <div class="flex flex-col items-center gap-1.5 bg-surface rounded-xl p-2.5 border border-outline-variant/30">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-[10px]" style="background:#F6821F">N</div>
+                <span class="text-[9px] text-on-surface-variant font-medium">Nagad</span>
+              </div>
+              <div class="flex flex-col items-center gap-1.5 bg-surface rounded-xl p-2.5 border border-outline-variant/30">
+                <div class="w-8 h-8 rounded-xl bg-surface-container-high flex items-center justify-center">
+                  <span class="material-symbols-outlined text-on-surface text-[16px]">credit_card</span>
+                </div>
+                <span class="text-[9px] text-on-surface-variant font-medium">Card</span>
+              </div>
+              <div class="flex flex-col items-center gap-1.5 bg-surface rounded-xl p-2.5 border border-outline-variant/30">
+                <div class="w-8 h-8 rounded-xl bg-surface-container-high flex items-center justify-center">
+                  <span class="material-symbols-outlined text-on-surface text-[16px]">payments</span>
+                </div>
+                <span class="text-[9px] text-on-surface-variant font-medium">COD</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Free shipping progress -->
+          <div class="bg-surface-container-low rounded-[20px] border border-outline-variant/40 p-4 md:p-5 shadow-sm">
+            <div class="flex items-center gap-2 mb-2.5">
+              <span class="material-symbols-outlined text-secondary text-[20px]">local_shipping</span>
+              <p id="shipMsgTitle" class="text-[13px] font-semibold text-on-surface">You've unlocked <span class="text-secondary">Free Shipping!</span></p>
+            </div>
+            <div class="h-2 bg-surface-container-high rounded-full overflow-hidden">
+              <div id="shipBar" class="ship-bar-fill h-full bg-secondary rounded-full" style="width:100%"></div>
+            </div>
+            <p id="shipMsgSub" class="text-[11px] text-secondary mt-1.5 font-medium">🎉 Free delivery on your order</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── YOU MAY ALSO LIKE ─── -->
+  <section class="px-6 md:px-container-padding py-12 md:py-16 bg-surface border-t border-outline-variant/20">
+    <div class="max-w-7xl mx-auto">
+      <div class="mb-6 md:mb-8">
+        <p class="text-[11px] font-bold tracking-[0.12em] text-secondary uppercase mb-2">Frequently Bought Together</p>
+        <h2 class="font-display-xl text-[22px] md:text-[32px] font-bold tracking-tight text-on-surface">You May Also Like</h2>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        <div class="product-sugg bg-surface-container-low rounded-[20px] border border-outline-variant/30 overflow-hidden group cursor-pointer">
+          <div class="h-32 md:h-40 relative overflow-hidden" style="background:linear-gradient(135deg,#ffccbc 0%,#ff7043 60%,#bf360c 100%);">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="material-symbols-outlined text-white/90 group-hover:scale-110 transition-transform duration-300" style="font-size:46px;font-variation-settings:'FILL' 1">local_fire_department</span>
+            </div>
+          </div>
+          <div class="p-3 md:p-4">
+            <p class="font-semibold text-[13px] md:text-[15px] text-on-surface mb-0.5">Red Chilli Powder</p>
+            <p class="text-[11px] text-on-surface-variant mb-2.5">200g · Hot & Spicy</p>
+            <div class="flex items-center justify-between">
+              <p class="font-bold text-[15px] text-on-surface">৳169</p>
+              <button class="add-btn w-8 h-8 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-on-primary flex items-center justify-center">
+                <span class="material-symbols-outlined text-[16px]">add</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="product-sugg bg-surface-container-low rounded-[20px] border border-outline-variant/30 overflow-hidden group cursor-pointer">
+          <div class="h-32 md:h-40 relative overflow-hidden" style="background:linear-gradient(135deg,#e8f5e9 0%,#66bb6a 60%,#1b5e20 100%);">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="material-symbols-outlined text-white/90 group-hover:scale-110 transition-transform duration-300" style="font-size:46px;font-variation-settings:'FILL' 1">grass</span>
+            </div>
+          </div>
+          <div class="p-3 md:p-4">
+            <p class="font-semibold text-[13px] md:text-[15px] text-on-surface mb-0.5">Cardamom Pods</p>
+            <p class="text-[11px] text-on-surface-variant mb-2.5">50g · Aromatic</p>
+            <div class="flex items-center justify-between">
+              <p class="font-bold text-[15px] text-on-surface">৳299</p>
+              <button class="add-btn w-8 h-8 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-on-primary flex items-center justify-center">
+                <span class="material-symbols-outlined text-[16px]">add</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="product-sugg bg-surface-container-low rounded-[20px] border border-outline-variant/30 overflow-hidden group cursor-pointer">
+          <div class="h-32 md:h-40 relative overflow-hidden" style="background:linear-gradient(135deg,#fff9c4 0%,#f9a825 60%,#e65100 100%);">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="material-symbols-outlined text-white/90 group-hover:scale-110 transition-transform duration-300" style="font-size:46px;font-variation-settings:'FILL' 1">water_drop</span>
+            </div>
+          </div>
+          <div class="p-3 md:p-4">
+            <p class="font-semibold text-[13px] md:text-[15px] text-on-surface mb-0.5">Fenugreek Seeds</p>
+            <p class="text-[11px] text-on-surface-variant mb-2.5">150g · Herbal</p>
+            <div class="flex items-center justify-between">
+              <p class="font-bold text-[15px] text-on-surface">৳129</p>
+              <button class="add-btn w-8 h-8 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-on-primary flex items-center justify-center">
+                <span class="material-symbols-outlined text-[16px]">add</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="product-sugg bg-surface-container-low rounded-[20px] border border-outline-variant/30 overflow-hidden group cursor-pointer">
+          <div class="h-32 md:h-40 relative overflow-hidden" style="background:linear-gradient(135deg,#fce4ec 0%,#ef5350 60%,#b71c1c 100%);">
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="material-symbols-outlined text-white/90 group-hover:scale-110 transition-transform duration-300" style="font-size:46px;font-variation-settings:'FILL' 1">soup_kitchen</span>
+            </div>
+          </div>
+          <div class="p-3 md:p-4">
+            <p class="font-semibold text-[13px] md:text-[15px] text-on-surface mb-0.5">Biryani Masala</p>
+            <p class="text-[11px] text-on-surface-variant mb-2.5">100g · Blend</p>
+            <div class="flex items-center justify-between">
+              <p class="font-bold text-[15px] text-on-surface">৳219</p>
+              <button class="add-btn w-8 h-8 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-on-primary flex items-center justify-center">
+                <span class="material-symbols-outlined text-[16px]">add</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ─── FOOTER ─── -->
+<footer class="bg-surface-container border-t border-outline-variant/20">
+  <div class="max-w-7xl mx-auto px-6 md:px-container-padding py-10 md:py-14">
+    <div class="flex flex-col md:flex-row md:items-start justify-between gap-6 md:gap-12 mb-8">
+      <div class="md:max-w-xs">
+        <a class="font-display-xl text-primary text-[20px] flex items-center gap-2 mb-3" href="product-detail.html">
+          <span class="material-symbols-outlined text-[22px]">shopping_basket</span>
+          Shuddhota CO.
+        </a>
+        <p class="text-on-surface-variant text-[13px] leading-relaxed">Pure spices, bold flavors. Sourced from origin farms and stone-ground fresh for your kitchen.</p>
+      </div>
+      <div class="grid grid-cols-3 gap-6 md:gap-10">
+        <div>
+          <h4 class="text-[11px] font-semibold text-on-surface mb-3 uppercase tracking-wider">Products</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px]">Spice Blends</a></li>
+            <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px]">Whole Spices</a></li>
+            <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px]">Ground Masalas</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-[11px] font-semibold text-on-surface mb-3 uppercase tracking-wider">Help</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px]">Order Tracking</a></li>
+            <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px]">Returns</a></li>
+            <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px]">FAQ</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-[11px] font-semibold text-on-surface mb-3 uppercase tracking-wider">Company</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px]">About Us</a></li>
+            <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px]">Wholesale</a></li>
+            <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px]">Privacy</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-outline-variant/20 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-on-surface-variant text-[11px]">© 2024 Shuddhota Co. Pure spices, bold flavors.</p>
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30">
+          <span class="material-symbols-outlined text-secondary text-[14px]">verified</span>
+          <span class="text-[10px] text-on-surface-variant font-medium">BSTI Certified</span>
+        </div>
+        <div class="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30">
+          <span class="material-symbols-outlined text-secondary text-[14px]">eco</span>
+          <span class="text-[10px] text-on-surface-variant font-medium">100% Natural</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── MOBILE STICKY CHECKOUT BAR ─── -->
+<div id="stickyCheckout" class="sticky-checkout fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-surface/95 backdrop-blur-xl border-t border-outline-variant/30 shadow-2xl px-4 py-3 flex items-center gap-3">
+  <div>
+    <p class="text-[10px] text-on-surface-variant">Selected items · Free delivery</p>
+    <p id="stickyTotal" class="font-bold text-[18px] text-on-surface leading-none">৳955</p>
+  </div>
+  <a href="checkout.html" class="flex-1 bg-primary text-on-primary font-semibold text-[14px] py-3.5 rounded-full hover:bg-primary/90 transition-colors shadow-lg flex items-center justify-center gap-2">
+    <span class="material-symbols-outlined text-[18px]">lock</span>
+    Checkout
+  </a>
+</div>
+
+<script>
+/* ── Item data ── */
+const items = {
+  'item-1': { price: 249, qty: 2, unitLabel: '৳249 each' },
+  'item-2': { price: 189, qty: 1, unitLabel: '৳189 each' },
+  'item-3': { price: 119, qty: 1, unitLabel: '৳119 each' },
+  'item-4': { price: 149, qty: 1, unitLabel: '৳149 each' },
+};
+const removedItems = new Set();
+let promoDiscount = 0;
+const FREE_SHIP_THRESHOLD = 599;
+const SHIP_COST = 60;
+
+function changeQty(id, delta) {
+  items[id].qty = Math.max(1, Math.min(99, items[id].qty + delta));
+  document.getElementById('q-' + id).textContent = items[id].qty;
+  recalc();
+}
+
+function removeItem(id) {
+  const el = document.getElementById(id);
+  el.classList.add('removing');
+  setTimeout(() => {
+    el.style.display = 'none';
+    removedItems.add(id);
+    recalc();
+    checkEmpty();
+  }, 320);
+}
+
+function toggleSelectAll(cb) {
+  document.querySelectorAll('.item-cb').forEach(c => c.checked = cb.checked);
+  recalc();
+}
+
+function clearSelected() {
+  document.querySelectorAll('.item-cb:checked').forEach(cb => {
+    const itemEl = cb.closest('.cart-item');
+    if (itemEl && !removedItems.has(itemEl.id)) removeItem(itemEl.id);
+  });
+}
+
+function applyPromo() {
+  const code = document.getElementById('promoInput').value.trim().toUpperCase();
+  const msg = document.getElementById('promoMsg');
+  msg.style.display = 'flex';
+  if (code === 'SHUDDHOTA10') {
+    promoDiscount = 0.10;
+    msg.className = 'mt-2 text-[12px] font-medium flex items-center gap-1.5 text-secondary';
+    msg.innerHTML = '<span class="material-symbols-outlined text-[16px]">check_circle</span> 10% discount applied!';
+  } else if (code === 'SPICE20') {
+    promoDiscount = 0.20;
+    msg.className = 'mt-2 text-[12px] font-medium flex items-center gap-1.5 text-secondary';
+    msg.innerHTML = '<span class="material-symbols-outlined text-[16px]">check_circle</span> 20% discount applied!';
+  } else {
+    promoDiscount = 0;
+    msg.className = 'mt-2 text-[12px] font-medium flex items-center gap-1.5 text-error';
+    msg.innerHTML = '<span class="material-symbols-outlined text-[16px]">error</span> Invalid promo code. Try SHUDDHOTA10';
+  }
+  recalc();
+}
+
+function recalc() {
+  let subtotal = 0, units = 0;
+  document.querySelectorAll('.item-cb').forEach(cb => {
+    const el = cb.closest('.cart-item');
+    if (!el) return;
+    const id = el.id;
+    if (!removedItems.has(id) && cb.checked) {
+      subtotal += items[id].price * items[id].qty;
+      units += items[id].qty;
+    }
+  });
+  const discount = Math.round(subtotal * promoDiscount);
+  const afterDiscount = subtotal - discount;
+  const shipping = (afterDiscount > 0 && afterDiscount < FREE_SHIP_THRESHOLD) ? SHIP_COST : 0;
+  const total = afterDiscount + shipping;
+
+  document.getElementById('subtotalEl').textContent = '৳' + subtotal;
+  document.getElementById('itemCount').textContent = units;
+  document.getElementById('totalEl').textContent = '৳' + total;
+  document.getElementById('cartBadge').textContent = units;
+  document.getElementById('navCartBadge').textContent = units;
+  document.getElementById('stickyTotal').textContent = '৳' + total;
+
+  const shipEl = document.getElementById('shippingEl');
+  shipEl.textContent = shipping === 0 ? 'Free' : '৳60';
+  shipEl.className = shipping === 0 ? 'text-secondary font-semibold text-[14px]' : 'text-on-surface font-medium text-[14px]';
+
+  const discRow = document.getElementById('discountRow');
+  discRow.style.display = discount > 0 ? 'flex' : 'none';
+  document.getElementById('discountEl').textContent = '−৳' + discount;
+
+  // Shipping progress
+  const pct = subtotal > 0 ? Math.min(100, (subtotal / FREE_SHIP_THRESHOLD) * 100) : 0;
+  document.getElementById('shipBar').style.width = pct + '%';
+  const titleEl = document.getElementById('shipMsgTitle');
+  const subEl = document.getElementById('shipMsgSub');
+  if (subtotal >= FREE_SHIP_THRESHOLD || subtotal === 0) {
+    titleEl.innerHTML = 'You\'ve unlocked <span class="text-secondary">Free Shipping!</span>';
+    subEl.textContent = '🎉 Free delivery on your order';
+    subEl.className = 'text-[11px] text-secondary mt-1.5 font-medium';
+  } else {
+    const remain = FREE_SHIP_THRESHOLD - subtotal;
+    titleEl.innerHTML = `Add <span class="text-secondary font-bold">৳${remain}</span> more for Free Shipping`;
+    subEl.textContent = `৳${remain} away from free delivery`;
+    subEl.className = 'text-[11px] text-on-surface-variant mt-1.5';
+  }
+}
+
+function checkEmpty() {
+  const active = Object.keys(items).filter(id => !removedItems.has(id));
+  const hasItems = active.length > 0;
+  document.getElementById('emptyState').classList.toggle('hidden', hasItems);
+  const cont = document.getElementById('continueBtn');
+  if (cont) cont.style.display = hasItems ? '' : 'none';
+  if (!hasItems) {
+    document.getElementById('navCartBadge').textContent = '0';
+    document.getElementById('cartBadge').textContent = '0';
+  }
+}
+
+/* ── Nav ── */
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const icon = document.getElementById('hamburger-icon');
+  menu.classList.toggle('hidden');
+  icon.textContent = menu.classList.contains('hidden') ? 'menu' : 'close';
+}
+document.addEventListener('click', e => {
+  const menu = document.getElementById('mobile-menu');
+  const btn = document.getElementById('mobile-menu-btn');
+  if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+    menu.classList.add('hidden');
+    document.getElementById('hamburger-icon').textContent = 'menu';
+  }
+});
+
+/* ── Sticky bar ── */
+const stickyEl = document.getElementById('stickyCheckout');
+let stickyOn = false;
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  if (y > 300 && !stickyOn) { stickyEl.classList.add('visible'); stickyOn = true; }
+  else if (y <= 80 && stickyOn) { stickyEl.classList.remove('visible'); stickyOn = false; }
+});
+
+recalc();
+</script>
+</body>
+</html>
