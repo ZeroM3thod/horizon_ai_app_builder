@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>All Products — Shuddhota Co.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal; font-style: normal; font-size: 24px;
+    line-height: 1; letter-spacing: normal; text-transform: none;
+    display: inline-block; white-space: nowrap; word-wrap: normal;
+    direction: ltr; -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+  }
+  .hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .product-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .product-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(159,65,34,0.14); }
+  .filter-drawer { transition: transform 0.38s cubic-bezier(0.32, 0.72, 0, 1); }
+  .filter-overlay { transition: opacity 0.3s ease; }
+  .sidebar-section { border-bottom: 1px solid rgba(221,192,184,0.35); }
+
+  /* Price range slider */
+  input[type="range"] {
+    -webkit-appearance: none; appearance: none;
+    height: 4px; background: #ddc0b8; border-radius: 2px; outline: none; cursor: pointer; width: 100%;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 18px; height: 18px;
+    border-radius: 50%; background: #9f4122; cursor: pointer;
+    border: 2px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 18px; height: 18px; border-radius: 50%; background: #9f4122;
+    cursor: pointer; border: 2px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    border: none;
+  }
+  input[type="range"].range-styled {
+    background: linear-gradient(to right, #9f4122 var(--val, 100%), #ddc0b8 var(--val, 100%));
+  }
+
+  /* Category radio buttons */
+  .cat-radio:checked + .cat-label { background: #ffdbd0; border-color: #ffb59e; color: #3a0b00; font-weight: 600; }
+  .tag-cb:checked + .tag-label { background: #9f4122; color: white; border-color: #9f4122; }
+  
+  /* Sort radio */
+  .sort-radio:checked + .sort-label { background: #1d1c15; color: #fff9ee; border-color: #1d1c15; }
+
+  /* Card entrance animation */
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .card-animate { animation: cardIn 0.3s ease both; }
+
+  /* Active filter chip hover */
+  .filter-chip:hover { background: #ffdbd0 !important; }
+  
+  /* Mobile sticky bar */
+  .mobile-filter-bar { box-shadow: 0 -1px 0 rgba(221,192,184,0.4), 0 4px 16px rgba(159,65,34,0.06); }
+</style>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "on-secondary-fixed":"#181e00","secondary":"#556500","on-tertiary":"#ffffff",
+          "primary-container":"#ff8a65","error-container":"#ffdad6","on-error":"#ffffff",
+          "surface-container-highest":"#e8e2d7","on-primary-fixed-variant":"#7f2a0d",
+          "tertiary":"#326578","on-primary-fixed":"#3a0b00","on-surface":"#1d1c15",
+          "on-error-container":"#93000a","primary":"#9f4122","surface-container-low":"#f9f3e8",
+          "surface-tint":"#9f4122","secondary-fixed":"#d6ed7a","tertiary-container":"#80b1c7",
+          "on-surface-variant":"#56423c","surface-bright":"#fff9ee","on-tertiary-fixed":"#001f29",
+          "on-secondary-fixed-variant":"#3f4c00","on-tertiary-container":"#074457",
+          "outline-variant":"#ddc0b8","surface":"#fff9ee","secondary-container":"#d6ed7a",
+          "inverse-primary":"#ffb59e","secondary-fixed-dim":"#bbd062","error":"#ba1a1a",
+          "surface-dim":"#dfd9cf","surface-variant":"#e8e2d7","outline":"#89726b",
+          "on-primary":"#ffffff","tertiary-fixed":"#bbe9ff","on-secondary":"#ffffff",
+          "inverse-on-surface":"#f6f0e5","primary-fixed-dim":"#ffb59e",
+          "surface-container":"#f3ede2","primary-fixed":"#ffdbd0","on-background":"#1d1c15",
+          "on-secondary-container":"#5a6c00","surface-container-high":"#ede8dd",
+          "inverse-surface":"#333029","on-primary-container":"#752305",
+          "tertiary-fixed-dim":"#9ccee4","on-tertiary-fixed-variant":"#154d5f",
+          "surface-container-lowest":"#ffffff","background":"#fff9ee"
+        },
+        borderRadius: { "DEFAULT":"1rem","lg":"2rem","xl":"3rem","full":"9999px" },
+        spacing: {
+          "gutter":"32px","container-padding":"64px","unit":"8px",
+          "section-gap":"120px","card-internal":"40px"
+        },
+        fontFamily: {
+          "body-lg":["Plus Jakarta Sans"],"label-caps":["Plus Jakarta Sans"],
+          "headline-lg":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"],
+          "display-xl":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"]
+        },
+        fontSize: {
+          "body-lg":["18px",{"lineHeight":"1.6","letterSpacing":"0","fontWeight":"400"}],
+          "label-caps":["12px",{"lineHeight":"1","letterSpacing":"0.1em","fontWeight":"700"}],
+          "headline-lg":["40px",{"lineHeight":"1.2","letterSpacing":"-0.02em","fontWeight":"700"}],
+          "headline-md":["24px",{"lineHeight":"1.3","letterSpacing":"-0.01em","fontWeight":"600"}],
+          "display-xl":["64px",{"lineHeight":"1.1","letterSpacing":"-0.04em","fontWeight":"800"}],
+          "body-md":["16px",{"lineHeight":"1.6","letterSpacing":"0","fontWeight":"400"}]
+        }
+      }
+    }
+  }
+</script>
+</head>
+
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+
+<!-- ─── NAVIGATION ─── -->
+<nav class="fixed top-3 md:top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-full border border-outline-variant/30 bg-surface/80 backdrop-blur-xl shadow-sm z-50 flex justify-between items-center px-4 md:px-8 py-2 md:py-3">
+  <a class="font-display-xl tracking-tighter text-primary flex items-center gap-1.5 md:gap-2 text-[15px] md:text-headline-md" href="#">
+    <span class="material-symbols-outlined text-[20px] md:text-[28px]">shopping_basket</span>
+    <span class="hidden sm:inline">Shuddhota CO.</span>
+    <span class="sm:hidden font-bold">Shuddhota</span>
+  </a>
+  <div class="hidden md:flex items-center gap-6">
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors text-body-md" href="index.html">Home</a>
+    <a class="text-primary font-bold font-body-md text-body-md" href="products.html">Products</a>
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors text-body-md" href="#">Deals</a>
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors text-body-md" href="#">About</a>
+  </div>
+  <div class="flex items-center gap-2 md:gap-4">
+    <button class="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center relative">
+      <span class="material-symbols-outlined text-[20px] md:text-[24px]">shopping_cart</span>
+      <span id="cart-count" class="absolute -top-1 -right-1 bg-primary text-on-primary text-[9px] md:text-[10px] font-bold w-3.5 h-3.5 md:w-4 md:h-4 rounded-full flex items-center justify-center">0</span>
+    </button>
+    <a class="hidden md:block bg-primary text-on-primary font-medium px-3 md:px-6 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors text-[12px] md:text-body-md" href="#">
+      Shop Now
+    </a>
+    <button id="mobile-menu-btn" class="flex md:hidden text-on-surface-variant hover:text-primary transition-colors" onclick="toggleMobileMenu()">
+      <span id="hamburger-icon" class="material-symbols-outlined text-[22px]">menu</span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Nav Menu -->
+<div id="mobile-menu" class="hidden fixed top-[60px] left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-[20px] border border-outline-variant/30 bg-surface/95 backdrop-blur-xl shadow-lg z-40 md:hidden">
+  <div class="flex flex-col py-3 px-2">
+    <a class="text-primary font-bold text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant transition-colors" href="#">Shop</a>
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">Collections</a>
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">Deals</a>
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">About</a>
+    <div class="h-px bg-outline-variant/20 mx-2 my-1"></div>
+    <a class="flex items-center justify-center gap-2 bg-primary text-on-primary font-medium text-[14px] py-3 px-4 rounded-xl" href="#">
+      Shop Now <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+    </a>
+  </div>
+</div>
+
+<main class="max-w-[1728px] mx-auto w-full">
+
+<!-- ─── PAGE HEADER ─── -->
+<section class="pt-24 md:pt-36 pb-6 md:pb-10 px-4 md:px-container-padding relative overflow-hidden" style="background: linear-gradient(135deg, #f9f3e8 0%, #ffdbd0 60%, #fff9ee 100%)">
+  <div class="absolute top-0 right-0 w-64 md:w-96 h-64 md:h-96 rounded-full blur-3xl -z-0 pointer-events-none" style="background: rgba(255,138,101,0.18); transform: translate(30%, -30%)"></div>
+  <div class="absolute bottom-0 left-0 w-48 md:w-72 h-48 md:h-72 rounded-full blur-3xl -z-0 pointer-events-none" style="background: rgba(214,237,122,0.2); transform: translate(-20%, 30%)"></div>
+  <div class="max-w-7xl mx-auto relative z-10">
+    <!-- Breadcrumb -->
+    <nav class="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant mb-4 md:mb-6">
+      <a href="index.html" class="hover:text-primary transition-colors">Home</a>
+      <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+      <span class="text-on-surface font-medium">All Products</span>
+    </nav>
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 md:gap-0">
+      <div>
+        <span class="font-label-caps text-label-caps text-on-surface-variant tracking-widest mb-2 block">OUR COLLECTION</span>
+        <h1 class="font-display-xl text-[32px] md:text-[52px] text-on-surface tracking-tight leading-none mb-2">All Products</h1>
+        <p class="text-on-surface-variant text-[13px] md:text-body-lg max-w-lg">Premium spices, dry fruits, dals & ready mixes — sourced fresh from certified farms.</p>
+      </div>
+      <!-- Desktop search bar -->
+      <div class="hidden md:flex items-center gap-3 bg-surface/80 backdrop-blur rounded-full border border-outline-variant px-4 py-2.5 w-72 shadow-sm">
+        <span class="material-symbols-outlined text-on-surface-variant text-[20px]">search</span>
+        <input id="search-desktop" type="text" placeholder="Search products..." class="bg-transparent border-none outline-none text-[14px] text-on-surface placeholder:text-outline flex-1 w-full" oninput="handleSearch(this.value)"/>
+        <button onclick="handleSearch('')" class="text-on-surface-variant hover:text-primary transition-colors" title="Clear search">
+          <span class="material-symbols-outlined text-[18px]">close</span>
+        </button>
+      </div>
+    </div>
+    <!-- Category pills (quick filter) -->
+    <div class="flex flex-wrap gap-2 mt-5 md:mt-6">
+      <button onclick="setCategoryQuick('all')" data-qcat="all" class="qcat-pill flex items-center gap-1.5 px-3 md:px-4 py-1.5 rounded-full text-[11px] md:text-[13px] font-medium border transition-all bg-on-surface text-surface border-on-surface">
+        <span class="material-symbols-outlined text-[13px]">grid_view</span> All
+      </button>
+      <button onclick="setCategoryQuick('whole-spices')" data-qcat="whole-spices" class="qcat-pill flex items-center gap-1.5 px-3 md:px-4 py-1.5 rounded-full text-[11px] md:text-[13px] font-medium border transition-all border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary">
+        <span class="material-symbols-outlined text-[13px]">local_fire_department</span> Whole Spices
+      </button>
+      <button onclick="setCategoryQuick('ground-masalas')" data-qcat="ground-masalas" class="qcat-pill flex items-center gap-1.5 px-3 md:px-4 py-1.5 rounded-full text-[11px] md:text-[13px] font-medium border transition-all border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary">
+        <span class="material-symbols-outlined text-[13px]">soup_kitchen</span> Masalas
+      </button>
+      <button onclick="setCategoryQuick('dry-fruits')" data-qcat="dry-fruits" class="qcat-pill flex items-center gap-1.5 px-3 md:px-4 py-1.5 rounded-full text-[11px] md:text-[13px] font-medium border transition-all border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary">
+        <span class="material-symbols-outlined text-[13px]">nutrition</span> Dry Fruits
+      </button>
+      <button onclick="setCategoryQuick('dals-pulses')" data-qcat="dals-pulses" class="qcat-pill flex items-center gap-1.5 px-3 md:px-4 py-1.5 rounded-full text-[11px] md:text-[13px] font-medium border transition-all border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary">
+        <span class="material-symbols-outlined text-[13px]">grain</span> Dals & Pulses
+      </button>
+      <button onclick="setCategoryQuick('ready-mixes')" data-qcat="ready-mixes" class="qcat-pill flex items-center gap-1.5 px-3 md:px-4 py-1.5 rounded-full text-[11px] md:text-[13px] font-medium border transition-all border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary">
+        <span class="material-symbols-outlined text-[13px]">skillet</span> Ready Mixes
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MOBILE: STICKY FILTER BAR ─── -->
+<div class="lg:hidden sticky top-[52px] z-30 bg-surface/95 backdrop-blur-xl border-b border-outline-variant/30 mobile-filter-bar px-4 py-2.5">
+  <div class="flex items-center gap-2">
+    <!-- Mobile search -->
+    <div class="flex items-center gap-2 bg-surface-container rounded-full px-3 py-2 flex-1 border border-outline-variant/50">
+      <span class="material-symbols-outlined text-on-surface-variant text-[16px]">search</span>
+      <input id="search-mobile" type="text" placeholder="Search…" class="bg-transparent border-none outline-none text-[12px] text-on-surface placeholder:text-outline flex-1 w-full" oninput="handleSearch(this.value)"/>
+    </div>
+    <!-- Filter button -->
+    <button onclick="openFilterDrawer()" class="flex items-center gap-1.5 bg-surface-container border border-outline-variant/50 rounded-full px-3 py-2 text-[12px] font-medium text-on-surface transition-colors active:bg-primary-fixed">
+      <span class="material-symbols-outlined text-[16px]">tune</span>
+      <span>Filter</span>
+      <span id="mobile-filter-badge" class="hidden w-4 h-4 rounded-full bg-primary text-on-primary text-[9px] font-bold flex items-center justify-center">0</span>
+    </button>
+    <!-- Sort dropdown -->
+    <div class="relative">
+      <button onclick="toggleSortMenu()" id="sort-btn" class="flex items-center gap-1 bg-surface-container border border-outline-variant/50 rounded-full px-3 py-2 text-[12px] font-medium text-on-surface">
+        <span class="material-symbols-outlined text-[16px]">sort</span>
+        <span id="sort-label-mobile">Sort</span>
+      </button>
+      <div id="sort-menu" class="hidden absolute right-0 top-full mt-2 bg-surface border border-outline-variant/40 rounded-2xl shadow-xl overflow-hidden w-48 z-50">
+        <button onclick="setSort('featured')" data-sort="featured" class="sort-option w-full text-left px-4 py-3 text-[13px] text-on-surface hover:bg-surface-container-low flex items-center gap-2 font-medium">
+          <span class="material-symbols-outlined text-[16px] text-primary">star</span> Featured
+        </button>
+        <button onclick="setSort('price-asc')" data-sort="price-asc" class="sort-option w-full text-left px-4 py-3 text-[13px] text-on-surface hover:bg-surface-container-low flex items-center gap-2">
+          <span class="material-symbols-outlined text-[16px] text-on-surface-variant">arrow_upward</span> Price: Low → High
+        </button>
+        <button onclick="setSort('price-desc')" data-sort="price-desc" class="sort-option w-full text-left px-4 py-3 text-[13px] text-on-surface hover:bg-surface-container-low flex items-center gap-2">
+          <span class="material-symbols-outlined text-[16px] text-on-surface-variant">arrow_downward</span> Price: High → Low
+        </button>
+        <button onclick="setSort('rating')" data-sort="rating" class="sort-option w-full text-left px-4 py-3 text-[13px] text-on-surface hover:bg-surface-container-low flex items-center gap-2">
+          <span class="material-symbols-outlined text-[16px] text-on-surface-variant">grade</span> Top Rated
+        </button>
+        <button onclick="setSort('newest')" data-sort="newest" class="sort-option w-full text-left px-4 py-3 text-[13px] text-on-surface hover:bg-surface-container-low flex items-center gap-2">
+          <span class="material-symbols-outlined text-[16px] text-on-surface-variant">new_releases</span> New Arrivals
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── PRODUCTS + SIDEBAR SECTION ─── -->
+<section class="py-5 md:py-10 px-4 md:px-container-padding bg-background">
+  <div class="max-w-7xl mx-auto flex gap-6 xl:gap-8 items-start">
+
+    <!-- ─── SIDEBAR (Desktop only) ─── -->
+    <aside class="hidden lg:block w-60 xl:w-64 shrink-0 sticky top-28">
+      <div class="bg-surface rounded-[20px] border border-outline-variant/40 shadow-sm overflow-hidden">
+
+        <!-- Sidebar Header -->
+        <div class="flex items-center justify-between px-5 py-4 border-b border-outline-variant/30">
+          <div class="flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-[20px]">tune</span>
+            <span class="font-semibold text-[15px] text-on-surface">Filters</span>
+          </div>
+          <button onclick="clearAllFilters()" class="text-[11px] text-primary font-medium hover:underline underline-offset-2 transition-colors">Clear All</button>
+        </div>
+
+        <div class="p-4 space-y-0">
+          <!-- Category Section -->
+          <div class="sidebar-section pb-4 mb-4">
+            <h3 class="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-3">Category</h3>
+            <div class="space-y-1" id="category-list">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Price Range Section -->
+          <div class="sidebar-section pb-4 mb-4">
+            <h3 class="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-3">Max Price</h3>
+            <div>
+              <div class="flex items-center justify-between mb-2.5">
+                <span class="text-[12px] text-on-surface-variant">৳0</span>
+                <span id="price-display-desktop" class="text-[13px] font-bold text-on-surface px-2.5 py-1 rounded-full" style="background: #ffdbd0">৳1000</span>
+              </div>
+              <input type="range" id="price-slider-desktop" min="0" max="1000" value="1000" step="10" class="range-styled" oninput="handlePriceChange(this.value)"/>
+              <div class="flex justify-between mt-1.5">
+                <span class="text-[10px] text-on-surface-variant">Budget</span>
+                <span class="text-[10px] text-on-surface-variant">Premium</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sort By Section -->
+          <div class="sidebar-section pb-4 mb-4">
+            <h3 class="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-3">Sort By</h3>
+            <div class="flex flex-col gap-1" id="sort-list">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- Tags Section -->
+          <div class="pb-2">
+            <h3 class="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-3">Product Tags</h3>
+            <div class="flex flex-wrap gap-1.5" id="tag-list">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ─── PRODUCTS AREA ─── -->
+    <div class="flex-1 min-w-0">
+
+      <!-- Desktop: Sort bar + results -->
+      <div class="hidden lg:flex items-center justify-between mb-4">
+        <div class="flex items-center gap-2">
+          <span id="results-count-text" class="text-[14px] font-medium text-on-surface"></span>
+          <span id="results-search-label" class="text-[14px] text-on-surface-variant hidden"></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-[13px] text-on-surface-variant">Sort:</span>
+          <div class="flex gap-1.5 flex-wrap justify-end" id="sort-pills-desktop">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Filter Chips -->
+      <div id="active-filter-row" class="hidden flex flex-wrap gap-2 mb-4"></div>
+
+      <!-- Product Grid -->
+      <div id="product-grid" class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3 md:gap-4 xl:gap-5">
+        <!-- Products rendered by JS -->
+      </div>
+
+      <!-- No Results -->
+      <div id="no-results" class="hidden text-center py-20">
+        <div class="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center" style="background: #ffdbd0">
+          <span class="material-symbols-outlined text-primary text-[28px]">search_off</span>
+        </div>
+        <h3 class="font-semibold text-[18px] text-on-surface mb-2">No products found</h3>
+        <p class="text-on-surface-variant text-[14px] mb-6">Try adjusting your filters or search term.</p>
+        <button onclick="clearAllFilters()" class="inline-flex items-center gap-2 bg-primary text-on-primary px-6 py-3 rounded-full text-[14px] font-medium hover:bg-primary/90 transition-colors">
+          <span class="material-symbols-outlined text-[16px]">refresh</span>
+          Clear Filters
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ─── MOBILE FILTER DRAWER ─── -->
+<div id="filter-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 hidden opacity-0 filter-overlay" onclick="closeFilterDrawer()"></div>
+<div id="filter-drawer" class="fixed bottom-0 left-0 right-0 bg-surface z-50 filter-drawer translate-y-full" style="border-radius: 24px 24px 0 0; max-height: 88vh;">
+  <!-- Drawer Handle -->
+  <div class="flex items-center justify-center pt-3 pb-2">
+    <div class="w-9 h-1 rounded-full" style="background: #ddc0b8"></div>
+  </div>
+  <!-- Drawer Header -->
+  <div class="flex items-center justify-between px-5 py-3 border-b border-outline-variant/30">
+    <div class="flex items-center gap-2">
+      <span class="material-symbols-outlined text-primary text-[20px]">tune</span>
+      <span class="font-bold text-[16px] text-on-surface">Filters & Sort</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <button onclick="clearAllFilters()" class="text-[13px] text-primary font-medium">Clear All</button>
+      <button onclick="closeFilterDrawer()" class="w-8 h-8 rounded-full flex items-center justify-center transition-colors" style="background: #f3ede2">
+        <span class="material-symbols-outlined text-[18px] text-on-surface">close</span>
+      </button>
+    </div>
+  </div>
+  <!-- Drawer Content -->
+  <div class="overflow-y-auto pb-28" style="max-height: calc(88vh - 100px)">
+    <div class="px-5 py-4 space-y-6">
+
+      <!-- Mobile Sort -->
+      <div>
+        <h3 class="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-3">Sort By</h3>
+        <div class="grid grid-cols-2 gap-2" id="sort-grid-mobile">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Mobile Category -->
+      <div class="border-t border-outline-variant/25 pt-5">
+        <h3 class="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-3">Category</h3>
+        <div class="space-y-1.5" id="category-list-mobile">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Mobile Price Range -->
+      <div class="border-t border-outline-variant/25 pt-5">
+        <h3 class="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-3">Max Price</h3>
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-[13px] text-on-surface-variant">৳0</span>
+          <span id="price-display-mobile" class="text-[14px] font-bold text-on-surface px-3 py-1 rounded-full" style="background: #ffdbd0">৳1000</span>
+        </div>
+        <input type="range" id="price-slider-mobile" min="0" max="1000" value="1000" step="10" class="range-styled" oninput="handlePriceChange(this.value)"/>
+      </div>
+
+      <!-- Mobile Tags -->
+      <div class="border-t border-outline-variant/25 pt-5">
+        <h3 class="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-3">Product Tags</h3>
+        <div class="flex flex-wrap gap-2" id="tag-list-mobile">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Apply Button -->
+  <div class="absolute bottom-0 left-0 right-0 px-5 py-4 bg-surface border-t border-outline-variant/30">
+    <button onclick="closeFilterDrawer()" class="w-full bg-primary text-on-primary font-bold py-4 rounded-2xl text-[15px] flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors">
+      <span class="material-symbols-outlined text-[18px]">check</span>
+      <span id="apply-btn-text">Show All Products</span>
+    </button>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="bg-surface w-full py-12 md:py-section-gap border-t border-outline-variant/20">
+  <div class="max-w-7xl mx-auto px-6 md:px-container-padding">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10 mb-10 md:mb-16">
+      <div class="col-span-2 md:col-span-1">
+        <div class="font-display-xl text-headline-md text-primary flex items-center gap-2 mb-3">
+          <span class="material-symbols-outlined">shopping_basket</span>Shuddhota Co.
+        </div>
+        <p class="text-[12px] md:text-body-md text-on-surface-variant mb-4 max-w-[220px]">Pure spices and premium dry foods, delivered fresh from farms to your kitchen.</p>
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center hover:bg-primary hover:text-on-primary cursor-pointer transition-colors"><span class="material-symbols-outlined text-[15px]">public</span></div>
+          <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center hover:bg-primary hover:text-on-primary cursor-pointer transition-colors"><span class="material-symbols-outlined text-[15px]">camera_alt</span></div>
+          <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center hover:bg-primary hover:text-on-primary cursor-pointer transition-colors"><span class="material-symbols-outlined text-[15px]">chat</span></div>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-[11px] md:text-body-md font-semibold text-on-surface mb-3 uppercase tracking-wider">Shop</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Whole Spices</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Ground Masalas</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Dry Fruits & Nuts</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Dals & Pulses</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Ready Mixes</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-[11px] md:text-body-md font-semibold text-on-surface mb-3 uppercase tracking-wider">Help</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Order Tracking</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Returns & Refunds</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Shipping Info</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-[11px] md:text-body-md font-semibold text-on-surface mb-3 uppercase tracking-wider">Company</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">About Us</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Our Story</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Wholesale</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-outline-variant/20 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-on-surface-variant text-[11px] md:text-sm">© 2024 Shuddhota Co. Pure spices, bold flavors.</p>
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30">
+          <span class="material-symbols-outlined text-secondary text-[14px]">verified</span>
+          <span class="text-[10px] md:text-[12px] text-on-surface-variant font-medium">BSTI Certified</span>
+        </div>
+        <div class="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30">
+          <span class="material-symbols-outlined text-secondary text-[14px]">eco</span>
+          <span class="text-[10px] md:text-[12px] text-on-surface-variant font-medium">100% Natural</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ──────────────────────────────────────────────
+//  PRODUCT DATA
+// ──────────────────────────────────────────────
+const ALL_PRODUCTS = [
+  // ─ WHOLE SPICES ─
+  { id:1, name:'Green Cardamom', category:'whole-spices', catLabel:'Whole Spice', price:349, originalPrice:null, weight:'50g', origin:'Kerala Origin', rating:5, reviews:267, badge:'bestseller', bgGradient:'linear-gradient(135deg,#bbe9ff,#80b1c7)', iconName:'spa', iconColor:'#326578', circleColor:'rgba(50,101,120,0.18)', tags:['bestseller'], order:6 },
+  { id:2, name:'Black Pepper', category:'whole-spices', catLabel:'Whole Spice', price:189, originalPrice:229, weight:'100g', origin:'Malabar Grade', rating:5, reviews:198, badge:'sale', bgGradient:'linear-gradient(135deg,#ede8dd,#ffdbd0)', iconName:'grain', iconColor:'#56423c', circleColor:'rgba(86,66,60,0.14)', tags:['sale'], order:9 },
+  { id:3, name:'Cumin Seeds', category:'whole-spices', catLabel:'Whole Spice', price:129, originalPrice:null, weight:'200g', origin:'Rajasthan Premium', rating:4, reviews:145, badge:null, bgGradient:'linear-gradient(135deg,#d6ed7a,#bbd062)', iconName:'grass', iconColor:'#556500', circleColor:'rgba(85,101,0,0.15)', tags:['organic'], order:14 },
+  { id:4, name:'Cloves (Lavang)', category:'whole-spices', catLabel:'Whole Spice', price:299, originalPrice:null, weight:'50g', origin:'Zanzibar Select', rating:5, reviews:89, badge:'new', bgGradient:'linear-gradient(135deg,#ff8a65,rgba(159,65,34,0.18))', iconName:'local_fire_department', iconColor:'#9f4122', circleColor:'rgba(159,65,34,0.15)', tags:['new'], order:11 },
+  { id:5, name:'Cinnamon Sticks', category:'whole-spices', catLabel:'Whole Spice', price:159, originalPrice:null, weight:'100g', origin:'Ceylon Grade A', rating:4, reviews:176, badge:null, bgGradient:'linear-gradient(135deg,#d6ed7a,#bbd062)', iconName:'water_drop', iconColor:'#556500', circleColor:'rgba(85,101,0,0.14)', tags:['organic'], order:17 },
+  // ─ GROUND MASALAS ─
+  { id:6, name:'Garam Masala Blend', category:'ground-masalas', catLabel:'Ground Masala', price:249, originalPrice:null, weight:'200g', origin:'Premium Grade', rating:5, reviews:428, badge:'bestseller', bgGradient:'linear-gradient(135deg,#ff8a65,rgba(159,65,34,0.18))', iconName:'local_fire_department', iconColor:'#9f4122', circleColor:'rgba(159,65,34,0.16)', tags:['bestseller'], order:1 },
+  { id:7, name:'Biryani Masala', category:'ground-masalas', catLabel:'Ground Masala', price:199, originalPrice:null, weight:'150g', origin:'Special Blend', rating:4, reviews:186, badge:'new', bgGradient:'linear-gradient(135deg,#d6ed7a,rgba(187,208,98,0.55))', iconName:'soup_kitchen', iconColor:'#556500', circleColor:'rgba(85,101,0,0.13)', tags:['new'], order:8 },
+  { id:8, name:'Turmeric Powder', category:'ground-masalas', catLabel:'Ground Masala', price:89, originalPrice:null, weight:'250g', origin:'Organic Certified', rating:5, reviews:312, badge:null, bgGradient:'linear-gradient(135deg,#d6ed7a,#bbd062)', iconName:'eco', iconColor:'#556500', circleColor:'rgba(85,101,0,0.16)', tags:['organic'], order:16 },
+  { id:9, name:'Red Chilli Powder', category:'ground-masalas', catLabel:'Ground Masala', price:99, originalPrice:125, weight:'200g', origin:'Guntur Premium', rating:4, reviews:203, badge:'sale', bgGradient:'linear-gradient(135deg,#ffdbd0,rgba(255,181,158,0.5))', iconName:'local_fire_department', iconColor:'#9f4122', circleColor:'rgba(159,65,34,0.13)', tags:['sale'], order:15 },
+  { id:10, name:'Curry Powder', category:'ground-masalas', catLabel:'Ground Masala', price:149, originalPrice:null, weight:'200g', origin:'Traditional Blend', rating:5, reviews:278, badge:null, bgGradient:'linear-gradient(135deg,#ede8dd,#ffdbd0)', iconName:'rice_bowl', iconColor:'#56423c', circleColor:'rgba(86,66,60,0.12)', tags:[], order:19 },
+  // ─ DRY FRUITS & NUTS ─
+  { id:11, name:'Premium Almonds', category:'dry-fruits', catLabel:'Dry Fruits & Nuts', price:649, originalPrice:null, weight:'500g', origin:'California Grade A', rating:5, reviews:312, badge:'bestseller', bgGradient:'linear-gradient(135deg,#ede8dd,#ffdbd0)', iconName:'nutrition', iconColor:'#56423c', circleColor:'rgba(86,66,60,0.12)', tags:['bestseller'], order:2 },
+  { id:12, name:'Premium Cashews', category:'dry-fruits', catLabel:'Dry Fruits & Nuts', price:549, originalPrice:null, weight:'250g', origin:'W240 Grade', rating:5, reviews:245, badge:null, bgGradient:'linear-gradient(135deg,#d6ed7a,rgba(187,208,98,0.5))', iconName:'grain', iconColor:'#556500', circleColor:'rgba(85,101,0,0.12)', tags:[], order:12 },
+  { id:13, name:'Mixed Dry Fruits', category:'dry-fruits', catLabel:'Dry Fruits & Nuts', price:719, originalPrice:899, weight:'250g', origin:'Premium Selection', rating:4, reviews:193, badge:'sale', bgGradient:'linear-gradient(135deg,#ffdbd0,rgba(255,181,158,0.5))', iconName:'shopping_basket', iconColor:'#9f4122', circleColor:'rgba(159,65,34,0.13)', tags:['sale'], order:7 },
+  { id:14, name:'Golden Raisins', category:'dry-fruits', catLabel:'Dry Fruits & Nuts', price:249, originalPrice:null, weight:'500g', origin:'Afghanistan Premium', rating:4, reviews:167, badge:null, bgGradient:'linear-gradient(135deg,#bbe9ff,#9ccee4)', iconName:'local_florist', iconColor:'#326578', circleColor:'rgba(50,101,120,0.15)', tags:['organic'], order:18 },
+  { id:15, name:'Pistachios', category:'dry-fruits', catLabel:'Dry Fruits & Nuts', price:849, originalPrice:null, weight:'200g', origin:'Iran Premium', rating:5, reviews:134, badge:'new', bgGradient:'linear-gradient(135deg,#d6ed7a,rgba(187,208,98,0.55))', iconName:'eco', iconColor:'#556500', circleColor:'rgba(85,101,0,0.15)', tags:['new'], order:10 },
+  // ─ DALS & PULSES ─
+  { id:16, name:'Yellow Moong Dal', category:'dals-pulses', catLabel:'Dals & Pulses', price:149, originalPrice:185, weight:'1kg', origin:'Premium Washed', rating:5, reviews:541, badge:'sale', bgGradient:'linear-gradient(135deg,#d6ed7a,#bbd062)', iconName:'set_meal', iconColor:'#1d1c15', circleColor:'rgba(29,28,21,0.1)', tags:['sale','bestseller'], order:3 },
+  { id:17, name:'Red Masoor Dal', category:'dals-pulses', catLabel:'Dals & Pulses', price:135, originalPrice:null, weight:'1kg', origin:'Premium Quality', rating:4, reviews:398, badge:null, bgGradient:'linear-gradient(135deg,#ff8a65,rgba(159,65,34,0.18))', iconName:'grain', iconColor:'#9f4122', circleColor:'rgba(159,65,34,0.15)', tags:[], order:13 },
+  { id:18, name:'Chana Dal', category:'dals-pulses', catLabel:'Dals & Pulses', price:125, originalPrice:null, weight:'1kg', origin:'Rajasthan Select', rating:5, reviews:287, badge:null, bgGradient:'linear-gradient(135deg,#bbe9ff,#9ccee4)', iconName:'spa', iconColor:'#326578', circleColor:'rgba(50,101,120,0.15)', tags:['organic'], order:20 },
+  // ─ READY MIXES ─
+  { id:19, name:'Halwa Mix', category:'ready-mixes', catLabel:'Ready Mix', price:249, originalPrice:null, weight:'500g', origin:'Traditional Recipe', rating:4, reviews:112, badge:'new', bgGradient:'linear-gradient(135deg,#d6ed7a,rgba(187,208,98,0.6))', iconName:'skillet', iconColor:'#556500', circleColor:'rgba(85,101,0,0.12)', tags:['new'], order:5 },
+  { id:20, name:'Khichdi Mix', category:'ready-mixes', catLabel:'Ready Mix', price:179, originalPrice:null, weight:'500g', origin:'Healthy Blend', rating:5, reviews:89, badge:null, bgGradient:'linear-gradient(135deg,#ede8dd,rgba(221,192,184,0.3))', iconName:'rice_bowl', iconColor:'#56423c', circleColor:'rgba(86,66,60,0.12)', tags:['organic'], order:4 },
+];
+
+const CATEGORIES = [
+  { value:'all', label:'All Products', icon:'grid_view' },
+  { value:'whole-spices', label:'Whole Spices', icon:'local_fire_department' },
+  { value:'ground-masalas', label:'Ground Masalas', icon:'soup_kitchen' },
+  { value:'dry-fruits', label:'Dry Fruits & Nuts', icon:'nutrition' },
+  { value:'dals-pulses', label:'Dals & Pulses', icon:'grain' },
+  { value:'ready-mixes', label:'Ready Mixes', icon:'skillet' },
+];
+
+const SORT_OPTIONS = [
+  { value:'featured', label:'Featured', icon:'star' },
+  { value:'price-asc', label:'Price: Low → High', icon:'arrow_upward' },
+  { value:'price-desc', label:'Price: High → Low', icon:'arrow_downward' },
+  { value:'rating', label:'Top Rated', icon:'grade' },
+  { value:'newest', label:'New Arrivals', icon:'new_releases' },
+];
+
+const TAGS = [
+  { value:'bestseller', label:'Bestseller', color:'#9f4122' },
+  { value:'new', label:'New', color:'#326578' },
+  { value:'sale', label:'On Sale', color:'#ba1a1a' },
+  { value:'organic', label:'Organic', color:'#556500' },
+];
+
+// ──────────────────────────────────────────────
+//  FILTER STATE
+// ──────────────────────────────────────────────
+let state = {
+  category: 'all',
+  maxPrice: 1000,
+  tags: [],
+  sort: 'featured',
+  search: ''
+};
+
+let cartCount = 0;
+
+// ──────────────────────────────────────────────
+//  HELPERS
+// ──────────────────────────────────────────────
+function getCategoryCount(cat) {
+  if (cat === 'all') return ALL_PRODUCTS.length;
+  return ALL_PRODUCTS.filter(p => p.category === cat).length;
+}
+
+function getFilteredProducts() {
+  let arr = [...ALL_PRODUCTS];
+  if (state.category !== 'all') arr = arr.filter(p => p.category === state.category);
+  arr = arr.filter(p => p.price <= state.maxPrice);
+  if (state.tags.length > 0) arr = arr.filter(p => state.tags.every(t => p.tags.includes(t)));
+  if (state.search.trim()) {
+    const q = state.search.trim().toLowerCase();
+    arr = arr.filter(p => p.name.toLowerCase().includes(q) || p.catLabel.toLowerCase().includes(q) || p.origin.toLowerCase().includes(q));
+  }
+  switch(state.sort) {
+    case 'price-asc': arr.sort((a,b) => a.price - b.price); break;
+    case 'price-desc': arr.sort((a,b) => b.price - a.price); break;
+    case 'rating': arr.sort((a,b) => b.rating - a.rating || b.reviews - a.reviews); break;
+    case 'newest': arr.sort((a,b) => (b.badge==='new'?1:0) - (a.badge==='new'?1:0) || a.id - b.id); break;
+    default: arr.sort((a,b) => a.order - b.order);
+  }
+  return arr;
+}
+
+function getActiveFilterCount() {
+  let n = 0;
+  if (state.category !== 'all') n++;
+  if (state.maxPrice < 1000) n++;
+  n += state.tags.length;
+  return n;
+}
+
+function getStars(rating) {
+  return [1,2,3,4,5].map(i =>
+    `<span style="color:${i<=rating?'#9f4122':'#ddc0b8'};font-size:11px">${i<=rating?'★':'☆'}</span>`
+  ).join('');
+}
+
+function getBadgeHTML(p) {
+  if (!p.badge) return '';
+  if (p.badge === 'bestseller') return `<div style="position:absolute;top:10px;left:10px;background:#1d1c15;color:#fff9ee;font-size:8px;font-weight:700;padding:3px 8px;border-radius:999px;letter-spacing:0.08em;text-transform:uppercase">Bestseller</div>`;
+  if (p.badge === 'new') return `<div style="position:absolute;top:10px;right:10px;background:#9f4122;color:white;font-size:8px;font-weight:700;padding:3px 8px;border-radius:999px;text-transform:uppercase">New</div>`;
+  if (p.badge === 'sale') {
+    const disc = p.originalPrice ? Math.round((1 - p.price/p.originalPrice)*100) : 0;
+    return `<div style="position:absolute;top:10px;left:10px;background:#ba1a1a;color:white;font-size:8px;font-weight:700;padding:3px 8px;border-radius:999px;text-transform:uppercase">${disc}% OFF</div>`;
+  }
+  return '';
+}
+
+function getPriceHTML(p) {
+  if (p.originalPrice) {
+    return `<div style="display:flex;align-items:baseline;gap:4px"><span style="font-weight:800;font-size:clamp(15px,2.5vw,20px);color:#1d1c15">৳${p.price}</span><span style="font-size:11px;color:#89726b;text-decoration:line-through">৳${p.originalPrice}</span></div>`;
+  }
+  return `<span style="font-weight:800;font-size:clamp(15px,2.5vw,20px);color:#1d1c15">৳${p.price}</span>`;
+}
+
+// ──────────────────────────────────────────────
+//  RENDER PRODUCT CARD
+// ──────────────────────────────────────────────
+function renderCard(p, idx) {
+  const delay = Math.min(idx * 40, 300);
+  return `
+  <div class="product-card card-animate" style="background:#fff9ee;border-radius:20px;border:1px solid rgba(221,192,184,0.45);box-shadow:0 2px 12px rgba(159,65,34,0.06);overflow:hidden;display:flex;flex-direction:column;animation-delay:${delay}ms">
+    <div style="height:clamp(130px,22vw,200px);position:relative;overflow:hidden;padding:14px;display:flex;align-items:flex-end;background:${p.bgGradient}">
+      ${getBadgeHTML(p)}
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+        <div style="width:clamp(56px,10vw,88px);height:clamp(56px,10vw,88px);border-radius:50%;background:${p.circleColor}"></div>
+      </div>
+      <div style="position:relative;z-index:10;background:rgba(255,249,238,0.92);backdrop-filter:blur(8px);border-radius:12px;padding:7px 9px;border:1px solid rgba(255,255,255,0.6);box-shadow:0 2px 8px rgba(0,0,0,0.08)">
+        <span class="material-symbols-outlined" style="font-size:clamp(16px,3vw,22px);color:${p.iconColor};display:block;line-height:1">${p.iconName}</span>
+      </div>
+    </div>
+    <div style="padding:clamp(10px,3vw,18px);display:flex;flex-direction:column;flex:1">
+      <div style="display:flex;align-items:center;gap:3px;margin-bottom:2px">
+        ${getStars(p.rating)}
+        <span style="font-size:10px;color:#56423c;margin-left:3px">(${p.reviews})</span>
+      </div>
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:#556500;margin-bottom:3px">${p.catLabel}</div>
+      <h4 style="font-weight:700;font-size:clamp(12px,2.2vw,16px);line-height:1.25;color:#1d1c15;margin-bottom:3px">${p.name}</h4>
+      <p style="font-size:clamp(10px,1.8vw,13px);color:#56423c;margin-bottom:10px">${p.weight} · ${p.origin}</p>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:auto">
+        ${getPriceHTML(p)}
+        <button onclick="addToCart(${p.id})" style="background:#9f4122;color:white;border:none;cursor:pointer;font-size:clamp(10px,1.8vw,13px);font-weight:600;padding:clamp(6px,1.2vw,9px) clamp(9px,2vw,16px);border-radius:999px;display:flex;align-items:center;gap:5px;transition:opacity 0.2s;font-family:inherit" onmouseenter="this.style.opacity='0.85'" onmouseleave="this.style.opacity='1'">
+          <span class="material-symbols-outlined" style="font-size:clamp(12px,2vw,16px)">add_shopping_cart</span>
+          <span style="display:none" class="add-label">Add</span>
+        </button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ──────────────────────────────────────────────
+//  RENDER UI
+// ──────────────────────────────────────────────
+function renderProducts() {
+  const filtered = getFilteredProducts();
+  const grid = document.getElementById('product-grid');
+  const noRes = document.getElementById('no-results');
+
+  // Show "Add" label on desktop
+  const isMd = window.innerWidth >= 640;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '';
+    noRes.classList.remove('hidden');
+  } else {
+    noRes.classList.add('hidden');
+    grid.innerHTML = filtered.map((p,i) => renderCard(p,i)).join('');
+    // show "Add" text for sm+
+    if (window.innerWidth >= 480) {
+      grid.querySelectorAll('.add-label').forEach(el => el.style.display='inline');
+    }
+  }
+
+  // Results count
+  const countEl = document.getElementById('results-count-text');
+  const searchLabel = document.getElementById('results-search-label');
+  if (countEl) {
+    countEl.textContent = `${filtered.length} product${filtered.length !== 1 ? 's' : ''}`;
+  }
+  if (searchLabel) {
+    if (state.search.trim()) {
+      searchLabel.textContent = `for "${state.search.trim()}"`;
+      searchLabel.classList.remove('hidden');
+    } else {
+      searchLabel.classList.add('hidden');
+    }
+  }
+
+  // Apply button text
+  const applyBtn = document.getElementById('apply-btn-text');
+  if (applyBtn) applyBtn.textContent = `Show ${filtered.length} Product${filtered.length !== 1 ? 's' : ''}`;
+
+  renderActiveFilters();
+  updateMobileFilterBadge();
+  updateSortHighlight();
+  updateCategoryHighlight();
+  updateTagHighlight();
+  updatePriceSliders();
+  updateQuickPills();
+}
+
+function renderActiveFilters() {
+  const row = document.getElementById('active-filter-row');
+  if (!row) return;
+  const chips = [];
+
+  if (state.category !== 'all') {
+    const cat = CATEGORIES.find(c => c.value === state.category);
+    chips.push({ label: cat ? cat.label : state.category, action: `clearCategory()` });
+  }
+  if (state.maxPrice < 1000) {
+    chips.push({ label: `Under ৳${state.maxPrice}`, action: `clearPrice()` });
+  }
+  state.tags.forEach(t => {
+    const tag = TAGS.find(x => x.value === t);
+    chips.push({ label: tag ? tag.label : t, action: `removeTag('${t}')` });
+  });
+  if (state.search.trim()) {
+    chips.push({ label: `"${state.search.trim()}"`, action: `clearSearch()` });
+  }
+
+  if (chips.length === 0) {
+    row.classList.add('hidden');
+    return;
+  }
+  row.classList.remove('hidden');
+  row.innerHTML = chips.map(c => `
+    <button onclick="${c.action}" class="filter-chip flex items-center gap-1.5 text-[11px] md:text-[13px] font-medium px-3 py-1.5 rounded-full border transition-all"
+      style="background:#ffdbd0;border-color:rgba(255,181,158,0.6);color:#3a0b00">
+      ${c.label}
+      <span class="material-symbols-outlined" style="font-size:14px;color:#9f4122">close</span>
+    </button>`
+  ).join('');
+}
+
+function renderSidebarCategories() {
+  const list = document.getElementById('category-list');
+  const listM = document.getElementById('category-list-mobile');
+  if (!list) return;
+
+  const makeItem = (cat, isMobile) => {
+    const count = getCategoryCount(cat.value);
+    const isActive = state.category === cat.value;
+    return `
+    <button onclick="setCategory('${cat.value}')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-xl transition-all text-left ${isActive ? 'font-semibold' : 'hover:bg-surface-container'}"
+      style="${isActive ? 'background:#ffdbd0;color:#3a0b00;' : 'color:#1d1c15'}">
+      <div class="flex items-center gap-2.5">
+        <span class="material-symbols-outlined" style="font-size:16px;color:${isActive?'#9f4122':'#56423c'}">${cat.icon}</span>
+        <span style="font-size:${isMobile?'14px':'13px'}">${cat.label}</span>
+      </div>
+      <span style="font-size:11px;padding:1px 7px;border-radius:999px;background:${isActive?'rgba(255,219,208,0.6)':'rgba(221,192,184,0.4)'};color:${isActive?'#9f4122':'#56423c'}">${count}</span>
+    </button>`;
+  };
+
+  list.innerHTML = CATEGORIES.map(c => makeItem(c, false)).join('');
+  if (listM) listM.innerHTML = CATEGORIES.map(c => makeItem(c, true)).join('');
+}
+
+function renderSidebarSort() {
+  const el = document.getElementById('sort-list');
+  const elM = document.getElementById('sort-grid-mobile');
+  const elD = document.getElementById('sort-pills-desktop');
+  if (!el) return;
+
+  // Desktop sidebar list
+  el.innerHTML = SORT_OPTIONS.map(s => {
+    const active = state.sort === s.value;
+    return `<button onclick="setSort('${s.value}')" class="flex items-center gap-2 px-3 py-2 rounded-xl transition-all text-left w-full"
+      style="${active?'background:#1d1c15;color:#fff9ee;font-weight:600':'color:#1d1c15'}">
+      <span class="material-symbols-outlined" style="font-size:15px;color:${active?'#ffb59e':'#56423c'}">${s.icon}</span>
+      <span style="font-size:12px">${s.label}</span>
+    </button>`;
+  }).join('');
+
+  // Mobile bottom drawer grid
+  if (elM) {
+    elM.innerHTML = SORT_OPTIONS.map(s => {
+      const active = state.sort === s.value;
+      return `<button onclick="setSort('${s.value}')" class="flex items-center gap-2 px-3 py-3 rounded-2xl border transition-all text-left"
+        style="${active?'background:#1d1c15;color:#fff9ee;border-color:#1d1c15;font-weight:600':'background:#f3ede2;color:#1d1c15;border-color:rgba(221,192,184,0.4)'}">
+        <span class="material-symbols-outlined" style="font-size:16px;color:${active?'#ffb59e':'#56423c'}">${s.icon}</span>
+        <span style="font-size:12px;line-height:1.3">${s.label}</span>
+      </button>`;
+    }).join('');
+  }
+
+  // Desktop top sort pills
+  if (elD) {
+    elD.innerHTML = SORT_OPTIONS.map(s => {
+      const active = state.sort === s.value;
+      return `<button onclick="setSort('${s.value}')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[12px] transition-all"
+        style="${active?'background:#1d1c15;color:#fff9ee;border-color:#1d1c15;font-weight:600':'background:#f9f3e8;color:#56423c;border-color:rgba(221,192,184,0.5)'}">
+        <span class="material-symbols-outlined" style="font-size:14px;color:${active?'#ffb59e':'#89726b'}">${s.icon}</span>
+        ${s.label}
+      </button>`;
+    }).join('');
+  }
+}
+
+function renderSidebarTags() {
+  const el = document.getElementById('tag-list');
+  const elM = document.getElementById('tag-list-mobile');
+  if (!el) return;
+
+  const makeTag = (t) => {
+    const active = state.tags.includes(t.value);
+    return `<button onclick="toggleTag('${t.value}')" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-[12px] md:text-[13px] font-medium transition-all"
+      style="${active?`background:${t.color};color:white;border-color:${t.color}`:`background:#f3ede2;color:#56423c;border-color:rgba(221,192,184,0.5)`}">
+      ${active?`<span class="material-symbols-outlined" style="font-size:13px">check</span>`:''}
+      ${t.label}
+    </button>`;
+  };
+
+  el.innerHTML = TAGS.map(makeTag).join('');
+  if (elM) elM.innerHTML = TAGS.map(makeTag).join('');
+}
+
+function updateMobileFilterBadge() {
+  const badge = document.getElementById('mobile-filter-badge');
+  if (!badge) return;
+  const count = getActiveFilterCount();
+  if (count > 0) {
+    badge.textContent = count;
+    badge.classList.remove('hidden');
+    badge.style.display = 'flex';
+  } else {
+    badge.classList.add('hidden');
+  }
+}
+
+function updateSortHighlight() {
+  document.querySelectorAll('.sort-option').forEach(btn => {
+    const isActive = btn.dataset.sort === state.sort;
+    btn.style.background = isActive ? '#f9f3e8' : '';
+    btn.style.fontWeight = isActive ? '700' : '';
+    btn.style.color = isActive ? '#9f4122' : '';
+  });
+  const label = document.getElementById('sort-label-mobile');
+  if (label) {
+    const s = SORT_OPTIONS.find(x => x.value === state.sort);
+    label.textContent = s ? s.label.split(':')[0] : 'Sort';
+  }
+}
+
+function updateCategoryHighlight() {
+  renderSidebarCategories();
+}
+
+function updateTagHighlight() {
+  renderSidebarTags();
+  renderSidebarSort();
+}
+
+function updatePriceSliders() {
+  const pct = (state.maxPrice / 1000) * 100;
+  ['desktop', 'mobile'].forEach(t => {
+    const slider = document.getElementById(`price-slider-${t}`);
+    const display = document.getElementById(`price-display-${t}`);
+    if (slider) { slider.value = state.maxPrice; slider.style.setProperty('--val', pct + '%'); }
+    if (display) display.textContent = `৳${state.maxPrice}`;
+  });
+}
+
+function updateQuickPills() {
+  document.querySelectorAll('.qcat-pill').forEach(btn => {
+    const cat = btn.dataset.qcat;
+    const isActive = cat === state.category;
+    if (isActive) {
+      btn.style.cssText = 'background:#1d1c15;color:#fff9ee;border-color:#1d1c15;font-weight:700';
+    } else {
+      btn.style.cssText = 'background:transparent;color:#56423c;border-color:rgba(221,192,184,0.6);font-weight:500';
+    }
+  });
+}
+
+// ──────────────────────────────────────────────
+//  ACTIONS
+// ──────────────────────────────────────────────
+function setCategory(val) {
+  state.category = val;
+  renderProducts();
+  renderSidebarCategories();
+}
+
+function setCategoryQuick(val) {
+  state.category = val;
+  renderProducts();
+}
+
+function handlePriceChange(val) {
+  state.maxPrice = parseInt(val);
+  updatePriceSliders();
+  renderProducts();
+}
+
+function toggleTag(val) {
+  if (state.tags.includes(val)) {
+    state.tags = state.tags.filter(t => t !== val);
+  } else {
+    state.tags.push(val);
+  }
+  renderProducts();
+  renderSidebarTags();
+}
+
+function setSort(val) {
+  state.sort = val;
+  document.getElementById('sort-menu')?.classList.add('hidden');
+  renderProducts();
+  renderSidebarSort();
+  renderSidebarCategories();
+}
+
+function handleSearch(val) {
+  state.search = val;
+  // sync both inputs
+  const d = document.getElementById('search-desktop');
+  const m = document.getElementById('search-mobile');
+  if (d && d.value !== val) d.value = val;
+  if (m && m.value !== val) m.value = val;
+  renderProducts();
+}
+
+function clearCategory() { state.category = 'all'; renderProducts(); renderSidebarCategories(); }
+function clearPrice() { state.maxPrice = 1000; renderProducts(); updatePriceSliders(); }
+function removeTag(val) { state.tags = state.tags.filter(t => t !== val); renderProducts(); renderSidebarTags(); }
+function clearSearch() { state.search = ''; document.getElementById('search-desktop').value = ''; document.getElementById('search-mobile').value = ''; renderProducts(); }
+
+function clearAllFilters() {
+  state.category = 'all';
+  state.maxPrice = 1000;
+  state.tags = [];
+  state.sort = 'featured';
+  state.search = '';
+  document.getElementById('search-desktop').value = '';
+  document.getElementById('search-mobile').value = '';
+  renderProducts();
+  renderSidebarCategories();
+  renderSidebarTags();
+  renderSidebarSort();
+  updatePriceSliders();
+}
+
+function addToCart(id) {
+  cartCount++;
+  document.getElementById('cart-count').textContent = cartCount;
+  // pulse animation
+  const btn = event.currentTarget;
+  btn.style.transform = 'scale(0.9)';
+  setTimeout(() => { btn.style.transform = 'scale(1)'; }, 120);
+}
+
+// ──────────────────────────────────────────────
+//  MOBILE DRAWER
+// ──────────────────────────────────────────────
+function openFilterDrawer() {
+  const drawer = document.getElementById('filter-drawer');
+  const overlay = document.getElementById('filter-overlay');
+  overlay.classList.remove('hidden');
+  requestAnimationFrame(() => {
+    overlay.style.opacity = '1';
+    drawer.style.transform = 'translateY(0)';
+  });
+  document.body.style.overflow = 'hidden';
+}
+
+function closeFilterDrawer() {
+  const drawer = document.getElementById('filter-drawer');
+  const overlay = document.getElementById('filter-overlay');
+  drawer.style.transform = 'translateY(100%)';
+  overlay.style.opacity = '0';
+  setTimeout(() => { overlay.classList.add('hidden'); }, 330);
+  document.body.style.overflow = '';
+}
+
+// ──────────────────────────────────────────────
+//  SORT MENU (mobile top bar)
+// ──────────────────────────────────────────────
+function toggleSortMenu() {
+  const menu = document.getElementById('sort-menu');
+  menu.classList.toggle('hidden');
+}
+
+// ──────────────────────────────────────────────
+//  NAV
+// ──────────────────────────────────────────────
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobile-menu');
+  const icon = document.getElementById('hamburger-icon');
+  menu.classList.toggle('hidden');
+  icon.textContent = menu.classList.contains('hidden') ? 'menu' : 'close';
+}
+
+// Close sort menu on outside click
+document.addEventListener('click', function(e) {
+  const menu = document.getElementById('sort-menu');
+  const btn = document.getElementById('sort-btn');
+  if (menu && btn && !menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+    menu.classList.add('hidden');
+  }
+  const navMenu = document.getElementById('mobile-menu');
+  const navBtn = document.getElementById('mobile-menu-btn');
+  if (navMenu && navBtn && !navMenu.classList.contains('hidden') && !navMenu.contains(e.target) && !navBtn.contains(e.target)) {
+    navMenu.classList.add('hidden');
+    document.getElementById('hamburger-icon').textContent = 'menu';
+  }
+});
+
+window.addEventListener('resize', function() {
+  if (window.innerWidth >= 768) {
+    document.getElementById('mobile-menu')?.classList.add('hidden');
+    document.getElementById('hamburger-icon').textContent = 'menu';
+  }
+  // re-render to toggle "Add" text
+  const grid = document.getElementById('product-grid');
+  if (grid && grid.children.length > 0) {
+    grid.querySelectorAll('.add-label').forEach(el => {
+      el.style.display = window.innerWidth >= 480 ? 'inline' : 'none';
+    });
+  }
+});
+
+// ──────────────────────────────────────────────
+//  INIT
+// ──────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  renderSidebarCategories();
+  renderSidebarSort();
+  renderSidebarTags();
+  renderProducts();
+  updatePriceSliders();
+  updateQuickPills();
+});
+</script>
+</body>
+</html>
