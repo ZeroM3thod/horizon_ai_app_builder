@@ -143,8 +143,21 @@
         <a class="bg-primary text-on-primary font-medium px-3 md:px-6 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors text-[12px] md:text-body-md" href="#">
             Shop Now
         </a>
+        <button id="mobile-menu-btn" class="flex md:hidden text-on-surface-variant hover:text-primary transition-colors items-center justify-center" onclick="toggleMobileMenu()">
+            <span id="hamburger-icon" class="material-symbols-outlined text-[22px]">menu</span>
+        </button>
     </div>
 </nav>
+
+<!-- Mobile Nav Menu -->
+<div id="mobile-menu" class="hidden fixed top-[60px] left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-[20px] border border-outline-variant/30 bg-surface/95 backdrop-blur-xl shadow-lg z-40 md:hidden">
+    <div class="flex flex-col py-3 px-2">
+        <a class="text-primary font-bold font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant transition-colors" href="#">Shop</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">Collections</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">Deals</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">About</a>
+    </div>
+</div>
 
 <main class="max-w-[1728px] mx-auto w-full">
 
@@ -1002,5 +1015,27 @@
     </div>
 </footer>
 
+<script>
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobile-menu');
+        const icon = document.getElementById('hamburger-icon');
+        menu.classList.toggle('hidden');
+        icon.textContent = menu.classList.contains('hidden') ? 'menu' : 'close';
+    }
+    document.addEventListener('click', function(e) {
+        const menu = document.getElementById('mobile-menu');
+        const btn = document.getElementById('mobile-menu-btn');
+        if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+            menu.classList.add('hidden');
+            document.getElementById('hamburger-icon').textContent = 'menu';
+        }
+    });
+    window.addEventListener('resize', function() {
+        if (window.innerWidth >= 768) {
+            document.getElementById('mobile-menu').classList.add('hidden');
+            document.getElementById('hamburger-icon').textContent = 'menu';
+        }
+    });
+</script>
 </body>
 </html>
