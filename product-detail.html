@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Garam Masala Blend — Shuddhota Co.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+  }
+  .hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .product-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .product-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(159,65,34,0.12); }
+
+  /* Photo gallery styles */
+  .gallery-main-img { transition: opacity 0.35s ease; }
+  .gallery-thumb { cursor: pointer; transition: all 0.2s ease; border: 2px solid transparent; }
+  .gallery-thumb.active { border-color: #9f4122; opacity: 1; }
+  .gallery-thumb:not(.active) { opacity: 0.65; }
+  .gallery-thumb:hover:not(.active) { opacity: 0.85; }
+
+  /* Tabs */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .tab-btn { transition: all 0.2s ease; }
+  .tab-btn.active { color: #9f4122; border-bottom: 2px solid #9f4122; }
+
+  /* Rating bar */
+  .rating-bar-fill { transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+
+  /* Accordion */
+  .acc-content { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+  .acc-item.open .acc-content { max-height: 400px; }
+  .acc-icon { transition: transform 0.3s ease; display: inline-block; }
+  .acc-item.open .acc-icon { transform: rotate(45deg); }
+
+  /* Sticky add-to-cart bar on mobile */
+  .sticky-bar { transform: translateY(100%); transition: transform 0.3s ease; }
+  .sticky-bar.visible { transform: translateY(0); }
+
+  /* Quantity stepper */
+  .qty-btn { transition: background-color 0.15s ease; }
+  .qty-btn:hover { background-color: #9f4122; color: #fff; }
+
+  /* Zoom on hover for gallery */
+  .main-photo-wrap { overflow: hidden; border-radius: 24px; }
+  .main-photo-wrap img-like { transition: transform 0.4s ease; }
+  .main-photo-wrap:hover .photo-inner { transform: scale(1.03); }
+  .photo-inner { transition: transform 0.4s ease; }
+
+  /* Review card hover */
+  .review-card { transition: box-shadow 0.2s ease, transform 0.2s ease; }
+  .review-card:hover { box-shadow: 0 8px 32px rgba(159,65,34,0.10); transform: translateY(-2px); }
+
+  /* Wishlist heart toggle */
+  .heart-btn.wished .heart-icon { color: #ba1a1a; fill: #ba1a1a; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .fade-in { animation: fadeIn 0.4s ease forwards; }
+  @keyframes shimmer { 0%,100%{opacity:1} 50%{opacity:0.6} }
+</style>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-secondary-fixed": "#181e00",
+          "secondary": "#556500",
+          "on-tertiary": "#ffffff",
+          "primary-container": "#ff8a65",
+          "error-container": "#ffdad6",
+          "on-error": "#ffffff",
+          "surface-container-highest": "#e8e2d7",
+          "on-primary-fixed-variant": "#7f2a0d",
+          "tertiary": "#326578",
+          "on-primary-fixed": "#3a0b00",
+          "on-surface": "#1d1c15",
+          "on-error-container": "#93000a",
+          "primary": "#9f4122",
+          "surface-container-low": "#f9f3e8",
+          "surface-tint": "#9f4122",
+          "secondary-fixed": "#d6ed7a",
+          "tertiary-container": "#80b1c7",
+          "on-surface-variant": "#56423c",
+          "surface-bright": "#fff9ee",
+          "on-tertiary-fixed": "#001f29",
+          "on-secondary-fixed-variant": "#3f4c00",
+          "on-tertiary-container": "#074457",
+          "outline-variant": "#ddc0b8",
+          "surface": "#fff9ee",
+          "secondary-container": "#d6ed7a",
+          "inverse-primary": "#ffb59e",
+          "secondary-fixed-dim": "#bbd062",
+          "error": "#ba1a1a",
+          "surface-dim": "#dfd9cf",
+          "surface-variant": "#e8e2d7",
+          "outline": "#89726b",
+          "on-primary": "#ffffff",
+          "tertiary-fixed": "#bbe9ff",
+          "on-secondary": "#ffffff",
+          "inverse-on-surface": "#f6f0e5",
+          "primary-fixed-dim": "#ffb59e",
+          "surface-container": "#f3ede2",
+          "primary-fixed": "#ffdbd0",
+          "on-background": "#1d1c15",
+          "on-secondary-container": "#5a6c00",
+          "surface-container-high": "#ede8dd",
+          "inverse-surface": "#333029",
+          "on-primary-container": "#752305",
+          "tertiary-fixed-dim": "#9ccee4",
+          "on-tertiary-fixed-variant": "#154d5f",
+          "surface-container-lowest": "#ffffff",
+          "background": "#fff9ee"
+        },
+        "borderRadius": {
+          "DEFAULT": "1rem",
+          "lg": "2rem",
+          "xl": "3rem",
+          "full": "9999px"
+        },
+        "spacing": {
+          "gutter": "32px",
+          "container-padding": "64px",
+          "unit": "8px",
+          "section-gap": "120px",
+          "card-internal": "40px"
+        },
+        "fontFamily": {
+          "body-lg": ["Plus Jakarta Sans"],
+          "label-caps": ["Plus Jakarta Sans"],
+          "headline-lg": ["Plus Jakarta Sans"],
+          "headline-md": ["Plus Jakarta Sans"],
+          "display-xl": ["Plus Jakarta Sans"],
+          "body-md": ["Plus Jakarta Sans"]
+        },
+        "fontSize": {
+          "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+          "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+          "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+          "headline-md": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+          "display-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+          "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}]
+        }
+      }
+    }
+  }
+</script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+
+<!-- ─── NAVIGATION ─── -->
+<nav class="fixed top-3 md:top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-full border border-outline-variant/30 bg-surface/80 backdrop-blur-xl shadow-sm shadow-[0_8px_32px_rgba(0,0,0,0.05)] z-50 flex justify-between items-center px-4 md:px-8 py-2 md:py-3">
+  <a class="font-display-xl tracking-tighter text-primary flex items-center gap-1.5 md:gap-2 text-[15px] md:text-headline-md" href="index.html">
+    <span class="material-symbols-outlined text-[20px] md:text-[28px]">shopping_basket</span>
+    <span class="hidden sm:inline">Shuddhota CO.</span>
+    <span class="sm:hidden font-bold">Shuddhota</span>
+  </a>
+  <div class="hidden md:flex items-center gap-6">
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-body-md" href="index.html">Home</a>
+    <a class="text-primary font-bold font-body-md text-body-md" href="#">Products</a>
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-body-md" href="#">Deals</a>
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-body-md" href="#">About</a>
+  </div>
+  <div class="flex items-center gap-2 md:gap-4">
+    <button class="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center relative">
+      <span class="material-symbols-outlined text-[20px] md:text-[24px]">shopping_cart</span>
+      <span class="absolute -top-1 -right-1 bg-primary text-on-primary text-[9px] md:text-[10px] font-bold w-3.5 h-3.5 md:w-4 md:h-4 rounded-full flex items-center justify-center">3</span>
+    </button>
+    <a class="hidden md:block bg-primary text-on-primary font-medium px-3 md:px-6 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors text-[12px] md:text-body-md" href="#">Shop Now</a>
+    <button id="mobile-menu-btn" class="flex md:hidden text-on-surface-variant hover:text-primary transition-colors items-center justify-center" onclick="toggleMobileMenu()">
+      <span id="hamburger-icon" class="material-symbols-outlined text-[22px]">menu</span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Nav Menu -->
+<div id="mobile-menu" class="hidden fixed top-[60px] left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-[20px] border border-outline-variant/30 bg-surface/95 backdrop-blur-xl shadow-lg z-40 md:hidden">
+  <div class="flex flex-col py-3 px-2">
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="index.html">Home</a>
+    <a class="text-primary font-bold font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">Products</a>
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">Deals</a>
+    <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">About</a>
+    <div class="h-px bg-outline-variant/20 mx-2 my-1"></div>
+    <a class="flex items-center justify-center gap-2 bg-primary text-on-primary font-medium text-[14px] py-3 px-4 rounded-xl hover:bg-primary/90 transition-colors" href="#">
+      Shop Now <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+    </a>
+  </div>
+</div>
+
+<main class="max-w-[1728px] mx-auto w-full">
+
+<!-- ─── BREADCRUMB ─── -->
+<div class="pt-28 md:pt-36 pb-3 md:pb-6 px-6 md:px-container-padding">
+  <div class="max-w-7xl mx-auto">
+    <nav class="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant">
+      <a href="index.html" class="hover:text-primary transition-colors">Home</a>
+      <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+      <a href="#" class="hover:text-primary transition-colors">Ground Masalas</a>
+      <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+      <span class="text-on-surface font-medium">Garam Masala Blend</span>
+    </nav>
+  </div>
+</div>
+
+<!-- ─── PRODUCT HERO SECTION ─── -->
+<section class="px-6 md:px-container-padding pb-12 md:pb-20">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-14 items-start">
+
+      <!-- ─── LEFT: IMAGE GALLERY ─── -->
+      <div class="flex flex-col gap-3 md:gap-4 lg:sticky lg:top-28">
+
+        <!-- Main Image -->
+        <div class="main-photo-wrap relative rounded-[24px] md:rounded-[32px] overflow-hidden border border-outline-variant/40 shadow-lg bg-surface">
+          <div class="photo-inner" id="mainPhoto">
+            <!-- Photo 1: Rich red-orange gradient - hero shot -->
+            <div id="photo-0" class="gallery-main-img w-full h-[320px] md:h-[480px] flex items-center justify-center relative overflow-hidden" style="background: linear-gradient(135deg, #ff8a65 0%, #9f4122 40%, #5d1a0a 100%);">
+              <div class="absolute inset-0" style="background-image: radial-gradient(circle at 30% 70%, rgba(255,180,100,0.35) 0%, transparent 60%), radial-gradient(circle at 75% 25%, rgba(255,100,50,0.2) 0%, transparent 50%);"></div>
+              <!-- Decorative spice elements -->
+              <div class="absolute top-8 right-8 w-24 md:w-36 h-24 md:h-36 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
+                <span class="material-symbols-outlined text-white/90" style="font-size:52px;">local_fire_department</span>
+              </div>
+              <div class="absolute bottom-12 left-8 w-14 md:w-20 h-14 md:h-20 rounded-full bg-black/10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-white/60" style="font-size:32px;">spa</span>
+              </div>
+              <!-- Product mockup -->
+              <div class="relative z-10 flex flex-col items-center">
+                <div class="w-32 md:w-48 h-40 md:h-60 bg-white/95 rounded-2xl shadow-2xl border border-white/50 flex flex-col overflow-hidden">
+                  <div class="h-1/3 flex items-center justify-center" style="background: linear-gradient(135deg, #9f4122, #ff8a65);">
+                    <span class="material-symbols-outlined text-white" style="font-size:28px;">local_fire_department</span>
+                  </div>
+                  <div class="flex-1 p-3 flex flex-col justify-between">
+                    <div>
+                      <div class="h-2 w-3/4 bg-on-surface/10 rounded mb-1.5"></div>
+                      <div class="h-1.5 w-full bg-on-surface/7 rounded mb-1"></div>
+                      <div class="h-1.5 w-2/3 bg-on-surface/7 rounded"></div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                      <div class="text-[8px] font-bold text-primary">200g</div>
+                      <div class="h-4 w-10 bg-primary/20 rounded-full"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-3 bg-white/20 backdrop-blur rounded-full px-4 py-1.5 border border-white/30">
+                  <span class="text-white text-[12px] font-semibold tracking-wide">GARAM MASALA BLEND</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Photo 2: Spice close-up warm tones -->
+            <div id="photo-1" class="gallery-main-img w-full h-[320px] md:h-[480px] flex items-center justify-center relative overflow-hidden hidden" style="background: linear-gradient(135deg, #d6ed7a 0%, #bbd062 35%, #8fa800 100%);">
+              <div class="absolute inset-0" style="background-image: radial-gradient(circle at 20% 80%, rgba(255,220,100,0.4) 0%, transparent 55%), radial-gradient(circle at 80% 20%, rgba(100,150,0,0.25) 0%, transparent 50%);"></div>
+              <div class="absolute top-6 left-6 w-20 md:w-28 h-20 md:h-28 rounded-full bg-white/20 border border-white/30 flex items-center justify-center">
+                <span class="material-symbols-outlined text-on-surface/60" style="font-size:42px;">grass</span>
+              </div>
+              <div class="absolute bottom-8 right-6 w-16 h-16 rounded-full bg-black/10 flex items-center justify-center">
+                <span class="material-symbols-outlined text-on-surface/40" style="font-size:28px;">eco</span>
+              </div>
+              <div class="relative z-10 grid grid-cols-3 gap-3 md:gap-5 p-8">
+                <div class="h-20 md:h-28 bg-white/80 backdrop-blur rounded-xl shadow flex flex-col items-center justify-center gap-1 border border-white/50">
+                  <span class="material-symbols-outlined text-primary" style="font-size:22px;">local_fire_department</span>
+                  <span class="text-[9px] font-bold text-on-surface/70">Cloves</span>
+                </div>
+                <div class="h-20 md:h-28 bg-white/80 backdrop-blur rounded-xl shadow flex flex-col items-center justify-center gap-1 border border-white/50 mt-4">
+                  <span class="material-symbols-outlined text-secondary" style="font-size:22px;">spa</span>
+                  <span class="text-[9px] font-bold text-on-surface/70">Cardamom</span>
+                </div>
+                <div class="h-20 md:h-28 bg-white/80 backdrop-blur rounded-xl shadow flex flex-col items-center justify-center gap-1 border border-white/50">
+                  <span class="material-symbols-outlined text-tertiary" style="font-size:22px;">grain</span>
+                  <span class="text-[9px] font-bold text-on-surface/70">Cumin</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Photo 3: Texture/dark moody -->
+            <div id="photo-2" class="gallery-main-img w-full h-[320px] md:h-[480px] flex items-center justify-center relative overflow-hidden hidden" style="background: linear-gradient(135deg, #333029 0%, #1d1c15 50%, #3a0b00 100%);">
+              <div class="absolute inset-0" style="background-image: radial-gradient(circle at 60% 40%, rgba(159,65,34,0.4) 0%, transparent 60%);"></div>
+              <div class="absolute" style="background-image: radial-gradient(#ff8a65 1px, transparent 1px); background-size: 24px 24px; opacity: 0.12; inset: 0;"></div>
+              <div class="relative z-10 flex flex-col items-center gap-4">
+                <div class="text-[13px] font-label-caps tracking-[0.2em] text-white/40 uppercase">Premium Grade</div>
+                <div class="w-48 md:w-64 h-48 md:h-64 rounded-full border-[3px] border-white/15 flex items-center justify-center relative">
+                  <div class="absolute inset-4 rounded-full bg-primary/30 backdrop-blur-sm border border-white/10"></div>
+                  <div class="relative z-10 flex flex-col items-center">
+                    <span class="material-symbols-outlined text-white" style="font-size:64px; font-variation-settings: 'FILL' 1;">local_fire_department</span>
+                    <span class="text-white/80 text-[14px] font-bold tracking-wide mt-2">200g</span>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3">
+                  <div class="w-2 h-2 rounded-full bg-primary-container"></div>
+                  <span class="text-white/60 text-[12px]">Stone-ground • Sun-dried • Lab-tested</span>
+                  <div class="w-2 h-2 rounded-full bg-primary-container"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Photo 4: Lifestyle warm cooking scene -->
+            <div id="photo-3" class="gallery-main-img w-full h-[320px] md:h-[480px] flex items-center justify-center relative overflow-hidden hidden" style="background: linear-gradient(135deg, #bbe9ff 0%, #80b1c7 40%, #326578 100%);">
+              <div class="absolute inset-0" style="background-image: radial-gradient(circle at 25% 75%, rgba(255,255,255,0.3) 0%, transparent 50%);"></div>
+              <div class="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+              <div class="absolute bottom-0 left-0 w-32 h-32 bg-black/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+              <div class="relative z-10 bg-white/90 backdrop-blur rounded-2xl shadow-2xl border border-white/60 p-5 md:p-8 max-w-[280px] md:max-w-[340px]">
+                <div class="flex items-center gap-3 mb-4">
+                  <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-on-primary text-[20px]">soup_kitchen</span>
+                  </div>
+                  <div>
+                    <div class="text-[12px] font-bold text-on-surface">Recipe Ready</div>
+                    <div class="text-[10px] text-on-surface-variant">Perfect for 8–10 servings</div>
+                  </div>
+                </div>
+                <div class="space-y-2.5">
+                  <div class="flex items-center gap-2.5 p-2 bg-surface-container-low rounded-lg">
+                    <span class="material-symbols-outlined text-primary text-[16px]">check_circle</span>
+                    <span class="text-[12px] text-on-surface">Biryani & Pulao</span>
+                  </div>
+                  <div class="flex items-center gap-2.5 p-2 bg-surface-container-low rounded-lg">
+                    <span class="material-symbols-outlined text-primary text-[16px]">check_circle</span>
+                    <span class="text-[12px] text-on-surface">Curry & Gravies</span>
+                  </div>
+                  <div class="flex items-center gap-2.5 p-2 bg-surface-container-low rounded-lg">
+                    <span class="material-symbols-outlined text-primary text-[16px]">check_circle</span>
+                    <span class="text-[12px] text-on-surface">Marinades & Rubs</span>
+                  </div>
+                  <div class="flex items-center gap-2.5 p-2 bg-surface-container-low rounded-lg">
+                    <span class="material-symbols-outlined text-primary text-[16px]">check_circle</span>
+                    <span class="text-[12px] text-on-surface">Soups & Dals</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Photo 5: Farm/origin -->
+            <div id="photo-4" class="gallery-main-img w-full h-[320px] md:h-[480px] flex items-center justify-center relative overflow-hidden hidden" style="background: linear-gradient(135deg, #ffdbd0 0%, #ffb59e 40%, #ff8a65 100%);">
+              <div class="absolute inset-0" style="background-image: radial-gradient(circle at 70% 30%, rgba(255,255,200,0.3) 0%, transparent 50%);"></div>
+              <div class="relative z-10 flex flex-col items-center gap-5">
+                <div class="flex items-center gap-2 bg-white/70 backdrop-blur rounded-full px-4 py-2 border border-white/50">
+                  <span class="material-symbols-outlined text-secondary text-[18px]">eco</span>
+                  <span class="text-[12px] font-semibold text-on-surface">Farm to Kitchen · 2024 Harvest</span>
+                </div>
+                <div class="grid grid-cols-3 gap-3 md:gap-4">
+                  <div class="bg-white/85 backdrop-blur rounded-2xl shadow p-3 md:p-4 flex flex-col items-center gap-2 border border-white/50 text-center">
+                    <div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center">
+                      <span class="material-symbols-outlined text-on-secondary-container text-[18px]">grain</span>
+                    </div>
+                    <span class="text-[10px] font-bold text-on-surface">Stone<br/>Ground</span>
+                  </div>
+                  <div class="bg-white/85 backdrop-blur rounded-2xl shadow p-3 md:p-4 flex flex-col items-center gap-2 border border-white/50 text-center mt-4">
+                    <div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center">
+                      <span class="material-symbols-outlined text-on-primary-container text-[18px]">verified</span>
+                    </div>
+                    <span class="text-[10px] font-bold text-on-surface">BSTI<br/>Certified</span>
+                  </div>
+                  <div class="bg-white/85 backdrop-blur rounded-2xl shadow p-3 md:p-4 flex flex-col items-center gap-2 border border-white/50 text-center">
+                    <div class="w-10 h-10 rounded-full bg-tertiary-container flex items-center justify-center">
+                      <span class="material-symbols-outlined text-on-tertiary-container text-[18px]">science</span>
+                    </div>
+                    <span class="text-[10px] font-bold text-on-surface">Lab<br/>Tested</span>
+                  </div>
+                </div>
+                <div class="text-center">
+                  <p class="text-[11px] text-on-surface/70 font-medium">Sourced from certified farms in</p>
+                  <p class="text-[14px] font-bold text-on-surface">Kerala · Rajasthan · Maharashtra</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Badges over main image -->
+          <div class="absolute top-3 left-3 flex flex-col gap-1.5 z-20">
+            <span class="bg-on-surface text-surface text-[9px] md:text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Bestseller</span>
+            <span class="bg-secondary text-on-secondary text-[9px] md:text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">In Stock</span>
+          </div>
+          <!-- Wishlist btn -->
+          <button id="wishlistBtn" class="heart-btn absolute top-3 right-3 z-20 w-10 h-10 md:w-12 md:h-12 rounded-full bg-surface/90 backdrop-blur border border-outline-variant/50 shadow flex items-center justify-center hover:bg-surface transition-colors" onclick="toggleWishlist(this)">
+            <span class="material-symbols-outlined heart-icon text-on-surface-variant text-[20px] md:text-[22px]">favorite</span>
+          </button>
+          <!-- Share btn -->
+          <button class="absolute bottom-3 right-3 z-20 w-9 h-9 md:w-11 md:h-11 rounded-full bg-surface/90 backdrop-blur border border-outline-variant/50 shadow flex items-center justify-center hover:bg-surface transition-colors">
+            <span class="material-symbols-outlined text-on-surface-variant text-[18px] md:text-[20px]">share</span>
+          </button>
+        </div>
+
+        <!-- Thumbnails -->
+        <div class="flex gap-2 md:gap-3 overflow-x-auto hide-scrollbar pb-1">
+
+          <!-- Thumb 0 -->
+          <div class="gallery-thumb active shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-[14px] overflow-hidden border-2 border-primary shadow-sm" onclick="switchPhoto(0, this)">
+            <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, #ff8a65, #9f4122);">
+              <span class="material-symbols-outlined text-white" style="font-size:24px;">local_fire_department</span>
+            </div>
+          </div>
+          <!-- Thumb 1 -->
+          <div class="gallery-thumb shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-[14px] overflow-hidden border-2 border-transparent" onclick="switchPhoto(1, this)">
+            <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, #d6ed7a, #8fa800);">
+              <span class="material-symbols-outlined text-on-surface/70" style="font-size:24px;">grass</span>
+            </div>
+          </div>
+          <!-- Thumb 2 -->
+          <div class="gallery-thumb shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-[14px] overflow-hidden border-2 border-transparent" onclick="switchPhoto(2, this)">
+            <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, #333029, #3a0b00);">
+              <span class="material-symbols-outlined text-white/80" style="font-size:24px;">blur_on</span>
+            </div>
+          </div>
+          <!-- Thumb 3 -->
+          <div class="gallery-thumb shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-[14px] overflow-hidden border-2 border-transparent" onclick="switchPhoto(3, this)">
+            <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, #bbe9ff, #326578);">
+              <span class="material-symbols-outlined text-white/90" style="font-size:24px;">soup_kitchen</span>
+            </div>
+          </div>
+          <!-- Thumb 4 -->
+          <div class="gallery-thumb shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-[14px] overflow-hidden border-2 border-transparent" onclick="switchPhoto(4, this)">
+            <div class="w-full h-full flex items-center justify-center" style="background: linear-gradient(135deg, #ffdbd0, #ff8a65);">
+              <span class="material-symbols-outlined text-on-primary" style="font-size:24px;">eco</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trust badges under gallery (desktop) -->
+        <div class="hidden lg:flex items-center gap-3 pt-1">
+          <div class="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30 text-[11px] text-on-surface-variant">
+            <span class="material-symbols-outlined text-secondary text-[15px]">local_shipping</span> Free delivery ৳599+
+          </div>
+          <div class="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30 text-[11px] text-on-surface-variant">
+            <span class="material-symbols-outlined text-tertiary text-[15px]">replay</span> 7-day returns
+          </div>
+          <div class="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30 text-[11px] text-on-surface-variant">
+            <span class="material-symbols-outlined text-secondary text-[15px]">verified</span> BSTI Certified
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── RIGHT: PRODUCT INFO ─── -->
+      <div class="flex flex-col gap-5 md:gap-7 pt-0 lg:pt-2">
+
+        <!-- Category + Title -->
+        <div>
+          <div class="flex items-center gap-2 mb-2 md:mb-3">
+            <span class="bg-secondary-container text-on-secondary-container font-label-caps text-[10px] md:text-label-caps px-3 py-1 rounded-full uppercase tracking-widest">Ground Masalas</span>
+            <span class="flex items-center gap-0.5 text-[11px] text-on-surface-variant">
+              <span class="material-symbols-outlined text-[13px]">inventory_2</span>
+              SKU: GMB-200-PRE
+            </span>
+          </div>
+          <h1 class="font-display-xl text-[28px] md:text-[44px] leading-tight text-on-surface tracking-tight mb-2 md:mb-3">Garam Masala Blend</h1>
+          <p class="text-on-surface-variant text-[14px] md:text-body-lg leading-relaxed">A rich, aromatic blend of 14 whole spices — stone-ground to perfection and slow-roasted for maximum depth. The secret weapon of every great South Asian kitchen.</p>
+        </div>
+
+        <!-- Rating + Reviews -->
+        <div class="flex items-center gap-3 md:gap-4 flex-wrap">
+          <div class="flex items-center gap-1.5">
+            <div class="flex">
+              <span class="text-primary text-[18px] md:text-[22px]">★★★★★</span>
+            </div>
+            <span class="font-bold text-[15px] md:text-[17px] text-on-surface">4.9</span>
+          </div>
+          <a href="#reviews" class="text-[13px] md:text-body-md text-primary hover:underline underline-offset-4 font-medium">428 reviews</a>
+          <div class="flex items-center gap-1 text-[12px] text-on-surface-variant">
+            <span class="material-symbols-outlined text-[15px] text-secondary">thumb_up</span>
+            97% recommend this
+          </div>
+        </div>
+
+        <!-- Price -->
+        <div class="flex items-end gap-3 md:gap-4">
+          <span class="font-bold text-[32px] md:text-[42px] text-on-surface leading-none">৳249</span>
+          <span class="text-on-surface-variant line-through text-[16px] md:text-[20px] mb-1">৳299</span>
+          <span class="bg-error text-on-error font-bold text-[11px] md:text-[13px] px-2.5 py-1 rounded-full mb-1">17% OFF</span>
+        </div>
+        <p class="text-[11px] md:text-[13px] text-on-surface-variant -mt-4">Inclusive of all taxes · MRP clearly marked on package</p>
+
+        <!-- Weight Selector -->
+        <div>
+          <p class="font-semibold text-[13px] md:text-body-md text-on-surface mb-2.5">Choose Weight</p>
+          <div class="flex flex-wrap gap-2 md:gap-3">
+            <button class="weight-btn px-4 py-2 md:px-5 md:py-2.5 rounded-full border-2 border-primary bg-primary text-on-primary font-medium text-[13px] md:text-body-md transition-all" data-price="249" data-orig="299" onclick="selectWeight(this)">200g</button>
+            <button class="weight-btn px-4 py-2 md:px-5 md:py-2.5 rounded-full border-2 border-outline-variant bg-surface text-on-surface font-medium text-[13px] md:text-body-md transition-all hover:border-primary/50" data-price="449" data-orig="539" onclick="selectWeight(this)">400g</button>
+            <button class="weight-btn px-4 py-2 md:px-5 md:py-2.5 rounded-full border-2 border-outline-variant bg-surface text-on-surface font-medium text-[13px] md:text-body-md transition-all hover:border-primary/50" data-price="799" data-orig="960" onclick="selectWeight(this)">750g</button>
+            <button class="weight-btn px-4 py-2 md:px-5 md:py-2.5 rounded-full border-2 border-outline-variant bg-surface text-on-surface font-medium text-[13px] md:text-body-md transition-all hover:border-primary/50" data-price="1399" data-orig="1680" onclick="selectWeight(this)">1.5kg</button>
+          </div>
+        </div>
+
+        <!-- Quantity + Add to Cart -->
+        <div class="flex flex-col sm:flex-row gap-3 md:gap-4 items-start sm:items-center">
+          <!-- Quantity -->
+          <div class="flex items-center gap-0 border-2 border-outline-variant rounded-full overflow-hidden">
+            <button class="qty-btn w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-on-surface font-bold text-[18px] transition-colors" onclick="changeQty(-1)">−</button>
+            <span id="qtyDisplay" class="w-10 md:w-12 text-center font-bold text-[16px] text-on-surface">1</span>
+            <button class="qty-btn w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-on-surface font-bold text-[18px] transition-colors" onclick="changeQty(1)">+</button>
+          </div>
+          <!-- Add to Cart -->
+          <button class="flex-1 sm:flex-none bg-primary text-on-primary font-semibold text-[14px] md:text-body-lg px-6 md:px-10 py-3 md:py-4 rounded-full hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:scale-[1.02] flex items-center justify-center gap-2.5" onclick="addToCart()">
+            <span class="material-symbols-outlined text-[20px] md:text-[22px]">add_shopping_cart</span>
+            Add to Cart
+          </button>
+          <!-- Buy Now -->
+          <button class="flex-1 sm:flex-none bg-surface border-2 border-on-surface text-on-surface font-semibold text-[14px] md:text-body-md px-6 md:px-8 py-3 md:py-4 rounded-full hover:bg-surface-variant transition-all flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-[18px] md:text-[20px]">bolt</span>
+            Buy Now
+          </button>
+        </div>
+
+        <!-- Added to cart toast placeholder -->
+        <div id="cartToast" class="hidden items-center gap-2.5 bg-secondary text-on-secondary px-4 py-3 rounded-2xl text-[13px] md:text-body-md font-medium shadow-lg">
+          <span class="material-symbols-outlined text-[20px]">check_circle</span>
+          Added to cart! <a href="#" class="underline underline-offset-2 ml-1">View Cart →</a>
+        </div>
+
+        <!-- Key Highlights -->
+        <div class="grid grid-cols-2 gap-2.5 md:gap-3 pt-1">
+          <div class="flex items-start gap-2.5 bg-surface-container-low rounded-[16px] p-3 md:p-4 border border-outline-variant/30">
+            <div class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-primary/15 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-primary text-[16px] md:text-[18px]">science</span>
+            </div>
+            <div>
+              <p class="font-semibold text-[11px] md:text-[13px] text-on-surface">Lab Tested</p>
+              <p class="text-[10px] md:text-[12px] text-on-surface-variant leading-snug">Zero adulterants. Certified purity.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-2.5 bg-surface-container-low rounded-[16px] p-3 md:p-4 border border-outline-variant/30">
+            <div class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-secondary/15 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-secondary text-[16px] md:text-[18px]">grain</span>
+            </div>
+            <div>
+              <p class="font-semibold text-[11px] md:text-[13px] text-on-surface">Stone Ground</p>
+              <p class="text-[10px] md:text-[12px] text-on-surface-variant leading-snug">Traditional method, richer aroma.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-2.5 bg-surface-container-low rounded-[16px] p-3 md:p-4 border border-outline-variant/30">
+            <div class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-tertiary/15 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-tertiary text-[16px] md:text-[18px]">local_shipping</span>
+            </div>
+            <div>
+              <p class="font-semibold text-[11px] md:text-[13px] text-on-surface">Fast Delivery</p>
+              <p class="text-[10px] md:text-[12px] text-on-surface-variant leading-snug">2–4 days across Bangladesh.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-2.5 bg-surface-container-low rounded-[16px] p-3 md:p-4 border border-outline-variant/30">
+            <div class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-error/10 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-error text-[16px] md:text-[18px]">no_food</span>
+            </div>
+            <div>
+              <p class="font-semibold text-[11px] md:text-[13px] text-on-surface">No Additives</p>
+              <p class="text-[10px] md:text-[12px] text-on-surface-variant leading-snug">No colour, fillers, or preservatives.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile trust badges -->
+        <div class="flex lg:hidden items-center gap-2 flex-wrap">
+          <div class="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30 text-[11px] text-on-surface-variant">
+            <span class="material-symbols-outlined text-secondary text-[14px]">local_shipping</span> Free ৳599+
+          </div>
+          <div class="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30 text-[11px] text-on-surface-variant">
+            <span class="material-symbols-outlined text-tertiary text-[14px]">replay</span> 7-day returns
+          </div>
+          <div class="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30 text-[11px] text-on-surface-variant">
+            <span class="material-symbols-outlined text-secondary text-[14px]">verified</span> BSTI Certified
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRODUCT TABS: Description / Ingredients / Nutrition / How to Use ─── -->
+<section class="px-6 md:px-container-padding py-10 md:py-16 bg-surface border-t border-outline-variant/20">
+  <div class="max-w-7xl mx-auto">
+    <!-- Tab Nav -->
+    <div class="flex gap-0 border-b-2 border-outline-variant/30 mb-8 md:mb-12 overflow-x-auto hide-scrollbar">
+      <button class="tab-btn active shrink-0 pb-3 md:pb-4 px-4 md:px-6 font-semibold text-[13px] md:text-body-md border-b-2 border-primary text-primary" onclick="switchTab('desc', this)">Description</button>
+      <button class="tab-btn shrink-0 pb-3 md:pb-4 px-4 md:px-6 font-semibold text-[13px] md:text-body-md text-on-surface-variant hover:text-on-surface border-b-2 border-transparent" onclick="switchTab('ingredients', this)">Ingredients</button>
+      <button class="tab-btn shrink-0 pb-3 md:pb-4 px-4 md:px-6 font-semibold text-[13px] md:text-body-md text-on-surface-variant hover:text-on-surface border-b-2 border-transparent" onclick="switchTab('nutrition', this)">Nutrition</button>
+      <button class="tab-btn shrink-0 pb-3 md:pb-4 px-4 md:px-6 font-semibold text-[13px] md:text-body-md text-on-surface-variant hover:text-on-surface border-b-2 border-transparent" onclick="switchTab('howtouse', this)">How to Use</button>
+    </div>
+
+    <!-- Tab: Description -->
+    <div id="tab-desc" class="tab-content active fade-in">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-14 items-start">
+        <div>
+          <h2 class="font-display-xl text-[22px] md:text-[36px] leading-tight text-on-surface mb-4 md:mb-6">Crafted from 14 Whole Spices</h2>
+          <p class="text-on-surface-variant text-[14px] md:text-body-lg leading-relaxed mb-4 md:mb-6">Our Garam Masala Blend is the result of decades of culinary research and farmer partnerships. We source each of the 14 whole spices from their origin states — green cardamom from Kerala, cloves from Zanzibar-via-Bengal, cumin from Rajasthan — and stone-grind them in small batches for maximum freshness and potency.</p>
+          <p class="text-on-surface-variant text-[14px] md:text-body-lg leading-relaxed mb-6 md:mb-8">Unlike mass-produced blends that use stale pre-ground spices, Shuddhota Co. stone-grinds every batch fresh. The result? A deeper, more complex flavour profile with visible spice particles — not a fine, lifeless powder.</p>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-surface-container-low border border-outline-variant/40 text-on-surface-variant text-[11px] md:text-[13px] px-3 py-1.5 rounded-full">14 Whole Spices</span>
+            <span class="bg-surface-container-low border border-outline-variant/40 text-on-surface-variant text-[11px] md:text-[13px] px-3 py-1.5 rounded-full">No MSG</span>
+            <span class="bg-surface-container-low border border-outline-variant/40 text-on-surface-variant text-[11px] md:text-[13px] px-3 py-1.5 rounded-full">Gluten Free</span>
+            <span class="bg-surface-container-low border border-outline-variant/40 text-on-surface-variant text-[11px] md:text-[13px] px-3 py-1.5 rounded-full">Vegan</span>
+            <span class="bg-surface-container-low border border-outline-variant/40 text-on-surface-variant text-[11px] md:text-[13px] px-3 py-1.5 rounded-full">Halal</span>
+          </div>
+        </div>
+        <div class="space-y-3 md:space-y-4">
+          <div class="flex items-start gap-4 bg-surface-container-low rounded-[20px] p-4 md:p-5 border border-outline-variant/30">
+            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/15 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-primary text-[20px] md:text-[22px]">inventory_2</span>
+            </div>
+            <div>
+              <h4 class="font-semibold text-[14px] md:text-body-lg text-on-surface mb-1">Resealable Pouch</h4>
+              <p class="text-[12px] md:text-[14px] text-on-surface-variant leading-snug">Food-grade laminated pouch with a zip-seal for extended freshness up to 18 months from production.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4 bg-surface-container-low rounded-[20px] p-4 md:p-5 border border-outline-variant/30">
+            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-secondary/15 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-secondary text-[20px] md:text-[22px]">factory</span>
+            </div>
+            <div>
+              <h4 class="font-semibold text-[14px] md:text-body-lg text-on-surface mb-1">Small Batch Grinding</h4>
+              <p class="text-[12px] md:text-[14px] text-on-surface-variant leading-snug">Ground in certified facilities in Dhaka in lots under 500kg to ensure each batch is fresh and traceable.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4 bg-surface-container-low rounded-[20px] p-4 md:p-5 border border-outline-variant/30">
+            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-tertiary/15 flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-tertiary text-[20px] md:text-[22px]">qr_code</span>
+            </div>
+            <div>
+              <h4 class="font-semibold text-[14px] md:text-body-lg text-on-surface mb-1">Full Traceability</h4>
+              <p class="text-[12px] md:text-[14px] text-on-surface-variant leading-snug">Scan the QR code on every pouch to view origin farm, batch date, and lab report in real-time.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Ingredients -->
+    <div id="tab-ingredients" class="tab-content fade-in">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-14">
+        <div>
+          <h2 class="font-display-xl text-[22px] md:text-[36px] leading-tight text-on-surface mb-4 md:mb-6">What's Inside</h2>
+          <p class="text-on-surface-variant text-[14px] md:text-body-lg leading-relaxed mb-6">Coriander, Cumin, Black Pepper, Green Cardamom, Cloves, Cinnamon (Cassia), Nutmeg, Mace, Bay Leaves, Dried Ginger, Black Cardamom, Star Anise, Fennel Seeds, Dried Rose Petals.</p>
+          <div class="bg-surface-container rounded-[20px] p-5 border border-outline-variant/40">
+            <h4 class="font-semibold text-[13px] md:text-body-md text-on-surface mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-primary text-[18px]">info</span> Allergen Info</h4>
+            <p class="text-[12px] md:text-[14px] text-on-surface-variant leading-relaxed">No known allergens. Processed in a facility that also handles sesame seeds and tree nuts. Contains no artificial colours, flavours, or preservatives.</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="bg-gradient-to-br from-primary-container/40 to-primary/10 rounded-[20px] p-4 border border-primary/20 flex flex-col gap-2">
+            <span class="material-symbols-outlined text-primary text-[24px]">spa</span>
+            <p class="font-bold text-[13px] md:text-[15px] text-on-surface">Green Cardamom</p>
+            <p class="text-[11px] md:text-[12px] text-on-surface-variant">Kerala origin · Aromatic, floral</p>
+          </div>
+          <div class="bg-gradient-to-br from-surface-container-high to-outline-variant/20 rounded-[20px] p-4 border border-outline-variant/30 flex flex-col gap-2">
+            <span class="material-symbols-outlined text-on-surface-variant text-[24px]">local_fire_department</span>
+            <p class="font-bold text-[13px] md:text-[15px] text-on-surface">Cloves</p>
+            <p class="text-[11px] md:text-[12px] text-on-surface-variant">Zanzibar-grade · Intense, warm</p>
+          </div>
+          <div class="bg-gradient-to-br from-secondary-container/50 to-secondary-fixed/20 rounded-[20px] p-4 border border-secondary/20 flex flex-col gap-2">
+            <span class="material-symbols-outlined text-secondary text-[24px]">grain</span>
+            <p class="font-bold text-[13px] md:text-[15px] text-on-surface">Cumin</p>
+            <p class="text-[11px] md:text-[12px] text-on-surface-variant">Rajasthan origin · Earthy, rich</p>
+          </div>
+          <div class="bg-gradient-to-br from-tertiary-fixed/60 to-tertiary-container/30 rounded-[20px] p-4 border border-tertiary/20 flex flex-col gap-2">
+            <span class="material-symbols-outlined text-tertiary text-[24px]">star</span>
+            <p class="font-bold text-[13px] md:text-[15px] text-on-surface">Star Anise</p>
+            <p class="text-[11px] md:text-[12px] text-on-surface-variant">Vietnam-grade · Sweet, licorice</p>
+          </div>
+          <div class="bg-gradient-to-br from-primary-fixed/60 to-inverse-primary/20 rounded-[20px] p-4 border border-primary/20 flex flex-col gap-2">
+            <span class="material-symbols-outlined text-on-primary-container text-[24px]">local_florist</span>
+            <p class="font-bold text-[13px] md:text-[15px] text-on-surface">Rose Petals</p>
+            <p class="text-[11px] md:text-[12px] text-on-surface-variant">Dried · Delicate floral note</p>
+          </div>
+          <div class="bg-gradient-to-br from-surface-container-high to-surface-dim rounded-[20px] p-4 border border-outline-variant/30 flex flex-col gap-2">
+            <span class="material-symbols-outlined text-on-surface-variant text-[24px]">eco</span>
+            <p class="font-bold text-[13px] md:text-[15px] text-on-surface">+ 9 more spices</p>
+            <p class="text-[11px] md:text-[12px] text-on-surface-variant">Full list on package label</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: Nutrition -->
+    <div id="tab-nutrition" class="tab-content fade-in">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-14 items-start">
+        <div>
+          <h2 class="font-display-xl text-[22px] md:text-[36px] leading-tight text-on-surface mb-2">Nutrition Facts</h2>
+          <p class="text-on-surface-variant text-[13px] md:text-[15px] mb-6">Per 100g serving</p>
+          <div class="rounded-[20px] border-2 border-on-surface overflow-hidden">
+            <div class="bg-on-surface text-surface px-5 py-3">
+              <p class="text-[11px] font-bold tracking-widest uppercase">Nutrition Facts</p>
+              <p class="font-bold text-[18px] md:text-[22px]">Garam Masala Blend · 200g</p>
+            </div>
+            <div class="bg-surface px-5 divide-y divide-outline-variant/30">
+              <div class="flex justify-between py-2.5"><span class="text-[13px] font-bold text-on-surface">Calories</span><span class="text-[13px] font-bold text-on-surface">305 kcal</span></div>
+              <div class="flex justify-between py-2.5"><span class="text-[13px] text-on-surface">Total Fat</span><span class="text-[13px] font-semibold text-on-surface">12g</span></div>
+              <div class="flex justify-between py-2.5 pl-4"><span class="text-[12px] text-on-surface-variant">Saturated Fat</span><span class="text-[12px] text-on-surface-variant">2g</span></div>
+              <div class="flex justify-between py-2.5"><span class="text-[13px] text-on-surface">Total Carbohydrate</span><span class="text-[13px] font-semibold text-on-surface">52g</span></div>
+              <div class="flex justify-between py-2.5 pl-4"><span class="text-[12px] text-on-surface-variant">Dietary Fiber</span><span class="text-[12px] text-on-surface-variant">16g</span></div>
+              <div class="flex justify-between py-2.5 pl-4"><span class="text-[12px] text-on-surface-variant">Sugars</span><span class="text-[12px] text-on-surface-variant">3g</span></div>
+              <div class="flex justify-between py-2.5"><span class="text-[13px] text-on-surface">Protein</span><span class="text-[13px] font-semibold text-on-surface">14g</span></div>
+              <div class="flex justify-between py-2.5"><span class="text-[13px] text-on-surface">Sodium</span><span class="text-[13px] font-semibold text-on-surface">38mg</span></div>
+              <div class="flex justify-between py-2.5"><span class="text-[13px] text-on-surface">Iron</span><span class="text-[13px] font-semibold text-on-surface">28mg</span></div>
+            </div>
+          </div>
+          <p class="text-[11px] text-on-surface-variant mt-3">*Percent Daily Values based on a 2,000 calorie diet. Spices are used in small amounts; total contribution to daily intake is minimal.</p>
+        </div>
+        <div>
+          <h3 class="font-headline-md text-[18px] md:text-headline-md text-on-surface mb-5">Health Benefits</h3>
+          <div class="space-y-3 md:space-y-4">
+            <div class="flex items-start gap-3 bg-surface-container-low rounded-[16px] p-4 border border-outline-variant/30">
+              <span class="material-symbols-outlined text-primary shrink-0 text-[22px]">favorite</span>
+              <div><p class="font-semibold text-[13px] md:text-body-md text-on-surface">Anti-inflammatory</p><p class="text-[11px] md:text-[13px] text-on-surface-variant">Cloves and black pepper contain eugenol and piperine, known for powerful anti-inflammatory effects.</p></div>
+            </div>
+            <div class="flex items-start gap-3 bg-surface-container-low rounded-[16px] p-4 border border-outline-variant/30">
+              <span class="material-symbols-outlined text-secondary shrink-0 text-[22px]">psychiatry</span>
+              <div><p class="font-semibold text-[13px] md:text-body-md text-on-surface">Aids Digestion</p><p class="text-[11px] md:text-[13px] text-on-surface-variant">Cumin and fennel promote healthy gut flora and can reduce bloating and stomach discomfort.</p></div>
+            </div>
+            <div class="flex items-start gap-3 bg-surface-container-low rounded-[16px] p-4 border border-outline-variant/30">
+              <span class="material-symbols-outlined text-tertiary shrink-0 text-[22px]">self_improvement</span>
+              <div><p class="font-semibold text-[13px] md:text-body-md text-on-surface">Antioxidant Rich</p><p class="text-[11px] md:text-[13px] text-on-surface-variant">Cardamom and nutmeg are among the most antioxidant-dense spices, supporting cellular health.</p></div>
+            </div>
+            <div class="flex items-start gap-3 bg-surface-container-low rounded-[16px] p-4 border border-outline-variant/30">
+              <span class="material-symbols-outlined text-error shrink-0 text-[22px]">bloodtype</span>
+              <div><p class="font-semibold text-[13px] md:text-body-md text-on-surface">Blood Sugar Support</p><p class="text-[11px] md:text-[13px] text-on-surface-variant">Cinnamon and cloves may help support healthy blood glucose levels when used regularly.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab: How to Use -->
+    <div id="tab-howtouse" class="tab-content fade-in">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8">
+        <div class="bg-gradient-to-br from-primary-container/30 to-primary/10 rounded-[24px] p-5 md:p-7 border border-primary/20">
+          <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/20 flex items-center justify-center mb-4 md:mb-5">
+            <span class="material-symbols-outlined text-primary text-[22px] md:text-[24px]">soup_kitchen</span>
+          </div>
+          <h3 class="font-bold text-[15px] md:text-body-lg text-on-surface mb-3">Curries & Gravies</h3>
+          <p class="text-[13px] md:text-[14px] text-on-surface-variant leading-relaxed mb-4">Add ½–1 tsp per serving of curry, dal, or vegetable gravy. Best added in the last 10 minutes of cooking to preserve fragrance. Bloom in hot oil or ghee for even deeper flavour.</p>
+          <div class="bg-white/60 rounded-xl px-3 py-2 text-[12px] font-semibold text-on-surface flex items-center gap-2">
+            <span class="material-symbols-outlined text-[15px] text-primary">timer</span> Add with 10 min to go
+          </div>
+        </div>
+        <div class="bg-gradient-to-br from-secondary-container/40 to-secondary-fixed/20 rounded-[24px] p-5 md:p-7 border border-secondary/20">
+          <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-secondary/20 flex items-center justify-center mb-4 md:mb-5">
+            <span class="material-symbols-outlined text-secondary text-[22px] md:text-[24px]">rice_bowl</span>
+          </div>
+          <h3 class="font-bold text-[15px] md:text-body-lg text-on-surface mb-3">Biryani & Pulao</h3>
+          <p class="text-[13px] md:text-[14px] text-on-surface-variant leading-relaxed mb-4">Use 1–2 tsp per kg of rice. Layer into the dum pot when adding fried onion and saffron water. Also works beautifully in white sauce-based rice dishes for fusion flavour.</p>
+          <div class="bg-white/60 rounded-xl px-3 py-2 text-[12px] font-semibold text-on-surface flex items-center gap-2">
+            <span class="material-symbols-outlined text-[15px] text-secondary">restaurant</span> 1–2 tsp per kg rice
+          </div>
+        </div>
+        <div class="bg-gradient-to-br from-tertiary-fixed/40 to-tertiary-container/30 rounded-[24px] p-5 md:p-7 border border-tertiary/20">
+          <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-tertiary/20 flex items-center justify-center mb-4 md:mb-5">
+            <span class="material-symbols-outlined text-tertiary text-[22px] md:text-[24px]">skillet</span>
+          </div>
+          <h3 class="font-bold text-[15px] md:text-body-lg text-on-surface mb-3">Meats & Marinades</h3>
+          <p class="text-[13px] md:text-[14px] text-on-surface-variant leading-relaxed mb-4">Rub 1 tsp into chicken, mutton, or fish with yoghurt, lemon, and salt. Marinate overnight for kebabs and tandoor-style dishes. Also excellent in kofta and seekh kabab mix.</p>
+          <div class="bg-white/60 rounded-xl px-3 py-2 text-[12px] font-semibold text-on-surface flex items-center gap-2">
+            <span class="material-symbols-outlined text-[15px] text-tertiary">bedtime</span> Marinate overnight
+          </div>
+        </div>
+        <div class="md:col-span-3 bg-surface-container-low rounded-[20px] p-5 border border-outline-variant/30 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div class="flex items-center gap-3 shrink-0">
+            <div class="w-10 h-10 rounded-full bg-on-surface flex items-center justify-center">
+              <span class="material-symbols-outlined text-surface text-[20px]">lightbulb</span>
+            </div>
+            <span class="font-bold text-[14px] text-on-surface">Pro Tip</span>
+          </div>
+          <p class="text-[13px] md:text-[14px] text-on-surface-variant leading-relaxed">For the best flavour, bloom 1 tsp of garam masala in 2 tbsp of hot ghee or oil before adding other ingredients. This "tadka" technique releases fat-soluble aromatics that make the whole dish sing. Store your pouch away from heat and light for maximum shelf life — a cool, dark pantry is ideal.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── REVIEWS SECTION ─── -->
+<section id="reviews" class="px-6 md:px-container-padding py-12 md:py-20 bg-surface-container-low">
+  <div class="max-w-7xl mx-auto">
+    <!-- Section Header -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-10 md:mb-14">
+      <div>
+        <span class="font-label-caps text-label-caps text-on-surface-variant tracking-widest mb-2 block">CUSTOMER REVIEWS</span>
+        <h2 class="font-display-xl text-[26px] md:text-[44px] leading-tight text-on-surface">What Our Customers Say</h2>
+      </div>
+      <button class="flex items-center gap-2 bg-primary text-on-primary font-medium text-[13px] md:text-body-md px-5 py-2.5 rounded-full hover:bg-primary/90 transition-colors shadow">
+        <span class="material-symbols-outlined text-[18px]">edit</span>
+        Write a Review
+      </button>
+    </div>
+
+    <!-- Rating Summary -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 mb-10 md:mb-14 bg-surface rounded-[24px] p-6 md:p-10 border border-outline-variant/30 shadow-sm">
+      <!-- Big number -->
+      <div class="flex flex-col items-center justify-center text-center md:border-r md:border-outline-variant/30 py-2">
+        <span class="font-bold text-[64px] md:text-[80px] leading-none text-on-surface">4.9</span>
+        <div class="text-primary text-[24px] md:text-[28px] my-2">★★★★★</div>
+        <span class="text-[13px] md:text-body-md text-on-surface-variant">Based on 428 reviews</span>
+      </div>
+      <!-- Star bars -->
+      <div class="md:col-span-2 flex flex-col justify-center gap-2.5 md:gap-3.5">
+        <div class="flex items-center gap-3">
+          <span class="text-[12px] md:text-[14px] font-medium text-on-surface w-14 text-right shrink-0">5 stars</span>
+          <div class="flex-1 h-2.5 md:h-3 bg-surface-variant rounded-full overflow-hidden">
+            <div class="rating-bar-fill h-full bg-primary rounded-full" style="width: 84%"></div>
+          </div>
+          <span class="text-[12px] md:text-[14px] text-on-surface-variant w-10 shrink-0">84%</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-[12px] md:text-[14px] font-medium text-on-surface w-14 text-right shrink-0">4 stars</span>
+          <div class="flex-1 h-2.5 md:h-3 bg-surface-variant rounded-full overflow-hidden">
+            <div class="rating-bar-fill h-full bg-primary rounded-full" style="width: 10%"></div>
+          </div>
+          <span class="text-[12px] md:text-[14px] text-on-surface-variant w-10 shrink-0">10%</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-[12px] md:text-[14px] font-medium text-on-surface w-14 text-right shrink-0">3 stars</span>
+          <div class="flex-1 h-2.5 md:h-3 bg-surface-variant rounded-full overflow-hidden">
+            <div class="rating-bar-fill h-full bg-primary rounded-full" style="width: 4%"></div>
+          </div>
+          <span class="text-[12px] md:text-[14px] text-on-surface-variant w-10 shrink-0">4%</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-[12px] md:text-[14px] font-medium text-on-surface w-14 text-right shrink-0">2 stars</span>
+          <div class="flex-1 h-2.5 md:h-3 bg-surface-variant rounded-full overflow-hidden">
+            <div class="rating-bar-fill h-full bg-primary rounded-full" style="width: 1%"></div>
+          </div>
+          <span class="text-[12px] md:text-[14px] text-on-surface-variant w-10 shrink-0">1%</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-[12px] md:text-[14px] font-medium text-on-surface w-14 text-right shrink-0">1 star</span>
+          <div class="flex-1 h-2.5 md:h-3 bg-surface-variant rounded-full overflow-hidden">
+            <div class="rating-bar-fill h-full bg-primary rounded-full" style="width: 1%"></div>
+          </div>
+          <span class="text-[12px] md:text-[14px] text-on-surface-variant w-10 shrink-0">1%</span>
+        </div>
+        <!-- Highlights -->
+        <div class="flex flex-wrap gap-2 mt-2 pt-3 border-t border-outline-variant/30">
+          <span class="bg-secondary-container/50 border border-secondary/20 text-on-secondary-container text-[11px] md:text-[13px] px-3 py-1.5 rounded-full font-medium flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">thumb_up</span>Great aroma (321)</span>
+          <span class="bg-secondary-container/50 border border-secondary/20 text-on-secondary-container text-[11px] md:text-[13px] px-3 py-1.5 rounded-full font-medium flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">thumb_up</span>Authentic taste (287)</span>
+          <span class="bg-secondary-container/50 border border-secondary/20 text-on-secondary-container text-[11px] md:text-[13px] px-3 py-1.5 rounded-full font-medium flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">thumb_up</span>Good value (211)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter / Sort -->
+    <div class="flex flex-wrap gap-2 md:gap-3 mb-7 md:mb-10">
+      <button class="review-filter-btn bg-on-surface text-surface text-[12px] md:text-[14px] font-semibold px-4 py-2 rounded-full" onclick="filterReviews(this, 'all')">All (428)</button>
+      <button class="review-filter-btn bg-surface-container border border-outline-variant/40 text-on-surface text-[12px] md:text-[14px] font-medium px-4 py-2 rounded-full hover:bg-surface-variant transition-colors" onclick="filterReviews(this, '5')">★ 5 (360)</button>
+      <button class="review-filter-btn bg-surface-container border border-outline-variant/40 text-on-surface text-[12px] md:text-[14px] font-medium px-4 py-2 rounded-full hover:bg-surface-variant transition-colors" onclick="filterReviews(this, '4')">★ 4 (43)</button>
+      <button class="review-filter-btn bg-surface-container border border-outline-variant/40 text-on-surface text-[12px] md:text-[14px] font-medium px-4 py-2 rounded-full hover:bg-surface-variant transition-colors" onclick="filterReviews(this, '3')">★ 3 (17)</button>
+      <button class="ml-auto review-filter-btn bg-surface-container border border-outline-variant/40 text-on-surface text-[12px] md:text-[14px] font-medium px-4 py-2 rounded-full hover:bg-surface-variant transition-colors flex items-center gap-1.5" onclick="filterReviews(this, 'photo')">
+        <span class="material-symbols-outlined text-[16px]">photo_library</span> With Photos
+      </button>
+    </div>
+
+    <!-- Review Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6" id="reviewsGrid">
+
+      <!-- Review 1: 5 stars, verified, photo -->
+      <div class="review-card bg-surface rounded-[20px] md:rounded-[24px] p-5 md:p-7 border border-outline-variant/30 shadow-sm flex flex-col gap-4">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-[15px] md:text-[18px] text-on-primary shrink-0" style="background: linear-gradient(135deg, #9f4122, #ff8a65);">R</div>
+            <div>
+              <p class="font-bold text-[13px] md:text-[15px] text-on-surface">Rafa Islam</p>
+              <div class="flex items-center gap-1.5">
+                <span class="text-primary text-[13px]">★★★★★</span>
+                <span class="text-[10px] md:text-[12px] text-on-surface-variant">· Dhaka, BD</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 shrink-0">
+            <span class="bg-secondary-container/70 text-on-secondary-container text-[9px] md:text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-0.5 border border-secondary/20"><span class="material-symbols-outlined text-[11px]">verified</span> Verified</span>
+            <span class="text-[10px] md:text-[12px] text-on-surface-variant">14 May 2025</span>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-bold text-[13px] md:text-[15px] text-on-surface mb-1.5">"Game-changer for my biryanis!"</h4>
+          <p class="text-[12px] md:text-[14px] text-on-surface-variant leading-relaxed">I've been using this for 6 months and I will never go back to supermarket masala. The aroma when you open the pouch is incredible — you can actually smell the individual spices. My mutton biryani has gone from good to legendary according to my family. Worth every taka.</p>
+        </div>
+        <!-- Review photos -->
+        <div class="flex gap-2">
+          <div class="w-16 h-16 md:w-20 md:h-20 rounded-[12px] overflow-hidden shrink-0 border border-outline-variant/30" style="background: linear-gradient(135deg, #ff8a65, #9f4122);">
+            <div class="w-full h-full flex items-center justify-center"><span class="material-symbols-outlined text-white text-[22px]">rice_bowl</span></div>
+          </div>
+          <div class="w-16 h-16 md:w-20 md:h-20 rounded-[12px] overflow-hidden shrink-0 border border-outline-variant/30" style="background: linear-gradient(135deg, #9f4122, #5d1a0a);">
+            <div class="w-full h-full flex items-center justify-center"><span class="material-symbols-outlined text-white text-[22px]">local_fire_department</span></div>
+          </div>
+        </div>
+        <div class="flex items-center gap-4 pt-1 border-t border-outline-variant/20">
+          <button class="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[16px]">thumb_up</span> Helpful (42)
+          </button>
+          <button class="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-on-surface transition-colors">
+            <span class="material-symbols-outlined text-[16px]">reply</span> Reply
+          </button>
+        </div>
+      </div>
+
+      <!-- Review 2: 5 stars -->
+      <div class="review-card bg-surface rounded-[20px] md:rounded-[24px] p-5 md:p-7 border border-outline-variant/30 shadow-sm flex flex-col gap-4">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-[15px] md:text-[18px] text-on-secondary shrink-0" style="background: linear-gradient(135deg, #556500, #bbd062);">N</div>
+            <div>
+              <p class="font-bold text-[13px] md:text-[15px] text-on-surface">Nusrat Jahan</p>
+              <div class="flex items-center gap-1.5">
+                <span class="text-primary text-[13px]">★★★★★</span>
+                <span class="text-[10px] md:text-[12px] text-on-surface-variant">· Chattogram, BD</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 shrink-0">
+            <span class="bg-secondary-container/70 text-on-secondary-container text-[9px] md:text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-0.5 border border-secondary/20"><span class="material-symbols-outlined text-[11px]">verified</span> Verified</span>
+            <span class="text-[10px] md:text-[12px] text-on-surface-variant">2 Apr 2025</span>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-bold text-[13px] md:text-[15px] text-on-surface mb-1.5">"Genuinely addictive — in the best way"</h4>
+          <p class="text-[12px] md:text-[14px] text-on-surface-variant leading-relaxed">As someone who cooks every day, I've tried almost every brand on the market. Shuddhota is on a completely different level. The balance between the warm spices (cardamom, cloves) and the earthy ones (cumin, coriander) is perfect. It never overwhelms a dish — it enhances it.</p>
+        </div>
+        <div class="flex items-center gap-4 pt-1 border-t border-outline-variant/20">
+          <button class="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[16px]">thumb_up</span> Helpful (28)
+          </button>
+          <button class="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-on-surface transition-colors">
+            <span class="material-symbols-outlined text-[16px]">reply</span> Reply
+          </button>
+        </div>
+      </div>
+
+      <!-- Review 3: 5 stars, with brand reply -->
+      <div class="review-card bg-surface rounded-[20px] md:rounded-[24px] p-5 md:p-7 border border-outline-variant/30 shadow-sm flex flex-col gap-4">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-[15px] md:text-[18px] text-on-primary shrink-0" style="background: linear-gradient(135deg, #326578, #80b1c7);">S</div>
+            <div>
+              <p class="font-bold text-[13px] md:text-[15px] text-on-surface">Sajid Hossain</p>
+              <div class="flex items-center gap-1.5">
+                <span class="text-primary text-[13px]">★★★★★</span>
+                <span class="text-[10px] md:text-[12px] text-on-surface-variant">· Sylhet, BD</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 shrink-0">
+            <span class="bg-secondary-container/70 text-on-secondary-container text-[9px] md:text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-0.5 border border-secondary/20"><span class="material-symbols-outlined text-[11px]">verified</span> Verified</span>
+            <span class="text-[10px] md:text-[12px] text-on-surface-variant">18 Mar 2025</span>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-bold text-[13px] md:text-[15px] text-on-surface mb-1.5">"Ordered for my restaurant — will reorder"</h4>
+          <p class="text-[12px] md:text-[14px] text-on-surface-variant leading-relaxed">Bought the 1.5kg pack for our small restaurant. Guests have started asking what spice blend we use — that's the biggest endorsement I can give. Consistent quality batch to batch, fast delivery, and the resealable pouch keeps it fresh for weeks.</p>
+        </div>
+        <!-- Brand Reply -->
+        <div class="bg-surface-container-low rounded-[14px] p-3.5 border border-outline-variant/40">
+          <div class="flex items-center gap-2 mb-1.5">
+            <div class="w-6 h-6 rounded-full bg-primary flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-on-primary text-[13px]">shopping_basket</span>
+            </div>
+            <span class="text-[11px] md:text-[13px] font-bold text-primary">Shuddhota Co.</span>
+            <span class="text-[10px] text-on-surface-variant">· Brand Reply</span>
+          </div>
+          <p class="text-[11px] md:text-[13px] text-on-surface-variant leading-snug">Thank you so much, Sajid bhai! We love hearing that your guests are noticing the difference. For restaurant accounts, please ask about our bulk pricing program — we have dedicated support for food businesses. 🌿</p>
+        </div>
+        <div class="flex items-center gap-4 pt-1 border-t border-outline-variant/20">
+          <button class="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[16px]">thumb_up</span> Helpful (67)
+          </button>
+          <button class="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-on-surface transition-colors">
+            <span class="material-symbols-outlined text-[16px]">reply</span> Reply
+          </button>
+        </div>
+      </div>
+
+      <!-- Review 4: 4 stars -->
+      <div class="review-card bg-surface rounded-[20px] md:rounded-[24px] p-5 md:p-7 border border-outline-variant/30 shadow-sm flex flex-col gap-4">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-[15px] md:text-[18px] shrink-0 bg-surface-container-high text-on-surface">F</div>
+            <div>
+              <p class="font-bold text-[13px] md:text-[15px] text-on-surface">Fatema Begum</p>
+              <div class="flex items-center gap-1.5">
+                <span class="text-primary text-[13px]">★★★★</span><span class="text-on-surface-variant text-[13px]">☆</span>
+                <span class="text-[10px] md:text-[12px] text-on-surface-variant">· Rajshahi, BD</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 shrink-0">
+            <span class="text-[10px] md:text-[12px] text-on-surface-variant bg-surface-container px-2 py-0.5 rounded-full border border-outline-variant/30">Unverified</span>
+            <span class="text-[10px] md:text-[12px] text-on-surface-variant">5 Feb 2025</span>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-bold text-[13px] md:text-[15px] text-on-surface mb-1.5">"Very good, slight packaging issue"</h4>
+          <p class="text-[12px] md:text-[14px] text-on-surface-variant leading-relaxed">The masala itself is excellent — the fragrance is genuinely different from what I find at local shops. Removed one star because my first order arrived with the zip seal slightly bent, making it hard to close. Product quality 5/5, packaging 3/5. Would still buy again.</p>
+        </div>
+        <div class="flex items-center gap-4 pt-1 border-t border-outline-variant/20">
+          <button class="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[16px]">thumb_up</span> Helpful (14)
+          </button>
+          <button class="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-on-surface transition-colors">
+            <span class="material-symbols-outlined text-[16px]">reply</span> Reply
+          </button>
+        </div>
+      </div>
+
+      <!-- Review 5: 5 stars -->
+      <div class="review-card bg-surface rounded-[20px] md:rounded-[24px] p-5 md:p-7 border border-outline-variant/30 shadow-sm flex flex-col gap-4">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-[15px] md:text-[18px] text-on-primary shrink-0" style="background: linear-gradient(135deg, #ff8a65, #ffdbd0);">T</div>
+            <div>
+              <p class="font-bold text-[13px] md:text-[15px] text-on-surface">Tanvir Ahmed</p>
+              <div class="flex items-center gap-1.5">
+                <span class="text-primary text-[13px]">★★★★★</span>
+                <span class="text-[10px] md:text-[12px] text-on-surface-variant">· Khulna, BD</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 shrink-0">
+            <span class="bg-secondary-container/70 text-on-secondary-container text-[9px] md:text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-0.5 border border-secondary/20"><span class="material-symbols-outlined text-[11px]">verified</span> Verified</span>
+            <span class="text-[10px] md:text-[12px] text-on-surface-variant">29 Jan 2025</span>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-bold text-[13px] md:text-[15px] text-on-surface mb-1.5">"My mother approved — enough said"</h4>
+          <p class="text-[12px] md:text-[14px] text-on-surface-variant leading-relaxed">I brought this home and my mother — who grinds her own spices and is notoriously hard to impress — asked me to order more. That's the highest review I can give any spice product. The smell alone in the kitchen when you add it to oil is absolutely divine.</p>
+        </div>
+        <div class="flex items-center gap-4 pt-1 border-t border-outline-variant/20">
+          <button class="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[16px]">thumb_up</span> Helpful (89)
+          </button>
+          <button class="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-on-surface transition-colors">
+            <span class="material-symbols-outlined text-[16px]">reply</span> Reply
+          </button>
+        </div>
+      </div>
+
+      <!-- Review 6: 5 stars, with photo -->
+      <div class="review-card bg-surface rounded-[20px] md:rounded-[24px] p-5 md:p-7 border border-outline-variant/30 shadow-sm flex flex-col gap-4">
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-[15px] md:text-[18px] text-white shrink-0" style="background: linear-gradient(135deg, #5d1a0a, #9f4122);">M</div>
+            <div>
+              <p class="font-bold text-[13px] md:text-[15px] text-on-surface">Mariam Sultana</p>
+              <div class="flex items-center gap-1.5">
+                <span class="text-primary text-[13px]">★★★★★</span>
+                <span class="text-[10px] md:text-[12px] text-on-surface-variant">· Sylhet, BD</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1.5 shrink-0">
+            <span class="bg-secondary-container/70 text-on-secondary-container text-[9px] md:text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-0.5 border border-secondary/20"><span class="material-symbols-outlined text-[11px]">verified</span> Verified</span>
+            <span class="text-[10px] md:text-[12px] text-on-surface-variant">10 Dec 2024</span>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-bold text-[13px] md:text-[15px] text-on-surface mb-1.5">"QR traceability feature is genius"</h4>
+          <p class="text-[12px] md:text-[14px] text-on-surface-variant leading-relaxed">I scanned the QR code on the pouch and could see exactly which farms the spices came from and the lab report. As someone who's conscious about what goes into family food, this is huge. And the taste is extraordinary — my kids now ask for seconds on everything I cook with it.</p>
+        </div>
+        <!-- Review photo -->
+        <div class="flex gap-2">
+          <div class="w-16 h-16 md:w-20 md:h-20 rounded-[12px] overflow-hidden shrink-0 border border-outline-variant/30" style="background: linear-gradient(135deg, #d6ed7a, #556500);">
+            <div class="w-full h-full flex items-center justify-center"><span class="material-symbols-outlined text-on-secondary text-[22px]">eco</span></div>
+          </div>
+        </div>
+        <div class="flex items-center gap-4 pt-1 border-t border-outline-variant/20">
+          <button class="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-[16px]">thumb_up</span> Helpful (53)
+          </button>
+          <button class="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-on-surface transition-colors">
+            <span class="material-symbols-outlined text-[16px]">reply</span> Reply
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Load More -->
+    <div class="mt-8 md:mt-12 text-center">
+      <button class="inline-flex items-center gap-2.5 border-2 border-on-surface text-on-surface font-semibold text-[14px] md:text-body-md px-8 py-3.5 rounded-full hover:bg-surface-variant transition-colors">
+        <span class="material-symbols-outlined text-[20px]">expand_more</span>
+        Load More Reviews (422 remaining)
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ─── RELATED PRODUCTS ─── -->
+<section class="px-6 md:px-container-padding py-12 md:py-20 bg-surface">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-8 md:mb-12 gap-3">
+      <div>
+        <span class="font-label-caps text-label-caps text-on-surface-variant tracking-widest mb-2 block">YOU MAY ALSO LIKE</span>
+        <h2 class="font-display-xl text-[24px] md:text-[42px] leading-tight text-on-surface">Related Products</h2>
+      </div>
+      <a href="#" class="inline-flex items-center gap-1.5 text-primary font-body-md text-[13px] md:text-body-md font-medium hover:underline underline-offset-4 shrink-0">View All <span class="material-symbols-outlined text-[18px] md:text-[20px]">arrow_forward</span></a>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
+
+      <!-- Related 1 -->
+      <div class="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
+        <div class="h-36 md:h-44 bg-gradient-to-br from-secondary-container to-secondary-fixed/50 relative overflow-hidden p-3 md:p-5 flex items-end">
+          <div class="absolute top-2.5 right-2.5 bg-primary text-on-primary text-[8px] md:text-[10px] font-bold px-2 py-0.5 rounded-full">New</div>
+          <div class="absolute inset-0 flex items-center justify-center"><div class="w-14 md:w-20 h-14 md:h-20 rounded-full bg-secondary/15"></div></div>
+          <div class="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
+            <span class="material-symbols-outlined text-secondary text-[18px] md:text-[22px]">soup_kitchen</span>
+          </div>
+        </div>
+        <div class="p-3 md:p-5 flex flex-col flex-1">
+          <div class="flex items-center gap-1 mb-0.5"><span class="text-primary text-[11px] md:text-[13px]">★★★★☆</span><span class="text-[9px] md:text-[11px] text-on-surface-variant">(186)</span></div>
+          <h4 class="font-headline-md text-[13px] md:text-[17px] text-on-surface mb-0.5">Biryani Masala</h4>
+          <p class="text-[10px] md:text-[13px] text-on-surface-variant mb-2 md:mb-3">150g • Restaurant Grade</p>
+          <div class="flex items-center justify-between mt-auto">
+            <span class="font-bold text-[17px] md:text-[22px] text-on-surface">৳199</span>
+            <button class="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
+              <span class="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
+              <span class="hidden sm:inline text-[11px] md:text-body-md">Add</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Related 2 -->
+      <div class="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
+        <div class="h-36 md:h-44 bg-gradient-to-br from-tertiary-fixed to-tertiary-container relative overflow-hidden p-3 md:p-5 flex items-end">
+          <div class="absolute inset-0 flex items-center justify-center"><div class="w-14 md:w-20 h-14 md:h-20 rounded-full bg-tertiary/15"></div></div>
+          <div class="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
+            <span class="material-symbols-outlined text-tertiary text-[18px] md:text-[22px]">spa</span>
+          </div>
+        </div>
+        <div class="p-3 md:p-5 flex flex-col flex-1">
+          <div class="flex items-center gap-1 mb-0.5"><span class="text-primary text-[11px] md:text-[13px]">★★★★★</span><span class="text-[9px] md:text-[11px] text-on-surface-variant">(267)</span></div>
+          <h4 class="font-headline-md text-[13px] md:text-[17px] text-on-surface mb-0.5">Green Cardamom</h4>
+          <p class="text-[10px] md:text-[13px] text-on-surface-variant mb-2 md:mb-3">50g • Kerala Origin</p>
+          <div class="flex items-center justify-between mt-auto">
+            <span class="font-bold text-[17px] md:text-[22px] text-on-surface">৳349</span>
+            <button class="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
+              <span class="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
+              <span class="hidden sm:inline text-[11px] md:text-body-md">Add</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Related 3 -->
+      <div class="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
+        <div class="h-36 md:h-44 bg-gradient-to-br from-primary-fixed to-inverse-primary/40 relative overflow-hidden p-3 md:p-5 flex items-end">
+          <div class="absolute top-2.5 left-2.5 bg-error text-on-error text-[8px] md:text-[10px] font-bold px-2 py-0.5 rounded-full">20% OFF</div>
+          <div class="absolute inset-0 flex items-center justify-center"><div class="w-14 md:w-20 h-14 md:h-20 rounded-3xl bg-primary/10"></div></div>
+          <div class="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
+            <span class="material-symbols-outlined text-primary text-[18px] md:text-[22px]">shopping_basket</span>
+          </div>
+        </div>
+        <div class="p-3 md:p-5 flex flex-col flex-1">
+          <div class="flex items-center gap-1 mb-0.5"><span class="text-primary text-[11px] md:text-[13px]">★★★★☆</span><span class="text-[9px] md:text-[11px] text-on-surface-variant">(193)</span></div>
+          <h4 class="font-headline-md text-[13px] md:text-[17px] text-on-surface mb-0.5">Mixed Dry Fruits</h4>
+          <p class="text-[10px] md:text-[13px] text-on-surface-variant mb-2 md:mb-3">250g • Premium Selection</p>
+          <div class="flex items-center justify-between mt-auto">
+            <div><span class="font-bold text-[17px] md:text-[22px] text-on-surface">৳719</span><span class="text-[10px] md:text-[12px] text-on-surface-variant line-through ml-1">৳899</span></div>
+            <button class="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
+              <span class="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
+              <span class="hidden sm:inline text-[11px] md:text-body-md">Add</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Related 4 -->
+      <div class="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
+        <div class="h-36 md:h-44 bg-gradient-to-br from-surface-container-high to-primary-fixed/50 relative overflow-hidden p-3 md:p-5 flex items-end">
+          <div class="absolute inset-0 flex items-center justify-center"><div class="w-14 md:w-20 h-12 md:h-16 rounded-2xl bg-outline/15"></div></div>
+          <div class="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
+            <span class="material-symbols-outlined text-outline text-[18px] md:text-[22px]">nutrition</span>
+          </div>
+        </div>
+        <div class="p-3 md:p-5 flex flex-col flex-1">
+          <div class="flex items-center gap-1 mb-0.5"><span class="text-primary text-[11px] md:text-[13px]">★★★★★</span><span class="text-[9px] md:text-[11px] text-on-surface-variant">(312)</span></div>
+          <h4 class="font-headline-md text-[13px] md:text-[17px] text-on-surface mb-0.5">Premium Almonds</h4>
+          <p class="text-[10px] md:text-[13px] text-on-surface-variant mb-2 md:mb-3">500g • California Grade A</p>
+          <div class="flex items-center justify-between mt-auto">
+            <span class="font-bold text-[17px] md:text-[22px] text-on-surface">৳649</span>
+            <button class="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
+              <span class="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
+              <span class="hidden sm:inline text-[11px] md:text-body-md">Add</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── FINAL CTA ─── -->
+<section class="py-12 md:py-20 px-6 md:px-container-padding bg-primary relative overflow-hidden flex items-center justify-center min-h-[40vh] md:min-h-[50vh]">
+  <div class="absolute w-[500px] h-[500px] border-[60px] border-white/10 rounded-full top-[-150px] right-[-150px]"></div>
+  <div class="absolute w-[350px] h-[350px] border-[40px] border-black/5 rounded-full bottom-[-80px] left-[-80px]"></div>
+  <div class="relative z-10 bg-surface rounded-[28px] md:rounded-[40px] p-8 md:p-14 max-w-3xl w-full text-center shadow-2xl border border-white/20">
+    <h2 class="font-display-xl text-[26px] md:text-[52px] leading-tight text-on-surface mb-6 md:mb-8">So, what are we cooking today?</h2>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+      <a class="inline-flex items-center justify-center gap-2 bg-on-surface text-surface font-body-lg text-[14px] md:text-body-lg font-medium px-7 md:px-10 py-3.5 md:py-5 rounded-full hover:scale-105 transition-transform shadow-xl group" href="#">
+        Start Shopping <span class="material-symbols-outlined text-secondary-fixed group-hover:translate-x-1 transition-transform">arrow_forward</span>
+      </a>
+      <a class="inline-flex items-center justify-center gap-2 bg-transparent border-2 border-on-surface/30 text-on-surface font-body-lg text-[14px] md:text-body-lg font-medium px-7 md:px-10 py-3.5 md:py-5 rounded-full hover:border-on-surface/60 transition-colors" href="#">
+        Browse All Products
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ─── FOOTER ─── -->
+<footer class="bg-surface w-full py-12 md:py-20 border-t border-outline-variant/20 font-body-md text-body-md">
+  <div class="max-w-7xl mx-auto px-6 md:px-container-padding">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10 mb-10 md:mb-16">
+      <div class="col-span-2 md:col-span-1">
+        <div class="font-display-xl text-headline-md text-primary flex items-center gap-2 mb-3">
+          <span class="material-symbols-outlined">shopping_basket</span>
+          Shuddhota Co.
+        </div>
+        <p class="font-body-md text-[12px] md:text-body-md text-on-surface-variant mb-4 max-w-[220px]">Pure spices and premium dry foods, delivered fresh from farms to your kitchen.</p>
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center hover:bg-primary hover:text-on-primary cursor-pointer transition-colors"><span class="material-symbols-outlined text-[15px]">public</span></div>
+          <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center hover:bg-primary hover:text-on-primary cursor-pointer transition-colors"><span class="material-symbols-outlined text-[15px]">camera_alt</span></div>
+          <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center hover:bg-primary hover:text-on-primary cursor-pointer transition-colors"><span class="material-symbols-outlined text-[15px]">chat</span></div>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-[11px] md:text-body-md font-semibold text-on-surface mb-3 uppercase tracking-wider">Shop</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Whole Spices</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Ground Masalas</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Dry Fruits & Nuts</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Dals & Pulses</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-[11px] md:text-body-md font-semibold text-on-surface mb-3 uppercase tracking-wider">Help</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Order Tracking</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Returns & Refunds</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Shipping Info</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-[11px] md:text-body-md font-semibold text-on-surface mb-3 uppercase tracking-wider">Company</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">About Us</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Our Story</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Wholesale</a></li>
+          <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-outline-variant/20 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-on-surface-variant text-[11px] md:text-sm">© 2024 Shuddhota Co. Pure spices, bold flavors.</p>
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30">
+          <span class="material-symbols-outlined text-secondary text-[14px] md:text-[16px]">verified</span>
+          <span class="text-[10px] md:text-[12px] text-on-surface-variant font-medium">BSTI Certified</span>
+        </div>
+        <div class="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30">
+          <span class="material-symbols-outlined text-secondary text-[14px] md:text-[16px]">eco</span>
+          <span class="text-[10px] md:text-[12px] text-on-surface-variant font-medium">100% Natural</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ─── STICKY MOBILE ADD-TO-CART ─── -->
+<div id="stickyBar" class="sticky-bar fixed bottom-0 left-0 right-0 z-40 md:hidden bg-surface/95 backdrop-blur-xl border-t border-outline-variant/30 shadow-2xl px-4 py-3 flex items-center gap-3">
+  <div>
+    <p class="text-[10px] text-on-surface-variant">Garam Masala Blend · 200g</p>
+    <p class="font-bold text-[18px] text-on-surface leading-none">৳249</p>
+  </div>
+  <button class="flex-1 bg-primary text-on-primary font-semibold text-[14px] py-3.5 rounded-full hover:bg-primary/90 transition-colors shadow-lg flex items-center justify-center gap-2" onclick="addToCart()">
+    <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span>
+    Add to Cart
+  </button>
+</div>
+
+<script>
+  /* ── Mobile Nav ── */
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const icon = document.getElementById('hamburger-icon');
+    menu.classList.toggle('hidden');
+    icon.textContent = menu.classList.contains('hidden') ? 'menu' : 'close';
+  }
+  document.addEventListener('click', function(e) {
+    const menu = document.getElementById('mobile-menu');
+    const btn = document.getElementById('mobile-menu-btn');
+    if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+      menu.classList.add('hidden');
+      document.getElementById('hamburger-icon').textContent = 'menu';
+    }
+  });
+  window.addEventListener('resize', function() {
+    if (window.innerWidth >= 768) {
+      document.getElementById('mobile-menu').classList.add('hidden');
+      document.getElementById('hamburger-icon').textContent = 'menu';
+    }
+  });
+
+  /* ── Gallery ── */
+  function switchPhoto(index, thumbEl) {
+    document.querySelectorAll('.gallery-main-img').forEach((el, i) => {
+      el.classList.toggle('hidden', i !== index);
+    });
+    document.querySelectorAll('.gallery-thumb').forEach(t => {
+      t.classList.remove('active');
+      t.style.borderColor = 'transparent';
+    });
+    thumbEl.classList.add('active');
+    thumbEl.style.borderColor = '#9f4122';
+  }
+
+  /* ── Tabs ── */
+  function switchTab(name, btn) {
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.remove('active', 'text-primary', 'border-primary');
+      b.classList.add('text-on-surface-variant', 'border-transparent');
+    });
+    document.getElementById('tab-' + name).classList.add('active');
+    btn.classList.add('active', 'text-primary', 'border-primary');
+    btn.classList.remove('text-on-surface-variant', 'border-transparent');
+  }
+
+  /* ── Quantity ── */
+  let qty = 1;
+  function changeQty(delta) {
+    qty = Math.max(1, Math.min(99, qty + delta));
+    document.getElementById('qtyDisplay').textContent = qty;
+  }
+
+  /* ── Weight Selector ── */
+  function selectWeight(btn) {
+    document.querySelectorAll('.weight-btn').forEach(b => {
+      b.classList.remove('border-primary', 'bg-primary', 'text-on-primary');
+      b.classList.add('border-outline-variant', 'bg-surface', 'text-on-surface');
+    });
+    btn.classList.add('border-primary', 'bg-primary', 'text-on-primary');
+    btn.classList.remove('border-outline-variant', 'bg-surface', 'text-on-surface');
+    // Update price
+    const priceEl = document.querySelector('.font-bold.text-\\[32px\\]');
+  }
+
+  /* ── Add to Cart ── */
+  function addToCart() {
+    const toast = document.getElementById('cartToast');
+    toast.classList.remove('hidden');
+    toast.classList.add('flex');
+    const cartBadge = document.querySelector('.absolute.-top-1.-right-1');
+    if (cartBadge) {
+      const currentCount = parseInt(cartBadge.textContent) || 0;
+      cartBadge.textContent = currentCount + qty;
+    }
+    setTimeout(() => {
+      toast.classList.add('hidden');
+      toast.classList.remove('flex');
+    }, 3000);
+  }
+
+  /* ── Wishlist ── */
+  function toggleWishlist(btn) {
+    btn.classList.toggle('wished');
+    const icon = btn.querySelector('.heart-icon');
+    if (btn.classList.contains('wished')) {
+      icon.style.color = '#ba1a1a';
+      icon.style.fontVariationSettings = "'FILL' 1";
+    } else {
+      icon.style.color = '';
+      icon.style.fontVariationSettings = "'FILL' 0";
+    }
+  }
+
+  /* ── Review Filter ── */
+  function filterReviews(btn, filter) {
+    document.querySelectorAll('.review-filter-btn').forEach(b => {
+      b.classList.remove('bg-on-surface', 'text-surface');
+      b.classList.add('bg-surface-container', 'border', 'border-outline-variant/40', 'text-on-surface');
+    });
+    btn.classList.add('bg-on-surface', 'text-surface');
+    btn.classList.remove('bg-surface-container', 'border', 'border-outline-variant/40', 'text-on-surface');
+  }
+
+  /* ── Sticky Mobile Bar ── */
+  const stickyBar = document.getElementById('stickyBar');
+  const productHero = document.querySelector('.flex.flex-col.gap-5');
+  let stickyVisible = false;
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    if (scrollY > 500 && !stickyVisible) {
+      stickyBar.classList.add('visible');
+      stickyVisible = true;
+    } else if (scrollY <= 200 && stickyVisible) {
+      stickyBar.classList.remove('visible');
+      stickyVisible = false;
+    }
+  });
+</script>
+</body>
+</html>
