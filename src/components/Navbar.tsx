@@ -71,7 +71,23 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="flex items-center gap-2 md:gap-4">
-          <Link href="/cart" className="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center relative">
+          {pathname === "/checkout" && (
+            <div className="hidden md:flex items-center gap-1.5 bg-[linear-gradient(135deg,rgba(82,187,0,0.10),rgba(82,187,0,0.05))] border border-green-200 rounded-full px-3 py-1.5">
+              <span
+                className="material-symbols-outlined text-[15px]"
+                style={{ color: "#2e7d32", fontVariationSettings: "'FILL' 1" }}
+              >
+                lock
+              </span>
+              <span className="text-[12px] font-semibold text-green-800">
+                Secure Checkout
+              </span>
+            </div>
+          )}
+          <Link
+            href="/cart"
+            className="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center relative"
+          >
             <span className="material-symbols-outlined text-[20px] md:text-[24px]">
               shopping_cart
             </span>
@@ -79,12 +95,14 @@ export default function Navbar() {
               3
             </span>
           </Link>
-          <Link
-            className="hidden md:block bg-primary text-on-primary font-medium px-3 md:px-6 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors text-[12px] md:text-body-md"
-            href="/products"
-          >
-            Shop Now
-          </Link>
+          {pathname !== "/checkout" && (
+            <Link
+              className="hidden md:block bg-primary text-on-primary font-medium px-3 md:px-6 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors text-[12px] md:text-body-md"
+              href="/products"
+            >
+              Shop Now
+            </Link>
+          )}
           <button
             id="mobile-menu-btn"
             className="flex md:hidden text-on-surface-variant hover:text-primary transition-colors items-center justify-center"
@@ -128,10 +146,12 @@ export default function Navbar() {
             Deals
           </Link>
           <Link
-            className="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant"
-            href="#"
+            className={`${
+              pathname === "/orders" ? "text-primary font-bold" : "text-on-surface-variant font-medium hover:text-primary transition-colors"
+            } font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant`}
+            href="/orders"
           >
-            About
+            My Orders
           </Link>
           <div className="h-px bg-outline-variant/20 mx-2 my-1"></div>
           <Link
