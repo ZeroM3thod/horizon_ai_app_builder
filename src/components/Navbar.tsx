@@ -96,12 +96,20 @@ export default function Navbar() {
             </span>
           </Link>
           {pathname !== "/checkout" && (
-            <Link
-              className="hidden md:block bg-primary text-on-primary font-medium px-3 md:px-6 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors text-[12px] md:text-body-md"
-              href="/products"
-            >
-              Shop Now
-            </Link>
+            <>
+              <Link
+                className="hidden md:block text-on-surface-variant font-medium hover:text-primary transition-colors text-body-md"
+                href="#"
+              >
+                Sign In
+              </Link>
+              <Link
+                className="bg-primary text-on-primary font-medium px-3 md:px-6 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors text-[12px] md:text-body-md"
+                href="/signup"
+              >
+                Sign Up
+              </Link>
+            </>
           )}
           <button
             id="mobile-menu-btn"
@@ -156,9 +164,9 @@ export default function Navbar() {
           <div className="h-px bg-outline-variant/20 mx-2 my-1"></div>
           <Link
             className="flex items-center justify-center gap-2 bg-primary text-on-primary font-medium text-[14px] py-3 px-4 rounded-xl hover:bg-primary/90 transition-colors"
-            href="/products"
+            href="/signup"
           >
-            Shop Now
+            Sign Up Free
             <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
           </Link>
         </div>
