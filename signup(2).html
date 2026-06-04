@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sign Up — Shuddhota Co.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+        font-family: 'Material Symbols Outlined';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        -webkit-font-feature-settings: 'liga';
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* Floating orbs */
+    .orb { position: absolute; border-radius: 9999px; filter: blur(80px); pointer-events: none; }
+
+    /* Input focus animation */
+    .input-field {
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .input-field:focus {
+        outline: none;
+        border-color: #9f4122;
+        box-shadow: 0 0 0 3px rgba(159,65,34,0.12);
+    }
+
+    /* Password strength bar */
+    .strength-bar { height: 3px; border-radius: 9999px; transition: width 0.4s ease, background-color 0.4s ease; }
+
+    /* Checkbox custom style */
+    .custom-checkbox:checked {
+        background-color: #9f4122;
+        border-color: #9f4122;
+    }
+
+    /* Button hover */
+    .btn-primary {
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 32px rgba(159,65,34,0.30);
+    }
+    .btn-primary:active { transform: translateY(0); }
+
+    /* Social button */
+    .btn-social {
+        transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+    }
+    .btn-social:hover {
+        transform: translateY(-1px);
+        background-color: #f3ede2;
+    }
+
+    /* Card entrance animation */
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(32px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    .animate-slide-up { animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+    .delay-1 { animation-delay: 0.08s; }
+    .delay-2 { animation-delay: 0.16s; }
+    .delay-3 { animation-delay: 0.24s; }
+
+    /* Eye toggle */
+    .eye-btn { cursor: pointer; transition: color 0.15s ease; }
+    .eye-btn:hover { color: #9f4122; }
+</style>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                "colors": {
+                    "on-secondary-fixed": "#181e00",
+                    "secondary": "#556500",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#ff8a65",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "surface-container-highest": "#e8e2d7",
+                    "on-primary-fixed-variant": "#7f2a0d",
+                    "tertiary": "#326578",
+                    "on-primary-fixed": "#3a0b00",
+                    "on-surface": "#1d1c15",
+                    "on-error-container": "#93000a",
+                    "primary": "#9f4122",
+                    "surface-container-low": "#f9f3e8",
+                    "surface-tint": "#9f4122",
+                    "secondary-fixed": "#d6ed7a",
+                    "tertiary-container": "#80b1c7",
+                    "on-surface-variant": "#56423c",
+                    "surface-bright": "#fff9ee",
+                    "on-tertiary-fixed": "#001f29",
+                    "on-secondary-fixed-variant": "#3f4c00",
+                    "on-tertiary-container": "#074457",
+                    "outline-variant": "#ddc0b8",
+                    "surface": "#fff9ee",
+                    "secondary-container": "#d6ed7a",
+                    "inverse-primary": "#ffb59e",
+                    "secondary-fixed-dim": "#bbd062",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#dfd9cf",
+                    "surface-variant": "#e8e2d7",
+                    "outline": "#89726b",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#bbe9ff",
+                    "on-secondary": "#ffffff",
+                    "inverse-on-surface": "#f6f0e5",
+                    "primary-fixed-dim": "#ffb59e",
+                    "surface-container": "#f3ede2",
+                    "primary-fixed": "#ffdbd0",
+                    "on-background": "#1d1c15",
+                    "on-secondary-container": "#5a6c00",
+                    "surface-container-high": "#ede8dd",
+                    "inverse-surface": "#333029",
+                    "on-primary-container": "#752305",
+                    "tertiary-fixed-dim": "#9ccee4",
+                    "on-tertiary-fixed-variant": "#154d5f",
+                    "surface-container-lowest": "#ffffff",
+                    "background": "#fff9ee"
+                },
+                "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+                },
+                "spacing": {
+                    "gutter": "32px",
+                    "container-padding": "64px",
+                    "unit": "8px",
+                    "section-gap": "120px",
+                    "card-internal": "40px"
+                },
+                "fontFamily": {
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "label-caps": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "display-xl": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"]
+                },
+                "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}]
+                }
+            }
+        }
+    }
+</script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container min-h-screen">
+
+<!-- ─── NAVIGATION ─── -->
+<nav class="fixed top-3 md:top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-full border border-outline-variant/30 bg-surface/80 backdrop-blur-xl shadow-sm shadow-[0_8px_32px_rgba(0,0,0,0.05)] z-50 flex justify-between items-center px-4 md:px-8 py-2 md:py-3">
+    <a class="font-display-xl tracking-tighter text-primary flex items-center gap-1.5 md:gap-2 text-[15px] md:text-headline-md" href="index.html">
+        <span class="material-symbols-outlined text-[20px] md:text-[28px]">shopping_basket</span>
+        <span class="hidden sm:inline">Shuddhota CO.</span>
+        <span class="sm:hidden font-bold">Shuddhota</span>
+    </a>
+    <div class="hidden md:flex items-center gap-6">
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-body-md" href="index.html">Home</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-body-md" href="#">Products</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-body-md" href="#">Deals</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-body-md" href="#">About</a>
+    </div>
+    <div class="flex items-center gap-2 md:gap-4">
+        <a class="hidden md:block text-on-surface-variant font-medium hover:text-primary transition-colors text-body-md" href="#">Sign In</a>
+        <a class="bg-primary text-on-primary font-medium px-3 md:px-6 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors text-[12px] md:text-body-md" href="#">
+            Sign Up
+        </a>
+        <button id="mobile-menu-btn" class="flex md:hidden text-on-surface-variant hover:text-primary transition-colors items-center justify-center" onclick="toggleMobileMenu()">
+            <span id="hamburger-icon" class="material-symbols-outlined text-[22px]">menu</span>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile Nav Menu -->
+<div id="mobile-menu" class="hidden fixed top-[60px] left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-[20px] border border-outline-variant/30 bg-surface/95 backdrop-blur-xl shadow-lg z-40 md:hidden">
+    <div class="flex flex-col py-3 px-2">
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="index.html">Home</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">Products</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">Deals</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">About</a>
+        <div class="h-px bg-outline-variant/20 mx-2 my-1"></div>
+        <a class="flex items-center justify-center gap-2 bg-primary text-on-primary font-medium text-[14px] py-3 px-4 rounded-xl hover:bg-primary/90 transition-colors" href="#">
+            Sign Up Free
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+        </a>
+    </div>
+</div>
+
+<!-- ─── MAIN CONTENT ─── -->
+<main class="min-h-screen flex flex-col">
+
+    <!-- ─── SIGN UP SECTION ─── -->
+    <section class="relative flex-1 flex items-center justify-center px-4 pt-28 pb-16 md:pt-36 md:pb-20 overflow-hidden">
+
+        <!-- Background gradient -->
+        <div class="absolute inset-0 bg-gradient-to-br from-tertiary-fixed/25 via-background to-primary-fixed/20 -z-10"></div>
+
+        <!-- Decorative orbs -->
+        <div class="orb w-72 h-72 md:w-[500px] md:h-[500px] bg-primary-container/20 top-10 -right-16 md:-right-24 -z-10"></div>
+        <div class="orb w-56 h-56 md:w-96 md:h-96 bg-secondary-container/25 bottom-10 -left-10 md:-left-20 -z-10"></div>
+        <div class="orb w-40 h-40 md:w-64 md:h-64 bg-tertiary-fixed/30 top-1/3 left-1/4 -z-10"></div>
+
+        <div class="w-full max-w-6xl mx-auto">
+
+            <!-- ─── TWO-COLUMN LAYOUT ─── -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 items-center">
+
+                <!-- LEFT: Brand Panel -->
+                <div class="hidden lg:flex flex-col justify-center pr-8 animate-slide-up">
+                    <!-- Badge -->
+                    <div class="inline-flex items-center gap-2 bg-surface/70 backdrop-blur-xl border border-outline-variant/50 rounded-full px-4 py-2 mb-8 shadow-sm w-fit">
+                        <span class="bg-secondary-container text-on-secondary-container font-label-caps text-label-caps px-2 py-1 rounded-full uppercase">Free</span>
+                        <span class="font-body-md text-body-md text-on-surface">No credit card required</span>
+                    </div>
+
+                    <h1 class="font-display-xl text-[52px] leading-[1.1] tracking-tighter text-on-surface mb-6">
+                        Join the<br/>Shuddhota<br/><span class="text-primary">Family.</span>
+                    </h1>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-sm">
+                        Get access to pure spices, premium dry foods, and exclusive member deals — delivered fresh from farms to your kitchen.
+                    </p>
+
+                    <!-- Perks -->
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 bg-surface/60 backdrop-blur border border-outline-variant/30 rounded-[20px] px-5 py-4 shadow-sm">
+                            <div class="w-11 h-11 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-primary text-[22px]">local_shipping</span>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-on-surface text-[15px]">Free Delivery</p>
+                                <p class="text-on-surface-variant text-[13px]">On all orders above ৳499</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-surface/60 backdrop-blur border border-outline-variant/30 rounded-[20px] px-5 py-4 shadow-sm">
+                            <div class="w-11 h-11 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-secondary text-[22px]">discount</span>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-on-surface text-[15px]">Exclusive Member Deals</p>
+                                <p class="text-on-surface-variant text-[13px]">Up to 30% off on seasonal items</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 bg-surface/60 backdrop-blur border border-outline-variant/30 rounded-[20px] px-5 py-4 shadow-sm">
+                            <div class="w-11 h-11 rounded-full bg-tertiary/10 flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-tertiary text-[22px]">verified</span>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-on-surface text-[15px]">Lab-Tested Purity</p>
+                                <p class="text-on-surface-variant text-[13px]">BSTI certified, 100% natural</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social proof -->
+                    <div class="mt-10 flex items-center gap-4">
+                        <div class="flex -space-x-2">
+                            <div class="w-9 h-9 rounded-full bg-primary-container border-2 border-surface flex items-center justify-center text-primary font-bold text-[13px]">R</div>
+                            <div class="w-9 h-9 rounded-full bg-secondary-container border-2 border-surface flex items-center justify-center text-secondary font-bold text-[13px]">S</div>
+                            <div class="w-9 h-9 rounded-full bg-tertiary-container border-2 border-surface flex items-center justify-center text-tertiary font-bold text-[13px]">A</div>
+                            <div class="w-9 h-9 rounded-full bg-surface-container-high border-2 border-surface flex items-center justify-center text-on-surface font-bold text-[11px]">+2k</div>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-1 mb-0.5">
+                                <span class="text-primary text-[14px]">★★★★★</span>
+                            </div>
+                            <p class="text-on-surface-variant text-[13px]">Trusted by <span class="text-on-surface font-semibold">2,400+</span> happy customers</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Sign Up Card -->
+                <div class="w-full animate-slide-up delay-1">
+                    <div class="bg-surface/90 backdrop-blur-xl rounded-[28px] md:rounded-[32px] border border-outline-variant/40 shadow-[0_24px_64px_rgba(159,65,34,0.10)] p-6 md:p-10">
+
+                        <!-- Card Header -->
+                        <div class="mb-7 md:mb-8">
+                            <!-- Mobile brand logo (visible on small screens) -->
+                            <div class="flex items-center gap-2 mb-5 lg:hidden">
+                                <span class="material-symbols-outlined text-primary text-[22px]">shopping_basket</span>
+                                <span class="font-bold text-primary text-[16px] tracking-tight">Shuddhota CO.</span>
+                            </div>
+
+                            <h2 class="font-display-xl text-[26px] md:text-[34px] leading-tight tracking-tight text-on-surface mb-1.5">
+                                Create your account
+                            </h2>
+                            <p class="text-on-surface-variant text-[13px] md:text-body-md">
+                                Already have an account?
+                                <a href="#" class="text-primary font-semibold hover:underline underline-offset-2 ml-0.5">Sign in</a>
+                            </p>
+                        </div>
+
+                        <!-- Social Sign Up -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                            <button class="btn-social flex items-center justify-center gap-2.5 border border-outline-variant/60 bg-surface rounded-full py-2.5 md:py-3 px-4 text-[13px] md:text-[14px] font-medium text-on-surface hover:border-outline-variant">
+                                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                                </svg>
+                                Continue with Google
+                            </button>
+                            <button class="btn-social flex items-center justify-center gap-2.5 border border-outline-variant/60 bg-surface rounded-full py-2.5 md:py-3 px-4 text-[13px] md:text-[14px] font-medium text-on-surface hover:border-outline-variant">
+                                <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                                </svg>
+                                Continue with Facebook
+                            </button>
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="flex-1 h-px bg-outline-variant/40"></div>
+                            <span class="text-on-surface-variant text-[12px] font-medium">or sign up with email</span>
+                            <div class="flex-1 h-px bg-outline-variant/40"></div>
+                        </div>
+
+                        <!-- Form -->
+                        <div class="space-y-4">
+
+                            <!-- Name Row -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <!-- First Name -->
+                                <div>
+                                    <label class="block text-[12px] md:text-[13px] font-semibold text-on-surface mb-1.5 uppercase tracking-wider" for="first-name">First Name</label>
+                                    <div class="relative">
+                                        <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px] md:text-[20px] pointer-events-none">person</span>
+                                        <input
+                                            type="text"
+                                            id="first-name"
+                                            placeholder="Rahim"
+                                            class="input-field w-full bg-surface-container-low border border-outline-variant/60 rounded-full pl-10 md:pl-11 pr-4 py-3 md:py-3.5 text-[13px] md:text-body-md text-on-surface placeholder:text-outline/60 font-body-md"
+                                        />
+                                    </div>
+                                </div>
+                                <!-- Last Name -->
+                                <div>
+                                    <label class="block text-[12px] md:text-[13px] font-semibold text-on-surface mb-1.5 uppercase tracking-wider" for="last-name">Last Name</label>
+                                    <div class="relative">
+                                        <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px] md:text-[20px] pointer-events-none">person</span>
+                                        <input
+                                            type="text"
+                                            id="last-name"
+                                            placeholder="Uddin"
+                                            class="input-field w-full bg-surface-container-low border border-outline-variant/60 rounded-full pl-10 md:pl-11 pr-4 py-3 md:py-3.5 text-[13px] md:text-body-md text-on-surface placeholder:text-outline/60 font-body-md"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Email -->
+                            <div>
+                                <label class="block text-[12px] md:text-[13px] font-semibold text-on-surface mb-1.5 uppercase tracking-wider" for="email">Email Address</label>
+                                <div class="relative">
+                                    <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px] md:text-[20px] pointer-events-none">mail</span>
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        placeholder="rahim@example.com"
+                                        class="input-field w-full bg-surface-container-low border border-outline-variant/60 rounded-full pl-10 md:pl-11 pr-4 py-3 md:py-3.5 text-[13px] md:text-body-md text-on-surface placeholder:text-outline/60 font-body-md"
+                                    />
+                                </div>
+                            </div>
+
+                            <!-- Phone -->
+                            <div>
+                                <label class="block text-[12px] md:text-[13px] font-semibold text-on-surface mb-1.5 uppercase tracking-wider" for="phone">
+                                    Phone Number
+                                    <span class="normal-case tracking-normal text-outline font-normal ml-1">(optional)</span>
+                                </label>
+                                <div class="relative flex">
+                                    <div class="flex items-center gap-1.5 bg-surface-container border border-r-0 border-outline-variant/60 rounded-l-full pl-4 pr-3 py-3 md:py-3.5 shrink-0">
+                                        <span class="text-[13px] md:text-[14px] font-medium text-on-surface">🇧🇩</span>
+                                        <span class="text-[13px] md:text-[14px] text-on-surface-variant font-medium">+880</span>
+                                        <span class="material-symbols-outlined text-outline text-[16px]">expand_more</span>
+                                    </div>
+                                    <input
+                                        type="tel"
+                                        id="phone"
+                                        placeholder="01XXXXXXXXX"
+                                        class="input-field flex-1 bg-surface-container-low border border-l-0 border-outline-variant/60 rounded-r-full pr-4 pl-3 py-3 md:py-3.5 text-[13px] md:text-body-md text-on-surface placeholder:text-outline/60 font-body-md"
+                                        style="border-radius: 0 9999px 9999px 0;"
+                                    />
+                                </div>
+                            </div>
+
+                            <!-- Password -->
+                            <div>
+                                <label class="block text-[12px] md:text-[13px] font-semibold text-on-surface mb-1.5 uppercase tracking-wider" for="password">Password</label>
+                                <div class="relative">
+                                    <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px] md:text-[20px] pointer-events-none">lock</span>
+                                    <input
+                                        type="password"
+                                        id="password"
+                                        placeholder="Min. 8 characters"
+                                        oninput="checkStrength(this.value)"
+                                        class="input-field w-full bg-surface-container-low border border-outline-variant/60 rounded-full pl-10 md:pl-11 pr-11 md:pr-12 py-3 md:py-3.5 text-[13px] md:text-body-md text-on-surface placeholder:text-outline/60 font-body-md"
+                                    />
+                                    <button type="button" class="eye-btn absolute right-4 top-1/2 -translate-y-1/2 text-outline" onclick="togglePass('password', this)">
+                                        <span class="material-symbols-outlined text-[18px] md:text-[20px]">visibility_off</span>
+                                    </button>
+                                </div>
+                                <!-- Password Strength -->
+                                <div class="mt-2.5 flex items-center gap-2">
+                                    <div class="flex gap-1.5 flex-1">
+                                        <div class="strength-bar flex-1 bg-outline-variant/30" id="bar1"></div>
+                                        <div class="strength-bar flex-1 bg-outline-variant/30" id="bar2"></div>
+                                        <div class="strength-bar flex-1 bg-outline-variant/30" id="bar3"></div>
+                                        <div class="strength-bar flex-1 bg-outline-variant/30" id="bar4"></div>
+                                    </div>
+                                    <span id="strength-label" class="text-[11px] text-outline shrink-0 w-16 text-right"></span>
+                                </div>
+                            </div>
+
+                            <!-- Confirm Password -->
+                            <div>
+                                <label class="block text-[12px] md:text-[13px] font-semibold text-on-surface mb-1.5 uppercase tracking-wider" for="confirm-password">Confirm Password</label>
+                                <div class="relative">
+                                    <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px] md:text-[20px] pointer-events-none">lock_reset</span>
+                                    <input
+                                        type="password"
+                                        id="confirm-password"
+                                        placeholder="Re-enter your password"
+                                        oninput="checkMatch()"
+                                        class="input-field w-full bg-surface-container-low border border-outline-variant/60 rounded-full pl-10 md:pl-11 pr-11 md:pr-12 py-3 md:py-3.5 text-[13px] md:text-body-md text-on-surface placeholder:text-outline/60 font-body-md"
+                                    />
+                                    <button type="button" class="eye-btn absolute right-4 top-1/2 -translate-y-1/2 text-outline" onclick="togglePass('confirm-password', this)">
+                                        <span class="material-symbols-outlined text-[18px] md:text-[20px]">visibility_off</span>
+                                    </button>
+                                </div>
+                                <p id="match-msg" class="mt-1.5 text-[11px] ml-4 hidden"></p>
+                            </div>
+
+                            <!-- Terms & Newsletters -->
+                            <div class="space-y-3 pt-1">
+                                <label class="flex items-start gap-3 cursor-pointer group">
+                                    <input type="checkbox" id="terms" class="custom-checkbox mt-0.5 w-4 h-4 rounded border-outline-variant/60 text-primary focus:ring-primary/30 shrink-0" required/>
+                                    <span class="text-[12px] md:text-[13px] text-on-surface-variant leading-snug group-hover:text-on-surface transition-colors">
+                                        I agree to the
+                                        <a href="#" class="text-primary font-semibold hover:underline underline-offset-2">Terms of Service</a>
+                                        and
+                                        <a href="#" class="text-primary font-semibold hover:underline underline-offset-2">Privacy Policy</a>
+                                    </span>
+                                </label>
+                                <label class="flex items-start gap-3 cursor-pointer group">
+                                    <input type="checkbox" id="newsletter" class="custom-checkbox mt-0.5 w-4 h-4 rounded border-outline-variant/60 text-primary focus:ring-primary/30 shrink-0"/>
+                                    <span class="text-[12px] md:text-[13px] text-on-surface-variant leading-snug group-hover:text-on-surface transition-colors">
+                                        Send me exclusive deals, new arrivals, and seasonal offers
+                                    </span>
+                                </label>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="pt-2">
+                                <button type="button" onclick="handleSignUp()" class="btn-primary w-full bg-primary text-on-primary font-semibold text-[14px] md:text-body-lg py-3.5 md:py-4 rounded-full shadow-lg flex items-center justify-center gap-2.5 group">
+                                    <span class="material-symbols-outlined text-[20px] md:text-[22px] group-hover:scale-110 transition-transform">person_add</span>
+                                    Create Free Account
+                                    <span class="material-symbols-outlined text-[18px] md:text-[20px] text-secondary-fixed group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                                </button>
+                            </div>
+
+                        </div>
+                        <!-- End Form -->
+
+                        <!-- Trust Badges -->
+                        <div class="mt-6 pt-5 border-t border-outline-variant/20 flex items-center justify-center gap-4 flex-wrap">
+                            <div class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-secondary text-[15px]">lock</span>
+                                <span class="text-[11px] text-on-surface-variant">SSL Secured</span>
+                            </div>
+                            <div class="w-px h-4 bg-outline-variant/40"></div>
+                            <div class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-secondary text-[15px]">verified_user</span>
+                                <span class="text-[11px] text-on-surface-variant">Data Protected</span>
+                            </div>
+                            <div class="w-px h-4 bg-outline-variant/40"></div>
+                            <div class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-secondary text-[15px]">verified</span>
+                                <span class="text-[11px] text-on-surface-variant">BSTI Certified</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- End Card -->
+                </div>
+                <!-- End Right Column -->
+
+            </div>
+            <!-- End Grid -->
+        </div>
+    </section>
+
+    <!-- ─── SUCCESS MODAL ─── -->
+    <div id="success-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-inverse-surface/40 backdrop-blur-md" onclick="closeModal()"></div>
+        <div class="relative bg-surface rounded-[28px] border border-outline-variant/40 shadow-2xl p-8 md:p-12 max-w-sm w-full text-center animate-slide-up">
+            <div class="w-16 h-16 bg-secondary-container rounded-full flex items-center justify-center mx-auto mb-5">
+                <span class="material-symbols-outlined text-secondary text-[34px]">check_circle</span>
+            </div>
+            <h3 class="font-display-xl text-[24px] text-on-surface tracking-tight mb-2">You're in!</h3>
+            <p class="text-on-surface-variant text-[14px] mb-7">Welcome to Shuddhota Co. Your account has been created successfully.</p>
+            <a href="index.html" class="inline-flex items-center gap-2 bg-primary text-on-primary font-medium px-8 py-3 rounded-full hover:bg-primary/90 transition-colors text-[14px]">
+                Start Shopping
+                <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </a>
+        </div>
+    </div>
+
+</main>
+
+<!-- ─── FOOTER ─── -->
+<footer class="bg-surface w-full py-12 md:py-section-gap border-t border-outline-variant/20 font-body-md text-body-md">
+    <div class="max-w-7xl mx-auto px-6 md:px-container-padding">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10 mb-10 md:mb-16">
+            <!-- Brand -->
+            <div class="col-span-2 md:col-span-1">
+                <div class="font-display-xl text-headline-md text-primary flex items-center gap-2 mb-3">
+                    <span class="material-symbols-outlined">shopping_basket</span>
+                    Shuddhota Co.
+                </div>
+                <p class="font-body-md text-[12px] md:text-body-md text-on-surface-variant mb-4 max-w-[220px]">Pure spices and premium dry foods, delivered fresh from farms to your kitchen.</p>
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center hover:bg-primary hover:text-on-primary cursor-pointer transition-colors">
+                        <span class="material-symbols-outlined text-[15px]">public</span>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center hover:bg-primary hover:text-on-primary cursor-pointer transition-colors">
+                        <span class="material-symbols-outlined text-[15px]">camera_alt</span>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center hover:bg-primary hover:text-on-primary cursor-pointer transition-colors">
+                        <span class="material-symbols-outlined text-[15px]">chat</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Shop -->
+            <div>
+                <h4 class="text-[11px] md:text-body-md font-semibold text-on-surface mb-3 uppercase tracking-wider">Shop</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Whole Spices</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Ground Masalas</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Dry Fruits & Nuts</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Dals & Pulses</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Ready Mixes</a></li>
+                </ul>
+            </div>
+            <!-- Help -->
+            <div>
+                <h4 class="text-[11px] md:text-body-md font-semibold text-on-surface mb-3 uppercase tracking-wider">Help</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Order Tracking</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Returns & Refunds</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Shipping Info</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">FAQ</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Contact Us</a></li>
+                </ul>
+            </div>
+            <!-- Company -->
+            <div>
+                <h4 class="text-[11px] md:text-body-md font-semibold text-on-surface mb-3 uppercase tracking-wider">Company</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">About Us</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Our Story</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Wholesale</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Privacy Policy</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-outline-variant/20 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p class="text-on-surface-variant text-[11px] md:text-sm">© 2024 Shuddhota Co. Pure spices, bold flavors.</p>
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30">
+                    <span class="material-symbols-outlined text-secondary text-[14px] md:text-[16px]">verified</span>
+                    <span class="text-[10px] md:text-[12px] text-on-surface-variant font-medium">BSTI Certified</span>
+                </div>
+                <div class="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30">
+                    <span class="material-symbols-outlined text-secondary text-[14px] md:text-[16px]">eco</span>
+                    <span class="text-[10px] md:text-[12px] text-on-surface-variant font-medium">100% Natural</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    /* ─── Mobile Menu ─── */
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobile-menu');
+        const icon = document.getElementById('hamburger-icon');
+        menu.classList.toggle('hidden');
+        icon.textContent = menu.classList.contains('hidden') ? 'menu' : 'close';
+    }
+    document.addEventListener('click', function(e) {
+        const menu = document.getElementById('mobile-menu');
+        const btn = document.getElementById('mobile-menu-btn');
+        if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+            menu.classList.add('hidden');
+            document.getElementById('hamburger-icon').textContent = 'menu';
+        }
+    });
+    window.addEventListener('resize', function() {
+        if (window.innerWidth >= 768) {
+            document.getElementById('mobile-menu').classList.add('hidden');
+            document.getElementById('hamburger-icon').textContent = 'menu';
+        }
+    });
+
+    /* ─── Password Visibility Toggle ─── */
+    function togglePass(id, btn) {
+        const input = document.getElementById(id);
+        const icon = btn.querySelector('.material-symbols-outlined');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.textContent = 'visibility';
+        } else {
+            input.type = 'password';
+            icon.textContent = 'visibility_off';
+        }
+    }
+
+    /* ─── Password Strength ─── */
+    function checkStrength(val) {
+        const bars = [
+            document.getElementById('bar1'),
+            document.getElementById('bar2'),
+            document.getElementById('bar3'),
+            document.getElementById('bar4'),
+        ];
+        const label = document.getElementById('strength-label');
+
+        const resetBars = () => bars.forEach(b => { b.style.backgroundColor = '#ddc0b8'; b.style.opacity = '0.4'; });
+        resetBars();
+
+        if (!val) { label.textContent = ''; return; }
+
+        let score = 0;
+        if (val.length >= 8) score++;
+        if (/[A-Z]/.test(val)) score++;
+        if (/[0-9]/.test(val)) score++;
+        if (/[^a-zA-Z0-9]/.test(val)) score++;
+
+        const colors   = ['#ba1a1a', '#ff8a65', '#d6ed7a', '#556500'];
+        const labels   = ['Weak', 'Fair', 'Good', 'Strong'];
+        const labelCol = ['#ba1a1a', '#9f4122', '#556500', '#326578'];
+
+        for (let i = 0; i < score; i++) {
+            bars[i].style.backgroundColor = colors[score - 1];
+            bars[i].style.opacity = '1';
+        }
+        label.textContent = labels[score - 1];
+        label.style.color = labelCol[score - 1];
+    }
+
+    /* ─── Confirm Password Match ─── */
+    function checkMatch() {
+        const pw  = document.getElementById('password').value;
+        const cpw = document.getElementById('confirm-password').value;
+        const msg = document.getElementById('match-msg');
+        if (!cpw) { msg.classList.add('hidden'); return; }
+        msg.classList.remove('hidden');
+        if (pw === cpw) {
+            msg.textContent = '✓ Passwords match';
+            msg.style.color = '#556500';
+        } else {
+            msg.textContent = '✗ Passwords do not match';
+            msg.style.color = '#ba1a1a';
+        }
+    }
+
+    /* ─── Sign Up Handler ─── */
+    function handleSignUp() {
+        const firstName = document.getElementById('first-name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const pw    = document.getElementById('password').value;
+        const cpw   = document.getElementById('confirm-password').value;
+        const terms = document.getElementById('terms').checked;
+
+        if (!firstName || !email || !pw || !cpw) {
+            alert('Please fill in all required fields.');
+            return;
+        }
+        if (pw !== cpw) {
+            alert('Passwords do not match!');
+            return;
+        }
+        if (!terms) {
+            alert('Please accept the Terms of Service to continue.');
+            return;
+        }
+        document.getElementById('success-modal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('success-modal').classList.add('hidden');
+    }
+</script>
+</body>
+</html>
