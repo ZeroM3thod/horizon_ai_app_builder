@@ -71,14 +71,14 @@ export default function Navbar() {
           </Link>
         </div>
         <div className="flex items-center gap-2 md:gap-4">
-          <button className="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center relative">
+          <Link href="/cart" className="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center relative">
             <span className="material-symbols-outlined text-[20px] md:text-[24px]">
               shopping_cart
             </span>
             <span className="absolute -top-1 -right-1 bg-primary text-on-primary text-[9px] md:text-[10px] font-bold w-3.5 h-3.5 md:w-4 md:h-4 rounded-full flex items-center justify-center">
               3
             </span>
-          </button>
+          </Link>
           <Link
             className="hidden md:block bg-primary text-on-primary font-medium px-3 md:px-6 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors text-[12px] md:text-body-md"
             href="/products"
