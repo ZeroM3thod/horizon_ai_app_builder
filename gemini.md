@@ -1,61 +1,27 @@
-# Shuddhota Co. — Pure Spices & Premium Dry Foods
+PS C:\Users\KHAN GADGET\Documents\horizon_ai_app_builder> npm run build
 
-This project is a modern e-commerce application for Shuddhota Co., specializing in authentic masalas and premium dry foods.
+> horizon-ai-app-builder@0.1.0 build
+> next build
 
-## Tech Stack
-- **Framework**: [Next.js 14](https://nextjs.org/) (App Router)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Icons**: [Lucide React](https://lucide.dev/)
-- **Type Safety**: [TypeScript](https://www.typescriptlang.org/)
-- **Fonts**: Plus Jakarta Sans (Google Fonts)
+  ▲ Next.js 14.2.10
 
-## Project Structure
-- `src/app/`: Core application logic, layouts, and page-level components.
-- `src/app/products/`: The converted Products page with full filtering and search logic.
-- `src/components/`: Reusable UI components (e.g., Navbar, Footer).
-- `HTML/`: Original static HTML mockups for reference.
-- `public/`: Static assets like images and fonts.
+   Creating an optimized production build ...
+ ✓ Compiled successfully
 
-## Development Workflow
+./src/app/layout.tsx
+25:9  Warning: Custom fonts not added in `pages/_document.js` will only load for a single page. This is discouraged. See: https://nextjs.org/docs/messages/no-page-custom-font  @next/next/no-page-custom-font
 
-### Setup
-```bash
-npm install
-```
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/basic-features/eslint#disabling-rules
+   Linting and checking validity of types  .Failed to compile.
 
-### Development Server
-```bash
-npm run dev
-```
-The application will be available at `http://localhost:3000`.
+./src/app/orders/page.tsx:294:36
+Type error: Property 'isMore' does not exist on type '{ name: string; qty: number; price: number; icon: string; gradient: string; iconColor: string; } | { name: string; qty: number; price: number; icon: string; gradient: string; iconColor: string; isMore?: undefined; } | { ...; }'.
+  Property 'isMore' does not exist on type '{ name: string; qty: number; price: number; icon: string; gradient: string; iconColor: string; }'.
 
-### Build
-```bash
-npm run build
-```
-
-### Linting
-```bash
-npm run lint
-```
-
-## Troubleshooting
-
-### Corrupted Build Cache
-If you encounter `MODULE_NOT_FOUND` errors for random `.js` files in the `.next` directory, it usually means the build cache is corrupted. 
-**Fix:** Delete the `.next` folder and restart the server.
-```bash
-rm -rf .next
-npm run dev
-```
-
-### Missing Dependencies
-If you see errors related to `autoprefixer` or other styling tools, ensure all dev dependencies are installed:
-```bash
-npm install
-```
-
-## Core Principles
-- **Clean Architecture**: Separation of concerns between UI components and business logic.
-- **Responsive Design**: Mobile-first approach using Tailwind CSS.
-- **Type Safety**: Rigorous use of TypeScript for all components and utilities.
+  292 |                           <div>
+  293 |                             <p className="font-medium text-[11px] md:text-[12px] text-on-surface leading-tight">{item.name}</p>
+> 294 |                             {!item.isMore && <p className="text-[9px] md:text-[10px] text-on-surface-variant">×{item.qty} · ৳{item.price}</p>}
+      |                                    ^
+  295 |                             {item.isMore && <p className="text-[9px] md:text-[10px] text-on-surface-variant">item</p>}
+  296 |                           </div>
+  297 |                         </div>

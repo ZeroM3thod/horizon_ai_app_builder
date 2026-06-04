@@ -3,8 +3,43 @@
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
 
+/* ─── TYPES ─── */
+interface OrderItem {
+  name: string;
+  qty: number;
+  price: number;
+  icon: string;
+  gradient: string;
+  iconColor: string;
+  isMore?: boolean;
+}
+
+interface Order {
+  id: string;
+  status: string;
+  statusLabel: string;
+  date: string;
+  itemCount: number;
+  total: number;
+  shipping?: string;
+  savings?: number;
+  color: string;
+  icon: string;
+  items: OrderItem[];
+  eta?: string;
+  tracking?: string;
+  step?: number;
+  deliveredDate?: string;
+  location?: string;
+  rated?: number;
+  refundInfo?: string;
+  refundDate?: string;
+  refundRef?: string;
+  cancelReason?: string;
+}
+
 /* ─── DATA ─── */
-const ORDERS_DATA = [
+const ORDERS_DATA: Order[] = [
   {
     id: "#SHC-2024-7891",
     status: "active",
@@ -310,14 +345,14 @@ export default function OrderListPage() {
                         ].map((s, idx, arr) => (
                           <React.Fragment key={idx}>
                             <div className="flex flex-col items-center gap-1">
-                              {order.step > s.step ? (
+                              {(order.step || 0) > s.step ? (
                                 <div className="w-6 h-6 md:w-7 md:h-7 rounded-full bg-primary flex items-center justify-center">
                                   <span className="material-symbols-outlined text-on-primary text-[11px] md:text-[13px]">{s.icon === 'check' ? 'check' : s.icon}</span>
                                 </div>
-                              ) : order.step === s.step ? (
+                              ) : (order.step || 0) === s.step ? (
                                 <div className="relative w-6 h-6 md:w-7 md:h-7">
-                                  <span className={`absolute inset-0 rounded-full animate-ping ${order.step >= 4 ? 'bg-secondary/25' : 'bg-primary/25'}`}></span>
-                                  <div className={`relative w-6 h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center ${order.step >= 4 ? 'bg-secondary' : 'bg-primary'}`}>
+                                  <span className={`absolute inset-0 rounded-full animate-ping ${(order.step || 0) >= 4 ? 'bg-secondary/25' : 'bg-primary/25'}`}></span>
+                                  <div className={`relative w-6 h-6 md:w-7 md:h-7 rounded-full flex items-center justify-center ${(order.step || 0) >= 4 ? 'bg-secondary' : 'bg-primary'}`}>
                                     <span className={`material-symbols-outlined text-white text-[11px] md:text-[13px]`}>{s.icon}</span>
                                   </div>
                                 </div>
@@ -326,12 +361,12 @@ export default function OrderListPage() {
                                   <span className="material-symbols-outlined text-on-surface-variant text-[10px] md:text-[12px]">{s.icon}</span>
                                 </div>
                               )}
-                              <p className={`text-[8px] md:text-[9px] text-center whitespace-nowrap ${order.step === s.step ? (order.step >= 4 ? 'text-secondary font-bold' : 'text-primary font-bold') : (order.step > s.step ? 'text-on-surface-variant' : 'text-outline')}`}>
+                              <p className={`text-[8px] md:text-[9px] text-center whitespace-nowrap ${(order.step || 0) === s.step ? ((order.step || 0) >= 4 ? 'text-secondary font-bold' : 'text-primary font-bold') : ((order.step || 0) > s.step ? 'text-on-surface-variant' : 'text-outline')}`}>
                                 {s.label}
                               </p>
                             </div>
                             {idx < arr.length - 1 && (
-                              <div className={`flex-1 h-0.5 mb-3 mx-1 ${order.step > s.step ? 'bg-primary' : 'bg-outline-variant/40'}`}></div>
+                              <div className={`flex-1 h-0.5 mb-3 mx-1 ${(order.step || 0) > s.step ? 'bg-primary' : 'bg-outline-variant/40'}`}></div>
                             )}
                           </React.Fragment>
                         ))}
