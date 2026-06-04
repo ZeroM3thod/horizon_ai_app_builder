@@ -451,7 +451,7 @@ export default function ProductsPage() {
               {/* Product Grid */}
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-3 md:gap-4 xl:gap-5">
                 {filteredProducts.map((p, idx) => (
-                  <div key={p.id} className="product-card card-animate flex flex-col overflow-hidden" style={{ background: '#fff9ee', borderRadius: '20px', border: '1px solid rgba(221,192,184,0.45)', boxShadow: '0 2px 12px rgba(159,65,34,0.06)', animationDelay: `${Math.min(idx * 40, 300)}ms` }}>
+                  <Link key={p.id} href={`/products/${p.id}`} className="product-card card-animate flex flex-col overflow-hidden" style={{ background: '#fff9ee', borderRadius: '20px', border: '1px solid rgba(221,192,184,0.45)', boxShadow: '0 2px 12px rgba(159,65,34,0.06)', animationDelay: `${Math.min(idx * 40, 300)}ms` }}>
                     <div className="relative overflow-hidden p-[14px] flex items-end h-[clamp(130px,22vw,200px)]" style={{ background: p.bgGradient }}>
                       {p.badge && (
                         <div className="absolute top-[10px] left-[10px] px-2 py-0.5 rounded-full text-[8px] font-bold tracking-widest uppercase" style={p.badge === 'bestseller' ? { background: '#1d1c15', color: '#fff9ee' } : p.badge === 'sale' ? { background: '#ba1a1a', color: 'white' } : { background: '#9f4122', color: 'white' }}>
@@ -486,7 +486,7 @@ export default function ProductsPage() {
                           {p.originalPrice && <span className="text-[11px] text-outline line-through">৳{p.originalPrice}</span>}
                         </div>
                         <button 
-                          onClick={addToCart}
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCart(); }}
                           className="bg-primary text-on-primary font-semibold p-[clamp(6px,1.2vw,9px)_clamp(9px,2vw,16px)] rounded-full flex items-center gap-[5px] hover:opacity-85 transition-opacity"
                         >
                           <ShoppingCart size={16} />
@@ -494,7 +494,7 @@ export default function ProductsPage() {
                         </button>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
 
