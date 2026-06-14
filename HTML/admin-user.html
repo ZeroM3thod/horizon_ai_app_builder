@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Users — Admin Panel · Shuddhota Co.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
+<style>
+.material-symbols-outlined{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;-webkit-font-smoothing:antialiased}
+.sidebar{transition:transform .3s cubic-bezier(.4,0,.2,1),width .3s cubic-bezier(.4,0,.2,1)}
+.sidebar-overlay{transition:opacity .3s ease}
+.nav-item{transition:background .18s,color .18s,transform .18s}
+.nav-item:hover{transform:translateX(3px)}
+.nav-item.active{background:rgba(159,65,34,.10);color:#9f4122}
+.nav-item.active .nav-icon{color:#9f4122}
+.stat-card{transition:transform .2s ease,box-shadow .2s ease}
+.stat-card:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(159,65,34,.10)}
+.trow{transition:background .15s}
+.trow:hover{background:rgba(248,243,234,.9)}
+.hide-scrollbar{scrollbar-width:none;-ms-overflow-style:none}
+.hide-scrollbar::-webkit-scrollbar{display:none}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#ddc0b8;border-radius:99px}
+.badge-pulse{animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+@media(max-width:1023px){.sidebar{position:fixed;z-index:50;transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}}
+.sidebar-mini{width:72px}
+.sidebar-mini .sidebar-label,.sidebar-mini .sidebar-logo-text,.sidebar-mini .sidebar-section-title{display:none}
+.sidebar-mini .nav-item{justify-content:center;padding-left:0;padding-right:0}
+.sidebar-mini .nav-badge{display:none}
+.main-content{transition:margin-left .3s cubic-bezier(.4,0,.2,1)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.fade-up{animation:fadeUp .4s ease both}
+.fade-up-1{animation-delay:.05s}.fade-up-2{animation-delay:.1s}.fade-up-3{animation-delay:.15s}.fade-up-4{animation-delay:.2s}
+/* Full Detail Panel */
+.detail-panel{transition:transform .38s cubic-bezier(.4,0,.2,1)}
+.detail-panel-ov{transition:opacity .3s ease}
+/* Tab underline */
+.dtab{transition:color .15s,border-color .15s}
+.dtab.active{color:#9f4122;border-bottom:2.5px solid #9f4122}
+.dtab:not(.active){border-bottom:2.5px solid transparent;color:#56423c}
+/* Order row expand */
+.order-expand{transition:max-height .3s ease,opacity .3s ease;overflow:hidden}
+/* Points stepper */
+.pts-btn{transition:background .15s,transform .1s}
+.pts-btn:active{transform:scale(.92)}
+/* Dropdown */
+.dropdown-menu{transition:opacity .15s ease,transform .15s ease;transform-origin:top right}
+.dropdown-menu.hidden{opacity:0;transform:scale(.95);pointer-events:none}
+/* Role badge */
+.role-badge{transition:filter .15s}
+.role-badge:hover{filter:brightness(.92)}
+/* Avatar gradients */
+.ag0{background:linear-gradient(135deg,#9f4122,#c4623e)}
+.ag1{background:linear-gradient(135deg,#326578,#4d8fa6)}
+.ag2{background:linear-gradient(135deg,#556500,#7a9200)}
+.ag3{background:linear-gradient(135deg,#7f2a0d,#a83a18)}
+.ag4{background:linear-gradient(135deg,#1d5a7a,#2e7ea8)}
+.ag5{background:linear-gradient(135deg,#4a4500,#6a6300)}
+.ag6{background:linear-gradient(135deg,#8b2a4e,#b53968)}
+.ag7{background:linear-gradient(135deg,#1a5e3a,#268550)}
+/* Tooltip */
+.tip{position:relative}
+.tip::after{content:attr(data-t);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:#1d1c15;color:#fff9ee;font-size:11px;padding:4px 8px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s}
+.tip:hover::after{opacity:1}
+/* Sparkline */
+.spark line,.spark polyline{fill:none}
+/* Skeleton */
+@keyframes shimmer{0%{background-position:-400px 0}100%{background-position:400px 0}}
+/* Filter chips */
+.chip-active{display:flex}
+</style>
+<script>
+tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#9f4122","primary-container":"#ff8a65","primary-fixed":"#ffdbd0","primary-fixed-dim":"#ffb59e","on-primary":"#ffffff","on-primary-container":"#752305","secondary":"#556500","secondary-container":"#d6ed7a","secondary-fixed":"#d6ed7a","secondary-fixed-dim":"#bbd062","on-secondary":"#ffffff","on-secondary-container":"#5a6c00","tertiary":"#326578","tertiary-container":"#80b1c7","tertiary-fixed":"#bbe9ff","on-tertiary":"#ffffff","on-tertiary-container":"#074457","error":"#ba1a1a","error-container":"#ffdad6","on-error":"#ffffff","surface":"#fff9ee","surface-dim":"#dfd9cf","surface-variant":"#e8e2d7","surface-container":"#f3ede2","surface-container-low":"#f9f3e8","surface-container-high":"#ede8dd","surface-container-highest":"#e8e2d7","surface-container-lowest":"#ffffff","on-surface":"#1d1c15","on-surface-variant":"#56423c","outline":"#89726b","outline-variant":"#ddc0b8","inverse-surface":"#333029","inverse-on-surface":"#f6f0e5","inverse-primary":"#ffb59e","background":"#fff9ee","on-background":"#1d1c15"},borderRadius:{DEFAULT:"1rem",lg:"2rem",xl:"3rem",full:"9999px"},fontFamily:{sans:["Plus Jakarta Sans","sans-serif"]}}}}
+</script>
+</head>
+<body class="bg-background text-on-background font-sans antialiased overflow-x-hidden">
+
+<!-- SIDEBAR OVERLAY -->
+<div id="sidebar-overlay" class="sidebar-overlay fixed inset-0 bg-black/40 z-40 opacity-0 pointer-events-none lg:hidden" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside id="sidebar" class="sidebar bg-surface-container-lowest border-r border-outline-variant/30 h-screen w-64 flex flex-col overflow-hidden lg:fixed top-0 left-0 shadow-xl lg:shadow-none">
+  <div class="flex items-center gap-3 px-5 h-16 border-b border-outline-variant/20 shrink-0">
+    <div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center shadow-md">
+      <span class="material-symbols-outlined text-on-primary text-[18px]">shopping_basket</span>
+    </div>
+    <div class="sidebar-logo-text">
+      <div class="font-bold text-[15px] text-on-surface leading-none">Shuddhota Co.</div>
+      <div class="text-[10px] text-on-surface-variant mt-0.5 font-medium uppercase tracking-wider">Admin Panel</div>
+    </div>
+  </div>
+  <nav class="flex-1 overflow-y-auto hide-scrollbar py-4 px-3 space-y-0.5">
+    <p class="sidebar-section-title text-[10px] text-on-surface-variant uppercase tracking-widest font-bold px-3 pt-1 pb-2">Main</p>
+    <a href="admin.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">dashboard</span><span class="sidebar-label">Dashboard</span>
+    </a>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">inventory_2</span><span class="sidebar-label">All Products</span>
+      <span class="nav-badge ml-auto bg-secondary-container text-on-secondary-container text-[10px] font-bold px-2 py-0.5 rounded-full">48</span>
+    </a>
+    <a href="#" class="nav-item active flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">group</span><span class="sidebar-label">Users</span>
+      <span class="nav-badge ml-auto bg-tertiary-container text-on-tertiary-container text-[10px] font-bold px-2 py-0.5 rounded-full">1.2k</span>
+    </a>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">receipt_long</span><span class="sidebar-label">Orders</span>
+      <span class="nav-badge ml-auto bg-primary-fixed text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded-full badge-pulse">7</span>
+    </a>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">rate_review</span><span class="sidebar-label">Reviews</span>
+    </a>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">local_offer</span><span class="sidebar-label">Coupons</span>
+    </a>
+    <div class="h-px bg-outline-variant/30 my-3 mx-2"></div>
+    <p class="sidebar-section-title text-[10px] text-on-surface-variant uppercase tracking-widest font-bold px-3 pb-2">System</p>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">settings</span><span class="sidebar-label">Settings</span>
+    </a>
+    <a href="index.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">storefront</span><span class="sidebar-label">View Store</span>
+    </a>
+  </nav>
+  <div class="px-3 py-4 border-t border-outline-variant/20 shrink-0">
+    <div class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-surface-container transition-colors cursor-pointer">
+      <div class="w-8 h-8 rounded-full bg-primary-fixed-dim flex items-center justify-center shrink-0 font-bold text-[13px] text-on-primary-container">RA</div>
+      <div class="sidebar-label flex-1 min-w-0">
+        <div class="text-[13px] font-semibold text-on-surface truncate">Rakib Admin</div>
+        <div class="text-[11px] text-on-surface-variant truncate">admin@shuddhota.com</div>
+      </div>
+      <span class="sidebar-label material-symbols-outlined text-on-surface-variant text-[18px]">logout</span>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div id="main-content" class="main-content lg:ml-64 min-h-screen flex flex-col">
+
+  <!-- TOPBAR -->
+  <header class="sticky top-0 z-30 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 flex items-center justify-between px-4 md:px-6 h-16 shrink-0">
+    <div class="flex items-center gap-3">
+      <button onclick="toggleSidebar()" class="lg:hidden w-9 h-9 rounded-xl flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant">
+        <span id="hamburger-icon" class="material-symbols-outlined text-[22px]">menu</span>
+      </button>
+      <button onclick="toggleMiniSidebar()" class="hidden lg:flex w-9 h-9 rounded-xl items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant">
+        <span class="material-symbols-outlined text-[22px]">menu_open</span>
+      </button>
+      <div class="hidden sm:flex items-center gap-2 text-[13px]">
+        <span class="text-on-surface-variant">Admin</span>
+        <span class="material-symbols-outlined text-[14px] text-on-surface-variant">chevron_right</span>
+        <span class="text-on-surface font-semibold">Users</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="hidden md:flex items-center gap-2 bg-surface-container rounded-full px-4 py-2 border border-outline-variant/30 w-48 xl:w-64">
+        <span class="material-symbols-outlined text-on-surface-variant text-[18px]">search</span>
+        <input type="text" placeholder="Search users..." class="bg-transparent text-[13px] text-on-surface placeholder:text-outline border-none focus:ring-0 w-full p-0" oninput="liveSearch(this.value)"/>
+      </div>
+      <button class="relative w-9 h-9 rounded-xl flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant">
+        <span class="material-symbols-outlined text-[22px]">notifications</span>
+        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full border-2 border-surface badge-pulse"></span>
+      </button>
+      <div class="hidden lg:flex items-center gap-1.5 bg-surface-container rounded-full px-3 py-2 border border-outline-variant/20 text-[12px] text-on-surface-variant font-medium">
+        <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+        <span id="current-date"></span>
+      </div>
+      <div class="w-8 h-8 rounded-full bg-primary-fixed-dim flex items-center justify-center font-bold text-[12px] text-on-primary-container cursor-pointer">RA</div>
+    </div>
+  </header>
+
+  <!-- PAGE -->
+  <main class="flex-1 p-4 md:p-6 xl:p-8 pb-20 lg:pb-8">
+
+    <!-- Title row -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 fade-up">
+      <div>
+        <h1 class="text-[22px] md:text-[28px] font-extrabold text-on-surface">User Management</h1>
+        <p class="text-[13px] text-on-surface-variant mt-0.5">Manage users, orders, points and activity</p>
+      </div>
+      <button onclick="openAddModal()" class="flex items-center gap-2 bg-primary text-on-primary text-[13px] font-semibold px-5 py-2.5 rounded-full hover:bg-primary/90 transition-colors shadow-sm self-start sm:self-auto">
+        <span class="material-symbols-outlined text-[18px]">person_add</span>Add User
+      </button>
+    </div>
+
+    <!-- Stat Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6">
+      <div class="stat-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-4 md:p-5 shadow-sm fade-up fade-up-1">
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-10 h-10 rounded-2xl bg-primary-fixed flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-[20px]">group</span>
+          </div>
+          <span class="text-[10px] font-bold text-secondary bg-secondary-container px-2 py-0.5 rounded-full">+8.2%</span>
+        </div>
+        <p class="text-[24px] md:text-[28px] font-extrabold text-on-surface leading-none">1,248</p>
+        <p class="text-[12px] text-on-surface-variant mt-1 font-medium">Total Users</p>
+        <p class="text-[11px] text-on-surface-variant/70 mt-0.5">↑ 94 this month</p>
+      </div>
+      <div class="stat-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-4 md:p-5 shadow-sm fade-up fade-up-2">
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-10 h-10 rounded-2xl bg-secondary-fixed/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+          </div>
+          <span class="text-[10px] font-bold text-secondary bg-secondary-container px-2 py-0.5 rounded-full">+3.1%</span>
+        </div>
+        <p class="text-[24px] md:text-[28px] font-extrabold text-on-surface leading-none">1,092</p>
+        <p class="text-[12px] text-on-surface-variant mt-1 font-medium">Active Users</p>
+        <p class="text-[11px] text-on-surface-variant/70 mt-0.5">87.5% of total</p>
+      </div>
+      <div class="stat-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-4 md:p-5 shadow-sm fade-up fade-up-3">
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-10 h-10 rounded-2xl bg-tertiary-fixed/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-tertiary text-[20px]">person_add</span>
+          </div>
+          <span class="text-[10px] font-bold text-secondary bg-secondary-container px-2 py-0.5 rounded-full">+22%</span>
+        </div>
+        <p class="text-[24px] md:text-[28px] font-extrabold text-on-surface leading-none">94</p>
+        <p class="text-[12px] text-on-surface-variant mt-1 font-medium">New This Month</p>
+        <p class="text-[11px] text-on-surface-variant/70 mt-0.5">vs 77 last month</p>
+      </div>
+      <div class="stat-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-4 md:p-5 shadow-sm fade-up fade-up-4">
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-10 h-10 rounded-2xl bg-[#b8860b]/15 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[#b8860b] text-[20px]">workspace_premium</span>
+          </div>
+          <span class="text-[10px] font-bold text-secondary bg-secondary-container px-2 py-0.5 rounded-full">+5.4%</span>
+        </div>
+        <p class="text-[24px] md:text-[28px] font-extrabold text-on-surface leading-none">312</p>
+        <p class="text-[12px] text-on-surface-variant mt-1 font-medium">Premium Members</p>
+        <p class="text-[11px] text-on-surface-variant/70 mt-0.5">Gold &amp; Platinum tiers</p>
+      </div>
+    </div>
+
+    <!-- User Table Card -->
+    <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] shadow-sm fade-up fade-up-3">
+      <!-- Controls -->
+      <div class="p-4 md:p-5 border-b border-outline-variant/20">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <h3 class="font-bold text-[16px] text-on-surface">All Users <span id="user-count-label" class="text-[13px] font-normal text-on-surface-variant">(1,248)</span></h3>
+          <div class="flex items-center gap-2 flex-wrap">
+            <!-- Mobile search -->
+            <div class="flex md:hidden items-center gap-2 bg-surface-container rounded-full px-3 py-2 border border-outline-variant/30 flex-1 min-w-[160px]">
+              <span class="material-symbols-outlined text-on-surface-variant text-[17px]">search</span>
+              <input type="text" placeholder="Search…" class="bg-transparent text-[12px] text-on-surface placeholder:text-outline border-none focus:ring-0 w-full p-0" oninput="liveSearch(this.value)"/>
+            </div>
+            <!-- Filter -->
+            <div class="relative">
+              <button onclick="toggleDD('filter-dd')" class="flex items-center gap-1.5 bg-surface-container border border-outline-variant/30 rounded-full px-3 py-2 text-[12px] font-medium text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                <span class="material-symbols-outlined text-[16px]">filter_list</span><span class="hidden sm:inline">Filter</span>
+              </button>
+              <div id="filter-dd" class="dropdown-menu hidden absolute right-0 top-full mt-2 w-44 bg-surface-container-lowest border border-outline-variant/30 rounded-[16px] shadow-lg p-2 z-20">
+                <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider px-2 mb-1">Role</p>
+                <button onclick="doFilter('all')" class="w-full text-left px-3 py-2 rounded-xl text-[13px] text-on-surface hover:bg-surface-container transition-colors font-medium">All Users</button>
+                <button onclick="doFilter('admin')" class="w-full text-left px-3 py-2 rounded-xl text-[13px] text-on-surface hover:bg-surface-container">Admin</button>
+                <button onclick="doFilter('customer')" class="w-full text-left px-3 py-2 rounded-xl text-[13px] text-on-surface hover:bg-surface-container">Customer</button>
+                <button onclick="doFilter('staff')" class="w-full text-left px-3 py-2 rounded-xl text-[13px] text-on-surface hover:bg-surface-container">Staff</button>
+                <div class="h-px bg-outline-variant/20 my-1"></div>
+                <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider px-2 mb-1">Status</p>
+                <button onclick="doFilter('active')" class="w-full text-left px-3 py-2 rounded-xl text-[13px] text-on-surface hover:bg-surface-container">Active</button>
+                <button onclick="doFilter('suspended')" class="w-full text-left px-3 py-2 rounded-xl text-[13px] text-on-surface hover:bg-surface-container">Suspended</button>
+                <button onclick="doFilter('pending')" class="w-full text-left px-3 py-2 rounded-xl text-[13px] text-on-surface hover:bg-surface-container">Pending</button>
+              </div>
+            </div>
+            <!-- Sort -->
+            <div class="relative">
+              <button onclick="toggleDD('sort-dd')" class="flex items-center gap-1.5 bg-surface-container border border-outline-variant/30 rounded-full px-3 py-2 text-[12px] font-medium text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                <span class="material-symbols-outlined text-[16px]">sort</span><span class="hidden sm:inline">Sort</span>
+              </button>
+              <div id="sort-dd" class="dropdown-menu hidden absolute right-0 top-full mt-2 w-44 bg-surface-container-lowest border border-outline-variant/30 rounded-[16px] shadow-lg p-2 z-20">
+                <button onclick="doSort('newest')" class="w-full text-left px-3 py-2 rounded-xl text-[13px] text-on-surface hover:bg-surface-container font-medium">Newest First</button>
+                <button onclick="doSort('oldest')" class="w-full text-left px-3 py-2 rounded-xl text-[13px] text-on-surface hover:bg-surface-container">Oldest First</button>
+                <button onclick="doSort('name')" class="w-full text-left px-3 py-2 rounded-xl text-[13px] text-on-surface hover:bg-surface-container">Name A–Z</button>
+                <button onclick="doSort('orders')" class="w-full text-left px-3 py-2 rounded-xl text-[13px] text-on-surface hover:bg-surface-container">Most Orders</button>
+                <button onclick="doSort('points')" class="w-full text-left px-3 py-2 rounded-xl text-[13px] text-on-surface hover:bg-surface-container">Most Points</button>
+                <button onclick="doSort('spent')" class="w-full text-left px-3 py-2 rounded-xl text-[13px] text-on-surface hover:bg-surface-container">Highest Spend</button>
+              </div>
+            </div>
+            <button class="flex items-center gap-1.5 bg-surface-container border border-outline-variant/30 rounded-full px-3 py-2 text-[12px] font-medium text-on-surface-variant hover:bg-surface-container-high transition-colors tip" data-t="Export CSV">
+              <span class="material-symbols-outlined text-[16px]">download</span><span class="hidden sm:inline">Export</span>
+            </button>
+          </div>
+        </div>
+        <!-- Filter chip -->
+        <div id="filter-chips" class="hidden items-center gap-2 mt-3 flex-wrap">
+          <span class="flex items-center gap-1 text-[11px] font-semibold bg-primary-fixed text-on-primary-container px-3 py-1.5 rounded-full">
+            <span id="chip-label"></span>
+            <button onclick="doFilter('all')" class="material-symbols-outlined text-[14px] hover:text-error">close</button>
+          </span>
+        </div>
+      </div>
+
+      <!-- Bulk bar -->
+      <div id="bulk-bar" class="hidden items-center gap-3 px-4 md:px-5 py-3 bg-primary-fixed/40 border-b border-outline-variant/20">
+        <span id="bulk-count" class="text-[13px] font-semibold text-on-surface">0 selected</span>
+        <div class="h-4 w-px bg-outline-variant/40 mx-1"></div>
+        <button onclick="bulkAct('activate')" class="flex items-center gap-1 text-[12px] font-medium text-secondary"><span class="material-symbols-outlined text-[16px]">check_circle</span>Activate</button>
+        <button onclick="bulkAct('suspend')" class="flex items-center gap-1 text-[12px] font-medium text-on-surface-variant"><span class="material-symbols-outlined text-[16px]">block</span>Suspend</button>
+        <button onclick="bulkAct('delete')" class="flex items-center gap-1 text-[12px] font-medium text-error ml-auto"><span class="material-symbols-outlined text-[16px]">delete</span>Delete</button>
+      </div>
+
+      <!-- Table -->
+      <div class="overflow-x-auto hide-scrollbar">
+        <table class="w-full min-w-[760px]">
+          <thead>
+            <tr class="bg-surface-container/60 border-b border-outline-variant/20">
+              <th class="text-left px-4 md:px-5 py-3 w-10"><input type="checkbox" id="sel-all" class="w-4 h-4 rounded border-outline-variant cursor-pointer" style="accent-color:#9f4122" onchange="toggleAll(this)"></th>
+              <th class="text-left px-4 md:px-5 py-3 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">User</th>
+              <th class="text-left px-4 md:px-5 py-3 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider hidden md:table-cell">Contact</th>
+              <th class="text-left px-4 md:px-5 py-3 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Role</th>
+              <th class="text-left px-4 md:px-5 py-3 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Status</th>
+              <th class="text-left px-4 md:px-5 py-3 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider hidden lg:table-cell">Orders</th>
+              <th class="text-left px-4 md:px-5 py-3 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider hidden lg:table-cell">Points</th>
+              <th class="text-left px-4 md:px-5 py-3 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider hidden xl:table-cell">Total Spent</th>
+              <th class="text-right px-4 md:px-5 py-3 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tbl-body"></tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="flex items-center justify-between px-4 md:px-5 py-4 border-t border-outline-variant/20">
+        <p id="pg-label" class="text-[12px] text-on-surface-variant">Showing 1–10 of 1,248</p>
+        <div class="flex items-center gap-1">
+          <button onclick="changePage(-1)" id="pg-prev" class="w-8 h-8 rounded-xl flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors" disabled>
+            <span class="material-symbols-outlined text-[18px]">chevron_left</span>
+          </button>
+          <div id="pg-nums" class="flex items-center gap-1"></div>
+          <button onclick="changePage(1)" id="pg-next" class="w-8 h-8 rounded-xl flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors">
+            <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="fixed bottom-0 left-0 right-0 bg-surface/90 backdrop-blur-xl border-t border-outline-variant/20 flex items-center justify-around px-2 py-2 z-30 lg:hidden">
+  <a href="admin.html" class="flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl text-on-surface-variant"><span class="material-symbols-outlined text-[22px]">dashboard</span><span class="text-[9px] font-semibold">Home</span></a>
+  <button class="flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl text-on-surface-variant"><span class="material-symbols-outlined text-[22px]">inventory_2</span><span class="text-[9px] font-semibold">Products</span></button>
+  <button class="flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl text-on-surface-variant"><span class="material-symbols-outlined text-[22px]">receipt_long</span><span class="text-[9px] font-semibold">Orders</span></button>
+  <button class="flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl text-primary"><span class="material-symbols-outlined text-[22px]">group</span><span class="text-[9px] font-semibold">Users</span></button>
+  <button onclick="toggleSidebar()" class="flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl text-on-surface-variant"><span class="material-symbols-outlined text-[22px]">menu</span><span class="text-[9px] font-semibold">More</span></button>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════
+     FULL DETAIL PANEL
+═══════════════════════════════════════════════════════ -->
+<div id="dp-overlay" class="detail-panel-ov fixed inset-0 bg-black/50 z-[60] opacity-0 pointer-events-none" onclick="closeDetail()"></div>
+<div id="detail-panel" class="detail-panel fixed inset-y-0 right-0 w-full md:w-[720px] xl:w-[780px] bg-background z-[61] shadow-2xl transform translate-x-full flex flex-col overflow-hidden">
+
+  <!-- Panel Header -->
+  <div class="flex items-center justify-between px-5 md:px-6 h-16 border-b border-outline-variant/20 bg-surface-container-lowest shrink-0">
+    <div class="flex items-center gap-3">
+      <button onclick="closeDetail()" class="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant">
+        <span class="material-symbols-outlined text-[22px]">arrow_back</span>
+      </button>
+      <div>
+        <h2 id="dp-title" class="font-bold text-[16px] text-on-surface leading-none">User Details</h2>
+        <p id="dp-sub" class="text-[11px] text-on-surface-variant mt-0.5"></p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <button id="dp-edit-btn" class="flex items-center gap-1.5 bg-primary text-on-primary text-[12px] font-semibold px-4 py-2 rounded-full hover:bg-primary/90 transition-colors">
+        <span class="material-symbols-outlined text-[16px]">edit</span><span class="hidden sm:inline">Edit User</span>
+      </button>
+      <button onclick="closeDetail()" class="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant">
+        <span class="material-symbols-outlined text-[22px]">close</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Profile Hero Strip -->
+  <div id="dp-hero" class="shrink-0 bg-gradient-to-r from-primary-fixed/40 via-tertiary-fixed/20 to-surface px-5 md:px-6 py-5 flex items-center gap-4 border-b border-outline-variant/15">
+    <!-- injected -->
+  </div>
+
+  <!-- Tabs -->
+  <div class="shrink-0 flex border-b border-outline-variant/20 bg-surface-container-lowest px-5 md:px-6 gap-0 overflow-x-auto hide-scrollbar">
+    <button onclick="switchTab('overview')" id="tab-overview" class="dtab active text-[13px] font-semibold px-4 py-3.5 whitespace-nowrap">Overview</button>
+    <button onclick="switchTab('orders')" id="tab-orders" class="dtab text-[13px] font-semibold px-4 py-3.5 whitespace-nowrap">Orders <span id="tab-orders-count" class="ml-1 text-[10px] bg-primary-fixed text-on-primary-container px-1.5 py-0.5 rounded-full font-bold"></span></button>
+    <button onclick="switchTab('products')" id="tab-products" class="dtab text-[13px] font-semibold px-4 py-3.5 whitespace-nowrap">Products Bought</button>
+    <button onclick="switchTab('points')" id="tab-points" class="dtab text-[13px] font-semibold px-4 py-3.5 whitespace-nowrap">Points &amp; Tier</button>
+    <button onclick="switchTab('activity')" id="tab-activity" class="dtab text-[13px] font-semibold px-4 py-3.5 whitespace-nowrap">Activity</button>
+    <button onclick="switchTab('notes')" id="tab-notes" class="dtab text-[13px] font-semibold px-4 py-3.5 whitespace-nowrap">Admin Notes</button>
+  </div>
+
+  <!-- Tab panels -->
+  <div class="flex-1 overflow-y-auto hide-scrollbar">
+    <div id="panel-overview" class="p-5 md:p-6 space-y-4"></div>
+    <div id="panel-orders" class="p-5 md:p-6 space-y-3 hidden"></div>
+    <div id="panel-products" class="p-5 md:p-6 space-y-4 hidden"></div>
+    <div id="panel-points" class="p-5 md:p-6 space-y-4 hidden"></div>
+    <div id="panel-activity" class="p-5 md:p-6 space-y-3 hidden"></div>
+    <div id="panel-notes" class="p-5 md:p-6 space-y-4 hidden"></div>
+  </div>
+</div>
+
+<!-- ADD / EDIT USER MODAL -->
+<div id="modal-ov" class="fixed inset-0 bg-black/50 z-[70] opacity-0 pointer-events-none transition-opacity flex items-center justify-center p-4" onclick="closeModal(event)">
+  <div id="modal-box" class="bg-surface-container-lowest rounded-[24px] border border-outline-variant/30 shadow-2xl w-full max-w-md transform scale-95 transition-transform" onclick="event.stopPropagation()">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-outline-variant/20">
+      <h3 id="modal-title" class="font-bold text-[18px] text-on-surface">Add New User</h3>
+      <button onclick="closeModal()" class="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant">
+        <span class="material-symbols-outlined text-[22px]">close</span>
+      </button>
+    </div>
+    <div class="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">First Name</label><input id="m-fname" type="text" placeholder="Raqib" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition"/></div>
+        <div><label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Last Name</label><input id="m-lname" type="text" placeholder="Karim" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition"/></div>
+      </div>
+      <div><label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Email</label><input id="m-email" type="email" placeholder="user@example.com" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition"/></div>
+      <div><label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Phone</label><input id="m-phone" type="text" placeholder="+880 1700-000000" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition"/></div>
+      <div><label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Address</label><input id="m-addr" type="text" placeholder="Dhaka, Bangladesh" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition"/></div>
+      <div class="grid grid-cols-2 gap-4">
+        <div><label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Role</label>
+          <select id="m-role" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary outline-none transition">
+            <option value="customer">Customer</option><option value="staff">Staff</option><option value="admin">Admin</option>
+          </select>
+        </div>
+        <div><label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Status</label>
+          <select id="m-status" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary outline-none transition">
+            <option value="active">Active</option><option value="suspended">Suspended</option><option value="pending">Pending</option>
+          </select>
+        </div>
+      </div>
+      <div><label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Password</label><input id="m-pass" type="password" placeholder="••••••••" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition"/></div>
+    </div>
+    <div class="flex items-center gap-3 px-6 py-4 border-t border-outline-variant/20">
+      <button onclick="closeModal()" class="flex-1 border border-outline-variant/40 text-on-surface text-[13px] font-medium py-2.5 rounded-full hover:bg-surface-container transition-colors">Cancel</button>
+      <button onclick="saveUser()" class="flex-1 bg-primary text-on-primary text-[13px] font-semibold py-2.5 rounded-full hover:bg-primary/90 transition-colors"><span id="m-save-lbl">Create User</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="fixed bottom-20 lg:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-inverse-surface text-inverse-on-surface text-[13px] font-medium px-5 py-3 rounded-full shadow-lg z-[100] transition-all duration-300 opacity-0 translate-y-4 pointer-events-none">
+  <span id="toast-icon" class="material-symbols-outlined text-[18px]">check_circle</span>
+  <span id="toast-msg">Done</span>
+</div>
+
+<script>
+/* ══════════════════════════════════════════════
+   PRODUCT CATALOG
+══════════════════════════════════════════════ */
+const PRODUCTS = [
+  {id:'P01',name:'Pure Turmeric Powder 200g',cat:'Spices',emoji:'🌿',price:320},
+  {id:'P02',name:'Cumin Seeds Premium 100g',cat:'Spices',emoji:'🌾',price:210},
+  {id:'P03',name:'Red Chilli Powder 500g',cat:'Spices',emoji:'🌶️',price:480},
+  {id:'P04',name:'Coriander Powder 200g',cat:'Spices',emoji:'🍃',price:280},
+  {id:'P05',name:'Garam Masala Blend 100g',cat:'Masalas',emoji:'🫙',price:390},
+  {id:'P06',name:'Black Pepper Whole 100g',cat:'Spices',emoji:'⚫',price:450},
+  {id:'P07',name:'Cardamom Green 50g',cat:'Spices',emoji:'🌱',price:580},
+  {id:'P08',name:'Bay Leaves 50g',cat:'Spices',emoji:'🍂',price:150},
+  {id:'P09',name:'Fenugreek Seeds 200g',cat:'Spices',emoji:'🌰',price:180},
+  {id:'P10',name:'Dried Mango Powder 100g',cat:'Spices',emoji:'🥭',price:260},
+  {id:'P11',name:'Cashew Nuts Premium 250g',cat:'Dry Fruits',emoji:'🥜',price:1200},
+  {id:'P12',name:'Almonds Whole 500g',cat:'Dry Fruits',emoji:'🌰',price:1850},
+  {id:'P13',name:'Masoor Dal Red 1kg',cat:'Pulses',emoji:'🫘',price:280},
+  {id:'P14',name:'Chickpeas Kabuli 500g',cat:'Pulses',emoji:'🟡',price:320},
+  {id:'P15',name:'Biriyani Spice Mix 100g',cat:'Masalas',emoji:'🍛',price:350},
+  {id:'P16',name:'Kashmiri Chilli 100g',cat:'Spices',emoji:'🔴',price:420},
+  {id:'P17',name:'Mustard Seeds Black 200g',cat:'Spices',emoji:'⚪',price:160},
+  {id:'P18',name:'Star Anise 50g',cat:'Spices',emoji:'⭐',price:340},
+  {id:'P19',name:'Raisins Golden 200g',cat:'Dry Fruits',emoji:'🍇',price:480},
+  {id:'P20',name:'Sesame Seeds White 200g',cat:'Seeds',emoji:'🌟',price:220},
+];
+
+/* ══════════════════════════════════════════════
+   USER DATA
+══════════════════════════════════════════════ */
+const USERS = [
+  {id:1, name:'Raqib Karim',     email:'raqib.karim@email.com',   phone:'+880 1711-111111',role:'customer',status:'active',   tier:'gold',    points:2450, orders:24,joined:'14 Mar 2023',addr:'Gulshan, Dhaka',         initials:'RK',g:0,lastLogin:'2 Jun 2026, 10:14 AM',device:'iPhone 15 · iOS',note:''},
+  {id:2, name:'Sumaiya Akter',   email:'sumaiya@email.com',        phone:'+880 1722-222222',role:'customer',status:'active',   tier:'platinum',points:5820, orders:38,joined:'22 Jan 2023',addr:'Dhanmondi, Dhaka',       initials:'SA',g:1,lastLogin:'4 Jun 2026, 08:42 AM',device:'Samsung S23 · Android',note:''},
+  {id:3, name:'Mahbub Hossain',  email:'mahbub.h@email.com',       phone:'+880 1733-333333',role:'staff',  status:'active',   tier:'standard',points:850,  orders:0, joined:'05 Apr 2023',addr:'Uttara, Dhaka',           initials:'MH',g:2,lastLogin:'5 Jun 2026, 09:00 AM',device:'Chrome · Windows',note:'Staff account – no orders expected.'},
+  {id:4, name:'Nusrat Jahan',    email:'nusrat.jahan@email.com',   phone:'+880 1744-444444',role:'customer',status:'active',   tier:'standard',points:1100, orders:11,joined:'18 Jun 2023',addr:'Mirpur, Dhaka',           initials:'NJ',g:3,lastLogin:'3 Jun 2026, 07:55 PM',device:'Redmi Note 12 · Android',note:''},
+  {id:5, name:'Tahmid Rahman',   email:'tahmid.r@email.com',       phone:'+880 1755-555555',role:'admin',  status:'active',   tier:'standard',points:300,  orders:2, joined:'01 Feb 2023',addr:'Banani, Dhaka',            initials:'TR',g:4,lastLogin:'5 Jun 2026, 11:30 AM',device:'MacBook Pro · Safari',note:'Secondary admin – limited access.'},
+  {id:6, name:'Farhana Begum',   email:'farhana.b@email.com',      phone:'+880 1766-666666',role:'customer',status:'suspended',tier:'standard',points:420,  orders:7, joined:'30 Aug 2023',addr:'Mohammadpur, Dhaka',      initials:'FB',g:5,lastLogin:'15 Apr 2026, 03:12 PM',device:'OPPO A96 · Android',note:'Account suspended – 3 chargeback attempts.'},
+  {id:7, name:'Imran Khan',      email:'imran.khan@email.com',     phone:'+880 1777-777777',role:'customer',status:'active',   tier:'gold',    points:3100, orders:19,joined:'12 Sep 2023',addr:'Gazipur',                  initials:'IK',g:6,lastLogin:'4 Jun 2026, 06:20 PM',device:'iPhone 13 · iOS',note:''},
+  {id:8, name:'Dilnoza Sultana', email:'dilnoza.s@email.com',      phone:'+880 1788-888888',role:'customer',status:'pending',  tier:'standard',points:0,    orders:0, joined:'03 Nov 2023',addr:'Sylhet',                   initials:'DS',g:7,lastLogin:'—',device:'—',note:'Pending email verification.'},
+  {id:9, name:'Nasir Uddin',     email:'nasir.ud@email.com',       phone:'+880 1799-999999',role:'staff',  status:'active',   tier:'standard',points:200,  orders:0, joined:'15 Oct 2023',addr:'Chittagong',               initials:'NU',g:0,lastLogin:'5 Jun 2026, 02:00 PM',device:'Chrome · Linux',note:''},
+  {id:10,name:'Sharmin Akter',   email:'sharmin.a@email.com',      phone:'+880 1700-100100',role:'customer',status:'active',   tier:'platinum',points:7200, orders:42,joined:'08 Dec 2022',addr:'Lalmatia, Dhaka',          initials:'SA',g:1,lastLogin:'5 Jun 2026, 12:05 PM',device:'iPad Pro · iPadOS',note:'Top customer – priority support.'},
+  {id:11,name:'Rezaul Karim',    email:'rezaul.k@email.com',       phone:'+880 1701-101101',role:'customer',status:'active',   tier:'gold',    points:2900, orders:16,joined:'19 Mar 2023',addr:'Bashundhara, Dhaka',       initials:'RK',g:2,lastLogin:'2 Jun 2026, 05:40 PM',device:'Realme 10 · Android',note:''},
+  {id:12,name:'Tania Islam',     email:'tania.islam@email.com',    phone:'+880 1702-102102',role:'customer',status:'suspended',tier:'standard',points:310,  orders:5, joined:'27 Jul 2023',addr:'Farmgate, Dhaka',           initials:'TI',g:3,lastLogin:'10 Mar 2026, 08:10 AM',device:'Vivo Y73 · Android',note:'Account under review.'},
+];
+
+/* ══════════════════════════════════════════════
+   ORDER HISTORY per user
+══════════════════════════════════════════════ */
+function genOrders(uid){
+  const u=USERS.find(x=>x.id===uid);if(!u||u.orders===0)return[];
+  const statuses=['delivered','delivered','delivered','delivered','processing','cancelled'];
+  const dates=['28 May 2026','14 May 2026','03 May 2026','22 Apr 2026','10 Apr 2026','29 Mar 2026','18 Mar 2026','05 Mar 2026','22 Feb 2026','11 Feb 2026','28 Jan 2026','15 Jan 2026','02 Jan 2026','20 Dec 2025','05 Dec 2025','22 Nov 2025','10 Nov 2025','28 Oct 2025','14 Oct 2025','01 Oct 2025','18 Sep 2025','05 Sep 2025','22 Aug 2025','10 Aug 2025','28 Jul 2025','15 Jul 2025','02 Jul 2025','20 Jun 2025','07 Jun 2025','25 May 2025'];
+  const pids=['P01','P02','P03','P04','P05','P06','P07','P08','P09','P10','P11','P12','P13','P14','P15','P16','P17','P18','P19','P20'];
+  const orders=[];
+  const cnt=Math.min(u.orders,dates.length);
+  for(let i=0;i<cnt;i++){
+    const nItems=Math.floor(Math.random()*3)+1;
+    const items=[];
+    const used=new Set();
+    for(let j=0;j<nItems;j++){
+      let pid;do{pid=pids[Math.floor(Math.random()*pids.length)]}while(used.has(pid));
+      used.add(pid);
+      const p=PRODUCTS.find(x=>x.id===pid);
+      items.push({...p,qty:Math.floor(Math.random()*2)+1});
+    }
+    const total=items.reduce((s,it)=>s+it.price*it.qty,0);
+    orders.push({oid:'ORD-'+String(uid*100+i+1).padStart(4,'0'),date:dates[i],status:statuses[i%statuses.length],items,total});
+  }
+  return orders;
+}
+
+/* ══════════════════════════════════════════════
+   TABLE STATE
+══════════════════════════════════════════════ */
+let filteredU=[...USERS],curPage=1,perPage=10,selIds=new Set(),editingId=null,activeFilter=null,curUserId=null,curTab='overview';
+
+function renderTable(){
+  const tbody=document.getElementById('tbl-body');
+  const start=(curPage-1)*perPage;
+  const slice=filteredU.slice(start,start+perPage);
+  if(!slice.length){tbody.innerHTML=`<tr><td colspan="9" class="text-center py-12 text-on-surface-variant"><span class="material-symbols-outlined text-[40px] block mb-2 opacity-30">search_off</span>No users found</td></tr>`;return;}
+  const rc={admin:'bg-primary-fixed text-on-primary-container',staff:'bg-tertiary-fixed text-on-tertiary-container',customer:'bg-surface-container text-on-surface-variant'};
+  const sc={active:'bg-secondary-fixed/50 text-secondary',suspended:'bg-error-container text-error',pending:'bg-primary-fixed text-on-primary-container'};
+  const sd={active:'bg-secondary',suspended:'bg-error',pending:'bg-primary-fixed-dim'};
+  tbody.innerHTML=slice.map(u=>{
+    const spent=genOrders(u.id).reduce((s,o)=>s+o.total,0);
+    return`<tr class="trow border-b border-outline-variant/15${selIds.has(u.id)?' bg-primary-fixed/20':''}">
+      <td class="px-4 md:px-5 py-3.5"><input type="checkbox" class="w-4 h-4 rounded border-outline-variant cursor-pointer" style="accent-color:#9f4122" ${selIds.has(u.id)?'checked':''} onchange="toggleSel(${u.id},this)"></td>
+      <td class="px-4 md:px-5 py-3.5">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="openDetail(${u.id})">
+          <div class="w-9 h-9 rounded-full ag${u.g} text-white flex items-center justify-center font-bold text-[12px] shrink-0 shadow-sm">${u.initials}</div>
+          <div><p class="text-[13px] font-semibold text-on-surface hover:text-primary transition-colors">${u.name}</p><p class="text-[11px] text-on-surface-variant hidden sm:block">#USR-${String(u.id).padStart(4,'0')}</p></div>
+        </div>
+      </td>
+      <td class="px-4 md:px-5 py-3.5 hidden md:table-cell"><p class="text-[12px] text-on-surface">${u.email}</p><p class="text-[11px] text-on-surface-variant">${u.phone}</p></td>
+      <td class="px-4 md:px-5 py-3.5"><span class="role-badge text-[11px] font-semibold capitalize px-2.5 py-1 rounded-full ${rc[u.role]||''}">${u.role}</span></td>
+      <td class="px-4 md:px-5 py-3.5"><span class="flex items-center gap-1.5 text-[11px] font-semibold capitalize px-2.5 py-1 rounded-full w-fit ${sc[u.status]||''}"><span class="w-1.5 h-1.5 rounded-full ${sd[u.status]||''}"></span>${u.status}</span></td>
+      <td class="px-4 md:px-5 py-3.5 hidden lg:table-cell"><span class="text-[13px] font-bold text-on-surface">${u.orders}</span><span class="text-[11px] text-on-surface-variant ml-1">orders</span></td>
+      <td class="px-4 md:px-5 py-3.5 hidden lg:table-cell">
+        <div class="flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[#b8860b] text-[15px]">toll</span>
+          <span class="text-[13px] font-bold text-on-surface">${u.points.toLocaleString()}</span>
+        </div>
+      </td>
+      <td class="px-4 md:px-5 py-3.5 hidden xl:table-cell"><span class="text-[12px] font-semibold text-on-surface">৳${spent.toLocaleString()}</span></td>
+      <td class="px-4 md:px-5 py-3.5 text-right">
+        <div class="flex items-center justify-end gap-1">
+          <button onclick="openDetail(${u.id})" class="w-8 h-8 rounded-xl flex items-center justify-center hover:bg-primary-fixed transition-colors text-on-surface-variant tip" data-t="View Profile"><span class="material-symbols-outlined text-[18px]">visibility</span></button>
+          <button onclick="openDetail(${u.id});setTimeout(()=>switchTab('orders'),300)" class="w-8 h-8 rounded-xl flex items-center justify-center hover:bg-tertiary-fixed/50 transition-colors text-on-surface-variant tip" data-t="View Orders"><span class="material-symbols-outlined text-[18px]">receipt_long</span></button>
+          <button onclick="openDetail(${u.id});setTimeout(()=>switchTab('points'),300)" class="w-8 h-8 rounded-xl flex items-center justify-center hover:bg-secondary-container/50 transition-colors text-on-surface-variant tip" data-t="Edit Points"><span class="material-symbols-outlined text-[18px]">toll</span></button>
+          <button onclick="openEditModal(${u.id})" class="w-8 h-8 rounded-xl flex items-center justify-center hover:bg-surface-container-high transition-colors text-on-surface-variant tip" data-t="Edit"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+          <button onclick="deleteUser(${u.id})" class="w-8 h-8 rounded-xl flex items-center justify-center hover:bg-error-container transition-colors text-on-surface-variant tip" data-t="Delete"><span class="material-symbols-outlined text-[18px]">delete</span></button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+  document.getElementById('pg-label').textContent=`Showing ${Math.min(start+1,filteredU.length)}–${Math.min(start+perPage,filteredU.length)} of ${filteredU.length} users`;
+  document.getElementById('user-count-label').textContent=`(${filteredU.length})`;
+  renderPagination();
+}
+
+function renderPagination(){
+  const total=Math.ceil(filteredU.length/perPage);
+  const c=document.getElementById('pg-nums');
+  let h='';
+  const range=[];
+  for(let i=1;i<=total;i++){if(i===1||i===total||Math.abs(i-curPage)<=1)range.push(i);}
+  range.forEach((n,idx)=>{
+    if(idx>0&&range[idx]-range[idx-1]>1)h+=`<span class="text-on-surface-variant text-[13px] px-1">…</span>`;
+    h+=`<button onclick="goPage(${n})" class="w-8 h-8 rounded-xl text-[13px] font-semibold transition-colors ${n===curPage?'bg-primary text-on-primary':'text-on-surface-variant hover:bg-surface-container'}">${n}</button>`;
+  });
+  c.innerHTML=h;
+  document.getElementById('pg-prev').disabled=curPage===1;
+  document.getElementById('pg-next').disabled=curPage>=total;
+}
+function goPage(n){curPage=n;renderTable()}
+function changePage(d){curPage=Math.max(1,Math.min(curPage+d,Math.ceil(filteredU.length/perPage)));renderTable()}
+
+/* ══════════════════════════════════════════════
+   SEARCH / FILTER / SORT
+══════════════════════════════════════════════ */
+function liveSearch(q){
+  const base=activeFilter?applyFBase(activeFilter):USERS;
+  filteredU=base.filter(u=>u.name.toLowerCase().includes(q.toLowerCase())||u.email.toLowerCase().includes(q.toLowerCase())||u.phone.includes(q));
+  curPage=1;renderTable();
+}
+function applyFBase(f){
+  if(f==='all')return USERS;
+  if(['admin','customer','staff'].includes(f))return USERS.filter(u=>u.role===f);
+  if(['active','suspended','pending'].includes(f))return USERS.filter(u=>u.status===f);
+  return USERS;
+}
+function doFilter(f){
+  activeFilter=f;filteredU=f==='all'?[...USERS]:applyFBase(f);curPage=1;renderTable();closeDD();
+  const chips=document.getElementById('filter-chips');const lbl=document.getElementById('chip-label');
+  if(f==='all'){chips.classList.add('hidden');chips.classList.remove('flex');}
+  else{chips.classList.remove('hidden');chips.classList.add('flex');lbl.textContent=f.charAt(0).toUpperCase()+f.slice(1);}
+}
+function doSort(by){
+  const arr=[...filteredU];
+  if(by==='newest')arr.sort((a,b)=>b.id-a.id);
+  else if(by==='oldest')arr.sort((a,b)=>a.id-b.id);
+  else if(by==='name')arr.sort((a,b)=>a.name.localeCompare(b.name));
+  else if(by==='orders')arr.sort((a,b)=>b.orders-a.orders);
+  else if(by==='points')arr.sort((a,b)=>b.points-a.points);
+  else if(by==='spent')arr.sort((a,b)=>genOrders(b.id).reduce((s,o)=>s+o.total,0)-genOrders(a.id).reduce((s,o)=>s+o.total,0));
+  filteredU=arr;curPage=1;renderTable();closeDD();
+}
+
+/* ══════════════════════════════════════════════
+   SELECT
+══════════════════════════════════════════════ */
+function toggleSel(id,el){el.checked?selIds.add(id):selIds.delete(id);updateBulk();renderTable()}
+function toggleAll(el){const slice=filteredU.slice((curPage-1)*perPage,(curPage-1)*perPage+perPage);slice.forEach(u=>el.checked?selIds.add(u.id):selIds.delete(u.id));updateBulk();renderTable()}
+function updateBulk(){const b=document.getElementById('bulk-bar');document.getElementById('bulk-count').textContent=`${selIds.size} selected`;selIds.size>0?b.classList.remove('hidden')&&b.classList.add('flex')||b.classList.add('flex'):b.classList.add('hidden')}
+function bulkAct(a){toast(`${selIds.size} users ${a}d`,a==='delete'?'delete':'check_circle');selIds.clear();updateBulk();renderTable()}
+
+/* ══════════════════════════════════════════════
+   DETAIL PANEL
+══════════════════════════════════════════════ */
+function openDetail(uid){
+  curUserId=uid;
+  const u=USERS.find(x=>x.id===uid);if(!u)return;
+  const orders=genOrders(uid);
+  const spent=orders.reduce((s,o)=>s+o.total,0);
+  const tierColor={gold:'from-[#b8860b] to-[#daa520]',platinum:'from-tertiary to-[#4d8fa6]',standard:'from-on-surface-variant to-outline'}[u.tier]||'from-on-surface-variant to-outline';
+  const tierText={gold:'🥇 Gold Member',platinum:'💎 Platinum Member',standard:'⭐ Standard'}[u.tier]||u.tier;
+  const sc={active:'bg-secondary-fixed/50 text-secondary',suspended:'bg-error-container text-error',pending:'bg-primary-fixed text-on-primary-container'};
+  const rc={admin:'bg-primary-fixed text-on-primary-container',staff:'bg-tertiary-fixed text-on-tertiary-container',customer:'bg-surface-container text-on-surface-variant'};
+
+  document.getElementById('dp-title').textContent=u.name;
+  document.getElementById('dp-sub').textContent='#USR-'+String(u.id).padStart(4,'0')+' · '+u.email;
+  document.getElementById('dp-edit-btn').onclick=()=>openEditModal(uid);
+
+  document.getElementById('dp-hero').innerHTML=`
+    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full ag${u.g} text-white flex items-center justify-center font-bold text-[22px] md:text-[28px] shadow-lg shrink-0">${u.initials}</div>
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center gap-2 flex-wrap mb-1">
+        <h3 class="font-extrabold text-[18px] md:text-[22px] text-on-surface">${u.name}</h3>
+        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-gradient-to-r ${tierColor} text-white">${tierText}</span>
+      </div>
+      <p class="text-[12px] text-on-surface-variant mb-2">${u.email} &nbsp;·&nbsp; ${u.phone}</p>
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="text-[11px] font-semibold capitalize px-2.5 py-1 rounded-full ${rc[u.role]||''}">${u.role}</span>
+        <span class="text-[11px] font-semibold capitalize px-2.5 py-1 rounded-full ${sc[u.status]||''}">${u.status}</span>
+      </div>
+    </div>
+    <div class="hidden md:grid grid-cols-3 gap-3 shrink-0">
+      <div class="bg-surface/80 backdrop-blur border border-outline-variant/30 rounded-[16px] px-4 py-3 text-center min-w-[80px]">
+        <p class="text-[20px] font-extrabold text-on-surface">${u.orders}</p>
+        <p class="text-[10px] text-on-surface-variant font-medium">Orders</p>
+      </div>
+      <div class="bg-surface/80 backdrop-blur border border-outline-variant/30 rounded-[16px] px-4 py-3 text-center min-w-[80px]">
+        <p class="text-[20px] font-extrabold text-on-surface">${u.points.toLocaleString()}</p>
+        <p class="text-[10px] text-on-surface-variant font-medium">Points</p>
+      </div>
+      <div class="bg-surface/80 backdrop-blur border border-outline-variant/30 rounded-[16px] px-4 py-3 text-center min-w-[80px]">
+        <p class="text-[20px] font-extrabold text-on-surface">৳${spent.toLocaleString()}</p>
+        <p class="text-[10px] text-on-surface-variant font-medium">Total Spent</p>
+      </div>
+    </div>`;
+
+  document.getElementById('tab-orders-count').textContent=u.orders;
+
+  // Render all tabs
+  renderOverview(u,orders,spent);
+  renderOrders(u,orders);
+  renderProducts(u,orders);
+  renderPoints(u);
+  renderActivity(u,orders);
+  renderNotes(u);
+
+  // Activate overview tab
+  switchTab('overview');
+
+  // Open panel
+  document.getElementById('detail-panel').style.transform='translateX(0)';
+  const ov=document.getElementById('dp-overlay');ov.style.opacity='1';ov.style.pointerEvents='auto';
+  document.body.style.overflow='hidden';
+}
+
+function closeDetail(){
+  document.getElementById('detail-panel').style.transform='translateX(100%)';
+  const ov=document.getElementById('dp-overlay');ov.style.opacity='0';ov.style.pointerEvents='none';
+  document.body.style.overflow='';
+}
+
+function switchTab(name){
+  ['overview','orders','products','points','activity','notes'].forEach(t=>{
+    document.getElementById('tab-'+t).classList.toggle('active',t===name);
+    document.getElementById('panel-'+t).classList.toggle('hidden',t!==name);
+  });
+  curTab=name;
+}
+
+/* ══════════════════════════════════════════════
+   TAB: OVERVIEW
+══════════════════════════════════════════════ */
+function renderOverview(u,orders,spent){
+  const avgOrder=orders.length?Math.round(spent/orders.length):0;
+  const delivered=orders.filter(o=>o.status==='delivered').length;
+  const cancelled=orders.filter(o=>o.status==='cancelled').length;
+  const processing=orders.filter(o=>o.status==='processing').length;
+  const lastOrder=orders.length?orders[0]:null;
+
+  document.getElementById('panel-overview').innerHTML=`
+    <!-- Mobile quick stats -->
+    <div class="md:hidden grid grid-cols-3 gap-2">
+      <div class="bg-surface-container rounded-[16px] p-3 text-center"><p class="text-[18px] font-extrabold text-on-surface">${u.orders}</p><p class="text-[10px] text-on-surface-variant">Orders</p></div>
+      <div class="bg-surface-container rounded-[16px] p-3 text-center"><p class="text-[18px] font-extrabold text-on-surface">${u.points.toLocaleString()}</p><p class="text-[10px] text-on-surface-variant">Points</p></div>
+      <div class="bg-surface-container rounded-[16px] p-3 text-center"><p class="text-[18px] font-extrabold text-on-surface">৳${spent.toLocaleString()}</p><p class="text-[10px] text-on-surface-variant">Spent</p></div>
+    </div>
+    <!-- Stats grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div class="bg-secondary-fixed/30 border border-secondary-fixed-dim/50 rounded-[16px] p-4">
+        <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+        <p class="text-[20px] font-extrabold text-on-surface mt-1">${delivered}</p>
+        <p class="text-[11px] text-on-surface-variant">Delivered</p>
+      </div>
+      <div class="bg-tertiary-fixed/30 border border-tertiary-container/40 rounded-[16px] p-4">
+        <span class="material-symbols-outlined text-tertiary text-[20px]">autorenew</span>
+        <p class="text-[20px] font-extrabold text-on-surface mt-1">${processing}</p>
+        <p class="text-[11px] text-on-surface-variant">Processing</p>
+      </div>
+      <div class="bg-error-container/40 border border-error/15 rounded-[16px] p-4">
+        <span class="material-symbols-outlined text-error text-[20px]">cancel</span>
+        <p class="text-[20px] font-extrabold text-on-surface mt-1">${cancelled}</p>
+        <p class="text-[11px] text-on-surface-variant">Cancelled</p>
+      </div>
+      <div class="bg-primary-fixed/40 border border-primary-fixed-dim/40 rounded-[16px] p-4">
+        <span class="material-symbols-outlined text-primary text-[20px]">shopping_bag</span>
+        <p class="text-[20px] font-extrabold text-on-surface mt-1">৳${avgOrder.toLocaleString()}</p>
+        <p class="text-[11px] text-on-surface-variant">Avg. Order</p>
+      </div>
+    </div>
+    <!-- Profile info card -->
+    <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-5">
+      <h4 class="font-bold text-[14px] text-on-surface mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-primary">person</span>Profile Information</h4>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="space-y-3">
+          <div class="flex items-start gap-3 py-2 border-b border-outline-variant/15">
+            <span class="material-symbols-outlined text-on-surface-variant text-[18px] mt-0.5 shrink-0">mail</span>
+            <div><p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-0.5">Email</p><p class="text-[13px] text-on-surface">${u.email}</p></div>
+          </div>
+          <div class="flex items-start gap-3 py-2 border-b border-outline-variant/15">
+            <span class="material-symbols-outlined text-on-surface-variant text-[18px] mt-0.5 shrink-0">call</span>
+            <div><p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-0.5">Phone</p><p class="text-[13px] text-on-surface">${u.phone}</p></div>
+          </div>
+          <div class="flex items-start gap-3 py-2">
+            <span class="material-symbols-outlined text-on-surface-variant text-[18px] mt-0.5 shrink-0">home_pin</span>
+            <div><p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-0.5">Address</p><p class="text-[13px] text-on-surface">${u.addr}</p></div>
+          </div>
+        </div>
+        <div class="space-y-3">
+          <div class="flex items-start gap-3 py-2 border-b border-outline-variant/15">
+            <span class="material-symbols-outlined text-on-surface-variant text-[18px] mt-0.5 shrink-0">calendar_month</span>
+            <div><p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-0.5">Member Since</p><p class="text-[13px] text-on-surface">${u.joined}</p></div>
+          </div>
+          <div class="flex items-start gap-3 py-2 border-b border-outline-variant/15">
+            <span class="material-symbols-outlined text-on-surface-variant text-[18px] mt-0.5 shrink-0">schedule</span>
+            <div><p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-0.5">Last Login</p><p class="text-[13px] text-on-surface">${u.lastLogin}</p></div>
+          </div>
+          <div class="flex items-start gap-3 py-2">
+            <span class="material-symbols-outlined text-on-surface-variant text-[18px] mt-0.5 shrink-0">devices</span>
+            <div><p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-0.5">Device</p><p class="text-[13px] text-on-surface">${u.device}</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Last order preview -->
+    ${lastOrder?`<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-5">
+      <div class="flex items-center justify-between mb-3">
+        <h4 class="font-bold text-[14px] text-on-surface flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-primary">receipt_long</span>Last Order</h4>
+        <button onclick="switchTab('orders')" class="text-[12px] font-semibold text-primary hover:underline">View All →</button>
+      </div>
+      <div class="flex items-center justify-between mb-3">
+        <div>
+          <p class="text-[13px] font-semibold text-on-surface">${lastOrder.oid}</p>
+          <p class="text-[11px] text-on-surface-variant">${lastOrder.date}</p>
+        </div>
+        <span class="text-[11px] font-semibold capitalize px-2.5 py-1 rounded-full ${lastOrder.status==='delivered'?'bg-secondary-fixed/50 text-secondary':lastOrder.status==='cancelled'?'bg-error-container text-error':'bg-primary-fixed text-on-primary-container'}">${lastOrder.status}</span>
+      </div>
+      <div class="space-y-2 mb-3">
+        ${lastOrder.items.map(it=>`<div class="flex items-center gap-3 bg-surface-container rounded-xl px-3 py-2">
+          <span class="text-[20px]">${it.emoji}</span>
+          <div class="flex-1 min-w-0"><p class="text-[12px] font-medium text-on-surface truncate">${it.name}</p><p class="text-[11px] text-on-surface-variant">Qty: ${it.qty}</p></div>
+          <p class="text-[13px] font-bold text-on-surface">৳${(it.price*it.qty).toLocaleString()}</p>
+        </div>`).join('')}
+      </div>
+      <div class="flex items-center justify-between pt-2 border-t border-outline-variant/15">
+        <span class="text-[12px] font-semibold text-on-surface-variant">Order Total</span>
+        <span class="text-[16px] font-extrabold text-on-surface">৳${lastOrder.total.toLocaleString()}</span>
+      </div>
+    </div>`:'<div class="bg-surface-container rounded-[16px] p-5 text-center text-on-surface-variant text-[13px]">No orders yet</div>'}
+    <!-- Quick actions -->
+    <div class="grid grid-cols-2 gap-3">
+      <button onclick="switchTab('points')" class="flex items-center gap-2 bg-surface-container-lowest border border-outline-variant/30 rounded-[16px] p-4 hover:bg-primary-fixed/30 hover:border-primary-fixed-dim transition-colors text-left">
+        <span class="material-symbols-outlined text-[#b8860b] text-[22px]">toll</span>
+        <div><p class="text-[12px] font-bold text-on-surface">Edit Points</p><p class="text-[11px] text-on-surface-variant">Adjust loyalty points</p></div>
+      </button>
+      <button onclick="switchTab('orders')" class="flex items-center gap-2 bg-surface-container-lowest border border-outline-variant/30 rounded-[16px] p-4 hover:bg-tertiary-fixed/30 hover:border-tertiary-container transition-colors text-left">
+        <span class="material-symbols-outlined text-tertiary text-[22px]">receipt_long</span>
+        <div><p class="text-[12px] font-bold text-on-surface">Order History</p><p class="text-[11px] text-on-surface-variant">${u.orders} total orders</p></div>
+      </button>
+      <button onclick="openEditModal(${u.id})" class="flex items-center gap-2 bg-surface-container-lowest border border-outline-variant/30 rounded-[16px] p-4 hover:bg-surface-container-high transition-colors text-left">
+        <span class="material-symbols-outlined text-on-surface-variant text-[22px]">manage_accounts</span>
+        <div><p class="text-[12px] font-bold text-on-surface">Edit Profile</p><p class="text-[11px] text-on-surface-variant">Update user info</p></div>
+      </button>
+      <button onclick="toggleUserStatus(${u.id})" class="flex items-center gap-2 bg-surface-container-lowest border border-outline-variant/30 rounded-[16px] p-4 hover:bg-error-container/40 hover:border-error/20 transition-colors text-left">
+        <span class="material-symbols-outlined text-${u.status==='active'?'error':'secondary'} text-[22px]">${u.status==='active'?'block':'check_circle'}</span>
+        <div><p class="text-[12px] font-bold text-on-surface">${u.status==='active'?'Suspend User':'Activate User'}</p><p class="text-[11px] text-on-surface-variant">${u.status==='active'?'Restrict access':'Re-enable access'}</p></div>
+      </button>
+    </div>`;
+}
+
+/* ══════════════════════════════════════════════
+   TAB: ORDERS
+══════════════════════════════════════════════ */
+function renderOrders(u,orders){
+  const panel=document.getElementById('panel-orders');
+  if(!orders.length){panel.innerHTML=`<div class="text-center py-12 text-on-surface-variant"><span class="material-symbols-outlined text-[40px] block mb-2 opacity-30">receipt_long</span>No orders yet</div>`;return;}
+  const smap={delivered:{cls:'bg-secondary-fixed/50 text-secondary',icon:'check_circle'},processing:{cls:'bg-primary-fixed text-on-primary-container',icon:'autorenew'},cancelled:{cls:'bg-error-container text-error',icon:'cancel'}};
+
+  panel.innerHTML=`
+    <!-- Summary row -->
+    <div class="grid grid-cols-3 gap-3 mb-2">
+      <div class="bg-secondary-fixed/30 rounded-[16px] p-3 text-center"><p class="text-[18px] font-extrabold text-on-surface">${orders.filter(o=>o.status==='delivered').length}</p><p class="text-[10px] text-on-surface-variant">Delivered</p></div>
+      <div class="bg-tertiary-fixed/30 rounded-[16px] p-3 text-center"><p class="text-[18px] font-extrabold text-on-surface">${orders.filter(o=>o.status==='processing').length}</p><p class="text-[10px] text-on-surface-variant">Processing</p></div>
+      <div class="bg-error-container/40 rounded-[16px] p-3 text-center"><p class="text-[18px] font-extrabold text-on-surface">${orders.filter(o=>o.status==='cancelled').length}</p><p class="text-[10px] text-on-surface-variant">Cancelled</p></div>
+    </div>
+    <!-- Order list -->
+    ${orders.map((o,idx)=>{
+      const s=smap[o.status]||smap['processing'];
+      return`<div class="bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] overflow-hidden">
+        <div class="flex items-center justify-between px-4 py-3.5 cursor-pointer hover:bg-surface-container/60 transition-colors" onclick="toggleOrder('ord-${idx}')">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-surface-container flex items-center justify-center shrink-0">
+              <span class="material-symbols-outlined text-[18px] text-on-surface-variant">${s.icon}</span>
+            </div>
+            <div>
+              <p class="text-[13px] font-bold text-on-surface">${o.oid}</p>
+              <p class="text-[11px] text-on-surface-variant">${o.date} · ${o.items.length} item${o.items.length>1?'s':''}</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="text-right hidden sm:block">
+              <p class="text-[14px] font-extrabold text-on-surface">৳${o.total.toLocaleString()}</p>
+              <span class="text-[10px] font-bold capitalize px-2 py-0.5 rounded-full ${s.cls}">${o.status}</span>
+            </div>
+            <span class="material-symbols-outlined text-[20px] text-on-surface-variant transition-transform" id="chev-${idx}">expand_more</span>
+          </div>
+        </div>
+        <div id="ord-${idx}" class="order-expand max-h-0 opacity-0">
+          <div class="px-4 pb-4 pt-1 space-y-2 border-t border-outline-variant/15">
+            ${o.items.map(it=>`
+            <div class="flex items-center gap-3 bg-surface-container rounded-[14px] px-3 py-2.5">
+              <span class="text-[22px]">${it.emoji}</span>
+              <div class="flex-1 min-w-0">
+                <p class="text-[12px] font-semibold text-on-surface truncate">${it.name}</p>
+                <p class="text-[11px] text-on-surface-variant">${it.cat} · Qty: ${it.qty} · ৳${it.price.toLocaleString()} each</p>
+              </div>
+              <p class="text-[13px] font-bold text-on-surface shrink-0">৳${(it.price*it.qty).toLocaleString()}</p>
+            </div>`).join('')}
+            <div class="flex items-center justify-between pt-2 border-t border-outline-variant/15 px-1">
+              <span class="text-[12px] text-on-surface-variant">Subtotal &nbsp;<span class="sm:hidden font-semibold text-on-surface">· <span class="${s.cls} px-2 py-0.5 rounded-full text-[10px] font-bold capitalize">${o.status}</span></span></span>
+              <span class="text-[15px] font-extrabold text-on-surface">৳${o.total.toLocaleString()}</span>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    }).join('')}`;
+}
+
+function toggleOrder(id){
+  const el=document.getElementById(id);const idx=id.replace('ord-','');const chev=document.getElementById('chev-'+idx);
+  const open=el.style.maxHeight&&el.style.maxHeight!=='0px';
+  el.style.maxHeight=open?'0px':'600px';el.style.opacity=open?'0':'1';
+  chev.style.transform=open?'':'rotate(180deg)';
+}
+
+/* ══════════════════════════════════════════════
+   TAB: PRODUCTS BOUGHT
+══════════════════════════════════════════════ */
+function renderProducts(u,orders){
+  const panel=document.getElementById('panel-products');
+  if(!orders.length){panel.innerHTML=`<div class="text-center py-12 text-on-surface-variant"><span class="material-symbols-outlined text-[40px] block mb-2 opacity-30">inventory_2</span>No purchases yet</div>`;return;}
+
+  // Frequency map
+  const freq={};
+  orders.forEach(o=>o.items.forEach(it=>{
+    if(!freq[it.id])freq[it.id]={...it,count:0,totalQty:0,totalSpent:0};
+    freq[it.id].count++;freq[it.id].totalQty+=it.qty;freq[it.id].totalSpent+=it.price*it.qty;
+  }));
+  const sorted=Object.values(freq).sort((a,b)=>b.totalQty-a.totalQty);
+  const maxQty=sorted[0]?.totalQty||1;
+  const totalSpent=orders.reduce((s,o)=>s+o.total,0);
+
+  panel.innerHTML=`
+    <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-5">
+      <h4 class="font-bold text-[14px] text-on-surface mb-1 flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-primary">bar_chart</span>Purchase Breakdown</h4>
+      <p class="text-[12px] text-on-surface-variant mb-4">${sorted.length} unique products · ৳${totalSpent.toLocaleString()} total</p>
+      <div class="space-y-3">
+        ${sorted.map((p,i)=>{
+          const pct=Math.round((p.totalQty/maxQty)*100);
+          const barColors=['bg-primary','bg-tertiary','bg-secondary','bg-[#b8860b]','bg-primary-container'];
+          const bc=barColors[i%barColors.length];
+          return`<div>
+            <div class="flex items-center gap-2 mb-1.5">
+              <span class="text-[18px]">${p.emoji}</span>
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between mb-0.5">
+                  <p class="text-[12px] font-semibold text-on-surface truncate pr-2">${p.name}</p>
+                  <span class="text-[11px] font-bold text-on-surface-variant shrink-0">×${p.totalQty}</span>
+                </div>
+                <div class="h-2 bg-surface-container rounded-full overflow-hidden">
+                  <div class="${bc} h-full rounded-full transition-all duration-700" style="width:${pct}%"></div>
+                </div>
+              </div>
+              <div class="text-right shrink-0 min-w-[70px]">
+                <p class="text-[12px] font-bold text-on-surface">৳${p.totalSpent.toLocaleString()}</p>
+                <p class="text-[10px] text-on-surface-variant">${p.count} order${p.count>1?'s':''}</p>
+              </div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>
+    <!-- Category breakdown -->
+    <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-5">
+      <h4 class="font-bold text-[14px] text-on-surface mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-secondary">category</span>Category Breakdown</h4>
+      ${(()=>{
+        const cats={};
+        sorted.forEach(p=>{if(!cats[p.cat])cats[p.cat]={spent:0,qty:0};cats[p.cat].spent+=p.totalSpent;cats[p.cat].qty+=p.totalQty;});
+        const catArr=Object.entries(cats).sort((a,b)=>b[1].spent-a[1].spent);
+        const maxS=catArr[0]?.[1]?.spent||1;
+        const catColors=['bg-primary','bg-secondary','bg-tertiary','bg-[#b8860b]'];
+        return catArr.map((c,i)=>`
+          <div class="flex items-center gap-3 mb-3">
+            <span class="text-[11px] font-semibold text-on-surface-variant w-20 shrink-0">${c[0]}</span>
+            <div class="flex-1 h-3 bg-surface-container rounded-full overflow-hidden">
+              <div class="${catColors[i%4]} h-full rounded-full" style="width:${Math.round(c[1].spent/maxS*100)}%"></div>
+            </div>
+            <span class="text-[12px] font-bold text-on-surface shrink-0 w-24 text-right">৳${c[1].spent.toLocaleString()}</span>
+          </div>`).join('');
+      })()}
+    </div>`;
+}
+
+/* ══════════════════════════════════════════════
+   TAB: POINTS & TIER  (EDITABLE)
+══════════════════════════════════════════════ */
+function renderPoints(u){
+  const tier=u.tier;
+  const tierThresholds={standard:{min:0,max:1500,next:'Gold',nextPts:1500},gold:{min:1500,max:3000,next:'Platinum',nextPts:3000},platinum:{min:3000,max:3000,next:null,nextPts:null}};
+  const t=tierThresholds[tier];
+  const pctToNext=t.next?Math.min(100,Math.round((u.points-t.min)/(t.max-t.min)*100)):100;
+  const tierGrad={gold:'from-[#b8860b] to-[#daa520]',platinum:'from-tertiary to-[#4d8fa6]',standard:'from-on-surface-variant to-outline'};
+
+  document.getElementById('panel-points').innerHTML=`
+    <!-- Loyalty card -->
+    <div class="bg-gradient-to-br ${tierGrad[tier]||tierGrad.standard} rounded-[24px] p-6 relative overflow-hidden shadow-lg">
+      <div class="absolute -top-10 -right-10 w-40 h-40 rounded-full border-[28px] border-white/10"></div>
+      <div class="absolute -bottom-8 -left-8 w-28 h-28 rounded-full border-[20px] border-black/5"></div>
+      <div class="relative z-10">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="material-symbols-outlined text-white/80 text-[22px]">toll</span>
+          <span class="text-[11px] font-bold text-white/70 uppercase tracking-widest">Loyalty Points</span>
+        </div>
+        <p id="pts-display" class="text-[52px] font-extrabold text-white leading-none tracking-tight mb-1">${u.points.toLocaleString()}</p>
+        <p class="text-[13px] text-white/60 mb-5">${t.next?`${(t.max-u.points).toLocaleString()} more to reach ${t.next}`:'Maximum tier reached 🎉'}</p>
+        ${t.next?`<div class="mb-2">
+          <div class="flex justify-between items-center mb-1.5">
+            <span class="text-[10px] text-white/60 uppercase font-bold tracking-wider">${tier.charAt(0).toUpperCase()+tier.slice(1)}</span>
+            <span class="text-[10px] text-white/80 uppercase font-bold tracking-wider">${t.next}</span>
+          </div>
+          <div class="h-2.5 bg-white/20 rounded-full overflow-hidden">
+            <div class="h-full bg-white rounded-full transition-all duration-700" style="width:${pctToNext}%"></div>
+          </div>
+          <p class="text-[11px] text-white/50 mt-1.5 text-right">${u.points.toLocaleString()} / ${t.max.toLocaleString()}</p>
+        </div>`:''}
+      </div>
+    </div>
+
+    <!-- Points Editor -->
+    <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-5">
+      <h4 class="font-bold text-[15px] text-on-surface mb-1 flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px] text-primary">edit</span>Adjust Points
+      </h4>
+      <p class="text-[12px] text-on-surface-variant mb-4">Manually add, remove, or set user loyalty points</p>
+
+      <!-- Current + stepper -->
+      <div class="flex items-center gap-3 mb-4">
+        <button onclick="adjustPts(-100)" class="pts-btn w-11 h-11 rounded-full bg-error-container text-error flex items-center justify-center font-bold text-[18px] hover:bg-error/20 transition-colors">−</button>
+        <div class="flex-1 relative">
+          <input id="pts-input" type="number" value="${u.points}" min="0" class="w-full bg-surface-container border-2 border-primary rounded-xl px-4 py-3 text-[20px] font-extrabold text-center text-on-surface focus:ring-0 focus:border-primary outline-none transition" oninput="previewPts(this.value)"/>
+          <span class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">pts</span>
+        </div>
+        <button onclick="adjustPts(100)" class="pts-btn w-11 h-11 rounded-full bg-secondary-fixed/50 text-secondary flex items-center justify-center font-bold text-[18px] hover:bg-secondary/20 transition-colors">+</button>
+      </div>
+
+      <!-- Quick presets -->
+      <div class="flex flex-wrap gap-2 mb-4">
+        <p class="w-full text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-0.5">Quick adjust</p>
+        ${[[-500,'Remove 500',true],[- 100,'Remove 100',true],[+100,'Add 100',false],[+250,'Add 250',false],[+500,'Add 500',false],[+1000,'Add 1000',false]].map(([v,lbl,neg])=>`
+        <button onclick="adjustPts(${v})" class="text-[11px] font-semibold px-3 py-1.5 rounded-full border transition-colors ${neg?'border-error/40 text-error hover:bg-error-container':'border-secondary/40 text-secondary hover:bg-secondary-container/50'}">${lbl}</button>`).join('')}
+      </div>
+
+      <!-- Reason -->
+      <div class="mb-4">
+        <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Reason (optional)</label>
+        <input id="pts-reason" type="text" placeholder="e.g. Manual compensation, Referral bonus…" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition"/>
+      </div>
+
+      <!-- Save button -->
+      <button onclick="savePoints(${u.id})" class="w-full bg-primary text-on-primary text-[14px] font-bold py-3 rounded-full hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">save</span>Save Points
+      </button>
+    </div>
+
+    <!-- Tier info -->
+    <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-5">
+      <h4 class="font-bold text-[14px] text-on-surface mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-[#b8860b]">workspace_premium</span>Tier Overview</h4>
+      <div class="space-y-2">
+        ${[{t:'standard',label:'Standard',pts:'0 – 1,499',grad:'bg-on-surface-variant'},{t:'gold',label:'🥇 Gold',pts:'1,500 – 2,999',grad:'bg-[#daa520]'},{t:'platinum',label:'💎 Platinum',pts:'3,000+',grad:'bg-tertiary'}].map(tr=>`
+        <div class="flex items-center gap-3 px-3 py-2.5 rounded-xl ${u.tier===tr.t?'bg-primary-fixed/30 border border-primary-fixed-dim/50':'bg-surface-container/50'}">
+          <div class="w-2.5 h-2.5 rounded-full ${tr.grad} shrink-0"></div>
+          <div class="flex-1"><p class="text-[13px] font-semibold text-on-surface">${tr.label}</p><p class="text-[11px] text-on-surface-variant">${tr.pts} pts</p></div>
+          ${u.tier===tr.t?'<span class="text-[10px] font-bold text-primary bg-primary-fixed px-2 py-0.5 rounded-full">CURRENT</span>':''}
+        </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function adjustPts(delta){
+  const inp=document.getElementById('pts-input');
+  const val=Math.max(0,(parseInt(inp.value)||0)+delta);
+  inp.value=val;previewPts(val);
+}
+function previewPts(val){
+  const disp=document.getElementById('pts-display');
+  if(disp)disp.textContent=parseInt(val||0).toLocaleString();
+}
+function savePoints(uid){
+  const val=parseInt(document.getElementById('pts-input').value)||0;
+  const reason=document.getElementById('pts-reason').value.trim();
+  const u=USERS.find(x=>x.id===uid);if(!u)return;
+  u.points=val;
+  // Update tier
+  if(val>=3000)u.tier='platinum';else if(val>=1500)u.tier='gold';else u.tier='standard';
+  renderPoints(u);renderTable();
+  toast(`Points updated to ${val.toLocaleString()}${reason?' ('+reason+')':''}`, 'toll');
+}
+
+/* ══════════════════════════════════════════════
+   TAB: ACTIVITY
+══════════════════════════════════════════════ */
+function renderActivity(u,orders){
+  const events=[];
+  events.push({icon:'login',color:'text-tertiary',bg:'bg-tertiary-fixed/50',title:'Logged in',desc:u.device,time:u.lastLogin});
+  orders.slice(0,6).forEach(o=>{
+    const icon=o.status==='delivered'?'check_circle':o.status==='cancelled'?'cancel':'autorenew';
+    const color=o.status==='delivered'?'text-secondary':o.status==='cancelled'?'text-error':'text-primary';
+    const bg=o.status==='delivered'?'bg-secondary-fixed/50':o.status==='cancelled'?'bg-error-container':'bg-primary-fixed/50';
+    events.push({icon,color,bg,title:`Order ${o.oid}`,desc:`${o.status.charAt(0).toUpperCase()+o.status.slice(1)} · ৳${o.total.toLocaleString()}`,time:o.date});
+  });
+  events.push({icon:'person_add',color:'text-primary',bg:'bg-primary-fixed/50',title:'Account Created',desc:'Registered on Shuddhota Co.',time:u.joined});
+
+  document.getElementById('panel-activity').innerHTML=`
+    <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-5">
+      <h4 class="font-bold text-[14px] text-on-surface mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-primary">timeline</span>Activity Timeline</h4>
+      <div class="relative">
+        <div class="absolute left-5 top-0 bottom-0 w-px bg-outline-variant/30"></div>
+        <div class="space-y-4">
+          ${events.map((ev,i)=>`
+          <div class="flex items-start gap-4 relative">
+            <div class="w-10 h-10 rounded-full ${ev.bg} flex items-center justify-center shrink-0 z-10 ring-4 ring-background">
+              <span class="material-symbols-outlined text-[18px] ${ev.color}">${ev.icon}</span>
+            </div>
+            <div class="flex-1 min-w-0 pt-1">
+              <div class="flex items-start justify-between gap-2">
+                <div><p class="text-[13px] font-semibold text-on-surface">${ev.title}</p><p class="text-[11px] text-on-surface-variant mt-0.5">${ev.desc}</p></div>
+                <span class="text-[10px] text-on-surface-variant whitespace-nowrap shrink-0 mt-0.5">${ev.time}</span>
+              </div>
+            </div>
+          </div>`).join('')}
+        </div>
+      </div>
+    </div>
+    <!-- Login stats -->
+    <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-5">
+      <h4 class="font-bold text-[14px] text-on-surface mb-4 flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-secondary">query_stats</span>Session Info</h4>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="bg-surface-container rounded-[14px] p-3"><p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Last Login</p><p class="text-[13px] font-semibold text-on-surface">${u.lastLogin}</p></div>
+        <div class="bg-surface-container rounded-[14px] p-3"><p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Device</p><p class="text-[13px] font-semibold text-on-surface">${u.device}</p></div>
+        <div class="bg-surface-container rounded-[14px] p-3"><p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Member Since</p><p class="text-[13px] font-semibold text-on-surface">${u.joined}</p></div>
+        <div class="bg-surface-container rounded-[14px] p-3"><p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">Total Orders</p><p class="text-[13px] font-semibold text-on-surface">${u.orders}</p></div>
+      </div>
+    </div>`;
+}
+
+/* ══════════════════════════════════════════════
+   TAB: ADMIN NOTES
+══════════════════════════════════════════════ */
+function renderNotes(u){
+  document.getElementById('panel-notes').innerHTML=`
+    <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-5">
+      <h4 class="font-bold text-[14px] text-on-surface mb-1 flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-primary">sticky_note_2</span>Admin Notes</h4>
+      <p class="text-[12px] text-on-surface-variant mb-4">Private notes visible only to admin staff</p>
+      <textarea id="note-ta" rows="6" placeholder="Add a note about this user…" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-3 text-[13px] text-on-surface focus:ring-1 focus:ring-primary focus:border-primary outline-none transition resize-none">${u.note||''}</textarea>
+      <button onclick="saveNote(${u.id})" class="mt-3 w-full bg-primary text-on-primary text-[13px] font-semibold py-3 rounded-full hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-[18px]">save</span>Save Note
+      </button>
+    </div>
+    <!-- Danger zone -->
+    <div class="bg-error-container/30 border border-error/20 rounded-[20px] p-5">
+      <h4 class="font-bold text-[14px] text-error mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">warning</span>Danger Zone</h4>
+      <div class="space-y-2">
+        <button onclick="toggleUserStatus(${u.id})" class="w-full flex items-center gap-3 bg-surface-container-lowest border border-outline-variant/30 rounded-xl px-4 py-3 hover:bg-error-container/50 transition-colors text-left">
+          <span class="material-symbols-outlined text-error text-[20px]">${u.status==='active'?'block':'check_circle'}</span>
+          <div><p class="text-[13px] font-semibold text-on-surface">${u.status==='active'?'Suspend Account':'Reactivate Account'}</p><p class="text-[11px] text-on-surface-variant">${u.status==='active'?'Block user from logging in':'Restore access'}</p></div>
+        </button>
+        <button onclick="deleteUser(${u.id});closeDetail();" class="w-full flex items-center gap-3 bg-surface-container-lowest border border-error/30 rounded-xl px-4 py-3 hover:bg-error-container transition-colors text-left">
+          <span class="material-symbols-outlined text-error text-[20px]">delete_forever</span>
+          <div><p class="text-[13px] font-semibold text-error">Delete Account</p><p class="text-[11px] text-on-surface-variant">Permanently remove this user</p></div>
+        </button>
+      </div>
+    </div>`;
+}
+
+function saveNote(uid){
+  const u=USERS.find(x=>x.id===uid);if(!u)return;
+  u.note=document.getElementById('note-ta').value;
+  toast('Note saved','sticky_note_2');
+}
+
+/* ══════════════════════════════════════════════
+   USER STATUS TOGGLE
+══════════════════════════════════════════════ */
+function toggleUserStatus(uid){
+  const u=USERS.find(x=>x.id===uid);if(!u)return;
+  u.status=u.status==='active'?'suspended':'active';
+  renderTable();
+  toast(`User ${u.status==='active'?'activated':'suspended'}`,u.status==='active'?'check_circle':'block');
+  // Re-render panels
+  const orders=genOrders(uid);
+  renderOverview(u,orders,orders.reduce((s,o)=>s+o.total,0));
+  renderNotes(u);
+  document.getElementById('dp-hero').querySelectorAll&&openDetail&&openDetail(uid);
+  openDetail(uid);switchTab(curTab);
+}
+
+/* ══════════════════════════════════════════════
+   DELETE
+══════════════════════════════════════════════ */
+function deleteUser(uid){
+  const idx=USERS.findIndex(x=>x.id===uid);if(idx>-1)USERS.splice(idx,1);
+  filteredU=filteredU.filter(x=>x.id!==uid);selIds.delete(uid);renderTable();toast('User deleted','delete');
+}
+
+/* ══════════════════════════════════════════════
+   ADD / EDIT MODAL
+══════════════════════════════════════════════ */
+function openAddModal(){
+  editingId=null;
+  document.getElementById('modal-title').textContent='Add New User';
+  document.getElementById('m-save-lbl').textContent='Create User';
+  ['m-fname','m-lname','m-email','m-phone','m-addr','m-pass'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('m-role').value='customer';document.getElementById('m-status').value='active';
+  const ov=document.getElementById('modal-ov');ov.style.opacity='1';ov.style.pointerEvents='auto';
+  document.getElementById('modal-box').style.transform='scale(1)';
+}
+function openEditModal(uid){
+  const u=USERS.find(x=>x.id===uid);if(!u)return;
+  editingId=uid;
+  document.getElementById('modal-title').textContent='Edit User';
+  document.getElementById('m-save-lbl').textContent='Save Changes';
+  const p=u.name.split(' ');
+  document.getElementById('m-fname').value=p[0]||'';document.getElementById('m-lname').value=p.slice(1).join(' ')||'';
+  document.getElementById('m-email').value=u.email;document.getElementById('m-phone').value=u.phone;
+  document.getElementById('m-addr').value=u.addr;document.getElementById('m-role').value=u.role;
+  document.getElementById('m-status').value=u.status;document.getElementById('m-pass').value='';
+  const ov=document.getElementById('modal-ov');ov.style.opacity='1';ov.style.pointerEvents='auto';
+  document.getElementById('modal-box').style.transform='scale(1)';
+}
+function closeModal(e){if(e&&e.target!==document.getElementById('modal-ov'))return;const ov=document.getElementById('modal-ov');ov.style.opacity='0';ov.style.pointerEvents='none';document.getElementById('modal-box').style.transform='scale(0.95)'}
+function saveUser(){
+  const fn=document.getElementById('m-fname').value.trim();if(!fn){document.getElementById('m-fname').style.borderColor='#ba1a1a';setTimeout(()=>document.getElementById('m-fname').style.borderColor='',700);return;}
+  const ln=document.getElementById('m-lname').value.trim();
+  const em=document.getElementById('m-email').value.trim();
+  const ph=document.getElementById('m-phone').value.trim();
+  const ad=document.getElementById('m-addr').value.trim();
+  const ro=document.getElementById('m-role').value;const st=document.getElementById('m-status').value;
+  if(editingId){
+    const u=USERS.find(x=>x.id===editingId);
+    if(u){u.name=`${fn} ${ln}`.trim();u.email=em;u.phone=ph;u.addr=ad||u.addr;u.role=ro;u.status=st;u.initials=(fn[0]+(ln[0]||'')).toUpperCase();}
+    toast('User updated','check_circle');
+  }else{
+    const nid=Math.max(...USERS.map(x=>x.id))+1;
+    USERS.push({id:nid,name:`${fn} ${ln}`.trim(),email:em,phone:ph,role:ro,status:st,tier:'standard',points:0,orders:0,joined:new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}),addr:ad||'—',initials:(fn[0]+(ln[0]||'')).toUpperCase(),g:nid%8,lastLogin:'—',device:'—',note:''});
+    filteredU=[...USERS];toast('User created','person_add');
+  }
+  closeModal();renderTable();
+}
+
+/* ══════════════════════════════════════════════
+   DROPDOWN HELPERS
+══════════════════════════════════════════════ */
+function toggleDD(id){const el=document.getElementById(id);el.classList.toggle('hidden');}
+function closeDD(){document.querySelectorAll('.dropdown-menu').forEach(d=>d.classList.add('hidden'));}
+document.addEventListener('click',e=>{if(!e.target.closest('.relative'))closeDD();});
+
+/* ══════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════ */
+function toast(msg,icon='check_circle'){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;document.getElementById('toast-icon').textContent=icon;
+  t.style.opacity='1';t.style.transform='translateX(-50%) translateY(0)';t.style.pointerEvents='auto';
+  clearTimeout(t._to);t._to=setTimeout(()=>{t.style.opacity='0';t.style.transform='translateX(-50%) translateY(16px)';t.style.pointerEvents='none';},2800);
+}
+
+/* ══════════════════════════════════════════════
+   SIDEBAR
+══════════════════════════════════════════════ */
+const sidebar=document.getElementById('sidebar');const overlay=document.getElementById('sidebar-overlay');
+let sidebarOpen=false,miniMode=false;
+function toggleSidebar(){sidebarOpen=!sidebarOpen;sidebar.classList.toggle('open',sidebarOpen);overlay.style.opacity=sidebarOpen?'1':'0';overlay.style.pointerEvents=sidebarOpen?'auto':'none';document.getElementById('hamburger-icon').textContent=sidebarOpen?'close':'menu';}
+function closeSidebar(){sidebarOpen=false;sidebar.classList.remove('open');overlay.style.opacity='0';overlay.style.pointerEvents='none';document.getElementById('hamburger-icon').textContent='menu';}
+function toggleMiniSidebar(){miniMode=!miniMode;const m=document.getElementById('main-content');if(miniMode){sidebar.classList.add('sidebar-mini');sidebar.style.width='72px';m.style.marginLeft='72px';}else{sidebar.classList.remove('sidebar-mini');sidebar.style.width='';m.style.marginLeft='';}}
+
+/* ══════════════════════════════════════════════
+   INIT
+══════════════════════════════════════════════ */
+document.getElementById('current-date').textContent=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+renderTable();
+</script>
+</body>
+</html>
