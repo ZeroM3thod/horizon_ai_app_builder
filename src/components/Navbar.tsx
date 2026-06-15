@@ -59,7 +59,7 @@ export default function Navbar() {
           </Link>
           <Link
             className="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-body-md"
-            href="#"
+            href="/order"
           >
             Order
           </Link>
@@ -149,18 +149,11 @@ export default function Navbar() {
           </Link>
           <Link
             className="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant"
-            href="#"
+            href="/order"
           >
-            Deals
+            Order
           </Link>
-          <Link
-            className={`${
-              pathname === "/orders" ? "text-primary font-bold" : "text-on-surface-variant font-medium hover:text-primary transition-colors"
-            } font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant`}
-            href="/orders"
-          >
-            My Orders
-          </Link>
+        
           <div className="h-px bg-outline-variant/20 mx-2 my-1"></div>
           <Link
             className="flex items-center justify-center gap-2 bg-primary text-on-primary font-medium text-[14px] py-3 px-4 rounded-xl hover:bg-primary/90 transition-colors"
