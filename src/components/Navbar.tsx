@@ -61,7 +61,7 @@ export default function Navbar() {
             className="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-body-md"
             href="#"
           >
-            Deals
+            Order
           </Link>
           <Link
             className="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-body-md"
