@@ -201,7 +201,7 @@ export default function SignupPage() {
                     <span className="font-bold text-primary text-[16px] tracking-tight">Shuddhota CO.</span>
                   </div>
                   <h2 className="font-display-xl text-[26px] md:text-[34px] leading-tight tracking-tight text-on-surface mb-1.5">Create your account</h2>
-                  <p className="text-on-surface-variant text-[13px] md:text-body-md">Already have an account? <Link href="#" className="text-primary font-semibold hover:underline underline-offset-2 ml-0.5">Sign in</Link></p>
+                  <p className="text-on-surface-variant text-[13px] md:text-body-md">Already have an account? <Link href="/signin" className="text-primary font-semibold hover:underline underline-offset-2 ml-0.5">Sign in</Link></p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">

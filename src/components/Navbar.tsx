@@ -99,7 +99,7 @@ export default function Navbar() {
             <>
               <Link
                 className="hidden md:block text-on-surface-variant font-medium hover:text-primary transition-colors text-body-md"
-                href="#"
+                href="/signin"
               >
                 Sign In
               </Link>
