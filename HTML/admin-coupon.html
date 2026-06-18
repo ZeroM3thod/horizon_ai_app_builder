@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Coupons — Admin Panel · Shuddhota Co.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
+<style>
+.material-symbols-outlined{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;word-wrap:normal;direction:ltr;-webkit-font-smoothing:antialiased}
+.sidebar{transition:transform .3s cubic-bezier(.4,0,.2,1),width .3s cubic-bezier(.4,0,.2,1)}
+.sidebar-overlay{transition:opacity .3s ease}
+.nav-item{transition:background .18s,color .18s,transform .18s}
+.nav-item:hover{transform:translateX(3px)}
+.nav-item.active{background:rgba(159,65,34,.10);color:#9f4122}
+.nav-item.active .nav-icon{color:#9f4122}
+.stat-card{transition:transform .2s ease,box-shadow .2s ease}
+.stat-card:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(159,65,34,.10)}
+.trow{transition:background .15s}
+.trow:hover{background:rgba(248,243,234,.9)}
+.hide-scrollbar{scrollbar-width:none;-ms-overflow-style:none}
+.hide-scrollbar::-webkit-scrollbar{display:none}
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#ddc0b8;border-radius:99px}
+.badge-pulse{animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+@media(max-width:1023px){.sidebar{position:fixed;z-index:50;transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}}
+.sidebar-mini{width:72px}
+.sidebar-mini .sidebar-label,.sidebar-mini .sidebar-logo-text,.sidebar-mini .sidebar-section-title{display:none}
+.sidebar-mini .nav-item{justify-content:center;padding-left:0;padding-right:0}
+.sidebar-mini .nav-badge{display:none}
+.main-content{transition:margin-left .3s cubic-bezier(.4,0,.2,1)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.fade-up{animation:fadeUp .4s ease both}
+.fade-up-1{animation-delay:.05s}.fade-up-2{animation-delay:.1s}.fade-up-3{animation-delay:.15s}.fade-up-4{animation-delay:.2s}
+
+/* Type card selector */
+.type-card{transition:all .2s ease;cursor:pointer;border:2px solid transparent}
+.type-card:hover{border-color:#ddc0b8;background:rgba(248,243,234,.8)}
+.type-card.selected{border-color:#9f4122;background:rgba(159,65,34,.07)}
+.type-card.selected .type-icon{transform:scale(1.1)}
+.type-icon{transition:transform .2s ease}
+
+/* Coupon code monospace style */
+.code-mono{font-family:'Courier New',Courier,monospace;letter-spacing:.06em}
+
+/* Usage progress bar */
+.usage-bar-track{height:5px;border-radius:99px;background:#e8e2d7;overflow:hidden;width:100%}
+.usage-bar-fill{height:100%;border-radius:99px;background:#9f4122;transition:width .6s ease}
+.usage-bar-fill.full{background:#ba1a1a}
+.usage-bar-fill.safe{background:#556500}
+
+/* Card animation (mobile coupon cards) */
+.coupon-card{transition:transform .18s ease,box-shadow .18s ease;cursor:pointer}
+.coupon-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(159,65,34,.10)}
+
+/* Toggle switch */
+.tgl{width:42px;height:23px;border-radius:99px;background:#e8e2d7;position:relative;cursor:pointer;transition:background .22s;flex-shrink:0}
+.tgl.on{background:#9f4122}
+.tgl::after{content:'';position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;background:#fff;transition:transform .22s;box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.tgl.on::after{transform:translateX(19px)}
+
+/* Filter chips */
+.fchip{transition:all .15s;cursor:pointer;border:1.5px solid transparent}
+.fchip:hover{border-color:#ddc0b8}
+.fchip.active{background:#9f4122;color:#fff;border-color:#9f4122}
+
+/* Modal */
+.modal-backdrop{transition:opacity .22s ease}
+.modal-panel{transition:opacity .22s ease, transform .25s cubic-bezier(.34,1.28,.64,1)}
+.modal-panel.hidden-state{opacity:0;transform:scale(.95) translateY(12px)}
+
+/* Copy btn flash */
+@keyframes copyFlash{0%{background:rgba(159,65,34,.18)}100%{background:transparent}}
+.copy-flash{animation:copyFlash .6s ease}
+
+/* Per-user limit radio */
+.pu-radio:checked{accent-color:#9f4122}
+
+/* Delete confirm modal */
+.del-panel{transition:opacity .22s ease,transform .25s cubic-bezier(.34,1.28,.64,1)}
+.del-panel.hidden-state{opacity:0;transform:scale(.95)}
+
+/* Coupon dashed border pattern */
+.coupon-dashed{background-image:repeating-linear-gradient(90deg,#ddc0b8 0,#ddc0b8 6px,transparent 6px,transparent 12px);height:1px}
+
+/* Dropdown */
+.act-dropdown{transition:opacity .15s ease,transform .15s ease;transform-origin:top right}
+.act-dropdown.closed{opacity:0;transform:scale(.95);pointer-events:none}
+</style>
+<script>
+tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#9f4122","primary-container":"#ff8a65","primary-fixed":"#ffdbd0","primary-fixed-dim":"#ffb59e","on-primary":"#ffffff","on-primary-container":"#752305","secondary":"#556500","secondary-container":"#d6ed7a","secondary-fixed":"#d6ed7a","secondary-fixed-dim":"#bbd062","on-secondary":"#ffffff","on-secondary-container":"#5a6c00","tertiary":"#326578","tertiary-container":"#80b1c7","tertiary-fixed":"#bbe9ff","on-tertiary":"#ffffff","on-tertiary-container":"#074457","error":"#ba1a1a","error-container":"#ffdad6","on-error":"#ffffff","surface":"#fff9ee","surface-dim":"#dfd9cf","surface-variant":"#e8e2d7","surface-container":"#f3ede2","surface-container-low":"#f9f3e8","surface-container-high":"#ede8dd","surface-container-highest":"#e8e2d7","surface-container-lowest":"#ffffff","on-surface":"#1d1c15","on-surface-variant":"#56423c","outline":"#89726b","outline-variant":"#ddc0b8","inverse-surface":"#333029","inverse-on-surface":"#f6f0e5","inverse-primary":"#ffb59e","background":"#fff9ee","on-background":"#1d1c15"},borderRadius:{DEFAULT:"1rem",lg:"2rem",xl:"3rem",full:"9999px"},fontFamily:{sans:["Plus Jakarta Sans","sans-serif"]}}}}
+</script>
+</head>
+<body class="bg-background text-on-background font-sans antialiased overflow-x-hidden">
+
+<!-- SIDEBAR OVERLAY -->
+<div id="sidebar-overlay" class="sidebar-overlay fixed inset-0 bg-black/40 z-40 opacity-0 pointer-events-none lg:hidden" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside id="sidebar" class="sidebar bg-surface-container-lowest border-r border-outline-variant/30 h-screen w-64 flex flex-col overflow-hidden lg:fixed top-0 left-0 shadow-xl lg:shadow-none">
+  <div class="flex items-center gap-3 px-5 h-16 border-b border-outline-variant/20 shrink-0">
+    <div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center shadow-md">
+      <span class="material-symbols-outlined text-on-primary text-[18px]">shopping_basket</span>
+    </div>
+    <div class="sidebar-logo-text">
+      <div class="font-bold text-[15px] text-on-surface leading-none">Shuddhota Co.</div>
+      <div class="text-[10px] text-on-surface-variant mt-0.5 font-medium uppercase tracking-wider">Admin Panel</div>
+    </div>
+  </div>
+  <nav class="flex-1 overflow-y-auto hide-scrollbar py-4 px-3 space-y-0.5">
+    <p class="sidebar-section-title text-[10px] text-on-surface-variant uppercase tracking-widest font-bold px-3 pt-1 pb-2">Main</p>
+    <a href="admin.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">dashboard</span><span class="sidebar-label">Dashboard</span>
+    </a>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">inventory_2</span><span class="sidebar-label">All Products</span>
+      <span class="nav-badge ml-auto bg-secondary-container text-on-secondary-container text-[10px] font-bold px-2 py-0.5 rounded-full">48</span>
+    </a>
+    <a href="admin-user.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">group</span><span class="sidebar-label">Users</span>
+      <span class="nav-badge ml-auto bg-tertiary-container text-on-tertiary-container text-[10px] font-bold px-2 py-0.5 rounded-full">1.2k</span>
+    </a>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">receipt_long</span><span class="sidebar-label">Orders</span>
+      <span class="nav-badge ml-auto bg-primary-fixed text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded-full badge-pulse">7</span>
+    </a>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">rate_review</span><span class="sidebar-label">Reviews</span>
+    </a>
+    <a href="#" class="nav-item active flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">local_offer</span><span class="sidebar-label">Coupons</span>
+      <span class="nav-badge ml-auto bg-primary-fixed text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded-full">10</span>
+    </a>
+    <div class="h-px bg-outline-variant/30 my-3 mx-2"></div>
+    <p class="sidebar-section-title text-[10px] text-on-surface-variant uppercase tracking-widest font-bold px-3 pb-2">System</p>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">settings</span><span class="sidebar-label">Settings</span>
+    </a>
+    <a href="index.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">storefront</span><span class="sidebar-label">View Store</span>
+    </a>
+  </nav>
+  <div class="px-3 py-4 border-t border-outline-variant/20 shrink-0">
+    <div class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-surface-container transition-colors cursor-pointer">
+      <div class="w-8 h-8 rounded-full bg-primary-fixed-dim flex items-center justify-center shrink-0 font-bold text-[13px] text-on-primary-container">RA</div>
+      <div class="sidebar-label flex-1 min-w-0">
+        <div class="text-[13px] font-semibold text-on-surface truncate">Rakib Admin</div>
+        <div class="text-[11px] text-on-surface-variant truncate">admin@shuddhota.com</div>
+      </div>
+      <span class="sidebar-label material-symbols-outlined text-on-surface-variant text-[18px]">logout</span>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div id="main-content" class="main-content lg:ml-64 min-h-screen flex flex-col">
+
+  <!-- TOPBAR -->
+  <header class="sticky top-0 z-30 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 flex items-center justify-between px-4 md:px-6 h-16 shrink-0">
+    <div class="flex items-center gap-3">
+      <button onclick="toggleSidebar()" class="lg:hidden w-9 h-9 rounded-xl flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant">
+        <span id="hamburger-icon" class="material-symbols-outlined text-[22px]">menu</span>
+      </button>
+      <button onclick="toggleMiniSidebar()" class="hidden lg:flex w-9 h-9 rounded-xl items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant">
+        <span class="material-symbols-outlined text-[22px]">menu_open</span>
+      </button>
+      <div class="hidden sm:flex items-center gap-2 text-[13px]">
+        <span class="text-on-surface-variant">Admin</span>
+        <span class="material-symbols-outlined text-[14px] text-on-surface-variant">chevron_right</span>
+        <span class="text-on-surface font-semibold">Coupons</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="hidden md:flex items-center gap-2 bg-surface-container rounded-full px-4 py-2 border border-outline-variant/30 w-48 xl:w-64">
+        <span class="material-symbols-outlined text-on-surface-variant text-[18px]">search</span>
+        <input type="text" id="top-search" placeholder="Search coupons..." class="bg-transparent text-[13px] text-on-surface placeholder:text-outline border-none focus:ring-0 w-full p-0" oninput="doSearch(this.value)"/>
+      </div>
+      <button class="relative w-9 h-9 rounded-xl flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant">
+        <span class="material-symbols-outlined text-[22px]">notifications</span>
+        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full border-2 border-surface badge-pulse"></span>
+      </button>
+      <div class="hidden lg:flex items-center gap-1.5 bg-surface-container rounded-full px-3 py-2 border border-outline-variant/20 text-[12px] text-on-surface-variant font-medium">
+        <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+        <span id="current-date"></span>
+      </div>
+      <div class="w-8 h-8 rounded-full bg-primary-fixed-dim flex items-center justify-center font-bold text-[12px] text-on-primary-container cursor-pointer">RA</div>
+    </div>
+  </header>
+
+  <!-- PAGE -->
+  <main class="flex-1 p-4 md:p-6 xl:p-8 pb-24 lg:pb-8">
+
+    <!-- Title Row -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 fade-up">
+      <div>
+        <h1 class="text-[22px] md:text-[28px] font-extrabold text-on-surface">Coupon Management</h1>
+        <p class="text-[13px] text-on-surface-variant mt-0.5">Create &amp; manage discount, product, and point redemption coupons</p>
+      </div>
+      <button onclick="openCreateModal()" class="flex items-center gap-2 bg-primary text-on-primary text-[13px] font-semibold px-5 py-2.5 rounded-full hover:bg-primary/90 transition-colors shadow-sm self-start sm:self-auto">
+        <span class="material-symbols-outlined text-[18px]">add</span>Create Coupon
+      </button>
+    </div>
+
+    <!-- Stat Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6">
+      <div class="stat-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-4 md:p-5 shadow-sm fade-up fade-up-1">
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-10 h-10 rounded-2xl bg-primary-fixed flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-[20px]">local_offer</span>
+          </div>
+          <span class="text-[10px] font-bold text-secondary bg-secondary-container px-2 py-0.5 rounded-full">Total</span>
+        </div>
+        <p class="text-[24px] md:text-[28px] font-extrabold text-on-surface leading-none" id="stat-total">10</p>
+        <p class="text-[12px] text-on-surface-variant mt-1 font-medium">Total Coupons</p>
+        <p class="text-[11px] text-on-surface-variant/70 mt-0.5" id="stat-total-sub">5 types in use</p>
+      </div>
+      <div class="stat-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-4 md:p-5 shadow-sm fade-up fade-up-2">
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-10 h-10 rounded-2xl bg-secondary-fixed/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+          </div>
+          <span class="text-[10px] font-bold text-secondary bg-secondary-container px-2 py-0.5 rounded-full">Live</span>
+        </div>
+        <p class="text-[24px] md:text-[28px] font-extrabold text-on-surface leading-none" id="stat-active">6</p>
+        <p class="text-[12px] text-on-surface-variant mt-1 font-medium">Active Coupons</p>
+        <p class="text-[11px] text-on-surface-variant/70 mt-0.5" id="stat-active-sub">1 scheduled</p>
+      </div>
+      <div class="stat-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-4 md:p-5 shadow-sm fade-up fade-up-3">
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-10 h-10 rounded-2xl bg-tertiary-fixed/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-tertiary text-[20px]">redeem</span>
+          </div>
+          <span class="text-[10px] font-bold text-secondary bg-secondary-container px-2 py-0.5 rounded-full">All-time</span>
+        </div>
+        <p class="text-[24px] md:text-[28px] font-extrabold text-on-surface leading-none" id="stat-redeemed">1,866</p>
+        <p class="text-[12px] text-on-surface-variant mt-1 font-medium">Total Redemptions</p>
+        <p class="text-[11px] text-on-surface-variant/70 mt-0.5">Across all coupons</p>
+      </div>
+      <div class="stat-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-4 md:p-5 shadow-sm fade-up fade-up-4">
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-10 h-10 rounded-2xl bg-[#b8860b]/15 flex items-center justify-center">
+            <span class="material-symbols-outlined text-[#b8860b] text-[20px]">savings</span>
+          </div>
+          <span class="text-[10px] font-bold text-secondary bg-secondary-container px-2 py-0.5 rounded-full">Saved</span>
+        </div>
+        <p class="text-[24px] md:text-[28px] font-extrabold text-on-surface leading-none" id="stat-saved">৳92k</p>
+        <p class="text-[12px] text-on-surface-variant mt-1 font-medium">Discount Given</p>
+        <p class="text-[11px] text-on-surface-variant/70 mt-0.5">Estimated savings</p>
+      </div>
+    </div>
+
+    <!-- Coupons Table Card -->
+    <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] shadow-sm fade-up fade-up-3">
+      <!-- Toolbar -->
+      <div class="p-4 md:p-5 border-b border-outline-variant/20">
+        <div class="flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-[16px] text-on-surface">All Coupons <span id="count-label" class="text-[13px] font-normal text-on-surface-variant">(10)</span></h3>
+            <div class="flex items-center gap-2">
+              <!-- Mobile Search -->
+              <div class="flex md:hidden items-center gap-2 bg-surface-container rounded-full px-3 py-2 border border-outline-variant/30 flex-1 min-w-[140px]">
+                <span class="material-symbols-outlined text-on-surface-variant text-[17px]">search</span>
+                <input type="text" placeholder="Search…" class="bg-transparent text-[12px] text-on-surface placeholder:text-outline border-none focus:ring-0 w-full p-0" oninput="doSearch(this.value)"/>
+              </div>
+            </div>
+          </div>
+          <!-- Filter Chips Row -->
+          <div class="flex items-center gap-2 flex-wrap">
+            <button onclick="setFilter('all')" id="chip-all" class="fchip active text-[12px] font-semibold px-3.5 py-1.5 rounded-full bg-primary text-on-primary border border-primary">All</button>
+            <button onclick="setFilter('active')" id="chip-active" class="fchip text-[12px] font-semibold px-3.5 py-1.5 rounded-full bg-surface-container text-on-surface-variant">Active</button>
+            <button onclick="setFilter('scheduled')" id="chip-scheduled" class="fchip text-[12px] font-semibold px-3.5 py-1.5 rounded-full bg-surface-container text-on-surface-variant">Scheduled</button>
+            <button onclick="setFilter('inactive')" id="chip-inactive" class="fchip text-[12px] font-semibold px-3.5 py-1.5 rounded-full bg-surface-container text-on-surface-variant">Inactive</button>
+            <button onclick="setFilter('expired')" id="chip-expired" class="fchip text-[12px] font-semibold px-3.5 py-1.5 rounded-full bg-surface-container text-on-surface-variant">Expired</button>
+            <div class="h-4 w-px bg-outline-variant/40 mx-1 hidden sm:block"></div>
+            <!-- Type filter -->
+            <select id="type-filter" onchange="doTypeFilter(this.value)" class="text-[12px] font-medium bg-surface-container border border-outline-variant/30 rounded-full px-3 py-1.5 text-on-surface-variant focus:ring-1 focus:ring-primary outline-none hidden sm:block">
+              <option value="">All Types</option>
+              <option value="percent">Cart %</option>
+              <option value="product_pct">Product %</option>
+              <option value="amount">Fixed ৳</option>
+              <option value="pts_pct">Points → %</option>
+              <option value="pts_amt">Points → ৳</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop Table -->
+      <div class="hidden md:block overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-outline-variant/15">
+              <th class="px-5 py-3 text-left text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Code &amp; Name</th>
+              <th class="px-5 py-3 text-left text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Type</th>
+              <th class="px-5 py-3 text-left text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Discount</th>
+              <th class="px-5 py-3 text-left text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Usage</th>
+              <th class="px-5 py-3 text-left text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Validity</th>
+              <th class="px-5 py-3 text-left text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Per User</th>
+              <th class="px-5 py-3 text-left text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Status</th>
+              <th class="px-5 py-3 text-right text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="coupon-tbody"></tbody>
+        </table>
+      </div>
+
+      <!-- Mobile Card List -->
+      <div id="coupon-cards" class="md:hidden p-3 space-y-2.5"></div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="hidden py-16 flex flex-col items-center justify-center text-center">
+        <div class="w-16 h-16 rounded-3xl bg-surface-container flex items-center justify-center mb-4">
+          <span class="material-symbols-outlined text-[32px] text-on-surface-variant/40">local_offer</span>
+        </div>
+        <p class="font-semibold text-on-surface text-[15px]">No coupons found</p>
+        <p class="text-on-surface-variant text-[13px] mt-1">Try a different filter or create a new coupon</p>
+        <button onclick="openCreateModal()" class="mt-4 flex items-center gap-2 bg-primary text-on-primary text-[13px] font-semibold px-5 py-2.5 rounded-full hover:bg-primary/90 transition-colors">
+          <span class="material-symbols-outlined text-[18px]">add</span>Create Coupon
+        </button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     CREATE / EDIT COUPON MODAL
+═══════════════════════════════════════════════════════════════ -->
+<div id="modal-backdrop" class="modal-backdrop fixed inset-0 bg-black/50 z-[60] opacity-0 pointer-events-none flex items-end sm:items-center justify-center p-0 sm:p-4" onclick="closeModal(event)">
+  <div id="modal-panel" class="modal-panel hidden-state bg-surface-container-lowest w-full sm:max-w-xl rounded-t-[28px] sm:rounded-[24px] border border-outline-variant/30 shadow-2xl flex flex-col max-h-[92dvh]" onclick="event.stopPropagation()">
+
+    <!-- Modal Header -->
+    <div class="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-outline-variant/20 shrink-0">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-primary-fixed flex items-center justify-center">
+          <span class="material-symbols-outlined text-primary text-[20px]">local_offer</span>
+        </div>
+        <div>
+          <h3 id="modal-title" class="font-bold text-[17px] text-on-surface">Create Coupon</h3>
+          <p id="modal-sub" class="text-[11px] text-on-surface-variant">Fill in the details below</p>
+        </div>
+      </div>
+      <button onclick="closeModal()" class="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant">
+        <span class="material-symbols-outlined text-[22px]">close</span>
+      </button>
+    </div>
+
+    <!-- Modal Body (scrollable) -->
+    <div class="flex-1 overflow-y-auto hide-scrollbar px-5 sm:px-6 py-5 space-y-5">
+
+      <!-- SECTION: Coupon Type -->
+      <div>
+        <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mb-3">Coupon Type</p>
+        <div class="grid grid-cols-3 sm:grid-cols-5 gap-2">
+          <!-- Cart % -->
+          <div onclick="selectType('percent')" id="type-percent" class="type-card selected bg-surface-container rounded-[14px] p-3 text-center flex flex-col items-center gap-1.5">
+            <div class="type-icon w-9 h-9 rounded-xl bg-primary-fixed flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary text-[18px]">percent</span>
+            </div>
+            <span class="text-[10px] font-bold text-on-surface leading-tight">Cart %</span>
+          </div>
+          <!-- Product % -->
+          <div onclick="selectType('product_pct')" id="type-product_pct" class="type-card bg-surface-container rounded-[14px] p-3 text-center flex flex-col items-center gap-1.5">
+            <div class="type-icon w-9 h-9 rounded-xl bg-tertiary-fixed/60 flex items-center justify-center">
+              <span class="material-symbols-outlined text-tertiary text-[18px]">inventory_2</span>
+            </div>
+            <span class="text-[10px] font-bold text-on-surface leading-tight">Product %</span>
+          </div>
+          <!-- Fixed ৳ -->
+          <div onclick="selectType('amount')" id="type-amount" class="type-card bg-surface-container rounded-[14px] p-3 text-center flex flex-col items-center gap-1.5">
+            <div class="type-icon w-9 h-9 rounded-xl bg-secondary-fixed/50 flex items-center justify-center">
+              <span class="material-symbols-outlined text-secondary text-[18px]">currency_rupee</span>
+            </div>
+            <span class="text-[10px] font-bold text-on-surface leading-tight">Fixed ৳</span>
+          </div>
+          <!-- Points → % -->
+          <div onclick="selectType('pts_pct')" id="type-pts_pct" class="type-card bg-surface-container rounded-[14px] p-3 text-center flex flex-col items-center gap-1.5">
+            <div class="type-icon w-9 h-9 rounded-xl bg-[#fff4c2] flex items-center justify-center">
+              <span class="material-symbols-outlined text-[#8a6900] text-[18px]">toll</span>
+            </div>
+            <span class="text-[10px] font-bold text-on-surface leading-tight">Points→%</span>
+          </div>
+          <!-- Points → ৳ -->
+          <div onclick="selectType('pts_amt')" id="type-pts_amt" class="type-card bg-surface-container rounded-[14px] p-3 text-center flex flex-col items-center gap-1.5">
+            <div class="type-icon w-9 h-9 rounded-xl bg-[#ede6ff] flex items-center justify-center">
+              <span class="material-symbols-outlined text-[#6941c6] text-[18px]">stars</span>
+            </div>
+            <span class="text-[10px] font-bold text-on-surface leading-tight">Points→৳</span>
+          </div>
+        </div>
+        <!-- Type description banner -->
+        <div id="type-desc" class="mt-3 bg-primary-fixed/40 border border-primary-fixed-dim/40 rounded-[12px] px-3.5 py-2.5 flex items-center gap-2.5">
+          <span class="material-symbols-outlined text-primary text-[18px] shrink-0">info</span>
+          <p id="type-desc-text" class="text-[12px] text-on-surface leading-snug">Applies a percentage discount to the entire cart total.</p>
+        </div>
+      </div>
+
+      <!-- SECTION: Code & Name -->
+      <div class="space-y-3">
+        <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Code &amp; Label</p>
+        <div class="flex gap-2">
+          <div class="flex-1">
+            <label class="text-[11px] font-semibold text-on-surface-variant block mb-1.5">Coupon Code <span class="text-error">*</span></label>
+            <input id="f-code" type="text" placeholder="e.g. SUMMER25" maxlength="20" oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] code-mono font-bold focus:ring-1 focus:ring-primary focus:border-primary outline-none transition placeholder:font-normal"/>
+          </div>
+          <div class="flex flex-col justify-end">
+            <button onclick="generateCode()" class="flex items-center gap-1 bg-surface-container-high border border-outline-variant/30 text-on-surface-variant text-[12px] font-medium px-3 py-2.5 rounded-xl hover:bg-primary-fixed/40 hover:text-primary transition-colors">
+              <span class="material-symbols-outlined text-[17px]">shuffle</span>
+              <span class="hidden sm:inline">Generate</span>
+            </button>
+          </div>
+        </div>
+        <div>
+          <label class="text-[11px] font-semibold text-on-surface-variant block mb-1.5">Label / Description <span class="text-on-surface-variant/50 font-normal">(optional)</span></label>
+          <input id="f-name" type="text" placeholder="e.g. Summer Sale 25% Off" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition"/>
+        </div>
+      </div>
+
+      <!-- SECTION: Discount Config (dynamic) -->
+      <div id="discount-section" class="space-y-3">
+        <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Discount Configuration</p>
+
+        <!-- Points Required (pts types only) -->
+        <div id="field-pts" class="hidden">
+          <label class="text-[11px] font-semibold text-on-surface-variant block mb-1.5">Points Required to Redeem <span class="text-error">*</span></label>
+          <div class="relative">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2">
+              <span class="material-symbols-outlined text-[#b8860b] text-[17px]">toll</span>
+            </span>
+            <input id="f-pts" type="number" min="1" placeholder="e.g. 500" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl pl-10 pr-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition"/>
+          </div>
+          <p class="text-[11px] text-on-surface-variant/70 mt-1">User must spend this many points to activate the coupon.</p>
+        </div>
+
+        <!-- Product selector (product_pct only) -->
+        <div id="field-product" class="hidden">
+          <label class="text-[11px] font-semibold text-on-surface-variant block mb-1.5">Applicable Product <span class="text-error">*</span></label>
+          <select id="f-product" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary outline-none transition">
+            <option value="">— Select a product —</option>
+            <option>Shuddhota Garam Masala</option>
+            <option>Shuddhota Turmeric Powder</option>
+            <option>Shuddhota Chili Powder</option>
+            <option>Shuddhota Coriander Powder</option>
+            <option>Shuddhota Black Pepper</option>
+            <option>Shuddhota Cumin Powder</option>
+            <option>Shuddhota Mustard Seeds</option>
+            <option>Shuddhota Fenugreek</option>
+            <option>Shuddhota Cardamom</option>
+            <option>Shuddhota Cinnamon Sticks</option>
+          </select>
+          <p class="text-[11px] text-on-surface-variant/70 mt-1">Discount applies only to this specific product.</p>
+        </div>
+
+        <!-- Discount % (percent, product_pct, pts_pct) -->
+        <div id="field-discount-pct" class="">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="text-[11px] font-semibold text-on-surface-variant block mb-1.5">Discount Percentage <span class="text-error">*</span></label>
+              <div class="relative">
+                <input id="f-pct" type="number" min="1" max="100" placeholder="e.g. 20" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 pr-10 py-2.5 text-[13px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition"/>
+                <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant font-bold text-[14px]">%</span>
+              </div>
+            </div>
+            <div>
+              <label class="text-[11px] font-semibold text-on-surface-variant block mb-1.5">Max Discount Cap <span class="text-on-surface-variant/50 font-normal">(optional)</span></label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant font-semibold text-[12px]">৳</span>
+                <input id="f-maxcap" type="number" min="0" placeholder="e.g. 300" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl pl-8 pr-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition"/>
+              </div>
+            </div>
+          </div>
+          <p class="text-[11px] text-on-surface-variant/70 mt-1">Cap limits the maximum ৳ discount even if percentage is higher.</p>
+        </div>
+
+        <!-- Discount ৳ (amount, pts_amt) -->
+        <div id="field-discount-amt" class="hidden">
+          <label class="text-[11px] font-semibold text-on-surface-variant block mb-1.5">Discount Amount <span class="text-error">*</span></label>
+          <div class="relative">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant font-semibold text-[13px]">৳</span>
+            <input id="f-amt" type="number" min="1" placeholder="e.g. 100" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl pl-8 pr-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition"/>
+          </div>
+          <p class="text-[11px] text-on-surface-variant/70 mt-1">Fixed amount deducted from the order total.</p>
+        </div>
+
+        <!-- Min Order Value -->
+        <div id="field-minorder" class="">
+          <label class="text-[11px] font-semibold text-on-surface-variant block mb-1.5">Minimum Order Value <span class="text-on-surface-variant/50 font-normal">(optional)</span></label>
+          <div class="relative">
+            <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant font-semibold text-[13px]">৳</span>
+            <input id="f-minorder" type="number" min="0" placeholder="0 = no minimum" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl pl-8 pr-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: Validity -->
+      <div class="space-y-3">
+        <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Validity &amp; Dates</p>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-[11px] font-semibold text-on-surface-variant block mb-1.5">Start Date</label>
+            <input id="f-start" type="date" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition"/>
+          </div>
+          <div>
+            <label class="text-[11px] font-semibold text-on-surface-variant block mb-1.5">End Date <span class="text-on-surface-variant/50 font-normal">(optional)</span></label>
+            <input id="f-end" type="date" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: Usage Limits -->
+      <div class="space-y-3">
+        <p class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Usage Limits</p>
+
+        <!-- Total Usage Limit -->
+        <div class="bg-surface-container rounded-[16px] p-4">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <p class="text-[13px] font-semibold text-on-surface">Total Usage Limit</p>
+              <p class="text-[11px] text-on-surface-variant mt-0.5">Max times this coupon can be used across all users</p>
+            </div>
+            <div id="tgl-unlimited" onclick="toggleUnlimited()" class="tgl on" title="Toggle unlimited"></div>
+          </div>
+          <div id="usage-limit-input" class="hidden">
+            <label class="text-[11px] font-semibold text-on-surface-variant block mb-1.5">Maximum Uses</label>
+            <input id="f-usage-limit" type="number" min="1" placeholder="e.g. 500" class="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition"/>
+          </div>
+          <p id="unlimited-note" class="text-[12px] text-secondary font-medium flex items-center gap-1.5"><span class="material-symbols-outlined text-[15px]">all_inclusive</span>Unlimited uses enabled</p>
+        </div>
+
+        <!-- Per-User Limit -->
+        <div class="bg-surface-container rounded-[16px] p-4 space-y-3">
+          <div>
+            <p class="text-[13px] font-semibold text-on-surface">Per-User Usage Limit</p>
+            <p class="text-[11px] text-on-surface-variant mt-0.5">How many times a single user can use this coupon</p>
+          </div>
+          <div class="space-y-2.5">
+            <label class="flex items-center gap-3 cursor-pointer group">
+              <input type="radio" name="per-user" value="1" id="pu-single" class="pu-radio w-4 h-4 cursor-pointer" checked onchange="updatePerUserInput()"/>
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-xl bg-primary-fixed/50 flex items-center justify-center group-has-[:checked]:bg-primary-fixed">
+                  <span class="material-symbols-outlined text-primary text-[16px]">person</span>
+                </div>
+                <div>
+                  <p class="text-[13px] font-medium text-on-surface">Single use</p>
+                  <p class="text-[11px] text-on-surface-variant">1 time per user</p>
+                </div>
+              </div>
+            </label>
+            <label class="flex items-center gap-3 cursor-pointer group">
+              <input type="radio" name="per-user" value="n" id="pu-multi" class="pu-radio w-4 h-4 cursor-pointer" onchange="updatePerUserInput()"/>
+              <div class="flex items-center gap-2 flex-1">
+                <div class="w-8 h-8 rounded-xl bg-tertiary-fixed/40 flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-tertiary text-[16px]">repeat</span>
+                </div>
+                <div class="flex-1">
+                  <p class="text-[13px] font-medium text-on-surface">Specific number</p>
+                  <div id="multi-input" class="hidden mt-1.5 flex items-center gap-2">
+                    <input id="f-pu-n" type="number" min="2" max="999" placeholder="e.g. 3" class="w-20 bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-3 py-1.5 text-[12px] focus:ring-1 focus:ring-primary focus:border-primary outline-none transition"/>
+                    <span class="text-[12px] text-on-surface-variant">times per user</span>
+                  </div>
+                  <p id="multi-desc" class="text-[11px] text-on-surface-variant">Set exact times per user</p>
+                </div>
+              </div>
+            </label>
+            <label class="flex items-center gap-3 cursor-pointer group">
+              <input type="radio" name="per-user" value="0" id="pu-unlimited" class="pu-radio w-4 h-4 cursor-pointer" onchange="updatePerUserInput()"/>
+              <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-xl bg-secondary-fixed/30 flex items-center justify-center">
+                  <span class="material-symbols-outlined text-secondary text-[16px]">all_inclusive</span>
+                </div>
+                <div>
+                  <p class="text-[13px] font-medium text-on-surface">Unlimited per user</p>
+                  <p class="text-[11px] text-on-surface-variant">No per-user restrictions</p>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION: Status -->
+      <div class="bg-surface-container rounded-[16px] p-4 flex items-center justify-between">
+        <div>
+          <p class="text-[13px] font-semibold text-on-surface">Coupon Status</p>
+          <p class="text-[11px] text-on-surface-variant mt-0.5">Enable to make this coupon immediately active</p>
+        </div>
+        <div id="tgl-status" onclick="toggleFormStatus()" class="tgl on"></div>
+      </div>
+
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="flex items-center gap-3 px-5 sm:px-6 py-4 border-t border-outline-variant/20 shrink-0">
+      <button onclick="closeModal()" class="flex-1 border border-outline-variant/40 text-on-surface text-[13px] font-medium py-2.5 rounded-full hover:bg-surface-container transition-colors">Cancel</button>
+      <button onclick="saveCoupon()" class="flex-1 bg-primary text-on-primary text-[13px] font-semibold py-2.5 rounded-full hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-[17px]">save</span>
+        <span id="save-btn-lbl">Create Coupon</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     DELETE CONFIRM MODAL
+═══════════════════════════════════════════════════════════════ -->
+<div id="del-backdrop" class="fixed inset-0 bg-black/50 z-[70] opacity-0 pointer-events-none flex items-center justify-center p-4" onclick="cancelDelete(event)">
+  <div id="del-panel" class="del-panel hidden-state bg-surface-container-lowest rounded-[20px] border border-outline-variant/30 shadow-2xl w-full max-w-sm p-6 text-center" onclick="event.stopPropagation()">
+    <div class="w-14 h-14 rounded-2xl bg-error-container/60 flex items-center justify-center mx-auto mb-4">
+      <span class="material-symbols-outlined text-error text-[28px]">delete_forever</span>
+    </div>
+    <h3 class="font-bold text-[17px] text-on-surface mb-1">Delete Coupon?</h3>
+    <p class="text-[13px] text-on-surface-variant mb-1">You are about to delete coupon</p>
+    <p id="del-code-label" class="code-mono font-bold text-[14px] text-primary mb-4"></p>
+    <p class="text-[12px] text-on-surface-variant mb-5">This action cannot be undone. All usage history for this coupon will be lost.</p>
+    <div class="flex gap-3">
+      <button onclick="cancelDelete()" class="flex-1 border border-outline-variant/40 text-on-surface text-[13px] font-medium py-2.5 rounded-full hover:bg-surface-container transition-colors">Cancel</button>
+      <button onclick="confirmDelete()" class="flex-1 bg-error text-on-error text-[13px] font-semibold py-2.5 rounded-full hover:bg-error/90 transition-colors">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div id="toast" class="fixed bottom-20 lg:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-inverse-surface text-inverse-on-surface text-[13px] font-medium px-5 py-3 rounded-full shadow-lg z-[100] transition-all duration-300 opacity-0 translate-y-4 pointer-events-none">
+  <span id="toast-icon" class="material-symbols-outlined text-[18px]">check_circle</span>
+  <span id="toast-msg">Done!</span>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════
+   DATA
+═══════════════════════════════════════════════ */
+let COUPONS = [
+  {id:1, code:'WELCOME20', name:'Welcome Discount', type:'percent', discount:20, maxCap:200, minOrder:0, product:'', pointsReq:null, startDate:'2026-06-01', endDate:'2026-06-30', usageLimit:500, usedCount:187, perUserLimit:1, status:'active'},
+  {id:2, code:'SAVE100', name:'Flat ৳100 Off', type:'amount', discount:100, maxCap:null, minOrder:500, product:'', pointsReq:null, startDate:'2026-06-01', endDate:'2026-06-30', usageLimit:200, usedCount:64, perUserLimit:1, status:'active'},
+  {id:3, code:'MASALA15', name:'Masala Product Offer', type:'product_pct', discount:15, maxCap:null, minOrder:0, product:'Shuddhota Garam Masala', pointsReq:null, startDate:'2026-05-15', endDate:'2026-07-15', usageLimit:100, usedCount:43, perUserLimit:0, status:'active'},
+  {id:4, code:'EID2026', name:'Eid Special', type:'percent', discount:30, maxCap:500, minOrder:800, product:'', pointsReq:null, startDate:'2026-07-01', endDate:'2026-07-10', usageLimit:1000, usedCount:0, perUserLimit:1, status:'scheduled'},
+  {id:5, code:'PTS500OFF', name:'500 Points → 10% Discount', type:'pts_pct', discount:10, maxCap:150, minOrder:0, product:'', pointsReq:500, startDate:'2026-01-01', endDate:'2026-12-31', usageLimit:null, usedCount:312, perUserLimit:3, status:'active'},
+  {id:6, code:'PTS200TK', name:'200 Points → ৳50 Discount', type:'pts_amt', discount:50, maxCap:null, minOrder:0, product:'', pointsReq:200, startDate:'2026-01-01', endDate:'2026-12-31', usageLimit:null, usedCount:891, perUserLimit:0, status:'active'},
+  {id:7, code:'RAMADAN30', name:'Ramadan 30% Off', type:'percent', discount:30, maxCap:300, minOrder:600, product:'', pointsReq:null, startDate:'2026-03-01', endDate:'2026-03-31', usageLimit:300, usedCount:300, perUserLimit:2, status:'expired'},
+  {id:8, code:'FIRSTBUY', name:'First Purchase Offer', type:'amount', discount:200, maxCap:null, minOrder:0, product:'', pointsReq:null, startDate:'2026-06-01', endDate:'2026-12-31', usageLimit:null, usedCount:29, perUserLimit:1, status:'active'},
+  {id:9, code:'SPICE20', name:'Spice Range 20%', type:'product_pct', discount:20, maxCap:null, minOrder:0, product:'Shuddhota Turmeric Powder', pointsReq:null, startDate:'2026-05-01', endDate:'2026-05-31', usageLimit:50, usedCount:50, perUserLimit:1, status:'expired'},
+  {id:10, code:'VIP15', name:'VIP Member Reward', type:'percent', discount:15, maxCap:null, minOrder:1000, product:'', pointsReq:null, startDate:'2026-06-15', endDate:'2026-09-15', usageLimit:100, usedCount:0, perUserLimit:0, status:'inactive'},
+];
+
+let nextId = 11;
+let editingId = null;
+let deleteTargetId = null;
+let currentFilter = 'all';
+let currentTypeFilter = '';
+let currentSearch = '';
+let formUnlimited = true;
+let formStatusOn = true;
+let curFormType = 'percent';
+
+/* ═══════════════════════════════════════════════
+   DATE
+═══════════════════════════════════════════════ */
+const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function fmtDate(d){if(!d)return '—';const p=d.split('-');return `${parseInt(p[2])} ${months[parseInt(p[1])-1]} ${p[0]}`;}
+(function(){const n=new Date();document.getElementById('current-date').textContent=`${n.getDate()} ${months[n.getMonth()]} ${n.getFullYear()}`;})();
+
+/* ═══════════════════════════════════════════════
+   TYPE HELPERS
+═══════════════════════════════════════════════ */
+const TYPE_META = {
+  percent:     {label:'Cart %',       icon:'percent',          iconBg:'bg-primary-fixed',      iconColor:'text-primary',      badgeBg:'bg-primary-fixed',    badgeColor:'text-on-primary-container', desc:'Applies a percentage discount to the entire cart total.'},
+  product_pct: {label:'Product %',    icon:'inventory_2',      iconBg:'bg-tertiary-fixed/60',  iconColor:'text-tertiary',     badgeBg:'bg-tertiary-fixed',   badgeColor:'text-on-tertiary-container', desc:'Applies a percentage discount to a specific product only.'},
+  amount:      {label:'Fixed ৳',      icon:'currency_rupee',   iconBg:'bg-secondary-fixed/50', iconColor:'text-secondary',    badgeBg:'bg-secondary-fixed',  badgeColor:'text-on-secondary-container', desc:'Deducts a fixed Taka amount from the total cart value.'},
+  pts_pct:     {label:'Points→%',     icon:'toll',             iconBg:'bg-[#fff4c2]',          iconColor:'text-[#8a6900]',    badgeBg:'bg-[#fff4c2]',        badgeColor:'text-[#8a6900]', desc:'User redeems loyalty points to receive a percentage discount.'},
+  pts_amt:     {label:'Points→৳',    icon:'stars',            iconBg:'bg-[#ede6ff]',          iconColor:'text-[#6941c6]',    badgeBg:'bg-[#ede6ff]',        badgeColor:'text-[#6941c6]', desc:'User redeems loyalty points to receive a fixed Taka discount.'},
+};
+
+function getDiscountLabel(c){
+  if(c.type==='percent')    return `${c.discount}%${c.maxCap?` (max ৳${c.maxCap})`:''}`;
+  if(c.type==='product_pct')return `${c.discount}% on product`;
+  if(c.type==='amount')     return `৳${c.discount} off`;
+  if(c.type==='pts_pct')    return `${c.pointsReq} pts → ${c.discount}%`;
+  if(c.type==='pts_amt')    return `${c.pointsReq} pts → ৳${c.discount}`;
+  return '';
+}
+
+function getPerUserLabel(n){
+  if(n===1)  return 'Single use';
+  if(n===0)  return 'Unlimited';
+  return `${n}× per user`;
+}
+
+function getStatusMeta(s){
+  const m={
+    active:   {cls:'bg-secondary-fixed/60 text-secondary', dot:'bg-secondary',          label:'Active'},
+    inactive: {cls:'bg-surface-container text-on-surface-variant', dot:'bg-outline',     label:'Inactive'},
+    expired:  {cls:'bg-error-container text-error',       dot:'bg-error',               label:'Expired'},
+    scheduled:{cls:'bg-tertiary-fixed text-on-tertiary-container', dot:'bg-tertiary',    label:'Scheduled'},
+  };
+  return m[s]||m.inactive;
+}
+
+function computeStatus(c){
+  if(c.status==='inactive') return 'inactive';
+  const now=new Date();const today=now.toISOString().split('T')[0];
+  if(c.startDate>today) return 'scheduled';
+  if(c.endDate&&c.endDate<today) return 'expired';
+  if(c.usageLimit!==null&&c.usedCount>=c.usageLimit) return 'expired';
+  if(c.status==='active') return 'active';
+  return c.status;
+}
+
+/* ═══════════════════════════════════════════════
+   FILTER & SEARCH
+═══════════════════════════════════════════════ */
+function getFiltered(){
+  return COUPONS.filter(c=>{
+    const cs=computeStatus(c);
+    if(currentFilter!=='all'&&cs!==currentFilter) return false;
+    if(currentTypeFilter&&c.type!==currentTypeFilter) return false;
+    if(currentSearch){
+      const q=currentSearch.toLowerCase();
+      if(!c.code.toLowerCase().includes(q)&&!c.name.toLowerCase().includes(q)&&!(c.product||'').toLowerCase().includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function setFilter(f){
+  currentFilter=f;
+  ['all','active','scheduled','inactive','expired'].forEach(k=>{
+    const el=document.getElementById('chip-'+k);
+    if(k===f){el.className='fchip active text-[12px] font-semibold px-3.5 py-1.5 rounded-full bg-primary text-on-primary border border-primary';}
+    else{el.className='fchip text-[12px] font-semibold px-3.5 py-1.5 rounded-full bg-surface-container text-on-surface-variant border border-transparent';}
+  });
+  renderTable();
+}
+
+function doTypeFilter(v){currentTypeFilter=v;renderTable();}
+function doSearch(v){currentSearch=v;if(document.getElementById('top-search')&&v!==document.getElementById('top-search').value)document.getElementById('top-search').value=v;renderTable();}
+
+/* ═══════════════════════════════════════════════
+   RENDER TABLE
+═══════════════════════════════════════════════ */
+function renderTable(){
+  const filtered=getFiltered();
+  document.getElementById('count-label').textContent=`(${filtered.length})`;
+  updateStats();
+
+  const tbody=document.getElementById('coupon-tbody');
+  const cards=document.getElementById('coupon-cards');
+  const empty=document.getElementById('empty-state');
+
+  if(!filtered.length){
+    tbody.innerHTML='';cards.innerHTML='';
+    empty.classList.remove('hidden');empty.classList.add('flex');
+    return;
+  }
+  empty.classList.add('hidden');empty.classList.remove('flex');
+
+  // Desktop Table
+  tbody.innerHTML=filtered.map(c=>{
+    const tm=TYPE_META[c.type]||TYPE_META.percent;
+    const sm=getStatusMeta(computeStatus(c));
+    const pct=c.usageLimit?Math.min(100,Math.round(c.usedCount/c.usageLimit*100)):0;
+    const barClass=pct>=100?'full':(pct>70?'':'safe');
+    const usageText=c.usageLimit===null?`${c.usedCount.toLocaleString()} used`:`${c.usedCount}/${c.usageLimit}`;
+    const statusCmp=computeStatus(c);
+    return `<tr class="trow border-b border-outline-variant/10">
+      <td class="px-5 py-4">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl ${tm.iconBg} flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined ${tm.iconColor} text-[18px]">${tm.icon}</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="code-mono font-extrabold text-[13px] text-on-surface">${c.code}</span>
+              <button onclick="copyCode('${c.code}',this)" class="w-5 h-5 flex items-center justify-center rounded text-on-surface-variant hover:text-primary hover:bg-primary-fixed transition-colors" title="Copy">
+                <span class="material-symbols-outlined text-[14px]">content_copy</span>
+              </button>
+            </div>
+            <p class="text-[11px] text-on-surface-variant mt-0.5 max-w-[180px] truncate">${c.name||'—'}</p>
+          </div>
+        </div>
+      </td>
+      <td class="px-5 py-4">
+        <span class="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full ${tm.badgeBg} ${tm.badgeColor}">
+          <span class="material-symbols-outlined text-[12px]">${tm.icon}</span>${tm.label}
+        </span>
+        ${c.product?`<p class="text-[10px] text-on-surface-variant mt-1 max-w-[120px] truncate">${c.product}</p>`:''}
+      </td>
+      <td class="px-5 py-4">
+        <p class="text-[13px] font-bold text-on-surface">${getDiscountLabel(c)}</p>
+        ${c.minOrder?`<p class="text-[10px] text-on-surface-variant mt-0.5">Min. ৳${c.minOrder.toLocaleString()}</p>`:''}
+      </td>
+      <td class="px-5 py-4 min-w-[120px]">
+        <p class="text-[12px] font-semibold text-on-surface mb-1.5">${usageText}</p>
+        <div class="usage-bar-track"><div class="usage-bar-fill ${barClass}" style="width:${c.usageLimit?pct:0}%"></div></div>
+        ${c.usageLimit===null?'<p class="text-[10px] text-on-surface-variant mt-1">Unlimited</p>':''}
+      </td>
+      <td class="px-5 py-4">
+        <p class="text-[12px] text-on-surface">${fmtDate(c.startDate)}</p>
+        <p class="text-[11px] text-on-surface-variant">${c.endDate?'→ '+fmtDate(c.endDate):'No end date'}</p>
+      </td>
+      <td class="px-5 py-4">
+        <span class="text-[11px] font-medium text-on-surface-variant">${getPerUserLabel(c.perUserLimit)}</span>
+      </td>
+      <td class="px-5 py-4">
+        <span class="flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-full w-fit ${sm.cls}">
+          <span class="w-1.5 h-1.5 rounded-full ${sm.dot}"></span>${sm.label}
+        </span>
+      </td>
+      <td class="px-5 py-4">
+        <div class="flex items-center justify-end gap-1">
+          <button onclick="openEditModal(${c.id})" class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant hover:text-primary" title="Edit">
+            <span class="material-symbols-outlined text-[18px]">edit</span>
+          </button>
+          <button onclick="quickToggleStatus(${c.id})" class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant ${statusCmp==='active'?'hover:text-error':'hover:text-secondary'}" title="${statusCmp==='active'?'Deactivate':'Activate'}">
+            <span class="material-symbols-outlined text-[18px]">${statusCmp==='active'?'pause_circle':'play_circle'}</span>
+          </button>
+          <button onclick="openDeleteModal(${c.id})" class="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-error-container transition-colors text-on-surface-variant hover:text-error" title="Delete">
+            <span class="material-symbols-outlined text-[18px]">delete</span>
+          </button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  // Mobile Cards
+  cards.innerHTML=filtered.map(c=>{
+    const tm=TYPE_META[c.type]||TYPE_META.percent;
+    const sm=getStatusMeta(computeStatus(c));
+    const pct=c.usageLimit?Math.min(100,Math.round(c.usedCount/c.usageLimit*100)):0;
+    const barClass=pct>=100?'full':(pct>70?'':'safe');
+    const usageText=c.usageLimit===null?`${c.usedCount.toLocaleString()} used`:`${c.usedCount} / ${c.usageLimit}`;
+    return `<div class="coupon-card bg-surface-container-lowest border border-outline-variant/25 rounded-[18px] overflow-hidden">
+      <!-- Card top -->
+      <div class="flex items-start justify-between p-4 gap-3">
+        <div class="flex items-center gap-3 min-w-0 flex-1">
+          <div class="w-10 h-10 rounded-xl ${tm.iconBg} flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined ${tm.iconColor} text-[20px]">${tm.icon}</span>
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5">
+              <span class="code-mono font-extrabold text-[14px] text-on-surface">${c.code}</span>
+              <button onclick="copyCode('${c.code}',this)" class="w-5 h-5 flex items-center justify-center rounded text-on-surface-variant hover:text-primary">
+                <span class="material-symbols-outlined text-[13px]">content_copy</span>
+              </button>
+            </div>
+            <p class="text-[11px] text-on-surface-variant truncate">${c.name||'—'}</p>
+          </div>
+        </div>
+        <span class="flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-full shrink-0 ${sm.cls}">
+          <span class="w-1.5 h-1.5 rounded-full ${sm.dot}"></span>${sm.label}
+        </span>
+      </div>
+      <!-- Dashed divider -->
+      <div class="coupon-dashed mx-4"></div>
+      <!-- Details -->
+      <div class="p-4 grid grid-cols-2 gap-3">
+        <div>
+          <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-0.5">Discount</p>
+          <p class="text-[13px] font-bold text-on-surface">${getDiscountLabel(c)}</p>
+        </div>
+        <div>
+          <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-0.5">Type</p>
+          <span class="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full ${tm.badgeBg} ${tm.badgeColor}">
+            <span class="material-symbols-outlined text-[11px]">${tm.icon}</span>${tm.label}
+          </span>
+        </div>
+        <div>
+          <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-0.5">Validity</p>
+          <p class="text-[11px] text-on-surface">${fmtDate(c.startDate)}</p>
+          <p class="text-[10px] text-on-surface-variant">${c.endDate?'→ '+fmtDate(c.endDate):'No end'}</p>
+        </div>
+        <div>
+          <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-0.5">Per User</p>
+          <p class="text-[11px] text-on-surface">${getPerUserLabel(c.perUserLimit)}</p>
+        </div>
+      </div>
+      <!-- Usage Bar -->
+      <div class="px-4 pb-2">
+        <div class="flex items-center justify-between mb-1.5">
+          <p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-wider">Usage</p>
+          <p class="text-[11px] font-semibold text-on-surface">${usageText}</p>
+        </div>
+        <div class="usage-bar-track"><div class="usage-bar-fill ${barClass}" style="width:${c.usageLimit?pct:0}%"></div></div>
+      </div>
+      <!-- Actions -->
+      <div class="flex items-center gap-0 border-t border-outline-variant/15 mt-2">
+        <button onclick="openEditModal(${c.id})" class="flex-1 flex items-center justify-center gap-1.5 text-[12px] font-semibold text-primary py-3 hover:bg-primary-fixed/30 transition-colors">
+          <span class="material-symbols-outlined text-[16px]">edit</span>Edit
+        </button>
+        <div class="w-px h-8 bg-outline-variant/20"></div>
+        <button onclick="quickToggleStatus(${c.id})" class="flex-1 flex items-center justify-center gap-1.5 text-[12px] font-semibold py-3 hover:bg-surface-container transition-colors ${computeStatus(c)==='active'?'text-error':'text-secondary'}">
+          <span class="material-symbols-outlined text-[16px]">${computeStatus(c)==='active'?'pause_circle':'play_circle'}</span>
+          ${computeStatus(c)==='active'?'Pause':'Activate'}
+        </button>
+        <div class="w-px h-8 bg-outline-variant/20"></div>
+        <button onclick="openDeleteModal(${c.id})" class="flex-1 flex items-center justify-center gap-1.5 text-[12px] font-semibold text-error py-3 hover:bg-error-container/40 transition-colors">
+          <span class="material-symbols-outlined text-[16px]">delete</span>Delete
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* ═══════════════════════════════════════════════
+   STATS
+═══════════════════════════════════════════════ */
+function updateStats(){
+  const total=COUPONS.length;
+  const active=COUPONS.filter(c=>computeStatus(c)==='active').length;
+  const scheduled=COUPONS.filter(c=>computeStatus(c)==='scheduled').length;
+  const redeemed=COUPONS.reduce((s,c)=>s+c.usedCount,0);
+  const types=new Set(COUPONS.map(c=>c.type)).size;
+  document.getElementById('stat-total').textContent=total;
+  document.getElementById('stat-total-sub').textContent=`${types} type${types!==1?'s':''} in use`;
+  document.getElementById('stat-active').textContent=active;
+  document.getElementById('stat-active-sub').textContent=`${scheduled} scheduled`;
+  document.getElementById('stat-redeemed').textContent=redeemed.toLocaleString();
+}
+
+/* ═══════════════════════════════════════════════
+   COPY CODE
+═══════════════════════════════════════════════ */
+function copyCode(code, btn){
+  navigator.clipboard.writeText(code).catch(()=>{});
+  btn.classList.add('copy-flash');
+  showToast(`Copied: ${code}`,'check_circle');
+  setTimeout(()=>btn.classList.remove('copy-flash'),600);
+}
+
+/* ═══════════════════════════════════════════════
+   QUICK TOGGLE STATUS
+═══════════════════════════════════════════════ */
+function quickToggleStatus(id){
+  const c=COUPONS.find(x=>x.id===id);if(!c)return;
+  const cs=computeStatus(c);
+  if(cs==='active'){c.status='inactive';showToast(`${c.code} deactivated`,'pause_circle');}
+  else if(cs==='inactive'||cs==='scheduled'){c.status='active';showToast(`${c.code} activated`,'play_circle');}
+  else{showToast('Cannot change expired coupon status','info');return;}
+  renderTable();
+}
+
+/* ═══════════════════════════════════════════════
+   DELETE
+═══════════════════════════════════════════════ */
+function openDeleteModal(id){
+  const c=COUPONS.find(x=>x.id===id);if(!c)return;
+  deleteTargetId=id;
+  document.getElementById('del-code-label').textContent=c.code;
+  const bd=document.getElementById('del-backdrop');const pan=document.getElementById('del-panel');
+  bd.style.opacity='1';bd.style.pointerEvents='auto';
+  pan.classList.remove('hidden-state');
+}
+function cancelDelete(e){
+  if(e&&e.target!==document.getElementById('del-backdrop'))return;
+  const bd=document.getElementById('del-backdrop');const pan=document.getElementById('del-panel');
+  bd.style.opacity='0';bd.style.pointerEvents='none';
+  pan.classList.add('hidden-state');
+  deleteTargetId=null;
+}
+function confirmDelete(){
+  if(!deleteTargetId)return;
+  const c=COUPONS.find(x=>x.id===deleteTargetId);
+  COUPONS=COUPONS.filter(x=>x.id!==deleteTargetId);
+  cancelDelete();
+  renderTable();
+  showToast(`Coupon ${c?c.code:''} deleted`,'delete');
+}
+
+/* ═══════════════════════════════════════════════
+   MODAL — OPEN/CLOSE
+═══════════════════════════════════════════════ */
+function openCreateModal(){
+  editingId=null;
+  document.getElementById('modal-title').textContent='Create Coupon';
+  document.getElementById('modal-sub').textContent='Fill in the details below';
+  document.getElementById('save-btn-lbl').textContent='Create Coupon';
+  resetForm();
+  showModal();
+}
+function openEditModal(id){
+  const c=COUPONS.find(x=>x.id===id);if(!c)return;
+  editingId=id;
+  document.getElementById('modal-title').textContent='Edit Coupon';
+  document.getElementById('modal-sub').textContent=`Editing: ${c.code}`;
+  document.getElementById('save-btn-lbl').textContent='Save Changes';
+  populateForm(c);
+  showModal();
+}
+function showModal(){
+  const bd=document.getElementById('modal-backdrop');const pan=document.getElementById('modal-panel');
+  bd.style.opacity='1';bd.style.pointerEvents='auto';
+  requestAnimationFrame(()=>pan.classList.remove('hidden-state'));
+}
+function closeModal(e){
+  if(e&&e.target!==document.getElementById('modal-backdrop'))return;
+  const bd=document.getElementById('modal-backdrop');const pan=document.getElementById('modal-panel');
+  pan.classList.add('hidden-state');
+  setTimeout(()=>{bd.style.opacity='0';bd.style.pointerEvents='none';},220);
+}
+
+/* ═══════════════════════════════════════════════
+   MODAL — FORM
+═══════════════════════════════════════════════ */
+function resetForm(){
+  selectType('percent');
+  document.getElementById('f-code').value='';
+  document.getElementById('f-name').value='';
+  document.getElementById('f-pct').value='';
+  document.getElementById('f-maxcap').value='';
+  document.getElementById('f-amt').value='';
+  document.getElementById('f-pts').value='';
+  document.getElementById('f-product').value='';
+  document.getElementById('f-minorder').value='';
+  const today=new Date().toISOString().split('T')[0];
+  document.getElementById('f-start').value=today;
+  document.getElementById('f-end').value='';
+  // Unlimited on
+  formUnlimited=true;
+  document.getElementById('tgl-unlimited').classList.add('on');
+  document.getElementById('usage-limit-input').classList.add('hidden');
+  document.getElementById('unlimited-note').classList.remove('hidden');
+  document.getElementById('f-usage-limit').value='';
+  // Per user: single
+  document.getElementById('pu-single').checked=true;
+  document.getElementById('multi-input').classList.add('hidden');
+  document.getElementById('multi-desc').classList.remove('hidden');
+  document.getElementById('f-pu-n').value='';
+  // Status on
+  formStatusOn=true;
+  document.getElementById('tgl-status').classList.add('on');
+}
+
+function populateForm(c){
+  selectType(c.type);
+  document.getElementById('f-code').value=c.code;
+  document.getElementById('f-name').value=c.name||'';
+  document.getElementById('f-pct').value=(c.type==='percent'||c.type==='product_pct'||c.type==='pts_pct')?c.discount:'';
+  document.getElementById('f-maxcap').value=c.maxCap||'';
+  document.getElementById('f-amt').value=(c.type==='amount'||c.type==='pts_amt')?c.discount:'';
+  document.getElementById('f-pts').value=c.pointsReq||'';
+  document.getElementById('f-product').value=c.product||'';
+  document.getElementById('f-minorder').value=c.minOrder||'';
+  document.getElementById('f-start').value=c.startDate||'';
+  document.getElementById('f-end').value=c.endDate||'';
+  // Usage limit
+  formUnlimited=c.usageLimit===null;
+  const tgl=document.getElementById('tgl-unlimited');
+  const inp=document.getElementById('usage-limit-input');
+  const note=document.getElementById('unlimited-note');
+  if(formUnlimited){tgl.classList.add('on');inp.classList.add('hidden');note.classList.remove('hidden');}
+  else{tgl.classList.remove('on');inp.classList.remove('hidden');note.classList.add('hidden');document.getElementById('f-usage-limit').value=c.usageLimit;}
+  // Per user
+  const pu=c.perUserLimit;
+  if(pu===1){document.getElementById('pu-single').checked=true;updatePerUserInput();}
+  else if(pu===0){document.getElementById('pu-unlimited').checked=true;updatePerUserInput();}
+  else{document.getElementById('pu-multi').checked=true;updatePerUserInput();document.getElementById('f-pu-n').value=pu;}
+  // Status
+  formStatusOn=c.status!=='inactive';
+  const stgl=document.getElementById('tgl-status');
+  if(formStatusOn)stgl.classList.add('on');else stgl.classList.remove('on');
+}
+
+function selectType(type){
+  curFormType=type;
+  // Update type cards
+  Object.keys(TYPE_META).forEach(t=>{
+    const el=document.getElementById('type-'+t);
+    if(el){if(t===type)el.classList.add('selected');else el.classList.remove('selected');}
+  });
+  // Update description
+  document.getElementById('type-desc-text').textContent=TYPE_META[type]?.desc||'';
+  // Show/hide fields
+  const isPercent = type==='percent'||type==='product_pct'||type==='pts_pct';
+  const isAmount  = type==='amount'||type==='pts_amt';
+  const isPoints  = type==='pts_pct'||type==='pts_amt';
+  const isProduct = type==='product_pct';
+  // Percentage discount fields
+  document.getElementById('field-discount-pct').classList.toggle('hidden',!isPercent);
+  // Amount discount fields
+  document.getElementById('field-discount-amt').classList.toggle('hidden',!isAmount);
+  // Points required
+  document.getElementById('field-pts').classList.toggle('hidden',!isPoints);
+  // Product selector
+  document.getElementById('field-product').classList.toggle('hidden',!isProduct);
+  // Min order hidden for product_pct and points types
+  document.getElementById('field-minorder').classList.toggle('hidden', isProduct);
+}
+
+function toggleUnlimited(){
+  formUnlimited=!formUnlimited;
+  const tgl=document.getElementById('tgl-unlimited');
+  const inp=document.getElementById('usage-limit-input');
+  const note=document.getElementById('unlimited-note');
+  if(formUnlimited){tgl.classList.add('on');inp.classList.add('hidden');note.classList.remove('hidden');}
+  else{tgl.classList.remove('on');inp.classList.remove('hidden');note.classList.add('hidden');}
+}
+
+function toggleFormStatus(){
+  formStatusOn=!formStatusOn;
+  const tgl=document.getElementById('tgl-status');
+  if(formStatusOn)tgl.classList.add('on');else tgl.classList.remove('on');
+}
+
+function updatePerUserInput(){
+  const multi=document.getElementById('pu-multi').checked;
+  const inp=document.getElementById('multi-input');
+  const desc=document.getElementById('multi-desc');
+  if(multi){inp.classList.remove('hidden');desc.classList.add('hidden');}
+  else{inp.classList.add('hidden');desc.classList.remove('hidden');}
+}
+
+function generateCode(){
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code='';
+  for(let i=0;i<8;i++)code+=chars[Math.floor(Math.random()*chars.length)];
+  document.getElementById('f-code').value=code;
+}
+
+/* ═══════════════════════════════════════════════
+   SAVE
+═══════════════════════════════════════════════ */
+function saveCoupon(){
+  const code=document.getElementById('f-code').value.trim();
+  if(!code){showToast('Coupon code is required','error_outline');shakeField('f-code');return;}
+
+  // Check duplicate code (exclude self if editing)
+  const dup=COUPONS.find(c=>c.code===code&&c.id!==editingId);
+  if(dup){showToast('Coupon code already exists!','error_outline');shakeField('f-code');return;}
+
+  // Validate discount fields
+  const isPercent=curFormType==='percent'||curFormType==='product_pct'||curFormType==='pts_pct';
+  const isAmount=curFormType==='amount'||curFormType==='pts_amt';
+  const isPoints=curFormType==='pts_pct'||curFormType==='pts_amt';
+  const isProduct=curFormType==='product_pct';
+
+  let discount=0, maxCap=null, pointsReq=null, product='';
+
+  if(isPercent){
+    discount=parseFloat(document.getElementById('f-pct').value)||0;
+    if(!discount||discount<=0||discount>100){showToast('Enter a valid discount (1–100%)','error_outline');shakeField('f-pct');return;}
+    maxCap=parseFloat(document.getElementById('f-maxcap').value)||null;
+  }
+  if(isAmount){
+    discount=parseFloat(document.getElementById('f-amt').value)||0;
+    if(!discount||discount<=0){showToast('Enter a valid discount amount','error_outline');shakeField('f-amt');return;}
+  }
+  if(isPoints){
+    pointsReq=parseFloat(document.getElementById('f-pts').value)||0;
+    if(!pointsReq||pointsReq<=0){showToast('Enter valid points required','error_outline');shakeField('f-pts');return;}
+  }
+  if(isProduct){
+    product=document.getElementById('f-product').value;
+    if(!product){showToast('Select an applicable product','error_outline');return;}
+  }
+
+  // Usage limit
+  const usageLimit=formUnlimited?null:(parseInt(document.getElementById('f-usage-limit').value)||null);
+  if(!formUnlimited&&!usageLimit){showToast('Enter a valid usage limit','error_outline');shakeField('f-usage-limit');return;}
+
+  // Per-user limit
+  let perUserLimit=1;
+  if(document.getElementById('pu-unlimited').checked) perUserLimit=0;
+  else if(document.getElementById('pu-multi').checked){
+    perUserLimit=parseInt(document.getElementById('f-pu-n').value)||0;
+    if(!perUserLimit||perUserLimit<2){showToast('Enter a valid number (min 2)','error_outline');shakeField('f-pu-n');return;}
+  }
+
+  const startDate=document.getElementById('f-start').value||new Date().toISOString().split('T')[0];
+  const endDate=document.getElementById('f-end').value||null;
+  const minOrder=parseFloat(document.getElementById('f-minorder').value)||0;
+  const name=document.getElementById('f-name').value.trim();
+  const status=formStatusOn?'active':'inactive';
+
+  const obj={
+    code, name, type:curFormType, discount, maxCap, minOrder, product,
+    pointsReq, startDate, endDate, usageLimit, perUserLimit, status,
+    usedCount: editingId?COUPONS.find(c=>c.id===editingId)?.usedCount||0:0,
+  };
+
+  if(editingId){
+    const idx=COUPONS.findIndex(c=>c.id===editingId);
+    if(idx!==-1){COUPONS[idx]={...obj,id:editingId};}
+    showToast(`Coupon ${code} updated`,'check_circle');
+  } else {
+    obj.id=nextId++;
+    COUPONS.unshift(obj);
+    showToast(`Coupon ${code} created!`,'celebration');
+  }
+
+  closeModal();
+  setTimeout(renderTable,260);
+}
+
+function shakeField(id){
+  const el=document.getElementById(id);if(!el)return;
+  el.style.animation='none';
+  el.getBoundingClientRect();
+  el.style.animation='shakeInput .4s ease';
+  el.focus();
+}
+
+/* ═══════════════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════════════ */
+let sidebarOpen=false,miniMode=false;
+function toggleSidebar(){
+  sidebarOpen=!sidebarOpen;
+  const sb=document.getElementById('sidebar');const ov=document.getElementById('sidebar-overlay');
+  sb.classList.toggle('open',sidebarOpen);
+  ov.style.opacity=sidebarOpen?'1':'0';ov.style.pointerEvents=sidebarOpen?'auto':'none';
+  document.getElementById('hamburger-icon').textContent=sidebarOpen?'close':'menu';
+}
+function closeSidebar(){sidebarOpen=false;
+  document.getElementById('sidebar').classList.remove('open');
+  const ov=document.getElementById('sidebar-overlay');ov.style.opacity='0';ov.style.pointerEvents='none';
+  document.getElementById('hamburger-icon').textContent='menu';
+}
+function toggleMiniSidebar(){
+  miniMode=!miniMode;
+  const sb=document.getElementById('sidebar');const mc=document.getElementById('main-content');
+  sb.classList.toggle('sidebar-mini',miniMode);sb.style.width=miniMode?'72px':'256px';
+  mc.style.marginLeft=miniMode?'72px':'256px';
+}
+
+/* ═══════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════ */
+let toastTimer;
+function showToast(msg,icon='check_circle'){
+  clearTimeout(toastTimer);
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  document.getElementById('toast-icon').textContent=icon;
+  t.style.opacity='1';t.style.transform='translate(-50%, 0)';t.style.pointerEvents='auto';
+  toastTimer=setTimeout(()=>{t.style.opacity='0';t.style.transform='translate(-50%, 1rem)';t.style.pointerEvents='none';},3000);
+}
+
+/* ═══════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════ */
+// Add shake keyframe
+const s=document.createElement('style');s.textContent='@keyframes shakeInput{0%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}100%{transform:translateX(0)}}';document.head.appendChild(s);
+
+renderTable();
+</script>
+</body>
+</html>
