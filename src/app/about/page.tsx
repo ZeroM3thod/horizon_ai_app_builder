@@ -120,7 +120,7 @@ export default function AboutPage() {
           Pure by Nature.
         </h1>
         <p className="font-body-lg text-[14px] md:text-body-lg text-on-surface-variant max-w-2xl mb-10 md:mb-14 px-2 md:px-0">
-          Shuddhota means purity in Bengali. That's not a tagline — it's the single standard every
+          Shuddhota means purity in Bengali. That&apos;s not a tagline — it&apos;s the single standard every
           product in our catalog must meet before it reaches your kitchen.
         </p>
 
@@ -182,7 +182,7 @@ export default function AboutPage() {
                   <span className="font-body-md text-[12px] md:text-body-md text-on-surface font-semibold">First order note, 2026</span>
                 </div>
                 <p className="text-[11px] md:text-body-md text-on-surface-variant italic leading-relaxed">
-                  "Thank you for buying directly from me. This turmeric was harvested last week. I hope it makes your food taste the way it's supposed to."
+                  &quot;Thank you for buying directly from me. This turmeric was harvested last week. I hope it makes your food taste the way it&apos;s supposed to.&quot;
                 </p>
                 <p className="text-[11px] md:text-body-md text-primary font-medium mt-2">— Rafiq, Narsingdi farmer</p>
               </div>
@@ -279,7 +279,7 @@ export default function AboutPage() {
               Farm to packet<br />in four steps.
             </h2>
             <p className="font-body-lg text-[14px] md:text-body-lg text-on-surface-variant mb-8 max-w-md">
-              We control the entire chain — from the field to your front door. Each step has a named person responsible for it. That's why we can guarantee what's on the label.
+              We control the entire chain — from the field to your front door. Each step has a named person responsible for it. That&apos;s why we can guarantee what&apos;s on the label.
             </p>
             <Link className="inline-flex items-center gap-2 bg-on-surface text-surface font-body-md text-[13px] md:text-body-md font-medium px-6 md:px-8 py-3 md:py-4 rounded-full w-fit hover:bg-on-surface/90 transition-colors" href="#">
               View Lab Reports

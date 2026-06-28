@@ -21,8 +21,9 @@ export default function SignupPage() {
   const [matchMsg, setMatchMsg] = useState({ text: "", color: "", hidden: true });
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
+  const { password, confirmPassword } = formData;
+
   const checkMatch = useCallback(() => {
-    const { password, confirmPassword } = formData;
     if (!confirmPassword) {
       setMatchMsg(prev => ({ ...prev, hidden: true }));
       return;
@@ -33,7 +34,7 @@ export default function SignupPage() {
     } else {
       setMatchMsg({ text: "✗ Passwords do not match", color: "#ba1a1a", hidden: false });
     }
-  }, [formData.password, formData.confirmPassword]);
+  }, [password, confirmPassword]);
 
   useEffect(() => {
     checkMatch();
