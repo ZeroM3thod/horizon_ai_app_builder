@@ -161,7 +161,7 @@ export default function SignupPage() {
  </div>
  <div className="flex items-center gap-4 bg-surface/60 backdrop-blur border border-outline-variant/30 rounded-[20px] px-5 py-4 shadow-sm">
  <div className="w-11 h-11 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
-  <span className="material-symbols-outlined text-secondary text-[22px]">discount</span>
+ <span className="material-symbols-outlined text-secondary text-[22px]">local_offer</span>
  </div>
  <div>
  <p className="font-semibold text-on-surface text-[15px]">Exclusive Member Deals</p>
