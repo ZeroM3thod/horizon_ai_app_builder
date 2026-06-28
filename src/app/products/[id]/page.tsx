@@ -11,7 +11,6 @@ import {
   Plus,
   Minus,
   Bolt,
-  Edit,
   ThumbsUp,
   Truck,
   RotateCcw
@@ -332,43 +331,439 @@ export default function ProductDetailPage() {
                 );
               })}
             </div>
-            <div className={`tab-content fade-in active`}>
-              <div className="p-4 md:p-10 text-on-surface-variant leading-relaxed">
-                {activeTab === 'description' && `Our ${product.name} is the result of decades of culinary research. We source each spice from their origin states and stone-grind them in small batches for maximum freshness.`}
-                {activeTab === 'ingredients' && `Ingredients for ${product.name} include premium spices sourced directly from farms.`}
-                {activeTab === 'nutrition' && `Nutrition facts for ${product.name} per 100g serving.`}
-                {activeTab === 'howtouse' && `Use 1-2 tsp of ${product.name} per serving. Best added during the final stages of cooking.`}
+            {/* ── Tab: Description ── */}
+            {activeTab === 'description' && (
+              <div className="tab-content active fade-in">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-14 items-start">
+                  <div>
+                    <h2 className="font-display-xl text-[22px] md:text-[36px] leading-tight text-on-surface mb-4 md:mb-6">Crafted from 14 Whole Spices</h2>
+                    <p className="text-on-surface-variant text-[14px] md:text-body-lg leading-relaxed mb-4 md:mb-6">
+                      Our {product.name} is the result of decades of culinary research and farmer partnerships. We source each of the 14 whole spices from their origin states — green cardamom from Kerala, cloves from Zanzibar-via-Bengal, cumin from Rajasthan — and stone-grind them in small batches for maximum freshness and potency.
+                    </p>
+                    <p className="text-on-surface-variant text-[14px] md:text-body-lg leading-relaxed mb-6 md:mb-8">
+                      Unlike mass-produced blends that use stale pre-ground spices, Shuddhota Co. stone-grinds every batch fresh. The result? A deeper, more complex flavour profile with visible spice particles — not a fine, lifeless powder.
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {['14 Whole Spices', 'No MSG', 'Gluten Free', 'Vegan', 'Halal'].map((tag) => (
+                        <span key={tag} className="bg-surface-container-low border border-outline-variant/40 text-on-surface-variant text-[11px] md:text-[13px] px-3 py-1.5 rounded-full">{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="space-y-3 md:space-y-4">
+                    {[
+                      { icon: 'inventory_2', color: 'primary', bg: 'bg-primary/15', title: 'Resealable Pouch', desc: 'Food-grade laminated pouch with a zip-seal for extended freshness up to 18 months from production.' },
+                      { icon: 'factory', color: 'secondary', bg: 'bg-secondary/15', title: 'Small Batch Grinding', desc: 'Ground in certified facilities in Dhaka in lots under 500kg to ensure each batch is fresh and traceable.' },
+                      { icon: 'qr_code', color: 'tertiary', bg: 'bg-tertiary/15', title: 'Full Traceability', desc: 'Scan the QR code on every pouch to view origin farm, batch date, and lab report in real-time.' },
+                    ].map((item) => (
+                      <div key={item.title} className="flex items-start gap-4 bg-surface-container-low rounded-[20px] p-4 md:p-5 border border-outline-variant/30">
+                        <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full ${item.bg} flex items-center justify-center shrink-0`}>
+                          <MaterialIcon name={item.icon} size={22} className={`text-${item.color}`} />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-[14px] md:text-body-lg text-on-surface mb-1">{item.title}</h4>
+                          <p className="text-[12px] md:text-[14px] text-on-surface-variant leading-snug">{item.desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
+
+            {/* ── Tab: Ingredients ── */}
+            {activeTab === 'ingredients' && (
+              <div className="tab-content active fade-in">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-14">
+                  <div>
+                    <h2 className="font-display-xl text-[22px] md:text-[36px] leading-tight text-on-surface mb-4 md:mb-6">What&apos;s Inside</h2>
+                    <p className="text-on-surface-variant text-[14px] md:text-body-lg leading-relaxed mb-6">
+                      Coriander, Cumin, Black Pepper, Green Cardamom, Cloves, Cinnamon (Cassia), Nutmeg, Mace, Bay Leaves, Dried Ginger, Black Cardamom, Star Anise, Fennel Seeds, Dried Rose Petals.
+                    </p>
+                    <div className="bg-surface-container rounded-[20px] p-5 border border-outline-variant/40">
+                      <h4 className="font-semibold text-[13px] md:text-body-md text-on-surface mb-3 flex items-center gap-2">
+                        <MaterialIcon name="info" size={18} className="text-primary" /> Allergen Info
+                      </h4>
+                      <p className="text-[12px] md:text-[14px] text-on-surface-variant leading-relaxed">
+                        No known allergens. Processed in a facility that also handles sesame seeds and tree nuts. Contains no artificial colours, flavours, or preservatives.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    {[
+                      { icon: 'spa', color: 'text-primary', bg: 'from-primary-container/40 to-primary/10 border-primary/20', name: 'Green Cardamom', origin: 'Kerala origin · Aromatic, floral' },
+                      { icon: 'local_fire_department', color: 'text-on-surface-variant', bg: 'from-surface-container-high to-outline-variant/20 border-outline-variant/30', name: 'Cloves', origin: 'Zanzibar-grade · Intense, warm' },
+                      { icon: 'grain', color: 'text-secondary', bg: 'from-secondary-container/50 to-secondary-fixed/20 border-secondary/20', name: 'Cumin', origin: 'Rajasthan origin · Earthy, rich' },
+                      { icon: 'star', color: 'text-tertiary', bg: 'from-tertiary-fixed/60 to-tertiary-container/30 border-tertiary/20', name: 'Star Anise', origin: 'Vietnam-grade · Sweet, licorice' },
+                      { icon: 'local_florist', color: 'text-on-primary-container', bg: 'from-primary-fixed/60 to-inverse-primary/20 border-primary/20', name: 'Rose Petals', origin: 'Dried · Delicate floral note' },
+                      { icon: 'eco', color: 'text-on-surface-variant', bg: 'from-surface-container-high to-surface-dim border-outline-variant/30', name: '+ 9 more spices', origin: 'Full list on package label' },
+                    ].map((s) => (
+                      <div key={s.name} className={`bg-gradient-to-br ${s.bg} rounded-[20px] p-4 border flex flex-col gap-2`}>
+                        <MaterialIcon name={s.icon} size={24} className={s.color} />
+                        <p className="font-bold text-[13px] md:text-[15px] text-on-surface">{s.name}</p>
+                        <p className="text-[11px] md:text-[12px] text-on-surface-variant">{s.origin}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ── Tab: Nutrition ── */}
+            {activeTab === 'nutrition' && (
+              <div className="tab-content active fade-in">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-14 items-start">
+                  <div>
+                    <h2 className="font-display-xl text-[22px] md:text-[36px] leading-tight text-on-surface mb-2">Nutrition Facts</h2>
+                    <p className="text-on-surface-variant text-[13px] md:text-[15px] mb-6">Per 100g serving</p>
+                    <div className="rounded-[20px] border-2 border-on-surface overflow-hidden">
+                      <div className="bg-on-surface text-surface px-5 py-3">
+                        <p className="text-[11px] font-bold tracking-widest uppercase">Nutrition Facts</p>
+                        <p className="font-bold text-[18px] md:text-[22px]">{product.name} · {product.weight}</p>
+                      </div>
+                      <div className="bg-surface px-5 divide-y divide-outline-variant/30">
+                        {[
+                          { label: 'Calories', value: '305 kcal', bold: true },
+                          { label: 'Total Fat', value: '12g', bold: true },
+                          { label: 'Saturated Fat', value: '2g', bold: false, indent: true },
+                          { label: 'Total Carbohydrate', value: '52g', bold: true },
+                          { label: 'Dietary Fiber', value: '16g', bold: false, indent: true },
+                          { label: 'Sugars', value: '3g', bold: false, indent: true },
+                          { label: 'Protein', value: '14g', bold: true },
+                          { label: 'Sodium', value: '38mg', bold: true },
+                          { label: 'Iron', value: '28mg', bold: true },
+                        ].map((row) => (
+                          <div key={row.label} className={`flex justify-between py-2.5 ${row.indent ? 'pl-4' : ''}`}>
+                            <span className={`text-[${row.indent ? '12' : '13'}px] ${row.bold ? 'font-bold' : ''} ${row.indent ? 'text-on-surface-variant' : 'text-on-surface'}`}>{row.label}</span>
+                            <span className={`text-[${row.indent ? '12' : '13'}px] ${row.bold ? 'font-semibold' : ''} ${row.indent ? 'text-on-surface-variant' : 'text-on-surface'}`}>{row.value}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-[11px] text-on-surface-variant mt-3">*Percent Daily Values based on a 2,000 calorie diet. Spices are used in small amounts; total contribution to daily intake is minimal.</p>
+                  </div>
+                  <div>
+                    <h3 className="font-headline-md text-[18px] md:text-headline-md text-on-surface mb-5">Health Benefits</h3>
+                    <div className="space-y-3 md:space-y-4">
+                      {[
+                        { icon: 'favorite', color: 'text-primary', title: 'Anti-inflammatory', desc: 'Cloves and black pepper contain eugenol and piperine, known for powerful anti-inflammatory effects.' },
+                        { icon: 'psychiatry', color: 'text-secondary', title: 'Aids Digestion', desc: 'Cumin and fennel promote healthy gut flora and can reduce bloating and stomach discomfort.' },
+                        { icon: 'self_improvement', color: 'text-tertiary', title: 'Antioxidant Rich', desc: 'Cardamom and nutmeg are among the most antioxidant-dense spices, supporting cellular health.' },
+                        { icon: 'bloodtype', color: 'text-error', title: 'Blood Sugar Support', desc: 'Cinnamon and cloves may help support healthy blood glucose levels when used regularly.' },
+                      ].map((b) => (
+                        <div key={b.title} className="flex items-start gap-3 bg-surface-container-low rounded-[16px] p-4 border border-outline-variant/30">
+                          <MaterialIcon name={b.icon} size={22} className={`${b.color} shrink-0`} />
+                          <div>
+                            <p className="font-semibold text-[13px] md:text-body-md text-on-surface">{b.title}</p>
+                            <p className="text-[11px] md:text-[13px] text-on-surface-variant">{b.desc}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ── Tab: How to Use ── */}
+            {activeTab === 'howtouse' && (
+              <div className="tab-content active fade-in">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-8">
+                  {[
+                    {
+                      bg: 'from-primary-container/30 to-primary/10 border-primary/20',
+                      iconBg: 'bg-primary/20', icon: 'soup_kitchen', iconColor: 'text-primary',
+                      title: 'Curries & Gravies',
+                      desc: 'Add ½–1 tsp per serving of curry, dal, or vegetable gravy. Best added in the last 10 minutes of cooking to preserve fragrance. Bloom in hot oil or ghee for even deeper flavour.',
+                      tipIcon: 'timer', tipColor: 'text-primary', tip: 'Add with 10 min to go',
+                    },
+                    {
+                      bg: 'from-secondary-container/40 to-secondary-fixed/20 border-secondary/20',
+                      iconBg: 'bg-secondary/20', icon: 'rice_bowl', iconColor: 'text-secondary',
+                      title: 'Biryani & Pulao',
+                      desc: 'Use 1–2 tsp per kg of rice. Layer into the dum pot when adding fried onion and saffron water. Also works beautifully in white sauce-based rice dishes for fusion flavour.',
+                      tipIcon: 'restaurant', tipColor: 'text-secondary', tip: '1–2 tsp per kg rice',
+                    },
+                    {
+                      bg: 'from-tertiary-fixed/40 to-tertiary-container/30 border-tertiary/20',
+                      iconBg: 'bg-tertiary/20', icon: 'skillet', iconColor: 'text-tertiary',
+                      title: 'Meats & Marinades',
+                      desc: 'Rub 1 tsp into chicken, mutton, or fish with yoghurt, lemon, and salt. Marinate overnight for kebabs and tandoor-style dishes. Also excellent in kofta and seekh kabab mix.',
+                      tipIcon: 'bedtime', tipColor: 'text-tertiary', tip: 'Marinate overnight',
+                    },
+                  ].map((card) => (
+                    <div key={card.title} className={`bg-gradient-to-br ${card.bg} rounded-[24px] p-5 md:p-7 border`}>
+                      <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full ${card.iconBg} flex items-center justify-center mb-4 md:mb-5`}>
+                        <MaterialIcon name={card.icon} size={24} className={card.iconColor} />
+                      </div>
+                      <h3 className="font-bold text-[15px] md:text-body-lg text-on-surface mb-3">{card.title}</h3>
+                      <p className="text-[13px] md:text-[14px] text-on-surface-variant leading-relaxed mb-4">{card.desc}</p>
+                      <div className="bg-white/60 rounded-xl px-3 py-2 text-[12px] font-semibold text-on-surface flex items-center gap-2">
+                        <MaterialIcon name={card.tipIcon} size={15} className={card.tipColor} />
+                        {card.tip}
+                      </div>
+                    </div>
+                  ))}
+                  {/* Pro Tip full-width row */}
+                  <div className="md:col-span-3 bg-surface-container-low rounded-[20px] p-5 border border-outline-variant/30 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                    <div className="flex items-center gap-3 shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-on-surface flex items-center justify-center">
+                        <MaterialIcon name="lightbulb" size={20} className="text-surface" />
+                      </div>
+                      <span className="font-bold text-[14px] text-on-surface">Pro Tip</span>
+                    </div>
+                    <p className="text-[13px] md:text-[14px] text-on-surface-variant leading-relaxed">
+                      For the best flavour, bloom 1 tsp of garam masala in 2 tbsp of hot ghee or oil before adding other ingredients. This &ldquo;tadka&rdquo; technique releases fat-soluble aromatics that make the whole dish sing. Store your pouch away from heat and light for maximum shelf life — a cool, dark pantry is ideal.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </section>
 
         {/* ─── REVIEWS ─── */}
         <section id="reviews" className="px-6 md:px-container-padding py-12 md:py-20 bg-surface-container-low">
           <div className="max-w-7xl mx-auto">
+            {/* Header */}
             <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-10 md:mb-14">
               <div>
                 <span className="font-label-caps text-label-caps text-on-surface-variant tracking-widest mb-2 block uppercase">CUSTOMER REVIEWS</span>
                 <h2 className="font-display-xl text-[26px] md:text-[44px] leading-tight text-on-surface">What Our Customers Say</h2>
               </div>
-              <button className="flex items-center gap-2 bg-primary text-on-primary font-medium text-[13px] md:text-body-md px-5 py-2.5 rounded-full hover:bg-primary/90 transition-colors shadow"><Edit size={18} /> Write Review</button>
+              <button className="flex items-center gap-2 bg-primary text-on-primary font-medium text-[13px] md:text-body-md px-5 py-2.5 rounded-full hover:bg-primary/90 transition-colors shadow">
+                <MaterialIcon name="edit" size={18} /> Write a Review
+              </button>
             </div>
+
+            {/* Rating Summary */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-10 mb-10 md:mb-14 bg-surface rounded-[24px] p-6 md:p-10 border border-outline-variant/30 shadow-sm">
+              <div className="flex flex-col items-center justify-center text-center md:border-r md:border-outline-variant/30 py-2">
+                <span className="font-bold text-[64px] md:text-[80px] leading-none text-on-surface">{product.rating}.0</span>
+                <div className="text-primary text-[24px] md:text-[28px] my-2">★★★★★</div>
+                <span className="text-[13px] md:text-body-md text-on-surface-variant">Based on {product.reviews} reviews</span>
+              </div>
+              <div className="md:col-span-2 flex flex-col justify-center gap-2.5 md:gap-3.5">
+                {[{ label: '5 stars', pct: '84%' }, { label: '4 stars', pct: '10%' }, { label: '3 stars', pct: '4%' }, { label: '2 stars', pct: '1%' }, { label: '1 star', pct: '1%' }].map((row) => (
+                  <div key={row.label} className="flex items-center gap-3">
+                    <span className="text-[12px] md:text-[14px] font-medium text-on-surface w-14 text-right shrink-0">{row.label}</span>
+                    <div className="flex-1 h-2.5 md:h-3 bg-surface-variant rounded-full overflow-hidden">
+                      <div className="rating-bar-fill h-full bg-primary rounded-full" style={{ width: row.pct }}></div>
+                    </div>
+                    <span className="text-[12px] md:text-[14px] text-on-surface-variant w-10 shrink-0">{row.pct}</span>
+                  </div>
+                ))}
+                <div className="flex flex-wrap gap-2 mt-2 pt-3 border-t border-outline-variant/30">
+                  {['Great aroma (321)', 'Authentic taste (287)', 'Good value (211)'].map((tag) => (
+                    <span key={tag} className="bg-secondary-container/50 border border-secondary/20 text-on-secondary-container text-[11px] md:text-[13px] px-3 py-1.5 rounded-full font-medium flex items-center gap-1">
+                      <MaterialIcon name="thumb_up" size={14} />{tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Filter */}
+            <div className="flex flex-wrap gap-2 md:gap-3 mb-7 md:mb-10">
+              <button className="bg-on-surface text-surface text-[12px] md:text-[14px] font-semibold px-4 py-2 rounded-full">All ({product.reviews})</button>
+              {['★ 5 (360)', '★ 4 (43)', '★ 3 (17)'].map((f) => (
+                <button key={f} className="bg-surface-container border border-outline-variant/40 text-on-surface text-[12px] md:text-[14px] font-medium px-4 py-2 rounded-full hover:bg-surface-variant transition-colors">{f}</button>
+              ))}
+              <button className="ml-auto bg-surface-container border border-outline-variant/40 text-on-surface text-[12px] md:text-[14px] font-medium px-4 py-2 rounded-full hover:bg-surface-variant transition-colors flex items-center gap-1.5">
+                <MaterialIcon name="photo_library" size={16} /> With Photos
+              </button>
+            </div>
+
+            {/* Review Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-              {[1, 2].map((r) => (
-                <div key={r} className="review-card bg-surface rounded-[20px] md:rounded-[24px] p-5 md:p-7 border border-outline-variant/30 shadow-sm flex flex-col gap-4">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-on-primary shrink-0 bg-primary">U</div>
-                      <div>
-                        <p className="font-bold text-[13px] md:text-[15px] text-on-surface">Happy Customer</p>
-                        <div className="flex text-primary text-[13px]">★★★★★</div>
+              {/* Review 1 */}
+              <div className="review-card bg-surface rounded-[20px] md:rounded-[24px] p-5 md:p-7 border border-outline-variant/30 shadow-sm flex flex-col gap-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-[15px] md:text-[18px] text-on-primary shrink-0" style={{ background: 'linear-gradient(135deg,#9f4122,#ff8a65)' }}>R</div>
+                    <div>
+                      <p className="font-bold text-[13px] md:text-[15px] text-on-surface">Rafa Islam</p>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-primary text-[13px]">★★★★★</span>
+                        <span className="text-[10px] md:text-[12px] text-on-surface-variant">· Dhaka, BD</span>
                       </div>
                     </div>
-                    <span className="bg-secondary-container text-on-secondary-container text-[9px] md:text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-0.5"><Verified size={11} /> Verified</span>
                   </div>
-                  <p className="text-[12px] md:text-[14px] text-on-surface-variant leading-relaxed">The best {product.name.toLowerCase()} I have ever used. Highly recommend!</p>
+                  <div className="flex flex-col items-end gap-1.5 shrink-0">
+                    <span className="bg-secondary-container/70 text-on-secondary-container text-[9px] md:text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-0.5 border border-secondary/20"><MaterialIcon name="verified" size={11} /> Verified</span>
+                    <span className="text-[10px] md:text-[12px] text-on-surface-variant">14 May 2025</span>
+                  </div>
                 </div>
-              ))}
+                <div>
+                  <h4 className="font-bold text-[13px] md:text-[15px] text-on-surface mb-1.5">&ldquo;Game-changer for my biryanis!&rdquo;</h4>
+                  <p className="text-[12px] md:text-[14px] text-on-surface-variant leading-relaxed">I&apos;ve been using this for 6 months and I will never go back to supermarket masala. The aroma when you open the pouch is incredible — you can actually smell the individual spices. My mutton biryani has gone from good to legendary according to my family. Worth every taka.</p>
+                </div>
+                <div className="flex gap-2">
+                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-[12px] overflow-hidden shrink-0 border border-outline-variant/30 flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#ff8a65,#9f4122)' }}><MaterialIcon name="rice_bowl" size={22} className="text-white" /></div>
+                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-[12px] overflow-hidden shrink-0 border border-outline-variant/30 flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#9f4122,#5d1a0a)' }}><MaterialIcon name="local_fire_department" size={22} className="text-white" /></div>
+                </div>
+                <div className="flex items-center gap-4 pt-1 border-t border-outline-variant/20">
+                  <button className="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-primary transition-colors"><MaterialIcon name="thumb_up" size={16} /> Helpful (42)</button>
+                  <button className="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-on-surface transition-colors"><MaterialIcon name="reply" size={16} /> Reply</button>
+                </div>
+              </div>
+
+              {/* Review 2 */}
+              <div className="review-card bg-surface rounded-[20px] md:rounded-[24px] p-5 md:p-7 border border-outline-variant/30 shadow-sm flex flex-col gap-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-[15px] md:text-[18px] text-on-secondary shrink-0" style={{ background: 'linear-gradient(135deg,#556500,#bbd062)' }}>N</div>
+                    <div>
+                      <p className="font-bold text-[13px] md:text-[15px] text-on-surface">Nusrat Jahan</p>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-primary text-[13px]">★★★★★</span>
+                        <span className="text-[10px] md:text-[12px] text-on-surface-variant">· Chattogram, BD</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-1.5 shrink-0">
+                    <span className="bg-secondary-container/70 text-on-secondary-container text-[9px] md:text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-0.5 border border-secondary/20"><MaterialIcon name="verified" size={11} /> Verified</span>
+                    <span className="text-[10px] md:text-[12px] text-on-surface-variant">2 Apr 2025</span>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-bold text-[13px] md:text-[15px] text-on-surface mb-1.5">&ldquo;Genuinely addictive — in the best way&rdquo;</h4>
+                  <p className="text-[12px] md:text-[14px] text-on-surface-variant leading-relaxed">As someone who cooks every day, I&apos;ve tried almost every brand on the market. Shuddhota is on a completely different level. The balance between the warm spices (cardamom, cloves) and the earthy ones (cumin, coriander) is perfect. It never overwhelms a dish — it enhances it.</p>
+                </div>
+                <div className="flex items-center gap-4 pt-1 border-t border-outline-variant/20">
+                  <button className="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-primary transition-colors"><MaterialIcon name="thumb_up" size={16} /> Helpful (28)</button>
+                  <button className="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-on-surface transition-colors"><MaterialIcon name="reply" size={16} /> Reply</button>
+                </div>
+              </div>
+
+              {/* Review 3 — with brand reply */}
+              <div className="review-card bg-surface rounded-[20px] md:rounded-[24px] p-5 md:p-7 border border-outline-variant/30 shadow-sm flex flex-col gap-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-[15px] md:text-[18px] text-on-primary shrink-0" style={{ background: 'linear-gradient(135deg,#326578,#80b1c7)' }}>S</div>
+                    <div>
+                      <p className="font-bold text-[13px] md:text-[15px] text-on-surface">Sajid Hossain</p>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-primary text-[13px]">★★★★★</span>
+                        <span className="text-[10px] md:text-[12px] text-on-surface-variant">· Sylhet, BD</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-1.5 shrink-0">
+                    <span className="bg-secondary-container/70 text-on-secondary-container text-[9px] md:text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-0.5 border border-secondary/20"><MaterialIcon name="verified" size={11} /> Verified</span>
+                    <span className="text-[10px] md:text-[12px] text-on-surface-variant">18 Mar 2025</span>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-bold text-[13px] md:text-[15px] text-on-surface mb-1.5">&ldquo;Ordered for my restaurant — will reorder&rdquo;</h4>
+                  <p className="text-[12px] md:text-[14px] text-on-surface-variant leading-relaxed">Bought the 1.5kg pack for our small restaurant. Guests have started asking what spice blend we use — that&apos;s the biggest endorsement I can give. Consistent quality batch to batch, fast delivery, and the resealable pouch keeps it fresh for weeks.</p>
+                </div>
+                <div className="bg-surface-container-low rounded-[14px] p-3.5 border border-outline-variant/40">
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center shrink-0"><MaterialIcon name="shopping_basket" size={13} className="text-on-primary" /></div>
+                    <span className="text-[11px] md:text-[13px] font-bold text-primary">Shuddhota Co.</span>
+                    <span className="text-[10px] text-on-surface-variant">· Brand Reply</span>
+                  </div>
+                  <p className="text-[11px] md:text-[13px] text-on-surface-variant leading-snug">Thank you so much, Sajid bhai! We love hearing that your guests are noticing the difference. For restaurant accounts, please ask about our bulk pricing program — we have dedicated support for food businesses. 🌿</p>
+                </div>
+                <div className="flex items-center gap-4 pt-1 border-t border-outline-variant/20">
+                  <button className="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-primary transition-colors"><MaterialIcon name="thumb_up" size={16} /> Helpful (67)</button>
+                  <button className="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-on-surface transition-colors"><MaterialIcon name="reply" size={16} /> Reply</button>
+                </div>
+              </div>
+
+              {/* Review 4 — 4 stars */}
+              <div className="review-card bg-surface rounded-[20px] md:rounded-[24px] p-5 md:p-7 border border-outline-variant/30 shadow-sm flex flex-col gap-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-[15px] md:text-[18px] bg-surface-container-high text-on-surface shrink-0">F</div>
+                    <div>
+                      <p className="font-bold text-[13px] md:text-[15px] text-on-surface">Fatema Begum</p>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-primary text-[13px]">★★★★</span><span className="text-on-surface-variant text-[13px]">☆</span>
+                        <span className="text-[10px] md:text-[12px] text-on-surface-variant">· Rajshahi, BD</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-1.5 shrink-0">
+                    <span className="text-[10px] md:text-[12px] text-on-surface-variant bg-surface-container px-2 py-0.5 rounded-full border border-outline-variant/30">Unverified</span>
+                    <span className="text-[10px] md:text-[12px] text-on-surface-variant">5 Feb 2025</span>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-bold text-[13px] md:text-[15px] text-on-surface mb-1.5">&ldquo;Very good, slight packaging issue&rdquo;</h4>
+                  <p className="text-[12px] md:text-[14px] text-on-surface-variant leading-relaxed">The masala itself is excellent — the fragrance is genuinely different from what I find at local shops. Removed one star because my first order arrived with the zip seal slightly bent, making it hard to close. Product quality 5/5, packaging 3/5. Would still buy again.</p>
+                </div>
+                <div className="flex items-center gap-4 pt-1 border-t border-outline-variant/20">
+                  <button className="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-primary transition-colors"><MaterialIcon name="thumb_up" size={16} /> Helpful (14)</button>
+                  <button className="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-on-surface transition-colors"><MaterialIcon name="reply" size={16} /> Reply</button>
+                </div>
+              </div>
+
+              {/* Review 5 */}
+              <div className="review-card bg-surface rounded-[20px] md:rounded-[24px] p-5 md:p-7 border border-outline-variant/30 shadow-sm flex flex-col gap-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-[15px] md:text-[18px] text-on-primary shrink-0" style={{ background: 'linear-gradient(135deg,#ff8a65,#ffdbd0)' }}>T</div>
+                    <div>
+                      <p className="font-bold text-[13px] md:text-[15px] text-on-surface">Tanvir Ahmed</p>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-primary text-[13px]">★★★★★</span>
+                        <span className="text-[10px] md:text-[12px] text-on-surface-variant">· Khulna, BD</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-1.5 shrink-0">
+                    <span className="bg-secondary-container/70 text-on-secondary-container text-[9px] md:text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-0.5 border border-secondary/20"><MaterialIcon name="verified" size={11} /> Verified</span>
+                    <span className="text-[10px] md:text-[12px] text-on-surface-variant">29 Jan 2025</span>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-bold text-[13px] md:text-[15px] text-on-surface mb-1.5">&ldquo;My mother approved — enough said&rdquo;</h4>
+                  <p className="text-[12px] md:text-[14px] text-on-surface-variant leading-relaxed">I brought this home and my mother — who grinds her own spices and is notoriously hard to impress — asked me to order more. That&apos;s the highest review I can give any spice product. The smell alone in the kitchen when you add it to oil is absolutely divine.</p>
+                </div>
+                <div className="flex items-center gap-4 pt-1 border-t border-outline-variant/20">
+                  <button className="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-primary transition-colors"><MaterialIcon name="thumb_up" size={16} /> Helpful (89)</button>
+                  <button className="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-on-surface transition-colors"><MaterialIcon name="reply" size={16} /> Reply</button>
+                </div>
+              </div>
+
+              {/* Review 6 — with photo */}
+              <div className="review-card bg-surface rounded-[20px] md:rounded-[24px] p-5 md:p-7 border border-outline-variant/30 shadow-sm flex flex-col gap-4">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center font-bold text-[15px] md:text-[18px] text-white shrink-0" style={{ background: 'linear-gradient(135deg,#5d1a0a,#9f4122)' }}>M</div>
+                    <div>
+                      <p className="font-bold text-[13px] md:text-[15px] text-on-surface">Mariam Sultana</p>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-primary text-[13px]">★★★★★</span>
+                        <span className="text-[10px] md:text-[12px] text-on-surface-variant">· Sylhet, BD</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-1.5 shrink-0">
+                    <span className="bg-secondary-container/70 text-on-secondary-container text-[9px] md:text-[11px] font-bold px-2.5 py-0.5 rounded-full flex items-center gap-0.5 border border-secondary/20"><MaterialIcon name="verified" size={11} /> Verified</span>
+                    <span className="text-[10px] md:text-[12px] text-on-surface-variant">10 Dec 2024</span>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-bold text-[13px] md:text-[15px] text-on-surface mb-1.5">&ldquo;QR traceability feature is genius&rdquo;</h4>
+                  <p className="text-[12px] md:text-[14px] text-on-surface-variant leading-relaxed">I scanned the QR code on the pouch and could see exactly which farms the spices came from and the lab report. As someone who&apos;s conscious about what goes into family food, this is huge. And the taste is extraordinary — my kids now ask for seconds on everything I cook with it.</p>
+                </div>
+                <div className="flex gap-2">
+                  <div className="w-16 h-16 md:w-20 md:h-20 rounded-[12px] overflow-hidden shrink-0 border border-outline-variant/30 flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#d6ed7a,#556500)' }}><MaterialIcon name="eco" size={22} className="text-on-secondary" /></div>
+                </div>
+                <div className="flex items-center gap-4 pt-1 border-t border-outline-variant/20">
+                  <button className="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-primary transition-colors"><MaterialIcon name="thumb_up" size={16} /> Helpful (53)</button>
+                  <button className="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-on-surface transition-colors"><MaterialIcon name="reply" size={16} /> Reply</button>
+                </div>
+              </div>
+            </div>
+
+            {/* Load More */}
+            <div className="mt-8 md:mt-12 text-center">
+              <button className="inline-flex items-center gap-2.5 border-2 border-on-surface text-on-surface font-semibold text-[14px] md:text-body-md px-8 py-3.5 rounded-full hover:bg-surface-variant transition-colors">
+                <MaterialIcon name="expand_more" size={20} /> Load More Reviews (422 remaining)
+              </button>
             </div>
           </div>
         </section>
