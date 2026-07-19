@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Request Refund — Shuddhota Co.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+        font-family: 'Material Symbols Outlined';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        -webkit-font-feature-settings: 'liga';
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /* Step transitions */
+    .step-panel { display: none; animation: fadeInUp 0.28s ease; }
+    .step-panel.active { display: block; }
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Item checkbox card */
+    .item-card { transition: border-color 0.18s, background 0.18s, box-shadow 0.18s; }
+    .item-card:has(input:checked) {
+        border-color: #9f4122;
+        background: #ffdbd020;
+        box-shadow: 0 0 0 3px rgba(159,65,34,0.08);
+    }
+    .item-card input[type="checkbox"] { display: none; }
+    .item-card .check-box {
+        width: 20px; height: 20px; border-radius: 6px;
+        border: 2px solid #ddc0b8;
+        display: flex; align-items: center; justify-content: center;
+        transition: background 0.15s, border-color 0.15s;
+        flex-shrink: 0;
+    }
+    .item-card:has(input:checked) .check-box {
+        background: #9f4122; border-color: #9f4122;
+    }
+    .item-card:has(input:checked) .check-box::after {
+        content: ''; display: block;
+        width: 5px; height: 9px;
+        border: 2px solid #fff;
+        border-top: none; border-left: none;
+        transform: rotate(45deg) translateY(-1px);
+    }
+
+    /* Reason radio card */
+    .reason-card { transition: border-color 0.18s, background 0.18s; cursor: pointer; }
+    .reason-card:has(input:checked) {
+        border-color: #9f4122;
+        background: #ffdbd020;
+    }
+    .reason-card input[type="radio"] { display: none; }
+    .reason-dot {
+        width: 18px; height: 18px; border-radius: 50%;
+        border: 2px solid #ddc0b8;
+        display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0; transition: border-color 0.15s;
+    }
+    .reason-card:has(input:checked) .reason-dot { border-color: #9f4122; }
+    .reason-card:has(input:checked) .reason-dot::after {
+        content: ''; display: block;
+        width: 8px; height: 8px;
+        border-radius: 50%; background: #9f4122;
+    }
+
+    /* Refund method card */
+    .method-card { transition: border-color 0.18s, background 0.18s; cursor: pointer; }
+    .method-card:has(input:checked) {
+        border-color: #9f4122;
+        background: #ffdbd020;
+    }
+    .method-card input[type="radio"] { display: none; }
+    .method-dot {
+        width: 18px; height: 18px; border-radius: 50%;
+        border: 2px solid #ddc0b8;
+        display: flex; align-items: center; justify-content: center;
+        flex-shrink: 0; transition: border-color 0.15s;
+    }
+    .method-card:has(input:checked) .method-dot { border-color: #9f4122; }
+    .method-card:has(input:checked) .method-dot::after {
+        content: ''; display: block;
+        width: 8px; height: 8px;
+        border-radius: 50%; background: #9f4122;
+    }
+
+    /* Progress step indicators */
+    .progress-step { transition: background 0.3s, border-color 0.3s, color 0.3s; }
+    .progress-line { transition: background 0.4s; }
+
+    /* File upload area */
+    .upload-zone { transition: border-color 0.2s, background 0.2s; }
+    .upload-zone:hover, .upload-zone.drag-over { border-color: #9f4122; background: #ffdbd015; }
+
+    /* Success animation */
+    @keyframes checkPop {
+        0%   { transform: scale(0); opacity: 0; }
+        60%  { transform: scale(1.2); }
+        100% { transform: scale(1); opacity: 1; }
+    }
+    .check-pop { animation: checkPop 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.2s both; }
+
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-8px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+    .slide-down { animation: slideDown 0.3s ease both; }
+
+    /* Custom textarea */
+    textarea:focus, input:focus, select:focus { outline: none; }
+</style>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                "colors": {
+                    "on-secondary-fixed": "#181e00",
+                    "secondary": "#556500",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#ff8a65",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "surface-container-highest": "#e8e2d7",
+                    "on-primary-fixed-variant": "#7f2a0d",
+                    "tertiary": "#326578",
+                    "on-primary-fixed": "#3a0b00",
+                    "on-surface": "#1d1c15",
+                    "on-error-container": "#93000a",
+                    "primary": "#9f4122",
+                    "surface-container-low": "#f9f3e8",
+                    "surface-tint": "#9f4122",
+                    "secondary-fixed": "#d6ed7a",
+                    "tertiary-container": "#80b1c7",
+                    "on-surface-variant": "#56423c",
+                    "surface-bright": "#fff9ee",
+                    "on-tertiary-fixed": "#001f29",
+                    "on-secondary-fixed-variant": "#3f4c00",
+                    "on-tertiary-container": "#074457",
+                    "outline-variant": "#ddc0b8",
+                    "surface": "#fff9ee",
+                    "secondary-container": "#d6ed7a",
+                    "inverse-primary": "#ffb59e",
+                    "secondary-fixed-dim": "#bbd062",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#dfd9cf",
+                    "surface-variant": "#e8e2d7",
+                    "outline": "#89726b",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#bbe9ff",
+                    "on-secondary": "#ffffff",
+                    "inverse-on-surface": "#f6f0e5",
+                    "primary-fixed-dim": "#ffb59e",
+                    "surface-container": "#f3ede2",
+                    "primary-fixed": "#ffdbd0",
+                    "on-background": "#1d1c15",
+                    "on-secondary-container": "#5a6c00",
+                    "surface-container-high": "#ede8dd",
+                    "inverse-surface": "#333029",
+                    "on-primary-container": "#752305",
+                    "tertiary-fixed-dim": "#9ccee4",
+                    "on-tertiary-fixed-variant": "#154d5f",
+                    "surface-container-lowest": "#ffffff",
+                    "background": "#fff9ee"
+                },
+                "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+                },
+                "spacing": {
+                    "gutter": "32px",
+                    "container-padding": "64px",
+                    "unit": "8px",
+                    "section-gap": "120px",
+                    "card-internal": "40px"
+                },
+                "fontFamily": {
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "label-caps": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "display-xl": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"]
+                },
+                "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}]
+                }
+            }
+        }
+    }
+</script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+
+<!-- ─── NAVIGATION ─── -->
+<nav class="fixed top-3 md:top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-full border border-outline-variant/30 bg-surface/80 backdrop-blur-xl shadow-sm shadow-[0_8px_32px_rgba(0,0,0,0.05)] z-50 flex justify-between items-center px-4 md:px-8 py-2 md:py-3">
+    <a class="font-display-xl tracking-tighter text-primary flex items-center gap-1.5 md:gap-2 text-[15px] md:text-headline-md" href="index.html">
+        <span class="material-symbols-outlined text-[20px] md:text-[28px]">shopping_basket</span>
+        <span class="hidden sm:inline">Shuddhota CO.</span>
+        <span class="sm:hidden font-bold">Shuddhota</span>
+    </a>
+    <div class="hidden md:flex items-center gap-6">
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-body-md" href="index.html">Home</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-body-md" href="#">Products</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-body-md" href="#">Deals</a>
+        <a class="text-primary font-bold font-body-md text-body-md" href="#">My Orders</a>
+    </div>
+    <div class="flex items-center gap-2 md:gap-4">
+        <button class="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center relative">
+            <span class="material-symbols-outlined text-[20px] md:text-[24px]">shopping_cart</span>
+            <span class="absolute -top-1 -right-1 bg-primary text-on-primary text-[9px] md:text-[10px] font-bold w-3.5 h-3.5 md:w-4 md:h-4 rounded-full flex items-center justify-center">3</span>
+        </button>
+        <a class="hidden md:block bg-primary text-on-primary font-medium px-3 md:px-6 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors text-[12px] md:text-body-md" href="#">
+            Shop Now
+        </a>
+        <button id="mobile-menu-btn" class="flex md:hidden text-on-surface-variant hover:text-primary transition-colors items-center justify-center" onclick="toggleMobileMenu()">
+            <span id="hamburger-icon" class="material-symbols-outlined text-[22px]">menu</span>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile Nav Menu -->
+<div id="mobile-menu" class="hidden fixed top-[60px] left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-[20px] border border-outline-variant/30 bg-surface/95 backdrop-blur-xl shadow-lg z-40 md:hidden">
+    <div class="flex flex-col py-3 px-2">
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="index.html">Home</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">Products</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">Deals</a>
+        <a class="text-primary font-bold font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">My Orders</a>
+        <div class="h-px bg-outline-variant/20 mx-2 my-1"></div>
+        <a class="flex items-center justify-center gap-2 bg-primary text-on-primary font-medium text-[14px] py-3 px-4 rounded-xl hover:bg-primary/90 transition-colors" href="#">
+            Shop Now
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+        </a>
+    </div>
+</div>
+
+<main class="max-w-[1728px] mx-auto w-full">
+
+<!-- ─── PAGE HEADER ─── -->
+<section class="pt-28 md:pt-40 pb-6 md:pb-10 px-6 md:px-container-padding">
+    <div class="max-w-7xl mx-auto">
+
+        <!-- Breadcrumb -->
+        <div class="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant mb-5 md:mb-6 flex-wrap">
+            <a href="index.html" class="hover:text-primary transition-colors">Home</a>
+            <span class="material-symbols-outlined text-[14px] md:text-[16px]">chevron_right</span>
+            <a href="#" class="hover:text-primary transition-colors">My Orders</a>
+            <span class="material-symbols-outlined text-[14px] md:text-[16px]">chevron_right</span>
+            <a href="order-details.html" class="hover:text-primary transition-colors">#SHC-2024-7891</a>
+            <span class="material-symbols-outlined text-[14px] md:text-[16px]">chevron_right</span>
+            <span class="text-on-surface font-medium">Request Refund</span>
+        </div>
+
+        <!-- Header Row -->
+        <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div>
+                <div class="flex items-center gap-3 mb-1.5 flex-wrap">
+                    <h1 class="font-display-xl text-[26px] md:text-headline-lg text-on-surface tracking-tight">Request a Refund</h1>
+                    <span class="inline-flex items-center gap-1.5 bg-error-container/60 text-on-error-container text-[10px] md:text-label-caps font-bold px-2.5 md:px-3 py-1 md:py-1.5 rounded-full border border-error/20 uppercase tracking-wider">
+                        <span class="material-symbols-outlined text-[13px]">policy</span>
+                        7-Day Policy
+                    </span>
+                </div>
+                <p class="text-[12px] md:text-[14px] text-on-surface-variant">Order <span class="font-medium text-on-surface">#SHC-2024-7891</span> · Delivered on Saturday, June 8, 2024 · 3 items</p>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+                <a href="order-details.html" class="inline-flex items-center gap-1.5 border border-outline-variant/60 text-on-surface-variant hover:text-on-surface hover:border-outline text-[11px] md:text-[13px] font-medium px-3 md:px-4 py-1.5 md:py-2 rounded-full transition-colors bg-surface">
+                    <span class="material-symbols-outlined text-[15px] md:text-[17px]">arrow_back</span>
+                    <span class="hidden sm:inline">Back to Order</span>
+                </a>
+                <button class="inline-flex items-center gap-1.5 border border-outline-variant/60 text-on-surface-variant hover:text-primary hover:border-primary text-[11px] md:text-[13px] font-medium px-3 md:px-4 py-1.5 md:py-2 rounded-full transition-colors bg-surface">
+                    <span class="material-symbols-outlined text-[15px] md:text-[17px]">headset_mic</span>
+                    <span class="hidden sm:inline">Support</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── REFUND ELIGIBILITY BANNER ─── -->
+<section class="px-6 md:px-container-padding mb-5 md:mb-7">
+    <div class="max-w-7xl mx-auto">
+        <div class="bg-secondary-container/30 border border-secondary/20 rounded-[16px] md:rounded-[20px] px-4 md:px-6 py-3 md:py-4 flex items-start gap-3">
+            <span class="material-symbols-outlined text-secondary text-[20px] md:text-[22px] mt-0.5 shrink-0">verified_user</span>
+            <div>
+                <p class="font-semibold text-[13px] md:text-[14px] text-on-surface">Eligible for refund</p>
+                <p class="text-[11px] md:text-[13px] text-on-surface-variant mt-0.5">This order is within the 7-day return window. Refund requests close on <span class="font-medium text-on-surface">June 15, 2024</span>. Refunds are processed within 3–5 business days.</p>
+            </div>
+            <div class="ml-auto shrink-0 hidden sm:flex items-center gap-1.5 bg-secondary/10 text-secondary text-[11px] font-bold px-3 py-1 rounded-full border border-secondary/20 whitespace-nowrap">
+                <span class="material-symbols-outlined text-[13px]">timer</span>
+                7 days left
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── MAIN CONTENT GRID ─── -->
+<section class="pb-12 md:pb-section-gap px-6 md:px-container-padding">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-5 md:gap-7">
+
+        <!-- ── LEFT / MAIN COLUMN ── -->
+        <div class="lg:col-span-2 flex flex-col gap-5 md:gap-6">
+
+            <!-- ─── STEP PROGRESS ─── -->
+            <div class="bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md px-5 md:px-8 py-5 md:py-6">
+                <div class="flex items-center justify-between relative">
+                    <!-- connector lines -->
+                    <div class="absolute top-4 md:top-5 left-[16.5%] right-[16.5%] h-0.5 bg-outline-variant/30 progress-line" id="line-bg"></div>
+                    <div class="absolute top-4 md:top-5 left-[16.5%] h-0.5 bg-primary progress-line transition-all duration-500" id="line-fill" style="width: 0%"></div>
+
+                    <!-- Step 1 -->
+                    <div class="flex flex-col items-center z-10" style="width:33.33%">
+                        <div id="ps-1" class="progress-step w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary flex items-center justify-center shadow-md">
+                            <span class="material-symbols-outlined text-on-primary text-[14px] md:text-[18px]">checklist</span>
+                        </div>
+                        <p id="pslabel-1" class="font-semibold text-[10px] md:text-[11px] text-primary text-center mt-2 leading-tight px-1">Select Items</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="flex flex-col items-center z-10" style="width:33.33%">
+                        <div id="ps-2" class="progress-step w-8 h-8 md:w-10 md:h-10 rounded-full bg-surface border-2 border-outline-variant/50 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-on-surface-variant text-[14px] md:text-[18px]">description</span>
+                        </div>
+                        <p id="pslabel-2" class="text-[10px] md:text-[11px] text-on-surface-variant text-center mt-2 leading-tight px-1">Reason & Details</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="flex flex-col items-center z-10" style="width:33.33%">
+                        <div id="ps-3" class="progress-step w-8 h-8 md:w-10 md:h-10 rounded-full bg-surface border-2 border-outline-variant/50 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-on-surface-variant text-[14px] md:text-[18px]">account_balance_wallet</span>
+                        </div>
+                        <p id="pslabel-3" class="text-[10px] md:text-[11px] text-on-surface-variant text-center mt-2 leading-tight px-1">Refund Method</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ─── STEP 1: Select Items ─── -->
+            <div id="step-1" class="step-panel active">
+                <div class="bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md p-5 md:p-8">
+                    <div class="flex items-center justify-between mb-5 md:mb-6">
+                        <div>
+                            <h2 class="font-headline-md text-[16px] md:text-headline-md text-on-surface">Select Items to Refund</h2>
+                            <p class="text-[11px] md:text-[13px] text-on-surface-variant mt-1">Choose which items from your order you'd like to return</p>
+                        </div>
+                        <button onclick="selectAllItems()" class="text-[11px] md:text-[12px] text-primary font-semibold border border-primary/30 rounded-full px-3 py-1 hover:bg-primary/8 transition-colors bg-surface shrink-0">
+                            Select All
+                        </button>
+                    </div>
+
+                    <div class="flex flex-col gap-3">
+
+                        <!-- Item 1 -->
+                        <label class="item-card block bg-surface-container-low border-2 border-outline-variant/40 rounded-[16px] p-4 md:p-5 cursor-pointer select-none" data-price="349" data-id="item1">
+                            <input type="checkbox" id="item1" name="items" value="349" onchange="updateRefundTotal()"/>
+                            <div class="flex items-start gap-3 md:gap-4">
+                                <div class="check-box mt-0.5"></div>
+                                <div class="w-14 h-14 md:w-16 md:h-16 rounded-[12px] bg-surface-container-highest overflow-hidden flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-outline text-[28px] md:text-[32px]">grain</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="font-semibold text-[13px] md:text-body-md text-on-surface leading-snug">Premium Turmeric Powder (200g)</p>
+                                    <p class="text-[11px] md:text-[12px] text-on-surface-variant mt-0.5">SKU: SHC-TUR-200</p>
+                                    <div class="flex items-center gap-2 mt-1.5 flex-wrap">
+                                        <span class="bg-surface-container text-on-surface-variant border border-outline-variant/40 rounded-full text-[10px] md:text-[11px] px-2.5 py-0.5 font-medium">Qty: 1</span>
+                                        <span class="bg-primary/10 text-primary rounded-full text-[10px] md:text-[11px] px-2.5 py-0.5 font-semibold">৳349</span>
+                                    </div>
+                                </div>
+                                <div class="shrink-0 text-right hidden sm:block">
+                                    <p class="font-bold text-[16px] md:text-[20px] text-on-surface">৳349</p>
+                                </div>
+                            </div>
+                        </label>
+
+                        <!-- Item 2 -->
+                        <label class="item-card block bg-surface-container-low border-2 border-outline-variant/40 rounded-[16px] p-4 md:p-5 cursor-pointer select-none" data-price="245" data-id="item2">
+                            <input type="checkbox" id="item2" name="items" value="245" onchange="updateRefundTotal()"/>
+                            <div class="flex items-start gap-3 md:gap-4">
+                                <div class="check-box mt-0.5"></div>
+                                <div class="w-14 h-14 md:w-16 md:h-16 rounded-[12px] bg-surface-container-highest overflow-hidden flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-outline text-[28px] md:text-[32px]">spa</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="font-semibold text-[13px] md:text-body-md text-on-surface leading-snug">Whole Cumin Seeds (100g)</p>
+                                    <p class="text-[11px] md:text-[12px] text-on-surface-variant mt-0.5">SKU: SHC-CUM-100</p>
+                                    <div class="flex items-center gap-2 mt-1.5 flex-wrap">
+                                        <span class="bg-surface-container text-on-surface-variant border border-outline-variant/40 rounded-full text-[10px] md:text-[11px] px-2.5 py-0.5 font-medium">Qty: 2</span>
+                                        <span class="bg-primary/10 text-primary rounded-full text-[10px] md:text-[11px] px-2.5 py-0.5 font-semibold">৳245</span>
+                                    </div>
+                                </div>
+                                <div class="shrink-0 text-right hidden sm:block">
+                                    <p class="font-bold text-[16px] md:text-[20px] text-on-surface">৳245</p>
+                                </div>
+                            </div>
+                        </label>
+
+                        <!-- Item 3 -->
+                        <label class="item-card block bg-surface-container-low border-2 border-outline-variant/40 rounded-[16px] p-4 md:p-5 cursor-pointer select-none" data-price="338" data-id="item3">
+                            <input type="checkbox" id="item3" name="items" value="338" onchange="updateRefundTotal()"/>
+                            <div class="flex items-start gap-3 md:gap-4">
+                                <div class="check-box mt-0.5"></div>
+                                <div class="w-14 h-14 md:w-16 md:h-16 rounded-[12px] bg-surface-container-highest overflow-hidden flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-outline text-[28px] md:text-[32px]">eco</span>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="font-semibold text-[13px] md:text-body-md text-on-surface leading-snug">Kashmiri Red Chilli Powder (250g)</p>
+                                    <p class="text-[11px] md:text-[12px] text-on-surface-variant mt-0.5">SKU: SHC-KRC-250</p>
+                                    <div class="flex items-center gap-2 mt-1.5 flex-wrap">
+                                        <span class="bg-surface-container text-on-surface-variant border border-outline-variant/40 rounded-full text-[10px] md:text-[11px] px-2.5 py-0.5 font-medium">Qty: 1</span>
+                                        <span class="bg-primary/10 text-primary rounded-full text-[10px] md:text-[11px] px-2.5 py-0.5 font-semibold">৳338</span>
+                                    </div>
+                                </div>
+                                <div class="shrink-0 text-right hidden sm:block">
+                                    <p class="font-bold text-[16px] md:text-[20px] text-on-surface">৳338</p>
+                                </div>
+                            </div>
+                        </label>
+
+                    </div>
+
+                    <!-- No items warning -->
+                    <div id="no-items-warning" class="hidden mt-4 flex items-center gap-2 p-3 bg-error-container/40 border border-error/20 rounded-[12px] slide-down">
+                        <span class="material-symbols-outlined text-error text-[18px]">error</span>
+                        <p class="text-[12px] md:text-[13px] text-on-error-container font-medium">Please select at least one item to continue.</p>
+                    </div>
+
+                    <div class="mt-6 flex items-center justify-between gap-4">
+                        <p class="text-[11px] md:text-[13px] text-on-surface-variant">
+                            <span id="selected-count" class="font-semibold text-on-surface">0</span> item(s) selected
+                        </p>
+                        <button onclick="goToStep(2)" class="inline-flex items-center gap-2 bg-primary text-on-primary font-semibold text-[13px] md:text-body-md px-5 md:px-7 py-2.5 md:py-3 rounded-full hover:bg-primary/90 transition-colors">
+                            Continue
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ─── STEP 2: Reason & Details ─── -->
+            <div id="step-2" class="step-panel">
+                <div class="bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md p-5 md:p-8">
+                    <div class="flex items-center gap-3 mb-5 md:mb-6">
+                        <button onclick="goToStep(1)" class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center hover:bg-surface-container-high transition-colors shrink-0">
+                            <span class="material-symbols-outlined text-on-surface-variant text-[18px]">arrow_back</span>
+                        </button>
+                        <div>
+                            <h2 class="font-headline-md text-[16px] md:text-headline-md text-on-surface">Reason & Details</h2>
+                            <p class="text-[11px] md:text-[13px] text-on-surface-variant mt-0.5">Tell us what went wrong so we can improve</p>
+                        </div>
+                    </div>
+
+                    <!-- Reason Select -->
+                    <div class="mb-5 md:mb-6">
+                        <p class="text-[12px] md:text-[13px] font-semibold text-on-surface mb-3 uppercase tracking-wider">Refund Reason <span class="text-error">*</span></p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5" id="reason-grid">
+
+                            <label class="reason-card block border-2 border-outline-variant/40 rounded-[14px] p-3 md:p-4 select-none">
+                                <input type="radio" name="reason" value="damaged"/>
+                                <div class="flex items-start gap-3">
+                                    <div class="reason-dot mt-0.5"></div>
+                                    <div>
+                                        <p class="font-semibold text-[12px] md:text-[13px] text-on-surface">Damaged / Defective</p>
+                                        <p class="text-[10px] md:text-[11px] text-on-surface-variant mt-0.5">Product arrived broken or unusable</p>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="reason-card block border-2 border-outline-variant/40 rounded-[14px] p-3 md:p-4 select-none">
+                                <input type="radio" name="reason" value="wrong"/>
+                                <div class="flex items-start gap-3">
+                                    <div class="reason-dot mt-0.5"></div>
+                                    <div>
+                                        <p class="font-semibold text-[12px] md:text-[13px] text-on-surface">Wrong Item Received</p>
+                                        <p class="text-[10px] md:text-[11px] text-on-surface-variant mt-0.5">Received a different product or variant</p>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="reason-card block border-2 border-outline-variant/40 rounded-[14px] p-3 md:p-4 select-none">
+                                <input type="radio" name="reason" value="quality"/>
+                                <div class="flex items-start gap-3">
+                                    <div class="reason-dot mt-0.5"></div>
+                                    <div>
+                                        <p class="font-semibold text-[12px] md:text-[13px] text-on-surface">Quality Not as Expected</p>
+                                        <p class="text-[10px] md:text-[11px] text-on-surface-variant mt-0.5">Product doesn't match description or photos</p>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="reason-card block border-2 border-outline-variant/40 rounded-[14px] p-3 md:p-4 select-none">
+                                <input type="radio" name="reason" value="missing"/>
+                                <div class="flex items-start gap-3">
+                                    <div class="reason-dot mt-0.5"></div>
+                                    <div>
+                                        <p class="font-semibold text-[12px] md:text-[13px] text-on-surface">Missing Items</p>
+                                        <p class="text-[10px] md:text-[11px] text-on-surface-variant mt-0.5">Part of the order was not delivered</p>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="reason-card block border-2 border-outline-variant/40 rounded-[14px] p-3 md:p-4 select-none">
+                                <input type="radio" name="reason" value="expired"/>
+                                <div class="flex items-start gap-3">
+                                    <div class="reason-dot mt-0.5"></div>
+                                    <div>
+                                        <p class="font-semibold text-[12px] md:text-[13px] text-on-surface">Expired Product</p>
+                                        <p class="text-[10px] md:text-[11px] text-on-surface-variant mt-0.5">Product was expired at time of delivery</p>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="reason-card block border-2 border-outline-variant/40 rounded-[14px] p-3 md:p-4 select-none">
+                                <input type="radio" name="reason" value="other"/>
+                                <div class="flex items-start gap-3">
+                                    <div class="reason-dot mt-0.5"></div>
+                                    <div>
+                                        <p class="font-semibold text-[12px] md:text-[13px] text-on-surface">Other</p>
+                                        <p class="text-[10px] md:text-[11px] text-on-surface-variant mt-0.5">Something else — please describe below</p>
+                                    </div>
+                                </div>
+                            </label>
+
+                        </div>
+                        <div id="reason-warning" class="hidden mt-3 flex items-center gap-2 p-3 bg-error-container/40 border border-error/20 rounded-[12px] slide-down">
+                            <span class="material-symbols-outlined text-error text-[18px]">error</span>
+                            <p class="text-[12px] md:text-[13px] text-on-error-container font-medium">Please select a reason to continue.</p>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-5 md:mb-6">
+                        <label class="block text-[12px] md:text-[13px] font-semibold text-on-surface mb-2 uppercase tracking-wider" for="description">
+                            Description <span class="text-on-surface-variant font-normal normal-case tracking-normal">(optional)</span>
+                        </label>
+                        <textarea id="description" rows="4" maxlength="500" oninput="updateCharCount(this)"
+                            placeholder="Describe the issue in more detail — e.g., the packaging was torn and powder was spilling out…"
+                            class="w-full bg-surface-container-low border-2 border-outline-variant/40 rounded-[14px] px-4 py-3 text-[13px] md:text-[14px] text-on-surface placeholder-outline focus:border-primary transition-colors resize-none font-body-md"></textarea>
+                        <div class="flex justify-end mt-1">
+                            <span id="char-count" class="text-[10px] md:text-[11px] text-outline">0 / 500</span>
+                        </div>
+                    </div>
+
+                    <!-- Photo Upload -->
+                    <div class="mb-6">
+                        <p class="text-[12px] md:text-[13px] font-semibold text-on-surface mb-2 uppercase tracking-wider">
+                            Upload Photos <span class="text-on-surface-variant font-normal normal-case tracking-normal">(optional, max 3)</span>
+                        </p>
+                        <div class="upload-zone border-2 border-dashed border-outline-variant/50 rounded-[16px] p-5 md:p-7 text-center cursor-pointer" id="upload-zone" onclick="document.getElementById('file-input').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+                            <input type="file" id="file-input" accept="image/*" multiple class="hidden" onchange="handleFiles(this.files)"/>
+                            <div id="upload-placeholder">
+                                <div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center mx-auto mb-3">
+                                    <span class="material-symbols-outlined text-on-surface-variant text-[24px]">photo_camera</span>
+                                </div>
+                                <p class="font-semibold text-[13px] md:text-[14px] text-on-surface">Drop photos here or tap to upload</p>
+                                <p class="text-[11px] md:text-[12px] text-on-surface-variant mt-1">JPG, PNG up to 5MB each · Max 3 photos</p>
+                            </div>
+                            <div id="uploaded-files" class="hidden mt-3 flex flex-wrap gap-2 justify-center"></div>
+                        </div>
+                        <div id="file-previews" class="flex flex-wrap gap-2 mt-3"></div>
+                    </div>
+
+                    <div class="flex items-center justify-between gap-4">
+                        <button onclick="goToStep(1)" class="inline-flex items-center gap-2 border border-outline-variant/60 text-on-surface-variant hover:text-on-surface hover:border-outline text-[13px] md:text-body-md font-medium px-5 md:px-6 py-2.5 md:py-3 rounded-full transition-colors bg-surface">
+                            <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                            Back
+                        </button>
+                        <button onclick="goToStep(3)" class="inline-flex items-center gap-2 bg-primary text-on-primary font-semibold text-[13px] md:text-body-md px-5 md:px-7 py-2.5 md:py-3 rounded-full hover:bg-primary/90 transition-colors">
+                            Continue
+                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ─── STEP 3: Refund Method ─── -->
+            <div id="step-3" class="step-panel">
+                <div class="bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md p-5 md:p-8">
+                    <div class="flex items-center gap-3 mb-5 md:mb-6">
+                        <button onclick="goToStep(2)" class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center hover:bg-surface-container-high transition-colors shrink-0">
+                            <span class="material-symbols-outlined text-on-surface-variant text-[18px]">arrow_back</span>
+                        </button>
+                        <div>
+                            <h2 class="font-headline-md text-[16px] md:text-headline-md text-on-surface">Choose Refund Method</h2>
+                            <p class="text-[11px] md:text-[13px] text-on-surface-variant mt-0.5">Select how you'd like to receive your refund</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-3 mb-5 md:mb-6">
+
+                        <!-- Original Payment Method -->
+                        <label class="method-card block border-2 border-outline-variant/40 rounded-[16px] p-4 md:p-5 select-none">
+                            <input type="radio" name="method" value="bkash" checked/>
+                            <div class="flex items-center gap-3">
+                                <div class="method-dot"></div>
+                                <div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-pink-600 text-[20px]">payment</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 flex-wrap">
+                                        <p class="font-semibold text-[13px] md:text-body-md text-on-surface">bKash · Original Payment</p>
+                                        <span class="bg-secondary-container/40 text-on-secondary-container text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wide">Recommended</span>
+                                    </div>
+                                    <p class="text-[11px] md:text-[12px] text-on-surface-variant mt-0.5">Refunded to your bKash account · BKH-9823-4521</p>
+                                </div>
+                                <div class="shrink-0 text-right hidden sm:block">
+                                    <p class="text-[11px] md:text-[12px] text-secondary font-semibold">1–3 days</p>
+                                </div>
+                            </div>
+                        </label>
+
+                        <!-- Store Credit -->
+                        <label class="method-card block border-2 border-outline-variant/40 rounded-[16px] p-4 md:p-5 select-none">
+                            <input type="radio" name="method" value="store-credit"/>
+                            <div class="flex items-center gap-3">
+                                <div class="method-dot"></div>
+                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-primary text-[20px]">loyalty</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 flex-wrap">
+                                        <p class="font-semibold text-[13px] md:text-body-md text-on-surface">Store Credit</p>
+                                        <span class="bg-primary/10 text-primary text-[9px] md:text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wide">+5% Bonus</span>
+                                    </div>
+                                    <p class="text-[11px] md:text-[12px] text-on-surface-variant mt-0.5">Get an extra 5% added to your Shuddhota wallet</p>
+                                </div>
+                                <div class="shrink-0 text-right hidden sm:block">
+                                    <p class="text-[11px] md:text-[12px] text-secondary font-semibold">Instant</p>
+                                </div>
+                            </div>
+                        </label>
+
+                        <!-- Bank Transfer -->
+                        <label class="method-card block border-2 border-outline-variant/40 rounded-[16px] p-4 md:p-5 select-none">
+                            <input type="radio" name="method" value="bank"/>
+                            <div class="flex items-center gap-3">
+                                <div class="method-dot"></div>
+                                <div class="w-10 h-10 rounded-full bg-tertiary-fixed/60 flex items-center justify-center shrink-0">
+                                    <span class="material-symbols-outlined text-tertiary text-[20px]">account_balance</span>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-semibold text-[13px] md:text-body-md text-on-surface">Bank Transfer</p>
+                                    <p class="text-[11px] md:text-[12px] text-on-surface-variant mt-0.5">Transfer to your bank account (NPSB/BEFTN)</p>
+                                </div>
+                                <div class="shrink-0 text-right hidden sm:block">
+                                    <p class="text-[11px] md:text-[12px] text-on-surface-variant font-semibold">3–5 days</p>
+                                </div>
+                            </div>
+                        </label>
+
+                    </div>
+
+                    <!-- Refund Summary -->
+                    <div class="bg-surface-container-low border border-outline-variant/30 rounded-[16px] p-4 md:p-5 mb-5 md:mb-6">
+                        <p class="text-[11px] md:text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider mb-3">Refund Summary</p>
+                        <div class="flex flex-col gap-2.5">
+                            <div class="flex justify-between items-center">
+                                <span class="text-[12px] md:text-[13px] text-on-surface-variant">Selected items</span>
+                                <span id="summary-items" class="text-[12px] md:text-[13px] text-on-surface font-medium">—</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-[12px] md:text-[13px] text-on-surface-variant">Item total</span>
+                                <span id="summary-subtotal" class="text-[12px] md:text-[13px] text-on-surface font-medium">৳0</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-[12px] md:text-[13px] text-on-surface-variant">Proportional discount</span>
+                                <span id="summary-discount" class="text-[12px] md:text-[13px] text-secondary font-medium">−৳0</span>
+                            </div>
+                            <div class="h-px bg-outline-variant/30"></div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-[13px] md:text-body-md text-on-surface">Estimated Refund</span>
+                                <span id="summary-total" class="font-bold text-[22px] md:text-[26px] text-on-surface tracking-tight">৳0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Terms checkbox -->
+                    <label class="flex items-start gap-3 mb-6 cursor-pointer group">
+                        <input type="checkbox" id="terms" class="hidden" onchange="toggleTermsCheck(this)"/>
+                        <div id="terms-box" class="w-5 h-5 mt-0.5 rounded-[6px] border-2 border-outline-variant/60 flex items-center justify-center shrink-0 group-hover:border-primary transition-colors flex-shrink-0">
+                        </div>
+                        <p class="text-[11px] md:text-[13px] text-on-surface-variant leading-relaxed">
+                            I confirm that the items are unused and in original condition (or damaged on arrival). I agree to the
+                            <a href="#" class="text-primary hover:underline underline-offset-2 font-medium">Return & Refund Policy</a>.
+                        </p>
+                    </label>
+                    <div id="terms-warning" class="hidden mb-4 flex items-center gap-2 p-3 bg-error-container/40 border border-error/20 rounded-[12px] slide-down">
+                        <span class="material-symbols-outlined text-error text-[18px]">error</span>
+                        <p class="text-[12px] md:text-[13px] text-on-error-container font-medium">Please accept the terms to submit your refund request.</p>
+                    </div>
+
+                    <div class="flex items-center justify-between gap-4">
+                        <button onclick="goToStep(2)" class="inline-flex items-center gap-2 border border-outline-variant/60 text-on-surface-variant hover:text-on-surface hover:border-outline text-[13px] md:text-body-md font-medium px-5 md:px-6 py-2.5 md:py-3 rounded-full transition-colors bg-surface">
+                            <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                            Back
+                        </button>
+                        <button onclick="submitRefund()" id="submit-btn" class="inline-flex items-center gap-2 bg-primary text-on-primary font-semibold text-[13px] md:text-body-md px-6 md:px-8 py-2.5 md:py-3 rounded-full hover:bg-primary/90 transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">send</span>
+                            Submit Refund Request
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ─── STEP 4: Success ─── -->
+            <div id="step-4" class="step-panel">
+                <div class="bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md p-6 md:p-10 text-center">
+                    <div class="check-pop w-20 h-20 md:w-24 md:h-24 rounded-full bg-secondary/15 flex items-center justify-center mx-auto mb-5">
+                        <span class="material-symbols-outlined text-secondary text-[40px] md:text-[48px]">check_circle</span>
+                    </div>
+                    <h2 class="font-display-xl text-[22px] md:text-headline-lg text-on-surface tracking-tight mb-2">Refund Request Submitted!</h2>
+                    <p class="text-[13px] md:text-[15px] text-on-surface-variant max-w-sm mx-auto leading-relaxed mb-6">
+                        We've received your request and will review it within <span class="font-semibold text-on-surface">24 hours</span>. You'll get an SMS and email update.
+                    </p>
+
+                    <!-- Ticket Info -->
+                    <div class="bg-surface-container-low border border-outline-variant/30 rounded-[16px] p-4 md:p-5 mb-6 text-left max-w-sm mx-auto">
+                        <p class="text-[11px] md:text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider mb-3">Ticket Details</p>
+                        <div class="flex flex-col gap-2.5">
+                            <div class="flex justify-between items-center gap-3">
+                                <span class="text-[12px] md:text-[13px] text-on-surface-variant">Ticket ID</span>
+                                <div class="flex items-center gap-1.5">
+                                    <span class="text-[12px] md:text-[13px] text-on-surface font-mono font-semibold">RFD-2024-4832</span>
+                                    <button onclick="copyText('RFD-2024-4832')" class="text-primary hover:text-primary/70 transition-colors">
+                                        <span class="material-symbols-outlined text-[14px]">content_copy</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-[12px] md:text-[13px] text-on-surface-variant">Status</span>
+                                <span class="inline-flex items-center gap-1 bg-tertiary-fixed/60 text-on-tertiary-container text-[10px] font-bold px-2 py-0.5 rounded-full border border-tertiary-container/40">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse inline-block"></span>
+                                    Under Review
+                                </span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-[12px] md:text-[13px] text-on-surface-variant">Refund Amount</span>
+                                <span id="success-amount" class="text-[13px] md:text-[14px] text-on-surface font-bold">৳0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-[12px] md:text-[13px] text-on-surface-variant">Refund Method</span>
+                                <span id="success-method" class="text-[12px] md:text-[13px] text-on-surface font-medium">bKash</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-[12px] md:text-[13px] text-on-surface-variant">Submitted</span>
+                                <span class="text-[12px] md:text-[13px] text-on-surface font-medium" id="submit-time">—</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline -->
+                    <div class="text-left max-w-sm mx-auto mb-7">
+                        <p class="text-[11px] md:text-[12px] font-semibold text-on-surface-variant uppercase tracking-wider mb-3">What Happens Next</p>
+                        <div class="flex flex-col gap-0">
+                            <div class="flex gap-3 items-start">
+                                <div class="flex flex-col items-center shrink-0">
+                                    <div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-on-primary text-[13px]">check</span>
+                                    </div>
+                                    <div class="w-px h-7 bg-outline-variant/30 mt-1"></div>
+                                </div>
+                                <div class="pb-4 pt-0.5">
+                                    <p class="font-semibold text-[12px] md:text-[13px] text-on-surface">Request Submitted</p>
+                                    <p class="text-[11px] text-on-surface-variant mt-0.5">Just now</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 items-start">
+                                <div class="flex flex-col items-center shrink-0">
+                                    <div class="w-7 h-7 rounded-full bg-surface-container border-2 border-outline-variant/40 flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-on-surface-variant text-[13px]">manage_search</span>
+                                    </div>
+                                    <div class="w-px h-7 bg-outline-variant/30 mt-1"></div>
+                                </div>
+                                <div class="pb-4 pt-0.5">
+                                    <p class="text-[12px] md:text-[13px] text-on-surface-variant">Team Review</p>
+                                    <p class="text-[11px] text-outline mt-0.5">Within 24 hours</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 items-start">
+                                <div class="flex flex-col items-center shrink-0">
+                                    <div class="w-7 h-7 rounded-full bg-surface-container border-2 border-outline-variant/40 flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-on-surface-variant text-[13px]">inventory_2</span>
+                                    </div>
+                                    <div class="w-px h-7 bg-outline-variant/30 mt-1"></div>
+                                </div>
+                                <div class="pb-4 pt-0.5">
+                                    <p class="text-[12px] md:text-[13px] text-on-surface-variant">Pickup Scheduled (if required)</p>
+                                    <p class="text-[11px] text-outline mt-0.5">1–2 business days</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 items-start">
+                                <div class="shrink-0">
+                                    <div class="w-7 h-7 rounded-full bg-surface-container border-2 border-outline-variant/40 flex items-center justify-center">
+                                        <span class="material-symbols-outlined text-on-surface-variant text-[13px]">payments</span>
+                                    </div>
+                                </div>
+                                <div class="pt-0.5">
+                                    <p class="text-[12px] md:text-[13px] text-on-surface-variant">Refund Processed</p>
+                                    <p class="text-[11px] text-outline mt-0.5">3–5 business days</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                        <a href="order-details.html" class="inline-flex items-center gap-2 border border-outline-variant/60 text-on-surface-variant hover:text-on-surface hover:border-outline text-[13px] font-medium px-5 py-2.5 rounded-full transition-colors bg-surface">
+                            <span class="material-symbols-outlined text-[18px]">receipt_long</span>
+                            View Order
+                        </a>
+                        <a href="#" class="inline-flex items-center gap-2 bg-primary text-on-primary font-semibold text-[13px] px-6 py-2.5 rounded-full hover:bg-primary/90 transition-colors">
+                            <span class="material-symbols-outlined text-[18px]">shopping_basket</span>
+                            Continue Shopping
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- /LEFT COLUMN -->
+
+
+        <!-- ── RIGHT COLUMN ── -->
+        <div class="flex flex-col gap-5 md:gap-6 lg:sticky lg:top-24 lg:self-start">
+
+            <!-- ─ REFUND SUMMARY CARD ─ -->
+            <div class="bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md p-5 md:p-6">
+                <h2 class="font-headline-md text-[16px] md:text-headline-md text-on-surface mb-4">Refund Summary</h2>
+
+                <div id="right-no-selection" class="flex flex-col items-center py-5 text-center">
+                    <div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center mb-3">
+                        <span class="material-symbols-outlined text-outline text-[24px]">shopping_bag</span>
+                    </div>
+                    <p class="text-[13px] text-on-surface-variant font-medium">No items selected</p>
+                    <p class="text-[11px] text-outline mt-1">Select items on the left to see the estimated refund</p>
+                </div>
+
+                <div id="right-summary" class="hidden flex flex-col gap-2.5">
+                    <div id="right-items-list" class="flex flex-col gap-2 pb-3 border-b border-outline-variant/30 mb-1"></div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[12px] md:text-[13px] text-on-surface-variant">Items total</span>
+                        <span id="right-subtotal" class="text-[12px] md:text-[13px] text-on-surface font-medium">৳0</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-[12px] md:text-[13px] text-on-surface-variant">Discount (prorated)</span>
+                        <span id="right-discount" class="text-[12px] md:text-[13px] text-secondary font-medium">−৳0</span>
+                    </div>
+                    <div class="h-px bg-outline-variant/30 my-0.5"></div>
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-[13px] md:text-body-md text-on-surface">Est. Refund</span>
+                        <span id="right-total" class="font-bold text-[24px] md:text-[28px] text-on-surface tracking-tight">৳0</span>
+                    </div>
+                    <p class="text-[10px] text-outline text-center mt-1">Final amount confirmed after review</p>
+                </div>
+            </div>
+
+            <!-- ─ ORDER DETAILS CARD ─ -->
+            <div class="bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md p-5 md:p-6">
+                <h2 class="font-headline-md text-[16px] md:text-headline-md text-on-surface mb-4">Order Details</h2>
+                <div class="flex flex-col gap-2.5">
+                    <div class="flex justify-between">
+                        <span class="text-[12px] md:text-[13px] text-on-surface-variant">Order ID</span>
+                        <button onclick="copyText('SHC-2024-7891')" class="flex items-center gap-1 text-[12px] md:text-[13px] text-on-surface font-mono font-semibold hover:text-primary transition-colors">
+                            #SHC-2024-7891
+                            <span class="material-symbols-outlined text-[13px] text-outline">content_copy</span>
+                        </button>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-[12px] md:text-[13px] text-on-surface-variant">Delivered</span>
+                        <span class="text-[12px] md:text-[13px] text-on-surface font-medium">Jun 8, 2024</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-[12px] md:text-[13px] text-on-surface-variant">Total Paid</span>
+                        <span class="text-[12px] md:text-[13px] text-on-surface font-bold">৳797</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-[12px] md:text-[13px] text-on-surface-variant">Payment</span>
+                        <span class="text-[12px] md:text-[13px] text-on-surface font-medium">bKash</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ─ REFUND POLICY CARD ─ -->
+            <div class="bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md p-5 md:p-6">
+                <h2 class="font-headline-md text-[16px] md:text-headline-md text-on-surface mb-4">Refund Policy</h2>
+                <div class="flex flex-col gap-3">
+                    <div class="flex items-start gap-2.5">
+                        <span class="material-symbols-outlined text-secondary text-[18px] mt-0.5 shrink-0">event_available</span>
+                        <p class="text-[12px] md:text-[13px] text-on-surface-variant leading-relaxed">Returns accepted within <span class="font-semibold text-on-surface">7 days</span> of delivery</p>
+                    </div>
+                    <div class="flex items-start gap-2.5">
+                        <span class="material-symbols-outlined text-secondary text-[18px] mt-0.5 shrink-0">inventory_2</span>
+                        <p class="text-[12px] md:text-[13px] text-on-surface-variant leading-relaxed">Items must be <span class="font-semibold text-on-surface">unused & sealed</span>, or damaged on arrival</p>
+                    </div>
+                    <div class="flex items-start gap-2.5">
+                        <span class="material-symbols-outlined text-secondary text-[18px] mt-0.5 shrink-0">currency_exchange</span>
+                        <p class="text-[12px] md:text-[13px] text-on-surface-variant leading-relaxed">Refunds processed in <span class="font-semibold text-on-surface">3–5 business days</span></p>
+                    </div>
+                    <div class="flex items-start gap-2.5">
+                        <span class="material-symbols-outlined text-secondary text-[18px] mt-0.5 shrink-0">local_shipping</span>
+                        <p class="text-[12px] md:text-[13px] text-on-surface-variant leading-relaxed">Free return pickup for damaged or wrong items</p>
+                    </div>
+                </div>
+                <a href="#" class="mt-4 flex items-center gap-1.5 text-primary text-[12px] md:text-[13px] font-medium hover:underline underline-offset-4">
+                    Full Refund Policy
+                    <span class="material-symbols-outlined text-[14px]">open_in_new</span>
+                </a>
+            </div>
+
+            <!-- ─ NEED HELP CARD ─ -->
+            <div class="bg-primary rounded-[20px] md:rounded-[24px] p-5 md:p-6 relative overflow-hidden">
+                <div class="absolute -top-6 -right-6 w-24 h-24 border-[16px] border-white/10 rounded-full"></div>
+                <div class="absolute -bottom-4 -left-4 w-16 h-16 border-[10px] border-black/5 rounded-full"></div>
+                <div class="relative z-10">
+                    <div class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center mb-3">
+                        <span class="material-symbols-outlined text-on-primary text-[18px]">support_agent</span>
+                    </div>
+                    <p class="font-bold text-[14px] md:text-body-md text-on-primary mb-1">Need help with your refund?</p>
+                    <p class="text-[11px] md:text-[13px] text-on-primary/70 mb-4">Our team typically replies within 30 minutes.</p>
+                    <a href="#" class="inline-flex items-center gap-1.5 bg-surface text-primary text-[12px] md:text-[14px] font-semibold px-4 py-2 rounded-full hover:bg-primary-fixed transition-colors">
+                        Chat with Us
+                        <span class="material-symbols-outlined text-[14px]">chat</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <!-- /RIGHT COLUMN -->
+
+    </div>
+</section>
+
+</main>
+
+<!-- ─── FOOTER ─── -->
+<footer class="bg-surface w-full py-12 md:py-section-gap border-t border-outline-variant/20 font-body-md text-body-md">
+    <div class="max-w-7xl mx-auto px-6 md:px-container-padding">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10 mb-10 md:mb-16">
+            <div class="col-span-2 md:col-span-1">
+                <div class="font-display-xl text-headline-md text-primary flex items-center gap-2 mb-3">
+                    <span class="material-symbols-outlined">shopping_basket</span>
+                    Shuddhota Co.
+                </div>
+                <p class="font-body-md text-[12px] md:text-body-md text-on-surface-variant mb-4 max-w-[220px]">Pure spices and premium dry foods, delivered fresh from farms to your kitchen.</p>
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center hover:bg-primary hover:text-on-primary cursor-pointer transition-colors">
+                        <span class="material-symbols-outlined text-[15px]">public</span>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center hover:bg-primary hover:text-on-primary cursor-pointer transition-colors">
+                        <span class="material-symbols-outlined text-[15px]">camera_alt</span>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center hover:bg-primary hover:text-on-primary cursor-pointer transition-colors">
+                        <span class="material-symbols-outlined text-[15px]">chat</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-[11px] md:text-body-md font-semibold text-on-surface mb-3 uppercase tracking-wider">Shop</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Whole Spices</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Ground Masalas</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Dry Fruits & Nuts</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Dals & Pulses</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Ready Mixes</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-[11px] md:text-body-md font-semibold text-on-surface mb-3 uppercase tracking-wider">Help</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Order Tracking</a></li>
+                    <li><a href="#" class="text-primary font-medium transition-colors text-[12px] md:text-body-md">Returns & Refunds</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Shipping Info</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">FAQ</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Contact Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-[11px] md:text-body-md font-semibold text-on-surface mb-3 uppercase tracking-wider">Company</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">About Us</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Our Story</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Wholesale</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Privacy Policy</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-outline-variant/20 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p class="text-on-surface-variant text-[11px] md:text-sm">© 2024 Shuddhota Co. Pure spices, bold flavors.</p>
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30">
+                    <span class="material-symbols-outlined text-secondary text-[14px] md:text-[16px]">verified</span>
+                    <span class="text-[10px] md:text-[12px] text-on-surface-variant font-medium">BSTI Certified</span>
+                </div>
+                <div class="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30">
+                    <span class="material-symbols-outlined text-secondary text-[14px] md:text-[16px]">eco</span>
+                    <span class="text-[10px] md:text-[12px] text-on-surface-variant font-medium">100% Natural</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    /* ── Item data ── */
+    const ITEMS = {
+        item1: { name: 'Turmeric Powder (200g)', price: 349 },
+        item2: { name: 'Whole Cumin Seeds (100g)', price: 245 },
+        item3: { name: 'Kashmiri Red Chilli (250g)', price: 338 }
+    };
+    const ORDER_TOTAL = 797;
+    const ITEM_TOTAL  = 932;
+    const TOTAL_DISCOUNT = 135; // 932 - 797
+    const METHOD_LABELS = { bkash: 'bKash', 'store-credit': 'Store Credit (+5% Bonus)', bank: 'Bank Transfer' };
+
+    let currentStep = 1;
+    let uploadedFiles = [];
+
+    /* ── Mobile menu ── */
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobile-menu');
+        const icon = document.getElementById('hamburger-icon');
+        menu.classList.toggle('hidden');
+        icon.textContent = menu.classList.contains('hidden') ? 'menu' : 'close';
+    }
+    document.addEventListener('click', function(e) {
+        const menu = document.getElementById('mobile-menu');
+        const btn = document.getElementById('mobile-menu-btn');
+        if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+            menu.classList.add('hidden');
+            document.getElementById('hamburger-icon').textContent = 'menu';
+        }
+    });
+    window.addEventListener('resize', function() {
+        if (window.innerWidth >= 768) {
+            document.getElementById('mobile-menu').classList.add('hidden');
+            document.getElementById('hamburger-icon').textContent = 'menu';
+        }
+    });
+
+    /* ── Select all items ── */
+    function selectAllItems() {
+        const checkboxes = document.querySelectorAll('input[name="items"]');
+        const allChecked = Array.from(checkboxes).every(c => c.checked);
+        checkboxes.forEach(c => { c.checked = !allChecked; });
+        updateRefundTotal();
+    }
+
+    /* ── Update refund totals ── */
+    function updateRefundTotal() {
+        const checked = document.querySelectorAll('input[name="items"]:checked');
+        let subtotal = 0;
+        checked.forEach(c => { subtotal += parseInt(c.value); });
+        const discountRatio = TOTAL_DISCOUNT / ITEM_TOTAL;
+        const discount = Math.round(subtotal * discountRatio);
+        const refund = subtotal - discount;
+
+        // Update count
+        document.getElementById('selected-count').textContent = checked.length;
+
+        // Step 3 summary
+        document.getElementById('summary-items').textContent = checked.length + ' item(s)';
+        document.getElementById('summary-subtotal').textContent = '৳' + subtotal;
+        document.getElementById('summary-discount').textContent = '−৳' + discount;
+        document.getElementById('summary-total').textContent = '৳' + refund;
+
+        // Right sidebar
+        const rightSummary = document.getElementById('right-summary');
+        const rightNone    = document.getElementById('right-no-selection');
+        if (checked.length > 0) {
+            rightSummary.classList.remove('hidden');
+            rightNone.classList.add('hidden');
+            // Build items list
+            const listEl = document.getElementById('right-items-list');
+            listEl.innerHTML = '';
+            checked.forEach(c => {
+                const item = ITEMS[c.id];
+                const div = document.createElement('div');
+                div.className = 'flex justify-between items-center gap-2';
+                div.innerHTML = `<span class="text-[11px] md:text-[12px] text-on-surface-variant truncate max-w-[160px]">${item.name}</span><span class="text-[12px] md:text-[13px] text-on-surface font-semibold shrink-0">৳${item.price}</span>`;
+                listEl.appendChild(div);
+            });
+            document.getElementById('right-subtotal').textContent = '৳' + subtotal;
+            document.getElementById('right-discount').textContent = '−৳' + discount;
+            document.getElementById('right-total').textContent = '৳' + refund;
+        } else {
+            rightSummary.classList.add('hidden');
+            rightNone.classList.remove('hidden');
+        }
+    }
+
+    /* ── Step navigation ── */
+    function goToStep(n) {
+        // Validate step 1
+        if (n > 1 && currentStep === 1) {
+            const checked = document.querySelectorAll('input[name="items"]:checked');
+            if (checked.length === 0) {
+                const warn = document.getElementById('no-items-warning');
+                warn.classList.remove('hidden');
+                setTimeout(() => warn.classList.add('hidden'), 3500);
+                return;
+            }
+        }
+        // Validate step 2
+        if (n > 2 && currentStep === 2) {
+            const reason = document.querySelector('input[name="reason"]:checked');
+            if (!reason) {
+                const warn = document.getElementById('reason-warning');
+                warn.classList.remove('hidden');
+                setTimeout(() => warn.classList.add('hidden'), 3500);
+                return;
+            }
+        }
+
+        // Hide all panels
+        document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('step-' + n).classList.add('active');
+        currentStep = n;
+        updateProgressBar(n);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateProgressBar(step) {
+        const steps = [1, 2, 3];
+        const linePercents = { 1: '0%', 2: '50%', 3: '100%' };
+
+        steps.forEach(s => {
+            const dot   = document.getElementById('ps-' + s);
+            const label = document.getElementById('pslabel-' + s);
+            if (!dot) return;
+            if (s < step) {
+                // Completed
+                dot.className = 'progress-step w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary flex items-center justify-center shadow-md';
+                dot.innerHTML = '<span class="material-symbols-outlined text-on-primary text-[14px] md:text-[18px]">check</span>';
+                label.className = 'text-[10px] md:text-[11px] text-secondary text-center mt-2 leading-tight px-1 font-semibold';
+            } else if (s === step) {
+                // Active
+                const icons = { 1: 'checklist', 2: 'description', 3: 'account_balance_wallet' };
+                dot.className = 'progress-step w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary flex items-center justify-center shadow-md';
+                dot.innerHTML = `<span class="material-symbols-outlined text-on-primary text-[14px] md:text-[18px]">${icons[s]}</span>`;
+                label.className = 'font-semibold text-[10px] md:text-[11px] text-primary text-center mt-2 leading-tight px-1';
+            } else {
+                // Future
+                const icons = { 1: 'checklist', 2: 'description', 3: 'account_balance_wallet' };
+                dot.className = 'progress-step w-8 h-8 md:w-10 md:h-10 rounded-full bg-surface border-2 border-outline-variant/50 flex items-center justify-center';
+                dot.innerHTML = `<span class="material-symbols-outlined text-on-surface-variant text-[14px] md:text-[18px]">${icons[s]}</span>`;
+                label.className = 'text-[10px] md:text-[11px] text-on-surface-variant text-center mt-2 leading-tight px-1';
+            }
+        });
+
+        document.getElementById('line-fill').style.width = linePercents[step] || '0%';
+    }
+
+    /* ── Char count ── */
+    function updateCharCount(el) {
+        document.getElementById('char-count').textContent = el.value.length + ' / 500';
+    }
+
+    /* ── Terms checkbox ── */
+    function toggleTermsCheck(el) {
+        const box = document.getElementById('terms-box');
+        if (el.checked) {
+            box.classList.add('bg-primary', 'border-primary');
+            box.innerHTML = '<svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4L4 7L10 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        } else {
+            box.classList.remove('bg-primary', 'border-primary');
+            box.innerHTML = '';
+        }
+    }
+
+    /* ── File Upload ── */
+    function handleDragOver(e) {
+        e.preventDefault();
+        document.getElementById('upload-zone').classList.add('drag-over');
+    }
+    function handleDragLeave(e) {
+        document.getElementById('upload-zone').classList.remove('drag-over');
+    }
+    function handleDrop(e) {
+        e.preventDefault();
+        document.getElementById('upload-zone').classList.remove('drag-over');
+        handleFiles(e.dataTransfer.files);
+    }
+    function handleFiles(files) {
+        const previews = document.getElementById('file-previews');
+        Array.from(files).forEach(file => {
+            if (uploadedFiles.length >= 3) { showToast('Maximum 3 photos allowed'); return; }
+            if (!file.type.startsWith('image/')) return;
+            uploadedFiles.push(file);
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const idx = uploadedFiles.length - 1;
+                const wrap = document.createElement('div');
+                wrap.className = 'relative w-16 h-16 md:w-20 md:h-20 rounded-[10px] overflow-hidden border-2 border-outline-variant/40 shrink-0';
+                wrap.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover"/><button onclick="removeFile(${idx},this)" class="absolute top-0.5 right-0.5 w-5 h-5 bg-inverse-surface rounded-full flex items-center justify-center hover:bg-error transition-colors"><span class="material-symbols-outlined text-inverse-on-surface text-[11px]">close</span></button>`;
+                previews.appendChild(wrap);
+                // Update placeholder
+                document.getElementById('upload-placeholder').querySelector('p:first-of-type').textContent = uploadedFiles.length + ' photo(s) uploaded';
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+    function removeFile(idx, btn) {
+        uploadedFiles.splice(idx, 1);
+        btn.closest('.relative').remove();
+        const count = document.getElementById('file-previews').children.length;
+        document.getElementById('upload-placeholder').querySelector('p:first-of-type').textContent = count > 0 ? count + ' photo(s) uploaded' : 'Drop photos here or tap to upload';
+    }
+
+    /* ── Submit Refund ── */
+    function submitRefund() {
+        const terms = document.getElementById('terms');
+        if (!terms.checked) {
+            const warn = document.getElementById('terms-warning');
+            warn.classList.remove('hidden');
+            setTimeout(() => warn.classList.add('hidden'), 3500);
+            return;
+        }
+
+        const btn = document.getElementById('submit-btn');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">progress_activity</span> Submitting…';
+
+        setTimeout(() => {
+            // Calculate final refund
+            const checked = document.querySelectorAll('input[name="items"]:checked');
+            let subtotal = 0;
+            checked.forEach(c => { subtotal += parseInt(c.value); });
+            const discountRatio = TOTAL_DISCOUNT / ITEM_TOTAL;
+            const refund = Math.round(subtotal - subtotal * discountRatio);
+
+            // Get selected method
+            const methodEl = document.querySelector('input[name="method"]:checked');
+            const method = methodEl ? methodEl.value : 'bkash';
+            let bonus = 0;
+            if (method === 'store-credit') bonus = Math.round(refund * 0.05);
+
+            document.getElementById('success-amount').textContent = '৳' + (refund + bonus);
+            document.getElementById('success-method').textContent = METHOD_LABELS[method] || 'bKash';
+            document.getElementById('submit-time').textContent = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+            // Go to success
+            document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('step-4').classList.add('active');
+            // Hide progress bar area
+            document.querySelector('#step-1').closest('.lg\\:col-span-2').querySelector('.bg-surface.rounded-\\[20px\\]').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            showToast('Refund request submitted successfully!');
+        }, 1800);
+    }
+
+    /* ── Copy ── */
+    function copyText(text) {
+        navigator.clipboard.writeText(text).then(() => showToast('Copied: ' + text));
+    }
+
+    /* ── Toast ── */
+    function showToast(msg) {
+        let t = document.getElementById('toast');
+        if (!t) {
+            t = document.createElement('div');
+            t.id = 'toast';
+            t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1d1c15;color:#fff9ee;padding:10px 20px;border-radius:9999px;font-family:Plus Jakarta Sans,sans-serif;font-size:13px;font-weight:500;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,0.15);transition:opacity 0.3s;white-space:nowrap;';
+            document.body.appendChild(t);
+        }
+        t.textContent = msg;
+        t.style.opacity = '1';
+        clearTimeout(t._timer);
+        t._timer = setTimeout(() => { t.style.opacity = '0'; }, 2500);
+    }
+</script>
+</body>
+</html>

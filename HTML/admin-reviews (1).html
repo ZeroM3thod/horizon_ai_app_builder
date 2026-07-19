@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Reviews — Shuddhota Co. Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined{font-family:'Material Symbols Outlined';font-weight:normal;font-style:normal;font-size:24px;line-height:1;letter-spacing:normal;text-transform:none;display:inline-block;white-space:nowrap;direction:ltr;-webkit-font-smoothing:antialiased;}
+  .sidebar{transition:transform .3s cubic-bezier(.4,0,.2,1),width .3s cubic-bezier(.4,0,.2,1);}
+  .nav-item{transition:background .18s,color .18s,transform .18s;}
+  .nav-item:hover{transform:translateX(3px);}
+  .nav-item.active{background:rgba(159,65,34,.10);color:#9f4122;}
+  .nav-item.active .nav-icon{color:#9f4122;}
+  .main-content{transition:margin-left .3s cubic-bezier(.4,0,.2,1);}
+  @media(max-width:1023px){.sidebar{position:fixed;z-index:50;transform:translateX(-100%);}.sidebar.open{transform:translateX(0);}}
+  .sidebar-mini{width:72px!important;}
+  .sidebar-mini .sidebar-label,.sidebar-mini .sidebar-logo-text,.sidebar-mini .sidebar-section-title,.sidebar-mini .nav-badge{display:none!important;}
+  .sidebar-mini .nav-item{justify-content:center;padding-left:0;padding-right:0;}
+  ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:#ddc0b8;border-radius:99px;}
+  .hide-scrollbar{scrollbar-width:none;-ms-overflow-style:none;}.hide-scrollbar::-webkit-scrollbar{display:none;}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+  .badge-pulse{animation:pulse 2s cubic-bezier(.4,0,.6,1) infinite;}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .fade-up{animation:fadeUp .35s ease both;}
+  .fade-up-1{animation-delay:.06s}.fade-up-2{animation-delay:.12s}.fade-up-3{animation-delay:.18s}.fade-up-4{animation-delay:.24s}
+  .trow{transition:background .15s;}.trow:hover{background:rgba(248,243,234,.9);}
+  .line-clamp-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .stat-card{transition:transform .2s,box-shadow .2s;}.stat-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(159,65,34,.10);}
+  /* Modal */
+  .modal-wrap{transition:opacity .25s ease;}
+  .modal-box{transition:opacity .25s ease,transform .3s cubic-bezier(.34,1.56,.64,1);}
+  /* Star interactive */
+  .star-btn{cursor:pointer;transition:color .15s,transform .15s;}.star-btn:hover{transform:scale(1.2);}
+  /* Filter btn active */
+  .filt-btn.active{background:#9f4122;color:#fff;}
+  .filt-btn{transition:background .15s,color .15s;}
+</style>
+<script>
+  tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#9f4122","primary-container":"#ff8a65","primary-fixed":"#ffdbd0","primary-fixed-dim":"#ffb59e","on-primary":"#ffffff","on-primary-container":"#752305","secondary":"#556500","secondary-container":"#d6ed7a","secondary-fixed":"#d6ed7a","secondary-fixed-dim":"#bbd062","on-secondary":"#ffffff","on-secondary-container":"#5a6c00","tertiary":"#326578","tertiary-container":"#80b1c7","tertiary-fixed":"#bbe9ff","on-tertiary":"#ffffff","on-tertiary-container":"#074457","error":"#ba1a1a","error-container":"#ffdad6","on-error":"#ffffff","surface":"#fff9ee","surface-dim":"#dfd9cf","surface-variant":"#e8e2d7","surface-container":"#f3ede2","surface-container-low":"#f9f3e8","surface-container-high":"#ede8dd","surface-container-highest":"#e8e2d7","surface-container-lowest":"#ffffff","on-surface":"#1d1c15","on-surface-variant":"#56423c","outline":"#89726b","outline-variant":"#ddc0b8","inverse-surface":"#333029","inverse-on-surface":"#f6f0e5","background":"#fff9ee","on-background":"#1d1c15"},borderRadius:{DEFAULT:"1rem",lg:"2rem",xl:"3rem",full:"9999px"},fontFamily:{sans:["Plus Jakarta Sans","sans-serif"]}}}}
+</script>
+</head>
+<body class="bg-background text-on-background font-sans antialiased overflow-x-hidden">
+
+<!-- Sidebar overlay -->
+<div id="sb-overlay" class="fixed inset-0 bg-black/40 z-40 opacity-0 pointer-events-none lg:hidden transition-opacity duration-300" onclick="closeSidebar()"></div>
+
+<!-- ══════════ SIDEBAR ══════════ -->
+<aside id="sidebar" class="sidebar bg-surface-container-lowest border-r border-outline-variant/30 h-screen w-64 flex flex-col overflow-hidden lg:fixed top-0 left-0 shadow-xl lg:shadow-none">
+
+  <!-- Logo -->
+  <div class="flex items-center gap-3 px-5 h-16 border-b border-outline-variant/20 shrink-0">
+    <div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center shadow">
+      <span class="material-symbols-outlined text-white text-[18px]">shopping_basket</span>
+    </div>
+    <div class="sidebar-logo-text">
+      <div class="font-bold text-[15px] text-on-surface leading-none">Shuddhota Co.</div>
+      <div class="text-[10px] text-on-surface-variant mt-0.5 font-medium uppercase tracking-wider">Admin Panel</div>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="flex-1 overflow-y-auto hide-scrollbar py-4 px-3 space-y-0.5">
+    <p class="sidebar-section-title text-[10px] text-on-surface-variant uppercase tracking-widest font-bold px-3 pt-1 pb-2">Main</p>
+    <a href="admin.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">dashboard</span>
+      <span class="sidebar-label">Dashboard</span>
+    </a>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">inventory_2</span>
+      <span class="sidebar-label">All Products</span>
+      <span class="nav-badge ml-auto bg-secondary-container text-on-secondary-container text-[10px] font-bold px-2 py-0.5 rounded-full">48</span>
+    </a>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">group</span>
+      <span class="sidebar-label">Users</span>
+      <span class="nav-badge ml-auto bg-tertiary-container text-on-tertiary-container text-[10px] font-bold px-2 py-0.5 rounded-full">1.2k</span>
+    </a>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">receipt_long</span>
+      <span class="sidebar-label">Orders</span>
+      <span class="nav-badge ml-auto bg-primary-fixed text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded-full badge-pulse">7</span>
+    </a>
+    <a href="#" class="nav-item active flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] shrink-0">rate_review</span>
+      <span class="sidebar-label">Reviews</span>
+      <span class="nav-badge ml-auto bg-primary-fixed text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded-full badge-pulse" id="pending-badge">14</span>
+    </a>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">local_offer</span>
+      <span class="sidebar-label">Coupons</span>
+    </a>
+    <div class="h-px bg-outline-variant/30 my-3 mx-2"></div>
+    <p class="sidebar-section-title text-[10px] text-on-surface-variant uppercase tracking-widest font-bold px-3 pb-2">System</p>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">settings</span>
+      <span class="sidebar-label">Settings</span>
+    </a>
+    <a href="#" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">storefront</span>
+      <span class="sidebar-label">View Store</span>
+    </a>
+  </nav>
+
+  <!-- Profile -->
+  <div class="px-3 py-4 border-t border-outline-variant/20 shrink-0">
+    <div class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-surface-container transition-colors cursor-pointer">
+      <div class="w-8 h-8 rounded-full bg-primary-fixed-dim flex items-center justify-center shrink-0 font-bold text-[13px] text-on-primary-container">RA</div>
+      <div class="sidebar-label flex-1 min-w-0">
+        <div class="text-[13px] font-semibold text-on-surface truncate">Rakib Admin</div>
+        <div class="text-[11px] text-on-surface-variant truncate">admin@shuddhota.com</div>
+      </div>
+      <span class="sidebar-label material-symbols-outlined text-on-surface-variant text-[18px]">logout</span>
+    </div>
+  </div>
+</aside>
+
+<!-- ══════════ MAIN ══════════ -->
+<div id="main-content" class="main-content lg:ml-64 min-h-screen flex flex-col">
+
+  <!-- Topbar -->
+  <header class="sticky top-0 z-30 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 flex items-center justify-between px-4 md:px-6 h-16 shrink-0">
+    <div class="flex items-center gap-3">
+      <button onclick="toggleSidebar()" class="lg:hidden w-9 h-9 rounded-xl flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant">
+        <span id="hamburger-icon" class="material-symbols-outlined text-[22px]">menu</span>
+      </button>
+      <button onclick="toggleMini()" class="hidden lg:flex w-9 h-9 rounded-xl items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant">
+        <span class="material-symbols-outlined text-[22px]">menu_open</span>
+      </button>
+      <div class="hidden sm:flex items-center gap-2 text-[13px]">
+        <span class="text-on-surface-variant">Admin</span>
+        <span class="material-symbols-outlined text-[14px] text-on-surface-variant">chevron_right</span>
+        <span class="text-on-surface font-semibold">Reviews</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="hidden md:flex items-center gap-2 bg-surface-container rounded-full px-4 py-2 border border-outline-variant/30 w-48 xl:w-60">
+        <span class="material-symbols-outlined text-on-surface-variant text-[18px]">search</span>
+        <input type="text" placeholder="Search anything…" class="bg-transparent text-[13px] placeholder:text-outline border-none focus:ring-0 w-full p-0"/>
+      </div>
+      <button class="relative w-9 h-9 rounded-xl flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant">
+        <span class="material-symbols-outlined text-[22px]">notifications</span>
+        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full border-2 border-surface badge-pulse"></span>
+      </button>
+      <div class="hidden lg:flex items-center gap-1.5 bg-surface-container rounded-full px-3 py-2 border border-outline-variant/20 text-[12px] text-on-surface-variant font-medium">
+        <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+        <span id="topbar-date"></span>
+      </div>
+      <div class="w-8 h-8 rounded-full bg-primary-fixed-dim flex items-center justify-center font-bold text-[12px] text-on-primary-container cursor-pointer">RA</div>
+    </div>
+  </header>
+
+  <!-- ══════════ PAGE CONTENT ══════════ -->
+  <main class="flex-1 p-4 md:p-6 xl:p-8 space-y-6 pb-24 lg:pb-8">
+
+    <!-- Page header -->
+    <div class="fade-up flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div>
+        <h1 class="text-[24px] md:text-[30px] font-extrabold text-on-surface tracking-tight">Customer Reviews</h1>
+        <p class="text-[13px] text-on-surface-variant mt-0.5">View, approve, ban, edit and delete customer reviews</p>
+      </div>
+      <button onclick="openModal('add')" class="flex items-center gap-2 bg-primary text-white text-[13px] font-semibold px-5 py-2.5 rounded-full hover:bg-primary/90 transition-colors shadow-md shrink-0 self-start sm:self-auto">
+        <span class="material-symbols-outlined text-[17px]">add</span>Add Review
+      </button>
+    </div>
+
+    <!-- Stat cards -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 fade-up fade-up-1">
+      <div class="stat-card bg-surface-container-lowest border border-outline-variant/30 rounded-[18px] p-4 shadow-sm cursor-pointer" onclick="setFilter('all')">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Total</span>
+          <div class="w-8 h-8 rounded-xl bg-surface-container flex items-center justify-center">
+            <span class="material-symbols-outlined text-on-surface-variant text-[16px]">reviews</span>
+          </div>
+        </div>
+        <div class="text-[28px] font-extrabold text-on-surface leading-none" id="stat-total">0</div>
+        <div class="text-[11px] text-on-surface-variant mt-1">All reviews</div>
+      </div>
+      <div class="stat-card bg-surface-container-lowest border border-outline-variant/30 rounded-[18px] p-4 shadow-sm cursor-pointer" onclick="setFilter('approved')">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Approved</span>
+          <div class="w-8 h-8 rounded-xl bg-secondary-container/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span>
+          </div>
+        </div>
+        <div class="text-[28px] font-extrabold text-secondary leading-none" id="stat-approved">0</div>
+        <div class="text-[11px] text-on-surface-variant mt-1">Published live</div>
+      </div>
+      <div class="stat-card bg-surface-container-lowest border border-outline-variant/30 rounded-[18px] p-4 shadow-sm cursor-pointer" onclick="setFilter('pending')">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Pending</span>
+          <div class="w-8 h-8 rounded-xl bg-primary-fixed/60 flex items-center justify-center">
+            <span class="material-symbols-outlined text-primary text-[16px] badge-pulse">schedule</span>
+          </div>
+        </div>
+        <div class="text-[28px] font-extrabold text-primary leading-none badge-pulse" id="stat-pending">0</div>
+        <div class="text-[11px] text-on-surface-variant mt-1">Awaiting review</div>
+      </div>
+      <div class="stat-card bg-surface-container-lowest border border-outline-variant/30 rounded-[18px] p-4 shadow-sm cursor-pointer" onclick="setFilter('banned')">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Banned</span>
+          <div class="w-8 h-8 rounded-xl bg-error-container flex items-center justify-center">
+            <span class="material-symbols-outlined text-error text-[16px]">block</span>
+          </div>
+        </div>
+        <div class="text-[28px] font-extrabold text-error leading-none" id="stat-banned">0</div>
+        <div class="text-[11px] text-on-surface-variant mt-1">Hidden from store</div>
+      </div>
+    </div>
+
+    <!-- Search + Filter bar -->
+    <div class="fade-up fade-up-2 bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-4 shadow-sm space-y-3">
+      <div class="flex flex-col sm:flex-row gap-3">
+        <!-- Search input -->
+        <div class="flex items-center gap-2 bg-surface-container border border-outline-variant/30 rounded-full px-4 py-2.5 flex-1">
+          <span class="material-symbols-outlined text-on-surface-variant text-[18px] shrink-0">search</span>
+          <input id="search-input" type="text" placeholder="Search by reviewer, product, or content…"
+            oninput="applyFilters()"
+            class="bg-transparent text-[13px] text-on-surface placeholder:text-outline border-none focus:ring-0 w-full p-0"/>
+          <button id="search-clear" onclick="clearSearch()" class="hidden text-on-surface-variant hover:text-on-surface">
+            <span class="material-symbols-outlined text-[16px]">close</span>
+          </button>
+        </div>
+        <!-- Star dropdown -->
+        <select id="star-filter" onchange="applyFilters()" class="bg-surface-container border border-outline-variant/30 rounded-full px-4 py-2.5 text-[13px] font-semibold text-on-surface-variant focus:ring-primary cursor-pointer shrink-0">
+          <option value="">All Stars</option>
+          <option value="5">★★★★★ 5 Stars</option>
+          <option value="4">★★★★☆ 4 Stars</option>
+          <option value="3">★★★☆☆ 3 Stars</option>
+          <option value="2">★★☆☆☆ 2 Stars</option>
+          <option value="1">★☆☆☆☆ 1 Star</option>
+        </select>
+      </div>
+      <!-- Status filter pills -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <span class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider mr-1">Status:</span>
+        <button class="filt-btn active text-[12px] font-semibold px-4 py-1.5 rounded-full bg-primary text-white" data-filter="all" onclick="setFilter('all')">All</button>
+        <button class="filt-btn text-[12px] font-semibold px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant" data-filter="pending" onclick="setFilter('pending')">Pending</button>
+        <button class="filt-btn text-[12px] font-semibold px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant" data-filter="approved" onclick="setFilter('approved')">Approved</button>
+        <button class="filt-btn text-[12px] font-semibold px-4 py-1.5 rounded-full bg-surface-container text-on-surface-variant" data-filter="banned" onclick="setFilter('banned')">Banned</button>
+      </div>
+      <!-- Bulk actions (shown when items selected) -->
+      <div id="bulk-bar" class="hidden items-center gap-2 flex-wrap pt-1 border-t border-outline-variant/15">
+        <span id="bulk-count" class="text-[12px] font-bold text-on-surface-variant">0 selected</span>
+        <button onclick="bulkAction('approved')" class="flex items-center gap-1.5 bg-secondary-container text-on-secondary-container text-[12px] font-semibold px-3 py-1.5 rounded-full hover:opacity-80 transition-opacity">
+          <span class="material-symbols-outlined text-[14px]">check_circle</span>Approve All
+        </button>
+        <button onclick="bulkAction('banned')" class="flex items-center gap-1.5 bg-error-container text-error text-[12px] font-semibold px-3 py-1.5 rounded-full hover:opacity-80 transition-opacity">
+          <span class="material-symbols-outlined text-[14px]">block</span>Ban All
+        </button>
+        <button onclick="bulkAction('delete')" class="flex items-center gap-1.5 bg-surface-container-high text-on-surface-variant text-[12px] font-semibold px-3 py-1.5 rounded-full hover:bg-error-container hover:text-error transition-colors">
+          <span class="material-symbols-outlined text-[14px]">delete</span>Delete All
+        </button>
+        <button onclick="clearSelection()" class="text-[12px] text-on-surface-variant underline ml-auto">Clear</button>
+      </div>
+    </div>
+
+    <!-- ── DESKTOP TABLE ── -->
+    <div class="fade-up fade-up-3 hidden md:block bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] shadow-sm overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="w-full min-w-[700px]">
+          <thead class="bg-surface-container border-b border-outline-variant/20">
+            <tr>
+              <th class="px-5 py-3 text-left w-10">
+                <input type="checkbox" id="select-all-cb" onchange="toggleSelectAll(this)" class="w-4 h-4 rounded cursor-pointer accent-primary"/>
+              </th>
+              <th class="px-3 py-3 text-left text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Reviewer</th>
+              <th class="px-3 py-3 text-left text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Product</th>
+              <th class="px-3 py-3 text-left text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Review</th>
+              <th class="px-3 py-3 text-left text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Rating</th>
+              <th class="px-3 py-3 text-left text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Date</th>
+              <th class="px-3 py-3 text-left text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Status</th>
+              <th class="px-3 py-3 text-left text-[11px] font-bold text-on-surface-variant uppercase tracking-wider">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="table-body" class="divide-y divide-outline-variant/15"></tbody>
+        </table>
+      </div>
+      <!-- Empty -->
+      <div id="table-empty" class="hidden flex flex-col items-center justify-center py-16 gap-3">
+        <span class="material-symbols-outlined text-[48px] text-on-surface-variant/30">rate_review</span>
+        <p class="text-[15px] font-semibold text-on-surface-variant">No reviews found</p>
+        <p class="text-[12px] text-outline">Try a different filter or search term</p>
+      </div>
+    </div>
+
+    <!-- ── MOBILE CARDS ── -->
+    <div id="card-list" class="md:hidden space-y-3 fade-up fade-up-3"></div>
+    <div id="card-empty" class="md:hidden hidden flex-col items-center justify-center py-16 gap-3 bg-surface-container-lowest border border-outline-variant/30 rounded-[20px]">
+      <span class="material-symbols-outlined text-[48px] text-on-surface-variant/30">rate_review</span>
+      <p class="text-[15px] font-semibold text-on-surface-variant">No reviews found</p>
+    </div>
+
+    <!-- Pagination -->
+    <div class="fade-up fade-up-4 flex items-center justify-between px-1">
+      <span id="page-info" class="text-[12px] text-on-surface-variant"></span>
+      <div class="flex items-center gap-1.5">
+        <button id="btn-prev" onclick="goPage(-1)" class="w-8 h-8 rounded-xl border border-outline-variant/30 flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
+          <span class="material-symbols-outlined text-[18px]">chevron_left</span>
+        </button>
+        <div id="page-nums" class="flex gap-1"></div>
+        <button id="btn-next" onclick="goPage(1)" class="w-8 h-8 rounded-xl border border-outline-variant/30 flex items-center justify-center text-on-surface-variant hover:bg-surface-container transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
+          <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+        </button>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Mobile bottom nav -->
+<nav class="fixed bottom-0 left-0 right-0 bg-surface/90 backdrop-blur-xl border-t border-outline-variant/20 flex items-center justify-around px-2 py-2 z-30 lg:hidden">
+  <a href="admin.html" class="flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl text-on-surface-variant">
+    <span class="material-symbols-outlined text-[22px]">dashboard</span>
+    <span class="text-[9px] font-semibold">Home</span>
+  </a>
+  <a href="#" class="flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl text-on-surface-variant">
+    <span class="material-symbols-outlined text-[22px]">inventory_2</span>
+    <span class="text-[9px] font-semibold">Products</span>
+  </a>
+  <a href="#" class="flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl text-on-surface-variant">
+    <span class="material-symbols-outlined text-[22px]">receipt_long</span>
+    <span class="text-[9px] font-semibold">Orders</span>
+  </a>
+  <a href="#" class="flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl text-primary">
+    <span class="material-symbols-outlined text-[22px]">rate_review</span>
+    <span class="text-[9px] font-semibold">Reviews</span>
+  </a>
+  <button onclick="toggleSidebar()" class="flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl text-on-surface-variant">
+    <span class="material-symbols-outlined text-[22px]">menu</span>
+    <span class="text-[9px] font-semibold">More</span>
+  </button>
+</nav>
+
+<!-- ══════════ ADD / EDIT MODAL ══════════ -->
+<div id="modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+  <div class="modal-wrap absolute inset-0 bg-black/40" onclick="closeModal()"></div>
+  <div class="modal-box relative bg-surface-container-lowest rounded-[24px] shadow-2xl w-full max-w-lg z-10 overflow-hidden">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-outline-variant/20">
+      <h2 id="modal-title" class="text-[17px] font-extrabold text-on-surface">Add Review</h2>
+      <button onclick="closeModal()" class="w-8 h-8 rounded-xl hover:bg-surface-container flex items-center justify-center text-on-surface-variant">
+        <span class="material-symbols-outlined text-[20px]">close</span>
+      </button>
+    </div>
+    <div class="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
+      <input type="hidden" id="modal-id"/>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Reviewer Name *</label>
+          <input id="modal-name" type="text" placeholder="e.g. Nadia K." class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface focus:ring-primary focus:border-primary"/>
+        </div>
+        <div>
+          <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Product *</label>
+          <input id="modal-product" type="text" placeholder="e.g. Biryani Masala" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface focus:ring-primary focus:border-primary"/>
+        </div>
+      </div>
+      <div>
+        <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Review Content *</label>
+        <textarea id="modal-content" rows="3" placeholder="Write the review here…" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface focus:ring-primary focus:border-primary resize-none"></textarea>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-2">Rating *</label>
+          <div class="flex items-center gap-1">
+            <button type="button" class="star-btn text-[28px] text-outline-variant" data-val="1" onclick="setRating(1)">★</button>
+            <button type="button" class="star-btn text-[28px] text-outline-variant" data-val="2" onclick="setRating(2)">★</button>
+            <button type="button" class="star-btn text-[28px] text-outline-variant" data-val="3" onclick="setRating(3)">★</button>
+            <button type="button" class="star-btn text-[28px] text-outline-variant" data-val="4" onclick="setRating(4)">★</button>
+            <button type="button" class="star-btn text-[28px] text-outline-variant" data-val="5" onclick="setRating(5)">★</button>
+          </div>
+          <input type="hidden" id="modal-rating" value="5"/>
+        </div>
+        <div>
+          <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Status</label>
+          <select id="modal-status" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface focus:ring-primary cursor-pointer">
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="banned">Banned</option>
+          </select>
+        </div>
+      </div>
+      <p id="modal-error" class="hidden text-[12px] text-error font-medium">Please fill in all required fields.</p>
+    </div>
+    <div class="flex gap-3 px-6 py-4 border-t border-outline-variant/20">
+      <button onclick="closeModal()" class="flex-1 border border-outline-variant/40 text-on-surface-variant text-[13px] font-semibold py-2.5 rounded-full hover:bg-surface-container transition-colors">Cancel</button>
+      <button onclick="saveReview()" class="flex-1 bg-primary text-white text-[13px] font-semibold py-2.5 rounded-full hover:bg-primary/90 transition-colors">Save Review</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ DELETE CONFIRM MODAL ══════════ -->
+<div id="del-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4">
+  <div class="modal-wrap absolute inset-0 bg-black/50" onclick="closeDelModal()"></div>
+  <div class="modal-box relative bg-surface-container-lowest rounded-[22px] shadow-2xl w-full max-w-sm z-10 p-6 text-center">
+    <div class="w-14 h-14 rounded-full bg-error-container flex items-center justify-center mx-auto mb-4">
+      <span class="material-symbols-outlined text-error text-[28px]">delete_forever</span>
+    </div>
+    <h3 class="text-[17px] font-extrabold text-on-surface mb-2">Delete this review?</h3>
+    <p class="text-[13px] text-on-surface-variant mb-6">This cannot be undone. The review will be permanently removed.</p>
+    <div class="flex gap-3">
+      <button onclick="closeDelModal()" class="flex-1 border border-outline-variant/40 text-on-surface-variant text-[13px] font-semibold py-2.5 rounded-full hover:bg-surface-container transition-colors">Cancel</button>
+      <button onclick="confirmDelete()" class="flex-1 bg-error text-white text-[13px] font-semibold py-2.5 rounded-full hover:bg-error/90 transition-colors">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ TOAST ══════════ -->
+<div id="toast" class="fixed bottom-20 lg:bottom-8 left-1/2 -translate-x-1/2 z-[100] pointer-events-none">
+  <div id="toast-inner" class="flex items-center gap-2 bg-inverse-surface text-inverse-on-surface text-[13px] font-semibold px-5 py-3 rounded-full shadow-xl opacity-0 translate-y-3 transition-all duration-300">
+    <span id="toast-icon" class="material-symbols-outlined text-[16px]">check_circle</span>
+    <span id="toast-msg"></span>
+  </div>
+</div>
+
+<script>
+/* ── Date ── */
+document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+
+/* ── Sidebar ── */
+let sidebarOpen = false, miniMode = false;
+function toggleSidebar(){
+  sidebarOpen = !sidebarOpen;
+  document.getElementById('sidebar').classList.toggle('open', sidebarOpen);
+  const ov = document.getElementById('sb-overlay');
+  ov.style.opacity = sidebarOpen ? '1' : '0';
+  ov.style.pointerEvents = sidebarOpen ? 'auto' : 'none';
+  document.getElementById('hamburger-icon').textContent = sidebarOpen ? 'close' : 'menu';
+}
+function closeSidebar(){
+  sidebarOpen = false;
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sb-overlay').style.opacity = '0';
+  document.getElementById('sb-overlay').style.pointerEvents = 'none';
+  document.getElementById('hamburger-icon').textContent = 'menu';
+}
+function toggleMini(){
+  miniMode = !miniMode;
+  const sb = document.getElementById('sidebar');
+  const mc = document.getElementById('main-content');
+  sb.classList.toggle('sidebar-mini', miniMode);
+  sb.style.width = miniMode ? '72px' : '';
+  mc.style.marginLeft = miniMode ? '72px' : '';
+}
+
+/* ══════════════════════════════════
+   DATA
+══════════════════════════════════ */
+const AVATAR_COLORS = [
+  'bg-primary-fixed text-on-primary-container',
+  'bg-secondary-fixed text-on-secondary-container',
+  'bg-tertiary-fixed text-on-tertiary-container',
+  'bg-surface-variant text-on-surface-variant',
+  'bg-primary-fixed-dim text-on-primary-container',
+];
+
+let reviews = [
+  {id:1,  name:'Nadia Karim',      initials:'NK', color:0, product:'Biryani Masala',     content:'Best spices I\'ve ever used! The aroma is incredible — freshly packed and delivered right on time.',                       rating:5, date:'2 Jun 2025', status:'approved'},
+  {id:2,  name:'Mosharraf Hossain',initials:'MH', color:1, product:'Yellow Moong Dal',   content:'Delivery was quick and Dal quality is genuine and unadulterated. Will definitely order again next month.',                  rating:4, date:'1 Jun 2025', status:'approved'},
+  {id:3,  name:'Sumaiya Parvin',   initials:'SP', color:2, product:'Green Cardamom',     content:'Cardamom is so fragrant! Nothing like the ones from supermarkets. Absolutely fresh and pure.',                             rating:5, date:'28 May 2025',status:'approved'},
+  {id:4,  name:'Tanvir Rahman',    initials:'TR', color:3, product:'Turmeric Powder',    content:'Color and texture is perfect. I\'ve been searching for pure turmeric for years — finally found it here at Shuddhota.',     rating:5, date:'25 May 2025',status:'approved'},
+  {id:5,  name:'Rehana Begum',     initials:'RB', color:4, product:'Mustard Oil',        content:'Smell is authentic. Reminds me of my grandmother\'s kitchen. Packaging could be slightly improved though.',                 rating:4, date:'22 May 2025',status:'pending'},
+  {id:6,  name:'Jahid Ul Islam',   initials:'JU', color:0, product:'Chili Powder',       content:'A bit too spicy for my taste but the quality is undeniable. Great for people who like heat in their food.',                rating:3, date:'20 May 2025',status:'pending'},
+  {id:7,  name:'Fariha Akter',     initials:'FA', color:1, product:'Coriander Seeds',    content:'Excellent product. I use these every single day for cooking and they never disappoint. Highly recommended.',                rating:5, date:'17 May 2025',status:'approved'},
+  {id:8,  name:'Mahfuz Khan',      initials:'MK', color:2, product:'Basmati Rice',       content:'Rice quality is subpar. Found small stones in the bag. Very disappointed with this purchase. Requesting refund.',           rating:1, date:'14 May 2025',status:'banned'},
+  {id:9,  name:'Shirin Nessa',     initials:'SN', color:3, product:'Dried Mango',        content:'Not as described. Very sour and not properly dried. The packaging was also torn on arrival. Unacceptable.',                 rating:2, date:'10 May 2025',status:'banned'},
+  {id:10, name:'Kamal Hossain',    initials:'KH', color:4, product:'Biryani Masala',     content:'Repeat customer here! Always consistent quality. I trust this brand completely for all my spice needs now.',               rating:5, date:'7 May 2025', status:'approved'},
+  {id:11, name:'Roksana Islam',    initials:'RI', color:0, product:'Black Pepper Whole', content:'Premium quality. No filler material, pure whole peppercorns. A bit pricier than market but absolutely worth every taka.',  rating:5, date:'4 May 2025', status:'approved'},
+  {id:12, name:'Delwar Mia',       initials:'DM', color:1, product:'Cumin Seeds',        content:'Smells very fresh, tastes completely authentic. Very happy with this purchase. Fast delivery as well.',                     rating:4, date:'30 Apr 2025',status:'approved'},
+  {id:13, name:'Parvin Sultana',   initials:'PS', color:2, product:'Garam Masala',       content:'Blend is slightly off — too much clove dominance. Expected a more balanced profile from a premium product line.',           rating:3, date:'26 Apr 2025',status:'pending'},
+  {id:14, name:'Nasima Tuli',      initials:'NT', color:3, product:'Cloves Whole',       content:'Perfect for tea and biryani. Aromatic and beautifully clean. Exactly what I expect from Shuddhota Co. every time.',        rating:5, date:'20 Apr 2025',status:'approved'},
+  {id:15, name:'Babul Roy',        initials:'BR', color:4, product:'Sesame Seeds',       content:'Creamy and wonderfully nutty. Used for making tahini at home and the result was absolutely amazing. High quality.',         rating:5, date:'15 Apr 2025',status:'approved'},
+  {id:16, name:'Khaleda Mitu',     initials:'KM', color:0, product:'Turmeric Powder',    content:'Bought for the second time now. Consistent quality every order. Will keep buying as long as this quality is maintained.',   rating:4, date:'10 Apr 2025',status:'approved'},
+  {id:17, name:'Shahedul Islam',   initials:'SI', color:1, product:'Poppy Seeds',        content:'Good product overall. Arrived well packaged and sealed. Will try more products from this store in future.',                  rating:4, date:'5 Apr 2025', status:'pending'},
+  {id:18, name:'Arif Chowdhury',   initials:'AC', color:2, product:'Fennel Seeds',       content:'Seeds look and smell fresh. Nice packaging. Only downside is the quantity was a little less than expected for the price.',  rating:3, date:'1 Apr 2025', status:'pending'},
+];
+
+let nextId = 19;
+let currentFilter = 'all';
+let currentPage = 1;
+const PER_PAGE = 8;
+let selected = new Set();
+let pendingDeleteId = null;
+let currentRating = 5;
+
+/* ══════════════════════════════════
+   HELPERS
+══════════════════════════════════ */
+function starsHTML(n, size='text-[13px]'){
+  return `<span class="text-primary ${size}">${'★'.repeat(n)}<span class="opacity-25">${'★'.repeat(5-n)}</span></span>`;
+}
+function statusBadge(s){
+  if(s==='approved') return `<span class="inline-flex items-center gap-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold px-2.5 py-1 rounded-full"><span class="material-symbols-outlined text-[11px]">check_circle</span>Approved</span>`;
+  if(s==='banned')   return `<span class="inline-flex items-center gap-1 bg-error-container text-error text-[10px] font-bold px-2.5 py-1 rounded-full"><span class="material-symbols-outlined text-[11px]">block</span>Banned</span>`;
+  return `<span class="inline-flex items-center gap-1 bg-primary-fixed text-on-primary-container text-[10px] font-bold px-2.5 py-1 rounded-full badge-pulse"><span class="material-symbols-outlined text-[11px]">schedule</span>Pending</span>`;
+}
+function initials(name){
+  return name.trim().split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase();
+}
+
+/* ══════════════════════════════════
+   FILTERS & DATA
+══════════════════════════════════ */
+function getFiltered(){
+  const q = (document.getElementById('search-input').value||'').toLowerCase();
+  const star = document.getElementById('star-filter').value;
+  return reviews.filter(r=>{
+    if(currentFilter !== 'all' && r.status !== currentFilter) return false;
+    if(star && r.rating !== parseInt(star)) return false;
+    if(q && !r.name.toLowerCase().includes(q) && !r.product.toLowerCase().includes(q) && !r.content.toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+
+function setFilter(f){
+  currentFilter = f;
+  currentPage = 1;
+  selected.clear();
+  document.querySelectorAll('.filt-btn').forEach(b=>{
+    const isActive = b.dataset.filter === f;
+    b.className = b.className.replace(/bg-primary text-white|bg-surface-container text-on-surface-variant/g,'').trim();
+    b.classList.add(isActive ? 'bg-primary' : 'bg-surface-container', isActive ? 'text-white' : 'text-on-surface-variant');
+  });
+  applyFilters();
+}
+
+function applyFilters(){
+  currentPage = 1;
+  selected.clear();
+  const si = document.getElementById('search-input');
+  document.getElementById('search-clear').classList.toggle('hidden', !si.value);
+  render();
+}
+
+function clearSearch(){
+  document.getElementById('search-input').value='';
+  document.getElementById('search-clear').classList.add('hidden');
+  applyFilters();
+}
+
+/* ══════════════════════════════════
+   RENDER
+══════════════════════════════════ */
+function render(){
+  updateStats();
+  const filtered = getFiltered();
+  const total = filtered.length;
+  const maxPage = Math.max(1, Math.ceil(total/PER_PAGE));
+  if(currentPage > maxPage) currentPage = maxPage;
+  const slice = filtered.slice((currentPage-1)*PER_PAGE, currentPage*PER_PAGE);
+
+  /* ── Desktop table ── */
+  const tbody = document.getElementById('table-body');
+  const tEmpty = document.getElementById('table-empty');
+  if(slice.length === 0){
+    tbody.innerHTML='';
+    tEmpty.classList.remove('hidden'); tEmpty.classList.add('flex');
+  } else {
+    tEmpty.classList.add('hidden'); tEmpty.classList.remove('flex');
+    tbody.innerHTML = slice.map(r=>`
+      <tr class="trow">
+        <td class="px-5 py-3.5">
+          <input type="checkbox" class="row-cb w-4 h-4 rounded cursor-pointer accent-primary" data-id="${r.id}" ${selected.has(r.id)?'checked':''} onchange="toggleOne(${r.id},this.checked)"/>
+        </td>
+        <td class="px-3 py-3.5">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-full ${AVATAR_COLORS[r.color]} flex items-center justify-center text-[10px] font-extrabold shrink-0">${r.initials}</div>
+            <span class="font-semibold text-on-surface text-[13px] whitespace-nowrap">${r.name}</span>
+          </div>
+        </td>
+        <td class="px-3 py-3.5 text-[12px] text-on-surface-variant whitespace-nowrap">${r.product}</td>
+        <td class="px-3 py-3.5 text-[12px] text-on-surface-variant max-w-[200px]">
+          <p class="line-clamp-2">${r.content}</p>
+        </td>
+        <td class="px-3 py-3.5">${starsHTML(r.rating)}</td>
+        <td class="px-3 py-3.5 text-[12px] text-on-surface-variant whitespace-nowrap">${r.date}</td>
+        <td class="px-3 py-3.5">${statusBadge(r.status)}</td>
+        <td class="px-3 py-3.5">
+          <div class="flex items-center gap-1">
+            ${r.status!=='approved'?`<button title="Approve" onclick="quickStatus(${r.id},'approved')" class="w-7 h-7 rounded-lg bg-secondary-container text-on-secondary-container hover:opacity-75 flex items-center justify-center transition-opacity"><span class="material-symbols-outlined text-[14px]">check</span></button>`:''}
+            ${r.status!=='pending' ?`<button title="Set Pending" onclick="quickStatus(${r.id},'pending')"  class="w-7 h-7 rounded-lg bg-primary-fixed text-on-primary-container hover:opacity-75 flex items-center justify-center transition-opacity"><span class="material-symbols-outlined text-[14px]">schedule</span></button>`:''}
+            ${r.status!=='banned'  ?`<button title="Ban" onclick="quickStatus(${r.id},'banned')"    class="w-7 h-7 rounded-lg bg-error-container text-error hover:opacity-75 flex items-center justify-center transition-opacity"><span class="material-symbols-outlined text-[14px]">block</span></button>`:''}
+            <button title="Edit"   onclick="openModal('edit',${r.id})"  class="w-7 h-7 rounded-lg bg-surface-container text-on-surface-variant hover:bg-surface-container-high flex items-center justify-center transition-colors"><span class="material-symbols-outlined text-[14px]">edit</span></button>
+            <button title="Delete" onclick="openDelModal(${r.id})" class="w-7 h-7 rounded-lg bg-surface-container text-on-surface-variant hover:bg-error-container hover:text-error flex items-center justify-center transition-colors"><span class="material-symbols-outlined text-[14px]">delete</span></button>
+          </div>
+        </td>
+      </tr>`).join('');
+  }
+  /* select-all checkbox */
+  const saCb = document.getElementById('select-all-cb');
+  if(saCb){
+    saCb.checked = slice.length>0 && slice.every(r=>selected.has(r.id));
+    saCb.indeterminate = slice.some(r=>selected.has(r.id)) && !saCb.checked;
+  }
+
+  /* ── Mobile cards ── */
+  const cList = document.getElementById('card-list');
+  const cEmpty = document.getElementById('card-empty');
+  if(slice.length===0){
+    cList.innerHTML=''; cEmpty.classList.remove('hidden'); cEmpty.classList.add('flex');
+  } else {
+    cEmpty.classList.add('hidden'); cEmpty.classList.remove('flex');
+    cList.innerHTML = slice.map(r=>`
+      <div class="bg-surface-container-lowest border border-outline-variant/30 rounded-[18px] p-4 shadow-sm">
+        <div class="flex items-start gap-3">
+          <input type="checkbox" class="w-4 h-4 rounded cursor-pointer accent-primary mt-0.5 shrink-0" ${selected.has(r.id)?'checked':''} onchange="toggleOne(${r.id},this.checked)"/>
+          <div class="w-10 h-10 rounded-full ${AVATAR_COLORS[r.color]} flex items-center justify-center text-[11px] font-extrabold shrink-0">${r.initials}</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-2 mb-1">
+              <div>
+                <p class="font-bold text-on-surface text-[14px] leading-tight">${r.name}</p>
+                <p class="text-[11px] text-on-surface-variant">${r.product} · ${r.date}</p>
+              </div>
+              ${statusBadge(r.status)}
+            </div>
+            <div class="mb-2">${starsHTML(r.rating,'text-[15px]')}</div>
+            <p class="text-[12px] text-on-surface-variant line-clamp-2">${r.content}</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 mt-3 pt-3 border-t border-outline-variant/15 flex-wrap">
+          ${r.status!=='approved'?`<button onclick="quickStatus(${r.id},'approved')" class="flex items-center gap-1 text-[11px] font-semibold bg-secondary-container text-on-secondary-container px-3 py-1.5 rounded-full hover:opacity-75 transition-opacity"><span class="material-symbols-outlined text-[13px]">check_circle</span>Approve</button>`:''}
+          ${r.status!=='banned'  ?`<button onclick="quickStatus(${r.id},'banned')"   class="flex items-center gap-1 text-[11px] font-semibold bg-error-container text-error px-3 py-1.5 rounded-full hover:opacity-75 transition-opacity"><span class="material-symbols-outlined text-[13px]">block</span>Ban</button>`:''}
+          ${r.status!=='pending' ?`<button onclick="quickStatus(${r.id},'pending')"  class="flex items-center gap-1 text-[11px] font-semibold bg-primary-fixed text-on-primary-container px-3 py-1.5 rounded-full hover:opacity-75 transition-opacity"><span class="material-symbols-outlined text-[13px]">schedule</span>Pending</button>`:''}
+          <button onclick="openModal('edit',${r.id})"  class="flex items-center gap-1 text-[11px] font-semibold bg-surface-container text-on-surface-variant px-3 py-1.5 rounded-full hover:bg-surface-container-high transition-colors"><span class="material-symbols-outlined text-[13px]">edit</span>Edit</button>
+          <button onclick="openDelModal(${r.id})" class="flex items-center gap-1 text-[11px] font-semibold bg-surface-container text-error px-3 py-1.5 rounded-full hover:bg-error-container transition-colors ml-auto"><span class="material-symbols-outlined text-[13px]">delete</span>Delete</button>
+        </div>
+      </div>`).join('');
+  }
+
+  /* ── Pagination ── */
+  document.getElementById('page-info').textContent = total===0 ? '' :
+    `Showing ${(currentPage-1)*PER_PAGE+1}–${Math.min(currentPage*PER_PAGE,total)} of ${total} reviews`;
+  document.getElementById('btn-prev').disabled = currentPage<=1;
+  document.getElementById('btn-next').disabled = currentPage>=maxPage;
+  const pnums = document.getElementById('page-nums');
+  pnums.innerHTML='';
+  const start = Math.max(1,currentPage-2), end = Math.min(maxPage,start+4);
+  for(let p=start;p<=end;p++){
+    const btn=document.createElement('button');
+    btn.textContent=p;
+    btn.className=`w-8 h-8 rounded-xl text-[12px] font-bold flex items-center justify-center transition-colors ${p===currentPage?'bg-primary text-white':'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'}`;
+    btn.onclick=()=>{currentPage=p;render();};
+    pnums.appendChild(btn);
+  }
+
+  /* ── Bulk bar ── */
+  const bb = document.getElementById('bulk-bar');
+  bb.classList.toggle('hidden', selected.size===0);
+  bb.classList.toggle('flex', selected.size>0);
+  document.getElementById('bulk-count').textContent = selected.size+' selected';
+
+  /* ── Pending badge ── */
+  const pendingCount = reviews.filter(r=>r.status==='pending').length;
+  document.getElementById('pending-badge').textContent = pendingCount;
+  document.getElementById('pending-badge').classList.toggle('hidden', pendingCount===0);
+}
+
+function updateStats(){
+  document.getElementById('stat-total').textContent    = reviews.length;
+  document.getElementById('stat-approved').textContent = reviews.filter(r=>r.status==='approved').length;
+  document.getElementById('stat-pending').textContent  = reviews.filter(r=>r.status==='pending').length;
+  document.getElementById('stat-banned').textContent   = reviews.filter(r=>r.status==='banned').length;
+}
+
+function goPage(dir){
+  const filtered = getFiltered();
+  const max = Math.max(1,Math.ceil(filtered.length/PER_PAGE));
+  currentPage = Math.max(1,Math.min(max,currentPage+dir));
+  render();
+}
+
+/* ══════════════════════════════════
+   SELECTION
+══════════════════════════════════ */
+function toggleSelectAll(cb){
+  const filtered = getFiltered();
+  const slice = filtered.slice((currentPage-1)*PER_PAGE, currentPage*PER_PAGE);
+  slice.forEach(r=> cb.checked ? selected.add(r.id) : selected.delete(r.id));
+  render();
+}
+function toggleOne(id,checked){
+  checked ? selected.add(id) : selected.delete(id);
+  /* update select-all state */
+  const filtered = getFiltered();
+  const slice = filtered.slice((currentPage-1)*PER_PAGE, currentPage*PER_PAGE);
+  const saCb = document.getElementById('select-all-cb');
+  if(saCb){
+    saCb.checked = slice.length>0 && slice.every(r=>selected.has(r.id));
+    saCb.indeterminate = slice.some(r=>selected.has(r.id)) && !saCb.checked;
+  }
+  const bb = document.getElementById('bulk-bar');
+  bb.classList.toggle('hidden', selected.size===0);
+  bb.classList.toggle('flex', selected.size>0);
+  document.getElementById('bulk-count').textContent = selected.size+' selected';
+}
+function clearSelection(){ selected.clear(); render(); }
+
+function bulkAction(action){
+  if(!selected.size) return;
+  if(action==='delete'){
+    reviews = reviews.filter(r=>!selected.has(r.id));
+    toast('delete','Reviews deleted');
+  } else {
+    reviews.forEach(r=>{ if(selected.has(r.id)) r.status=action; });
+    toast('check_circle','Reviews '+(action==='approved'?'approved':'banned'));
+  }
+  selected.clear();
+  render();
+}
+
+/* ══════════════════════════════════
+   QUICK STATUS
+══════════════════════════════════ */
+function quickStatus(id, status){
+  const r = reviews.find(x=>x.id===id);
+  if(!r) return;
+  r.status = status;
+  render();
+  const labels={approved:'Approved',banned:'Banned',pending:'Set to Pending'};
+  const icons ={approved:'check_circle',banned:'block',pending:'schedule'};
+  toast(icons[status], labels[status]);
+}
+
+/* ══════════════════════════════════
+   ADD / EDIT MODAL
+══════════════════════════════════ */
+function openModal(mode, id){
+  const m = document.getElementById('modal');
+  m.classList.remove('hidden');
+  m.classList.add('flex');
+  document.getElementById('modal-error').classList.add('hidden');
+
+  if(mode==='edit' && id!=null){
+    const r = reviews.find(x=>x.id===id);
+    if(!r) return;
+    document.getElementById('modal-title').textContent = 'Edit Review';
+    document.getElementById('modal-id').value = r.id;
+    document.getElementById('modal-name').value = r.name;
+    document.getElementById('modal-product').value = r.product;
+    document.getElementById('modal-content').value = r.content;
+    document.getElementById('modal-status').value = r.status;
+    setRating(r.rating);
+  } else {
+    document.getElementById('modal-title').textContent = 'Add Review';
+    document.getElementById('modal-id').value = '';
+    document.getElementById('modal-name').value = '';
+    document.getElementById('modal-product').value = '';
+    document.getElementById('modal-content').value = '';
+    document.getElementById('modal-status').value = 'approved';
+    setRating(5);
+  }
+}
+function closeModal(){
+  const m = document.getElementById('modal');
+  m.classList.add('hidden');
+  m.classList.remove('flex');
+}
+function setRating(n){
+  currentRating = n;
+  document.getElementById('modal-rating').value = n;
+  document.querySelectorAll('.star-btn').forEach((s,i)=>{
+    s.style.color = i<n ? '#9f4122' : '#ddc0b8';
+  });
+}
+function saveReview(){
+  const name    = document.getElementById('modal-name').value.trim();
+  const product = document.getElementById('modal-product').value.trim();
+  const content = document.getElementById('modal-content').value.trim();
+  const rating  = parseInt(document.getElementById('modal-rating').value)||5;
+  const status  = document.getElementById('modal-status').value;
+  const errEl   = document.getElementById('modal-error');
+
+  if(!name||!product||!content){
+    errEl.classList.remove('hidden'); return;
+  }
+  errEl.classList.add('hidden');
+
+  const editId = document.getElementById('modal-id').value;
+  if(editId){
+    const r = reviews.find(x=>x.id===parseInt(editId));
+    if(r){ r.name=name; r.initials=initials(name); r.product=product; r.content=content; r.rating=rating; r.status=status; }
+    toast('edit','Review updated');
+  } else {
+    reviews.unshift({id:nextId++,name,initials:initials(name),color:Math.floor(Math.random()*5),product,content,rating,date:'Today',status});
+    toast('add_circle','Review added');
+  }
+  closeModal();
+  render();
+}
+
+/* ══════════════════════════════════
+   DELETE MODAL
+══════════════════════════════════ */
+function openDelModal(id){
+  pendingDeleteId = id;
+  const m = document.getElementById('del-modal');
+  m.classList.remove('hidden');
+  m.classList.add('flex');
+}
+function closeDelModal(){
+  pendingDeleteId = null;
+  const m = document.getElementById('del-modal');
+  m.classList.add('hidden');
+  m.classList.remove('flex');
+}
+function confirmDelete(){
+  if(pendingDeleteId!=null){
+    reviews = reviews.filter(r=>r.id!==pendingDeleteId);
+    render();
+    toast('delete','Review deleted');
+  }
+  closeDelModal();
+}
+
+/* ══════════════════════════════════
+   TOAST
+══════════════════════════════════ */
+let toastTimer;
+function toast(icon, msg){
+  const inner = document.getElementById('toast-inner');
+  document.getElementById('toast-icon').textContent = icon;
+  document.getElementById('toast-msg').textContent  = msg;
+  clearTimeout(toastTimer);
+  inner.style.opacity='1'; inner.style.transform='translateY(0)';
+  toastTimer = setTimeout(()=>{ inner.style.opacity='0'; inner.style.transform='translateY(12px)'; },2600);
+}
+
+/* ── Init ── */
+render();
+</script>
+</body>
+</html>

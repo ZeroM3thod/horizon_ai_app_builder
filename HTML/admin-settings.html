@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings — Shuddhota Co. Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Sidebar */
+  .sidebar { transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), width 0.3s cubic-bezier(0.4,0,0.2,1); }
+  .sidebar-overlay { transition: opacity 0.3s ease; }
+  .nav-item { transition: background 0.18s, color 0.18s, transform 0.18s; }
+  .nav-item:hover { transform: translateX(3px); }
+  .nav-item.active { background: rgba(159,65,34,0.10); color: #9f4122; }
+  .nav-item.active .nav-icon { color: #9f4122; }
+
+  /* Scrollbar */
+  .hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #ddc0b8; border-radius: 99px; }
+
+  /* Badge pulse */
+  .badge-pulse { animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.55} }
+
+  /* Collapse sidebar on mobile */
+  @media (max-width: 1023px) {
+    .sidebar { position: fixed; z-index: 50; transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+  }
+
+  /* Mini sidebar */
+  .sidebar-mini { width: 72px !important; }
+  .sidebar-mini .sidebar-label { display: none; }
+  .sidebar-mini .sidebar-logo-text { display: none; }
+  .sidebar-mini .sidebar-section-title { display: none; }
+  .sidebar-mini .nav-item { justify-content: center; padding-left: 0; padding-right: 0; }
+  .sidebar-mini .nav-badge { display: none; }
+
+  /* Smooth content shift */
+  .main-content { transition: margin-left 0.3s cubic-bezier(0.4,0,0.2,1); }
+
+  /* Animate in */
+  @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+  .fade-up { animation: fadeUp 0.4s ease both; }
+  .fade-up-1 { animation-delay: 0.05s; }
+  .fade-up-2 { animation-delay: 0.10s; }
+  .fade-up-3 { animation-delay: 0.15s; }
+  .fade-up-4 { animation-delay: 0.20s; }
+  .fade-up-5 { animation-delay: 0.25s; }
+  .fade-up-6 { animation-delay: 0.30s; }
+
+  /* Settings tabs */
+  .settings-tab { transition: all 0.18s; cursor: pointer; }
+  .settings-tab.active { background: #9f4122; color: #fff; }
+  .settings-tab:not(.active):hover { background: rgba(159,65,34,0.08); color: #9f4122; }
+
+  /* Toggle switch */
+  .toggle-track { transition: background 0.2s; }
+  .toggle-thumb { transition: transform 0.2s, box-shadow 0.2s; }
+  .toggle-on .toggle-track { background: #9f4122; }
+  .toggle-on .toggle-thumb { transform: translateX(20px); box-shadow: 0 2px 6px rgba(159,65,34,0.35); }
+  .toggle-off .toggle-track { background: #ddc0b8; }
+  .toggle-off .toggle-thumb { transform: translateX(0); box-shadow: 0 1px 3px rgba(0,0,0,0.15); }
+
+  /* Input focus */
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #9f4122 !important;
+    box-shadow: 0 0 0 3px rgba(159,65,34,0.10);
+  }
+
+  /* Settings card hover */
+  .settings-card { transition: box-shadow 0.2s, transform 0.2s; }
+  .settings-card:hover { box-shadow: 0 8px 28px rgba(159,65,34,0.08); }
+
+  /* Danger zone button */
+  .btn-danger { transition: background 0.18s, box-shadow 0.18s; }
+  .btn-danger:hover { background: #ba1a1a; color: #fff; box-shadow: 0 4px 16px rgba(186,26,26,0.25); }
+
+  /* Save button */
+  .btn-primary { transition: background 0.18s, box-shadow 0.18s, transform 0.18s; }
+  .btn-primary:hover { background: #7a321a; box-shadow: 0 4px 16px rgba(159,65,34,0.30); transform: translateY(-1px); }
+  .btn-primary:active { transform: translateY(0); }
+
+  /* Tabs panel */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* Toast */
+  #toast { transition: opacity 0.3s, transform 0.3s; }
+  #toast.show { opacity:1 !important; transform: translateY(0) !important; }
+
+  /* Mobile tab scroll */
+  .tabs-scroll { scrollbar-width: none; }
+  .tabs-scroll::-webkit-scrollbar { display: none; }
+
+  /* Avatar upload */
+  .avatar-ring { box-shadow: 0 0 0 3px #fff, 0 0 0 5px rgba(159,65,34,0.30); }
+
+  /* Security key row */
+  .key-row { transition: background 0.15s; }
+  .key-row:hover { background: rgba(248,243,234,0.8); }
+</style>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary":             "#9f4122",
+          "primary-container":   "#ff8a65",
+          "primary-fixed":       "#ffdbd0",
+          "primary-fixed-dim":   "#ffb59e",
+          "on-primary":          "#ffffff",
+          "on-primary-container":"#752305",
+          "secondary":           "#556500",
+          "secondary-container": "#d6ed7a",
+          "secondary-fixed":     "#d6ed7a",
+          "secondary-fixed-dim": "#bbd062",
+          "on-secondary":        "#ffffff",
+          "on-secondary-container":"#5a6c00",
+          "tertiary":            "#326578",
+          "tertiary-container":  "#80b1c7",
+          "tertiary-fixed":      "#bbe9ff",
+          "on-tertiary":         "#ffffff",
+          "on-tertiary-container":"#074457",
+          "error":               "#ba1a1a",
+          "error-container":     "#ffdad6",
+          "on-error":            "#ffffff",
+          "surface":             "#fff9ee",
+          "surface-bright":      "#fff9ee",
+          "surface-dim":         "#dfd9cf",
+          "surface-variant":     "#e8e2d7",
+          "surface-container":   "#f3ede2",
+          "surface-container-low":"#f9f3e8",
+          "surface-container-high":"#ede8dd",
+          "surface-container-highest":"#e8e2d7",
+          "surface-container-lowest":"#ffffff",
+          "on-surface":          "#1d1c15",
+          "on-surface-variant":  "#56423c",
+          "outline":             "#89726b",
+          "outline-variant":     "#ddc0b8",
+          "inverse-surface":     "#333029",
+          "inverse-on-surface":  "#f6f0e5",
+          "inverse-primary":     "#ffb59e",
+          "background":          "#fff9ee",
+          "on-background":       "#1d1c15",
+        },
+        borderRadius: {
+          DEFAULT: "1rem",
+          lg: "2rem",
+          xl: "3rem",
+          full: "9999px"
+        },
+        fontFamily: {
+          sans: ["Plus Jakarta Sans", "sans-serif"]
+        }
+      }
+    }
+  }
+</script>
+</head>
+
+<body class="bg-background text-on-background font-sans antialiased overflow-x-hidden">
+
+<!-- ─── SIDEBAR OVERLAY (mobile) ─── -->
+<div id="sidebar-overlay" class="sidebar-overlay fixed inset-0 bg-black/40 z-40 opacity-0 pointer-events-none lg:hidden" onclick="closeSidebar()"></div>
+
+<!-- ═══════ SIDEBAR ═══════ -->
+<aside id="sidebar" class="sidebar bg-surface-container-lowest border-r border-outline-variant/30 h-screen w-64 flex flex-col overflow-hidden lg:fixed top-0 left-0 shadow-xl lg:shadow-none">
+
+  <!-- Logo -->
+  <div class="flex items-center gap-3 px-5 h-16 border-b border-outline-variant/20 shrink-0">
+    <div class="w-9 h-9 rounded-full bg-primary flex items-center justify-center shadow-md">
+      <span class="material-symbols-outlined text-on-primary text-[18px]">shopping_basket</span>
+    </div>
+    <div class="sidebar-logo-text">
+      <div class="font-bold text-[15px] text-on-surface leading-none">Shuddhota Co.</div>
+      <div class="text-[10px] text-on-surface-variant mt-0.5 font-medium uppercase tracking-wider">Admin Panel</div>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="flex-1 overflow-y-auto hide-scrollbar py-4 px-3 space-y-0.5">
+    <p class="sidebar-section-title text-[10px] text-on-surface-variant uppercase tracking-widest font-bold px-3 pt-1 pb-2">Main</p>
+
+    <a href="#" onclick="setNav(this,'dashboard')" data-section="dashboard" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">dashboard</span>
+      <span class="sidebar-label">Dashboard</span>
+    </a>
+    <a href="#" onclick="setNav(this,'products')" data-section="products" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">inventory_2</span>
+      <span class="sidebar-label">All Products</span>
+      <span class="nav-badge ml-auto bg-secondary-container text-on-secondary-container text-[10px] font-bold px-2 py-0.5 rounded-full">48</span>
+    </a>
+    <a href="#" onclick="setNav(this,'users')" data-section="users" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">group</span>
+      <span class="sidebar-label">Users</span>
+      <span class="nav-badge ml-auto bg-tertiary-container text-on-tertiary-container text-[10px] font-bold px-2 py-0.5 rounded-full">1.2k</span>
+    </a>
+    <a href="#" onclick="setNav(this,'orders')" data-section="orders" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">receipt_long</span>
+      <span class="sidebar-label">Orders</span>
+      <span class="nav-badge ml-auto bg-primary-fixed text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded-full badge-pulse">7</span>
+    </a>
+    <a href="#" onclick="setNav(this,'reviews')" data-section="reviews" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">rate_review</span>
+      <span class="sidebar-label">Reviews</span>
+    </a>
+    <a href="#" onclick="setNav(this,'coupons')" data-section="coupons" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">local_offer</span>
+      <span class="sidebar-label">Coupons</span>
+    </a>
+
+    <div class="h-px bg-outline-variant/30 my-3 mx-2"></div>
+    <p class="sidebar-section-title text-[10px] text-on-surface-variant uppercase tracking-widest font-bold px-3 pb-2">System</p>
+
+    <a href="#" data-section="settings" class="nav-item active flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">settings</span>
+      <span class="sidebar-label">Settings</span>
+    </a>
+    <a href="index.html" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium text-[14px] text-on-surface cursor-pointer select-none">
+      <span class="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">storefront</span>
+      <span class="sidebar-label">View Store</span>
+    </a>
+  </nav>
+
+  <!-- Admin profile -->
+  <div class="px-3 py-4 border-t border-outline-variant/20 shrink-0">
+    <div class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-surface-container transition-colors cursor-pointer">
+      <div class="w-8 h-8 rounded-full bg-primary-fixed-dim flex items-center justify-center shrink-0 font-bold text-[13px] text-on-primary-container">RA</div>
+      <div class="sidebar-label flex-1 min-w-0">
+        <div class="text-[13px] font-semibold text-on-surface truncate">Rakib Admin</div>
+        <div class="text-[11px] text-on-surface-variant truncate">admin@shuddhota.com</div>
+      </div>
+      <span class="sidebar-label material-symbols-outlined text-on-surface-variant text-[18px]">logout</span>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══════ MAIN CONTENT ═══════ -->
+<div id="main-content" class="main-content lg:ml-64 min-h-screen flex flex-col pb-20 lg:pb-0">
+
+  <!-- ─── TOPBAR ─── -->
+  <header class="sticky top-0 z-30 bg-surface/80 backdrop-blur-xl border-b border-outline-variant/20 flex items-center justify-between px-4 md:px-6 h-16 shrink-0">
+    <div class="flex items-center gap-3">
+      <button onclick="toggleSidebar()" class="lg:hidden w-9 h-9 rounded-xl flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant">
+        <span id="hamburger-icon" class="material-symbols-outlined text-[22px]">menu</span>
+      </button>
+      <button onclick="toggleMiniSidebar()" class="hidden lg:flex w-9 h-9 rounded-xl items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant">
+        <span class="material-symbols-outlined text-[22px]">menu_open</span>
+      </button>
+      <div class="hidden sm:flex items-center gap-2 text-[13px]">
+        <span class="text-on-surface-variant">Admin</span>
+        <span class="material-symbols-outlined text-[14px] text-on-surface-variant">chevron_right</span>
+        <span class="text-on-surface font-semibold">Settings</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="hidden md:flex items-center gap-2 bg-surface-container rounded-full px-4 py-2 border border-outline-variant/30 w-48 xl:w-64">
+        <span class="material-symbols-outlined text-on-surface-variant text-[18px]">search</span>
+        <input type="text" placeholder="Search settings..." class="bg-transparent text-[13px] text-on-surface placeholder:text-outline border-none focus:ring-0 w-full p-0" style="box-shadow:none;"/>
+      </div>
+      <button class="relative w-9 h-9 rounded-xl flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant">
+        <span class="material-symbols-outlined text-[22px]">notifications</span>
+        <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full border-2 border-surface badge-pulse"></span>
+      </button>
+      <div class="hidden lg:flex items-center gap-1.5 bg-surface-container rounded-full px-3 py-2 border border-outline-variant/20 text-[12px] text-on-surface-variant font-medium">
+        <span class="material-symbols-outlined text-[16px]">calendar_today</span>
+        <span id="current-date"></span>
+      </div>
+      <div class="w-8 h-8 rounded-full bg-primary-fixed-dim flex items-center justify-center font-bold text-[12px] text-on-primary-container cursor-pointer">RA</div>
+    </div>
+  </header>
+
+  <!-- ─── PAGE CONTENT ─── -->
+  <main class="flex-1 p-4 md:p-6 xl:p-8">
+
+    <!-- Page header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 fade-up">
+      <div>
+        <h1 class="text-[22px] md:text-[28px] font-extrabold text-on-surface tracking-tight">Settings</h1>
+        <p class="text-[13px] text-on-surface-variant mt-0.5">Manage your store, account, and preferences</p>
+      </div>
+      <button onclick="saveAll()" class="btn-primary bg-primary text-on-primary text-[13px] font-semibold px-5 py-2.5 rounded-full flex items-center gap-2 shadow-md self-start sm:self-auto">
+        <span class="material-symbols-outlined text-[16px]">save</span>
+        Save All Changes
+      </button>
+    </div>
+
+    <!-- ─── SETTINGS TABS ─── -->
+    <div class="fade-up fade-up-1 overflow-x-auto tabs-scroll mb-6">
+      <div class="flex gap-2 min-w-max">
+        <button class="settings-tab active text-[13px] font-semibold px-4 py-2 rounded-full flex items-center gap-1.5" onclick="switchTab('store',this)">
+          <span class="material-symbols-outlined text-[16px]">storefront</span> Store
+        </button>
+        <button class="settings-tab text-[13px] font-medium px-4 py-2 rounded-full text-on-surface-variant flex items-center gap-1.5" onclick="switchTab('notifications',this)">
+          <span class="material-symbols-outlined text-[16px]">notifications</span> Notifications
+        </button>
+        <button class="settings-tab text-[13px] font-medium px-4 py-2 rounded-full text-on-surface-variant flex items-center gap-1.5" onclick="switchTab('shipping',this)">
+          <span class="material-symbols-outlined text-[16px]">local_shipping</span> Shipping
+        </button>
+        <button class="settings-tab text-[13px] font-medium px-4 py-2 rounded-full text-on-surface-variant flex items-center gap-1.5" onclick="switchTab('payment',this)">
+          <span class="material-symbols-outlined text-[16px]">payments</span> Payment
+        </button>
+        <button class="settings-tab text-[13px] font-medium px-4 py-2 rounded-full text-on-surface-variant flex items-center gap-1.5" onclick="switchTab('account',this)">
+          <span class="material-symbols-outlined text-[16px]">manage_accounts</span> Account
+        </button>
+        <button class="settings-tab text-[13px] font-medium px-4 py-2 rounded-full text-on-surface-variant flex items-center gap-1.5" onclick="switchTab('security',this)">
+          <span class="material-symbols-outlined text-[16px]">shield</span> Security
+        </button>
+        <button class="settings-tab text-[13px] font-medium px-4 py-2 rounded-full text-on-surface-variant flex items-center gap-1.5" onclick="switchTab('appearance',this)">
+          <span class="material-symbols-outlined text-[16px]">palette</span> Appearance
+        </button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════
+         TAB: STORE
+    ══════════════════════════════════ -->
+    <div id="tab-store" class="tab-panel active space-y-5">
+
+      <!-- Store Info + Logo -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 fade-up fade-up-2">
+
+        <!-- Store info -->
+        <div class="lg:col-span-2 settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-5 pb-4 border-b border-outline-variant/15">
+            <div class="w-9 h-9 rounded-xl bg-primary-fixed flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary text-[18px]">storefront</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-[15px] text-on-surface">Store Information</h3>
+              <p class="text-[11px] text-on-surface-variant">Basic details shown to customers</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Store Name</label>
+              <input type="text" value="Shuddhota Co." class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface transition-all"/>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Store Tagline</label>
+              <input type="text" value="Pure. Fresh. Authentic." class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface transition-all"/>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Support Email</label>
+              <input type="email" value="support@shuddhota.com" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface transition-all"/>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Phone Number</label>
+              <input type="text" value="+880 1700-000000" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface transition-all"/>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Store Address</label>
+              <textarea rows="2" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface transition-all resize-none">House 12, Road 5, Dhanmondi, Dhaka 1205, Bangladesh</textarea>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Currency</label>
+              <select class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface transition-all appearance-none cursor-pointer">
+                <option selected>BDT — Bangladeshi Taka (৳)</option>
+                <option>USD — US Dollar ($)</option>
+                <option>EUR — Euro (€)</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Timezone</label>
+              <select class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface transition-all appearance-none cursor-pointer">
+                <option selected>Asia/Dhaka (UTC+6)</option>
+                <option>Asia/Kolkata (UTC+5:30)</option>
+                <option>UTC+0</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logo & branding -->
+        <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm flex flex-col gap-5">
+          <div>
+            <div class="flex items-center gap-3 mb-5 pb-4 border-b border-outline-variant/15">
+              <div class="w-9 h-9 rounded-xl bg-secondary-fixed flex items-center justify-center">
+                <span class="material-symbols-outlined text-secondary text-[18px]">image</span>
+              </div>
+              <div>
+                <h3 class="font-bold text-[15px] text-on-surface">Store Logo</h3>
+                <p class="text-[11px] text-on-surface-variant">512×512 px recommended</p>
+              </div>
+            </div>
+            <div class="flex flex-col items-center gap-4">
+              <div class="relative">
+                <div class="w-24 h-24 rounded-2xl bg-primary flex items-center justify-center shadow-lg avatar-ring">
+                  <span class="material-symbols-outlined text-on-primary text-[40px]">shopping_basket</span>
+                </div>
+                <button class="absolute -bottom-1.5 -right-1.5 w-8 h-8 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-md hover:bg-primary/90 transition-colors">
+                  <span class="material-symbols-outlined text-[15px]">edit</span>
+                </button>
+              </div>
+              <button class="w-full border-2 border-dashed border-outline-variant/50 rounded-xl py-3 text-[12px] font-medium text-on-surface-variant hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined text-[16px]">upload</span> Upload Logo
+              </button>
+              <p class="text-[11px] text-on-surface-variant text-center">PNG, JPG, SVG up to 2MB</p>
+            </div>
+          </div>
+
+          <!-- Favicon -->
+          <div class="pt-4 border-t border-outline-variant/15">
+            <p class="text-[12px] font-bold text-on-surface mb-1">Favicon</p>
+            <p class="text-[11px] text-on-surface-variant mb-3">32×32 px browser tab icon</p>
+            <button class="w-full border-2 border-dashed border-outline-variant/50 rounded-xl py-2.5 text-[12px] font-medium text-on-surface-variant hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2">
+              <span class="material-symbols-outlined text-[16px]">upload</span> Upload Favicon
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Store Hours + Social -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 fade-up fade-up-3">
+
+        <!-- Store hours -->
+        <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-5 pb-4 border-b border-outline-variant/15">
+            <div class="w-9 h-9 rounded-xl bg-tertiary-fixed flex items-center justify-center">
+              <span class="material-symbols-outlined text-tertiary text-[18px]">schedule</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-[15px] text-on-surface">Business Hours</h3>
+              <p class="text-[11px] text-on-surface-variant">Shown on store contact page</p>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <!-- Day row helper repeated -->
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-2 w-28">
+                <div class="toggle-on cursor-pointer" onclick="this.classList.toggle('toggle-on');this.classList.toggle('toggle-off')">
+                  <div class="toggle-track w-11 h-6 rounded-full relative">
+                    <div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div>
+                  </div>
+                </div>
+                <span class="text-[13px] font-medium text-on-surface">Mon</span>
+              </div>
+              <input type="text" value="09:00" class="flex-1 bg-surface-container border border-outline-variant/30 rounded-xl px-3 py-2 text-[12px] text-on-surface text-center"/>
+              <span class="text-[12px] text-on-surface-variant">–</span>
+              <input type="text" value="21:00" class="flex-1 bg-surface-container border border-outline-variant/30 rounded-xl px-3 py-2 text-[12px] text-on-surface text-center"/>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-2 w-28">
+                <div class="toggle-on cursor-pointer" onclick="this.classList.toggle('toggle-on');this.classList.toggle('toggle-off')">
+                  <div class="toggle-track w-11 h-6 rounded-full relative">
+                    <div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div>
+                  </div>
+                </div>
+                <span class="text-[13px] font-medium text-on-surface">Tue</span>
+              </div>
+              <input type="text" value="09:00" class="flex-1 bg-surface-container border border-outline-variant/30 rounded-xl px-3 py-2 text-[12px] text-on-surface text-center"/>
+              <span class="text-[12px] text-on-surface-variant">–</span>
+              <input type="text" value="21:00" class="flex-1 bg-surface-container border border-outline-variant/30 rounded-xl px-3 py-2 text-[12px] text-on-surface text-center"/>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-2 w-28">
+                <div class="toggle-on cursor-pointer" onclick="this.classList.toggle('toggle-on');this.classList.toggle('toggle-off')">
+                  <div class="toggle-track w-11 h-6 rounded-full relative">
+                    <div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div>
+                  </div>
+                </div>
+                <span class="text-[13px] font-medium text-on-surface">Wed</span>
+              </div>
+              <input type="text" value="09:00" class="flex-1 bg-surface-container border border-outline-variant/30 rounded-xl px-3 py-2 text-[12px] text-on-surface text-center"/>
+              <span class="text-[12px] text-on-surface-variant">–</span>
+              <input type="text" value="21:00" class="flex-1 bg-surface-container border border-outline-variant/30 rounded-xl px-3 py-2 text-[12px] text-on-surface text-center"/>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-2 w-28">
+                <div class="toggle-on cursor-pointer" onclick="this.classList.toggle('toggle-on');this.classList.toggle('toggle-off')">
+                  <div class="toggle-track w-11 h-6 rounded-full relative">
+                    <div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div>
+                  </div>
+                </div>
+                <span class="text-[13px] font-medium text-on-surface">Thu</span>
+              </div>
+              <input type="text" value="09:00" class="flex-1 bg-surface-container border border-outline-variant/30 rounded-xl px-3 py-2 text-[12px] text-on-surface text-center"/>
+              <span class="text-[12px] text-on-surface-variant">–</span>
+              <input type="text" value="21:00" class="flex-1 bg-surface-container border border-outline-variant/30 rounded-xl px-3 py-2 text-[12px] text-on-surface text-center"/>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-2 w-28">
+                <div class="toggle-on cursor-pointer" onclick="this.classList.toggle('toggle-on');this.classList.toggle('toggle-off')">
+                  <div class="toggle-track w-11 h-6 rounded-full relative">
+                    <div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div>
+                  </div>
+                </div>
+                <span class="text-[13px] font-medium text-on-surface">Fri</span>
+              </div>
+              <input type="text" value="14:00" class="flex-1 bg-surface-container border border-outline-variant/30 rounded-xl px-3 py-2 text-[12px] text-on-surface text-center"/>
+              <span class="text-[12px] text-on-surface-variant">–</span>
+              <input type="text" value="21:00" class="flex-1 bg-surface-container border border-outline-variant/30 rounded-xl px-3 py-2 text-[12px] text-on-surface text-center"/>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-2 w-28">
+                <div class="toggle-on cursor-pointer" onclick="this.classList.toggle('toggle-on');this.classList.toggle('toggle-off')">
+                  <div class="toggle-track w-11 h-6 rounded-full relative">
+                    <div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div>
+                  </div>
+                </div>
+                <span class="text-[13px] font-medium text-on-surface">Sat</span>
+              </div>
+              <input type="text" value="10:00" class="flex-1 bg-surface-container border border-outline-variant/30 rounded-xl px-3 py-2 text-[12px] text-on-surface text-center"/>
+              <span class="text-[12px] text-on-surface-variant">–</span>
+              <input type="text" value="22:00" class="flex-1 bg-surface-container border border-outline-variant/30 rounded-xl px-3 py-2 text-[12px] text-on-surface text-center"/>
+            </div>
+            <div class="flex items-center gap-3 opacity-50">
+              <div class="flex items-center gap-2 w-28">
+                <div class="toggle-off cursor-pointer" onclick="this.classList.toggle('toggle-on');this.classList.toggle('toggle-off');this.closest('.opacity-50').classList.remove('opacity-50')">
+                  <div class="toggle-track w-11 h-6 rounded-full relative">
+                    <div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div>
+                  </div>
+                </div>
+                <span class="text-[13px] font-medium text-on-surface">Sun</span>
+              </div>
+              <input type="text" placeholder="Closed" disabled class="flex-1 bg-surface-container border border-outline-variant/30 rounded-xl px-3 py-2 text-[12px] text-on-surface-variant text-center opacity-60"/>
+              <span class="text-[12px] text-on-surface-variant">–</span>
+              <input type="text" placeholder="Closed" disabled class="flex-1 bg-surface-container border border-outline-variant/30 rounded-xl px-3 py-2 text-[12px] text-on-surface-variant text-center opacity-60"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social links -->
+        <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-5 pb-4 border-b border-outline-variant/15">
+            <div class="w-9 h-9 rounded-xl bg-primary-fixed flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary text-[18px]">share</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-[15px] text-on-surface">Social & Links</h3>
+              <p class="text-[11px] text-on-surface-variant">Connect your social profiles</p>
+            </div>
+          </div>
+          <div class="space-y-3.5">
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Website URL</label>
+              <div class="flex items-center bg-surface-container border border-outline-variant/30 rounded-xl overflow-hidden">
+                <span class="px-3 text-[12px] text-on-surface-variant border-r border-outline-variant/30 py-2.5">https://</span>
+                <input type="text" value="shuddhota.com" class="flex-1 bg-transparent px-3 py-2.5 text-[13px] text-on-surface" style="outline:none;border:none;box-shadow:none;"/>
+              </div>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Facebook Page</label>
+              <div class="flex items-center bg-surface-container border border-outline-variant/30 rounded-xl overflow-hidden">
+                <span class="px-3 text-[12px] text-on-surface-variant border-r border-outline-variant/30 py-2.5">fb.com/</span>
+                <input type="text" value="ShuddhotaCo" class="flex-1 bg-transparent px-3 py-2.5 text-[13px] text-on-surface" style="outline:none;border:none;box-shadow:none;"/>
+              </div>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Instagram</label>
+              <div class="flex items-center bg-surface-container border border-outline-variant/30 rounded-xl overflow-hidden">
+                <span class="px-3 text-[12px] text-on-surface-variant border-r border-outline-variant/30 py-2.5">instagram.com/</span>
+                <input type="text" value="shuddhota.co" class="flex-1 bg-transparent px-3 py-2.5 text-[13px] text-on-surface" style="outline:none;border:none;box-shadow:none;"/>
+              </div>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">WhatsApp Business</label>
+              <input type="text" value="+880 1700-000000" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface"/>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">YouTube Channel</label>
+              <div class="flex items-center bg-surface-container border border-outline-variant/30 rounded-xl overflow-hidden">
+                <span class="px-3 text-[12px] text-on-surface-variant border-r border-outline-variant/30 py-2.5 whitespace-nowrap">youtube.com/@</span>
+                <input type="text" placeholder="your-channel" class="flex-1 bg-transparent px-3 py-2.5 text-[13px] text-on-surface" style="outline:none;border:none;box-shadow:none;"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tab-store -->
+
+    <!-- ══════════════════════════════════
+         TAB: NOTIFICATIONS
+    ══════════════════════════════════ -->
+    <div id="tab-notifications" class="tab-panel space-y-5">
+
+      <!-- Email notifications -->
+      <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm fade-up fade-up-2">
+        <div class="flex items-center gap-3 mb-5 pb-4 border-b border-outline-variant/15">
+          <div class="w-9 h-9 rounded-xl bg-tertiary-fixed flex items-center justify-center">
+            <span class="material-symbols-outlined text-tertiary text-[18px]">email</span>
+          </div>
+          <div>
+            <h3 class="font-bold text-[15px] text-on-surface">Email Notifications</h3>
+            <p class="text-[11px] text-on-surface-variant">Sent to admin@shuddhota.com</p>
+          </div>
+        </div>
+        <div class="space-y-0 divide-y divide-outline-variant/15">
+          <div class="notif-row flex items-center justify-between py-3.5">
+            <div><div class="text-[13px] font-semibold text-on-surface">New Order Alert</div><div class="text-[11px] text-on-surface-variant mt-0.5">Triggered on every new order placed</div></div>
+            <div class="toggle-on cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+          </div>
+          <div class="notif-row flex items-center justify-between py-3.5">
+            <div><div class="text-[13px] font-semibold text-on-surface">Low Stock Alert</div><div class="text-[11px] text-on-surface-variant mt-0.5">Alert when any product drops below 20 units</div></div>
+            <div class="toggle-on cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+          </div>
+          <div class="notif-row flex items-center justify-between py-3.5">
+            <div><div class="text-[13px] font-semibold text-on-surface">Customer Review Posted</div><div class="text-[11px] text-on-surface-variant mt-0.5">Email when a new review is submitted</div></div>
+            <div class="toggle-off cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+          </div>
+          <div class="notif-row flex items-center justify-between py-3.5">
+            <div><div class="text-[13px] font-semibold text-on-surface">New User Registration</div><div class="text-[11px] text-on-surface-variant mt-0.5">Notify when a new customer account is created</div></div>
+            <div class="toggle-off cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+          </div>
+          <div class="notif-row flex items-center justify-between py-3.5">
+            <div><div class="text-[13px] font-semibold text-on-surface">Order Cancelled</div><div class="text-[11px] text-on-surface-variant mt-0.5">Email when a customer cancels an order</div></div>
+            <div class="toggle-on cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+          </div>
+          <div class="notif-row flex items-center justify-between py-3.5">
+            <div><div class="text-[13px] font-semibold text-on-surface">Refund Request</div><div class="text-[11px] text-on-surface-variant mt-0.5">Alert when a refund is requested</div></div>
+            <div class="toggle-on cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reports & digests -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 fade-up fade-up-3">
+        <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-5 pb-4 border-b border-outline-variant/15">
+            <div class="w-9 h-9 rounded-xl bg-secondary-fixed flex items-center justify-center">
+              <span class="material-symbols-outlined text-secondary text-[18px]">summarize</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-[15px] text-on-surface">Reports & Digests</h3>
+              <p class="text-[11px] text-on-surface-variant">Scheduled report delivery</p>
+            </div>
+          </div>
+          <div class="space-y-0 divide-y divide-outline-variant/15">
+            <div class="flex items-center justify-between py-3">
+              <div><div class="text-[13px] font-semibold text-on-surface">Daily Sales Summary</div><div class="text-[11px] text-on-surface-variant">8:00 AM every day</div></div>
+              <div class="toggle-on cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+            </div>
+            <div class="flex items-center justify-between py-3">
+              <div><div class="text-[13px] font-semibold text-on-surface">Weekly Performance Digest</div><div class="text-[11px] text-on-surface-variant">Every Monday at 9:00 AM</div></div>
+              <div class="toggle-on cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+            </div>
+            <div class="flex items-center justify-between py-3">
+              <div><div class="text-[13px] font-semibold text-on-surface">Monthly Analytics Report</div><div class="text-[11px] text-on-surface-variant">1st of every month</div></div>
+              <div class="toggle-off cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Push / SMS -->
+        <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-5 pb-4 border-b border-outline-variant/15">
+            <div class="w-9 h-9 rounded-xl bg-primary-fixed flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary text-[18px]">sms</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-[15px] text-on-surface">SMS & Push</h3>
+              <p class="text-[11px] text-on-surface-variant">Instant mobile alerts</p>
+            </div>
+          </div>
+          <div class="space-y-0 divide-y divide-outline-variant/15">
+            <div class="flex items-center justify-between py-3">
+              <div><div class="text-[13px] font-semibold text-on-surface">SMS on New Order</div><div class="text-[11px] text-on-surface-variant">+880 1700-000000</div></div>
+              <div class="toggle-on cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+            </div>
+            <div class="flex items-center justify-between py-3">
+              <div><div class="text-[13px] font-semibold text-on-surface">Push on Low Stock</div><div class="text-[11px] text-on-surface-variant">Browser push notification</div></div>
+              <div class="toggle-off cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+            </div>
+            <div class="flex items-center justify-between py-3">
+              <div><div class="text-[13px] font-semibold text-on-surface">SMS Payment Received</div><div class="text-[11px] text-on-surface-variant">Alert on successful payment</div></div>
+              <div class="toggle-on cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tab-notifications -->
+
+    <!-- ══════════════════════════════════
+         TAB: SHIPPING
+    ══════════════════════════════════ -->
+    <div id="tab-shipping" class="tab-panel space-y-5">
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 fade-up fade-up-2">
+        <!-- Shipping zones -->
+        <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+          <div class="flex items-center justify-between mb-5 pb-4 border-b border-outline-variant/15">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-secondary-fixed flex items-center justify-center">
+                <span class="material-symbols-outlined text-secondary text-[18px]">local_shipping</span>
+              </div>
+              <div>
+                <h3 class="font-bold text-[15px] text-on-surface">Shipping Zones</h3>
+                <p class="text-[11px] text-on-surface-variant">Configure delivery areas & rates</p>
+              </div>
+            </div>
+            <button class="w-8 h-8 bg-primary text-on-primary rounded-full flex items-center justify-center hover:bg-primary/90 transition-colors shadow-sm">
+              <span class="material-symbols-outlined text-[16px]">add</span>
+            </button>
+          </div>
+          <div class="space-y-3">
+            <div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant/20">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[13px] font-bold text-on-surface">Dhaka City</span>
+                <span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold px-2.5 py-1 rounded-full">Active</span>
+              </div>
+              <div class="text-[12px] text-on-surface-variant mb-2">Standard: ৳60 · Express: ৳120</div>
+              <div class="text-[11px] text-on-surface-variant">Delivery: 1–2 days</div>
+              <div class="flex gap-2 mt-3">
+                <button class="flex-1 text-[11px] font-medium border border-outline-variant/40 py-1.5 rounded-lg hover:bg-surface-container transition-colors">Edit</button>
+                <button class="flex-1 text-[11px] font-medium border border-outline-variant/40 py-1.5 rounded-lg hover:bg-surface-container transition-colors text-error">Remove</button>
+              </div>
+            </div>
+            <div class="p-4 bg-surface-container-low rounded-xl border border-outline-variant/20">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-[13px] font-bold text-on-surface">Outside Dhaka</span>
+                <span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold px-2.5 py-1 rounded-full">Active</span>
+              </div>
+              <div class="text-[12px] text-on-surface-variant mb-2">Standard: ৳100 · Express: ৳200</div>
+              <div class="text-[11px] text-on-surface-variant">Delivery: 3–5 days</div>
+              <div class="flex gap-2 mt-3">
+                <button class="flex-1 text-[11px] font-medium border border-outline-variant/40 py-1.5 rounded-lg hover:bg-surface-container transition-colors">Edit</button>
+                <button class="flex-1 text-[11px] font-medium border border-outline-variant/40 py-1.5 rounded-lg hover:bg-surface-container transition-colors text-error">Remove</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Free shipping & COD -->
+        <div class="space-y-5">
+          <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-4 pb-4 border-b border-outline-variant/15">
+              <div class="w-9 h-9 rounded-xl bg-tertiary-fixed flex items-center justify-center">
+                <span class="material-symbols-outlined text-tertiary text-[18px]">redeem</span>
+              </div>
+              <div>
+                <h3 class="font-bold text-[15px] text-on-surface">Free Shipping Threshold</h3>
+                <p class="text-[11px] text-on-surface-variant">Orders above this amount ship free</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="text-[20px] font-bold text-on-surface-variant">৳</span>
+              <input type="number" value="1000" class="flex-1 bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[16px] font-bold text-on-surface"/>
+            </div>
+            <div class="flex items-center gap-2 mt-3">
+              <div class="toggle-on cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+              <span class="text-[13px] text-on-surface font-medium">Enable free shipping for qualifying orders</span>
+            </div>
+          </div>
+
+          <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-4 pb-4 border-b border-outline-variant/15">
+              <div class="w-9 h-9 rounded-xl bg-primary-fixed flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-[18px]">money</span>
+              </div>
+              <div>
+                <h3 class="font-bold text-[15px] text-on-surface">Cash on Delivery (COD)</h3>
+                <p class="text-[11px] text-on-surface-variant">Allow customers to pay on delivery</p>
+              </div>
+            </div>
+            <div class="space-y-3.5">
+              <div class="flex items-center gap-2">
+                <div class="toggle-on cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+                <span class="text-[13px] text-on-surface font-medium">COD available</span>
+              </div>
+              <div>
+                <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">COD Extra Fee (৳)</label>
+                <input type="number" value="30" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface"/>
+              </div>
+              <div>
+                <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Max COD Order Value (৳)</label>
+                <input type="number" value="5000" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tab-shipping -->
+
+    <!-- ══════════════════════════════════
+         TAB: PAYMENT
+    ══════════════════════════════════ -->
+    <div id="tab-payment" class="tab-panel space-y-5">
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 fade-up fade-up-2">
+
+        <!-- Payment methods -->
+        <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-5 pb-4 border-b border-outline-variant/15">
+            <div class="w-9 h-9 rounded-xl bg-secondary-fixed flex items-center justify-center">
+              <span class="material-symbols-outlined text-secondary text-[18px]">payments</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-[15px] text-on-surface">Payment Methods</h3>
+              <p class="text-[11px] text-on-surface-variant">Enable available payment options</p>
+            </div>
+          </div>
+          <div class="space-y-0 divide-y divide-outline-variant/15">
+            <div class="flex items-center justify-between py-3.5">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-primary-fixed flex items-center justify-center text-[11px] font-black text-primary">bKash</div>
+                <div><div class="text-[13px] font-semibold text-on-surface">bKash</div><div class="text-[11px] text-on-surface-variant">Mobile banking · 1.5% fee</div></div>
+              </div>
+              <div class="toggle-on cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+            </div>
+            <div class="flex items-center justify-between py-3.5">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-tertiary-fixed flex items-center justify-center text-[11px] font-black text-tertiary">Nag</div>
+                <div><div class="text-[13px] font-semibold text-on-surface">Nagad</div><div class="text-[11px] text-on-surface-variant">Mobile banking · 1.2% fee</div></div>
+              </div>
+              <div class="toggle-on cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+            </div>
+            <div class="flex items-center justify-between py-3.5">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-secondary-fixed flex items-center justify-center text-[11px] font-black text-secondary">Rkt</div>
+                <div><div class="text-[13px] font-semibold text-on-surface">Rocket</div><div class="text-[11px] text-on-surface-variant">DBBL Mobile Banking · 1.8% fee</div></div>
+              </div>
+              <div class="toggle-off cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+            </div>
+            <div class="flex items-center justify-between py-3.5">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-surface-variant flex items-center justify-center text-[10px] font-black text-on-surface-variant">Card</div>
+                <div><div class="text-[13px] font-semibold text-on-surface">Debit / Credit Card</div><div class="text-[11px] text-on-surface-variant">Visa, Mastercard · 2.5% fee</div></div>
+              </div>
+              <div class="toggle-on cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+            </div>
+            <div class="flex items-center justify-between py-3.5">
+              <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl bg-surface-variant flex items-center justify-center"><span class="material-symbols-outlined text-on-surface-variant text-[18px]">money</span></div>
+                <div><div class="text-[13px] font-semibold text-on-surface">Cash on Delivery</div><div class="text-[11px] text-on-surface-variant">Pay on delivery · ৳30 extra</div></div>
+              </div>
+              <div class="toggle-on cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tax & billing -->
+        <div class="space-y-5">
+          <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-4 pb-4 border-b border-outline-variant/15">
+              <div class="w-9 h-9 rounded-xl bg-primary-fixed flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-[18px]">receipt</span>
+              </div>
+              <div>
+                <h3 class="font-bold text-[15px] text-on-surface">Tax Settings</h3>
+                <p class="text-[11px] text-on-surface-variant">VAT & tax configuration</p>
+              </div>
+            </div>
+            <div class="space-y-3.5">
+              <div class="flex items-center gap-2">
+                <div class="toggle-on cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+                <span class="text-[13px] text-on-surface font-medium">Apply VAT to orders</span>
+              </div>
+              <div>
+                <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">VAT Rate (%)</label>
+                <input type="number" value="15" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface"/>
+              </div>
+              <div>
+                <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Business TIN</label>
+                <input type="text" placeholder="Your TIN number" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface"/>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="toggle-off cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+                <span class="text-[13px] text-on-surface font-medium">Show tax breakdown on invoices</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Invoice -->
+          <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+            <div class="flex items-center gap-3 mb-4 pb-4 border-b border-outline-variant/15">
+              <div class="w-9 h-9 rounded-xl bg-tertiary-fixed flex items-center justify-center">
+                <span class="material-symbols-outlined text-tertiary text-[18px]">description</span>
+              </div>
+              <div>
+                <h3 class="font-bold text-[15px] text-on-surface">Invoice Prefix</h3>
+                <p class="text-[11px] text-on-surface-variant">Order number prefix on invoices</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <input type="text" value="SC-" class="w-24 bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[14px] font-bold text-on-surface text-center"/>
+              <span class="text-[13px] text-on-surface-variant">+</span>
+              <div class="flex-1 bg-surface-container border border-dashed border-outline-variant/50 rounded-xl px-4 py-2.5 text-[13px] text-on-surface-variant">Auto increment (e.g. SC-0001)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tab-payment -->
+
+    <!-- ══════════════════════════════════
+         TAB: ACCOUNT
+    ══════════════════════════════════ -->
+    <div id="tab-account" class="tab-panel space-y-5">
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 fade-up fade-up-2">
+
+        <!-- Profile -->
+        <div class="lg:col-span-2 settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-5 pb-4 border-b border-outline-variant/15">
+            <div class="w-9 h-9 rounded-xl bg-primary-fixed flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary text-[18px]">person</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-[15px] text-on-surface">Admin Profile</h3>
+              <p class="text-[11px] text-on-surface-variant">Your personal account details</p>
+            </div>
+          </div>
+
+          <!-- Avatar -->
+          <div class="flex items-center gap-4 mb-5 pb-5 border-b border-outline-variant/15">
+            <div class="relative">
+              <div class="w-16 h-16 rounded-2xl bg-primary-fixed-dim flex items-center justify-center font-extrabold text-[22px] text-on-primary-container avatar-ring">RA</div>
+              <button class="absolute -bottom-1 -right-1 w-7 h-7 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-md hover:bg-primary/90 transition-colors">
+                <span class="material-symbols-outlined text-[13px]">edit</span>
+              </button>
+            </div>
+            <div>
+              <div class="text-[15px] font-bold text-on-surface">Rakib Admin</div>
+              <div class="text-[12px] text-on-surface-variant">Super Admin · joined Jan 2024</div>
+              <button class="mt-1.5 text-[12px] font-medium text-primary hover:underline">Change photo</button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">First Name</label>
+              <input type="text" value="Rakib" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface"/>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Last Name</label>
+              <input type="text" value="Admin" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface"/>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Email Address</label>
+              <input type="email" value="admin@shuddhota.com" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface"/>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Phone</label>
+              <input type="text" value="+880 1700-000000" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface"/>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Bio / Note</label>
+              <textarea rows="2" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface resize-none" placeholder="A short note about this admin...">Store owner and head of operations at Shuddhota Co.</textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Change password -->
+        <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-5 pb-4 border-b border-outline-variant/15">
+            <div class="w-9 h-9 rounded-xl bg-tertiary-fixed flex items-center justify-center">
+              <span class="material-symbols-outlined text-tertiary text-[18px]">lock</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-[15px] text-on-surface">Change Password</h3>
+              <p class="text-[11px] text-on-surface-variant">Update your login password</p>
+            </div>
+          </div>
+          <div class="space-y-3.5">
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Current Password</label>
+              <input type="password" placeholder="••••••••" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface"/>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">New Password</label>
+              <input type="password" placeholder="••••••••" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface"/>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Confirm New Password</label>
+              <input type="password" placeholder="••••••••" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface"/>
+            </div>
+            <div class="pt-1">
+              <div class="text-[11px] text-on-surface-variant mb-2 font-medium">Password strength</div>
+              <div class="flex gap-1">
+                <div class="h-1.5 flex-1 rounded-full bg-secondary"></div>
+                <div class="h-1.5 flex-1 rounded-full bg-secondary"></div>
+                <div class="h-1.5 flex-1 rounded-full bg-secondary"></div>
+                <div class="h-1.5 flex-1 rounded-full bg-surface-container-high"></div>
+              </div>
+              <div class="text-[10px] text-secondary font-semibold mt-1">Good — add a symbol to make it strong</div>
+            </div>
+            <button class="w-full btn-primary bg-primary text-on-primary text-[13px] font-semibold py-2.5 rounded-full mt-1">
+              Update Password
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tab-account -->
+
+    <!-- ══════════════════════════════════
+         TAB: SECURITY
+    ══════════════════════════════════ -->
+    <div id="tab-security" class="tab-panel space-y-5">
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 fade-up fade-up-2">
+
+        <!-- 2FA -->
+        <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-5 pb-4 border-b border-outline-variant/15">
+            <div class="w-9 h-9 rounded-xl bg-primary-fixed flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary text-[18px]">security</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-[15px] text-on-surface">Two-Factor Authentication</h3>
+              <p class="text-[11px] text-on-surface-variant">Adds a second layer of protection</p>
+            </div>
+          </div>
+          <div class="bg-secondary-fixed/20 border border-secondary-fixed rounded-xl p-4 flex items-center gap-3 mb-4">
+            <span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
+            <div>
+              <div class="text-[13px] font-bold text-on-surface">2FA is Enabled</div>
+              <div class="text-[11px] text-on-surface-variant">Authenticator app · last used 2h ago</div>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <button class="w-full border border-outline-variant/40 text-[13px] font-medium py-2.5 rounded-full hover:bg-surface-container transition-colors flex items-center justify-center gap-2 text-on-surface">
+              <span class="material-symbols-outlined text-[16px]">qr_code</span> View Recovery Codes
+            </button>
+            <button class="w-full border border-error/40 text-[13px] font-medium py-2.5 rounded-full hover:bg-error-container transition-colors flex items-center justify-center gap-2 text-error">
+              <span class="material-symbols-outlined text-[16px]">remove_circle</span> Disable 2FA
+            </button>
+          </div>
+        </div>
+
+        <!-- Active sessions -->
+        <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+          <div class="flex items-center justify-between mb-5 pb-4 border-b border-outline-variant/15">
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-xl bg-tertiary-fixed flex items-center justify-center">
+                <span class="material-symbols-outlined text-tertiary text-[18px]">devices</span>
+              </div>
+              <div>
+                <h3 class="font-bold text-[15px] text-on-surface">Active Sessions</h3>
+                <p class="text-[11px] text-on-surface-variant">Devices logged into your account</p>
+              </div>
+            </div>
+          </div>
+          <div class="space-y-3">
+            <div class="key-row flex items-center gap-3 py-3 px-2 rounded-xl">
+              <div class="w-9 h-9 rounded-xl bg-secondary-fixed flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-secondary text-[18px]">computer</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="text-[13px] font-semibold text-on-surface">Chrome · Windows 11</div>
+                <div class="text-[11px] text-on-surface-variant">Dhaka, Bangladesh · Active now</div>
+              </div>
+              <span class="bg-secondary-container text-on-secondary-container text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0">Current</span>
+            </div>
+            <div class="key-row flex items-center gap-3 py-3 px-2 rounded-xl">
+              <div class="w-9 h-9 rounded-xl bg-surface-variant flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-on-surface-variant text-[18px]">smartphone</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="text-[13px] font-semibold text-on-surface">Chrome · Android</div>
+                <div class="text-[11px] text-on-surface-variant">Dhaka, Bangladesh · 3h ago</div>
+              </div>
+              <button class="text-[11px] font-medium text-error hover:underline shrink-0">Revoke</button>
+            </div>
+            <div class="key-row flex items-center gap-3 py-3 px-2 rounded-xl">
+              <div class="w-9 h-9 rounded-xl bg-surface-variant flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-on-surface-variant text-[18px]">tablet</span>
+              </div>
+              <div class="flex-1 min-w-0">
+                <div class="text-[13px] font-semibold text-on-surface">Safari · iPad</div>
+                <div class="text-[11px] text-on-surface-variant">Dhaka, Bangladesh · 2 days ago</div>
+              </div>
+              <button class="text-[11px] font-medium text-error hover:underline shrink-0">Revoke</button>
+            </div>
+          </div>
+          <button class="mt-4 w-full border border-error/40 text-[13px] font-medium py-2.5 rounded-full hover:bg-error-container transition-colors flex items-center justify-center gap-2 text-error">
+            <span class="material-symbols-outlined text-[16px]">logout</span> Sign out all other sessions
+          </button>
+        </div>
+
+        <!-- Login history -->
+        <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-5 pb-4 border-b border-outline-variant/15">
+            <div class="w-9 h-9 rounded-xl bg-secondary-fixed flex items-center justify-center">
+              <span class="material-symbols-outlined text-secondary text-[18px]">history</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-[15px] text-on-surface">Login History</h3>
+              <p class="text-[11px] text-on-surface-variant">Recent access attempts</p>
+            </div>
+          </div>
+          <div class="space-y-2.5">
+            <div class="flex items-center gap-3 py-2.5 border-b border-outline-variant/10">
+              <span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+              <div class="flex-1 min-w-0">
+                <div class="text-[12px] font-semibold text-on-surface">Successful login</div>
+                <div class="text-[11px] text-on-surface-variant">Today, 10:24 AM · Chrome / Windows</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 py-2.5 border-b border-outline-variant/10">
+              <span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+              <div class="flex-1 min-w-0">
+                <div class="text-[12px] font-semibold text-on-surface">Successful login</div>
+                <div class="text-[11px] text-on-surface-variant">Yesterday, 7:10 PM · Android / Chrome</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 py-2.5 border-b border-outline-variant/10">
+              <span class="material-symbols-outlined text-error text-[18px]">cancel</span>
+              <div class="flex-1 min-w-0">
+                <div class="text-[12px] font-semibold text-on-surface">Failed attempt</div>
+                <div class="text-[11px] text-on-surface-variant">Yesterday, 3:52 PM · Unknown device</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 py-2.5">
+              <span class="material-symbols-outlined text-secondary text-[18px]">check_circle</span>
+              <div class="flex-1 min-w-0">
+                <div class="text-[12px] font-semibold text-on-surface">Successful login</div>
+                <div class="text-[11px] text-on-surface-variant">Jun 25, 2:30 PM · Safari / iPad</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Danger zone -->
+        <div class="settings-card bg-error-container/20 border border-error/20 rounded-[20px] p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-5 pb-4 border-b border-error/15">
+            <div class="w-9 h-9 rounded-xl bg-error-container flex items-center justify-center">
+              <span class="material-symbols-outlined text-error text-[18px]">warning</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-[15px] text-error">Danger Zone</h3>
+              <p class="text-[11px] text-on-surface-variant">Irreversible actions — proceed carefully</p>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div class="p-4 bg-surface-container-lowest rounded-xl border border-error/15">
+              <div class="text-[13px] font-bold text-on-surface mb-1">Reset All Store Data</div>
+              <div class="text-[11px] text-on-surface-variant mb-3">Permanently deletes all orders, products, and user data. This cannot be undone.</div>
+              <button class="btn-danger text-[12px] font-bold px-4 py-2 rounded-full border border-error/40 text-error hover:text-on-error transition-all">
+                Reset Store Data
+              </button>
+            </div>
+            <div class="p-4 bg-surface-container-lowest rounded-xl border border-error/15">
+              <div class="text-[13px] font-bold text-on-surface mb-1">Delete Admin Account</div>
+              <div class="text-[11px] text-on-surface-variant mb-3">Permanently removes your admin account. You will lose access immediately.</div>
+              <button class="btn-danger text-[12px] font-bold px-4 py-2 rounded-full border border-error/40 text-error hover:text-on-error transition-all">
+                Delete Account
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /tab-security -->
+
+    <!-- ══════════════════════════════════
+         TAB: APPEARANCE
+    ══════════════════════════════════ -->
+    <div id="tab-appearance" class="tab-panel space-y-5">
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 fade-up fade-up-2">
+
+        <!-- Theme -->
+        <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-5 pb-4 border-b border-outline-variant/15">
+            <div class="w-9 h-9 rounded-xl bg-primary-fixed flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary text-[18px]">brightness_medium</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-[15px] text-on-surface">Theme</h3>
+              <p class="text-[11px] text-on-surface-variant">Light, dark, or system default</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-3">
+            <div onclick="selectTheme(this,'light')" class="theme-option border-2 border-primary cursor-pointer rounded-xl overflow-hidden transition-all">
+              <div class="h-14 bg-[#fff9ee] flex items-center justify-center">
+                <div class="w-8 h-2 rounded-full bg-[#9f4122] opacity-60"></div>
+              </div>
+              <div class="py-2 text-center text-[11px] font-bold text-on-surface bg-surface-container-low">Light</div>
+            </div>
+            <div onclick="selectTheme(this,'dark')" class="theme-option border-2 border-outline-variant/30 cursor-pointer rounded-xl overflow-hidden transition-all">
+              <div class="h-14 bg-[#1a1814] flex items-center justify-center">
+                <div class="w-8 h-2 rounded-full bg-[#ffb59e] opacity-60"></div>
+              </div>
+              <div class="py-2 text-center text-[11px] font-bold text-on-surface bg-surface-container-low">Dark</div>
+            </div>
+            <div onclick="selectTheme(this,'system')" class="theme-option border-2 border-outline-variant/30 cursor-pointer rounded-xl overflow-hidden transition-all">
+              <div class="h-14 bg-gradient-to-r from-[#fff9ee] to-[#1a1814] flex items-center justify-center">
+                <div class="w-8 h-2 rounded-full bg-gradient-to-r from-[#9f4122] to-[#ffb59e] opacity-60"></div>
+              </div>
+              <div class="py-2 text-center text-[11px] font-bold text-on-surface bg-surface-container-low">System</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Language / locale -->
+        <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-5 pb-4 border-b border-outline-variant/15">
+            <div class="w-9 h-9 rounded-xl bg-secondary-fixed flex items-center justify-center">
+              <span class="material-symbols-outlined text-secondary text-[18px]">language</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-[15px] text-on-surface">Language & Region</h3>
+              <p class="text-[11px] text-on-surface-variant">Admin panel display language</p>
+            </div>
+          </div>
+          <div class="space-y-3.5">
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Language</label>
+              <select class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface appearance-none cursor-pointer">
+                <option selected>English (US)</option>
+                <option>বাংলা (Bengali)</option>
+                <option>Français</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Date Format</label>
+              <select class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface appearance-none cursor-pointer">
+                <option selected>DD/MM/YYYY</option>
+                <option>MM/DD/YYYY</option>
+                <option>YYYY-MM-DD</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-[11px] font-bold text-on-surface-variant uppercase tracking-wider block mb-1.5">Number Format</label>
+              <select class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface appearance-none cursor-pointer">
+                <option selected>1,00,000 (South Asian)</option>
+                <option>1,000,000 (International)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar density -->
+        <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-5 pb-4 border-b border-outline-variant/15">
+            <div class="w-9 h-9 rounded-xl bg-tertiary-fixed flex items-center justify-center">
+              <span class="material-symbols-outlined text-tertiary text-[18px]">density_medium</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-[15px] text-on-surface">Display Density</h3>
+              <p class="text-[11px] text-on-surface-variant">Comfortable, cozy, or compact</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-3 gap-3">
+            <div onclick="selectDensity(this,'comfortable')" class="density-option border-2 border-primary cursor-pointer rounded-xl p-3 text-center transition-all bg-surface-container">
+              <div class="flex flex-col gap-1.5 items-center mb-2">
+                <div class="w-full h-2 rounded-full bg-outline-variant/50"></div>
+                <div class="w-full h-2 rounded-full bg-outline-variant/50"></div>
+                <div class="w-full h-2 rounded-full bg-outline-variant/50"></div>
+              </div>
+              <div class="text-[10px] font-bold text-on-surface">Cozy</div>
+            </div>
+            <div onclick="selectDensity(this,'compact')" class="density-option border-2 border-outline-variant/30 cursor-pointer rounded-xl p-3 text-center transition-all">
+              <div class="flex flex-col gap-1 items-center mb-2">
+                <div class="w-full h-1.5 rounded-full bg-outline-variant/50"></div>
+                <div class="w-full h-1.5 rounded-full bg-outline-variant/50"></div>
+                <div class="w-full h-1.5 rounded-full bg-outline-variant/50"></div>
+                <div class="w-full h-1.5 rounded-full bg-outline-variant/50"></div>
+              </div>
+              <div class="text-[10px] font-bold text-on-surface">Compact</div>
+            </div>
+            <div onclick="selectDensity(this,'airy')" class="density-option border-2 border-outline-variant/30 cursor-pointer rounded-xl p-3 text-center transition-all">
+              <div class="flex flex-col gap-2.5 items-center mb-2">
+                <div class="w-full h-2 rounded-full bg-outline-variant/50"></div>
+                <div class="w-full h-2 rounded-full bg-outline-variant/50"></div>
+              </div>
+              <div class="text-[10px] font-bold text-on-surface">Airy</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Misc preferences -->
+        <div class="settings-card bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] p-6 shadow-sm">
+          <div class="flex items-center gap-3 mb-5 pb-4 border-b border-outline-variant/15">
+            <div class="w-9 h-9 rounded-xl bg-primary-fixed flex items-center justify-center">
+              <span class="material-symbols-outlined text-primary text-[18px]">tune</span>
+            </div>
+            <div>
+              <h3 class="font-bold text-[15px] text-on-surface">Preferences</h3>
+              <p class="text-[11px] text-on-surface-variant">Misc admin panel settings</p>
+            </div>
+          </div>
+          <div class="space-y-0 divide-y divide-outline-variant/15">
+            <div class="flex items-center justify-between py-3">
+              <div><div class="text-[13px] font-semibold text-on-surface">Animated transitions</div><div class="text-[11px] text-on-surface-variant">Smooth page-switch animations</div></div>
+              <div class="toggle-on cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+            </div>
+            <div class="flex items-center justify-between py-3">
+              <div><div class="text-[13px] font-semibold text-on-surface">Collapse sidebar on mobile</div><div class="text-[11px] text-on-surface-variant">Auto-collapse sidebar after nav</div></div>
+              <div class="toggle-on cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+            </div>
+            <div class="flex items-center justify-between py-3">
+              <div><div class="text-[13px] font-semibold text-on-surface">Show quick stats in topbar</div><div class="text-[11px] text-on-surface-variant">Revenue & orders count in header</div></div>
+              <div class="toggle-off cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+            </div>
+            <div class="flex items-center justify-between py-3">
+              <div><div class="text-[13px] font-semibold text-on-surface">Confirm before delete</div><div class="text-[11px] text-on-surface-variant">Show a confirmation dialog on delete</div></div>
+              <div class="toggle-on cursor-pointer shrink-0" onclick="toggleSwitch(this)"><div class="toggle-track w-11 h-6 rounded-full relative"><div class="toggle-thumb w-4 h-4 bg-white rounded-full absolute top-1 left-1"></div></div></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div><!-- /tab-appearance -->
+
+  </main>
+</div><!-- /main-content -->
+
+<!-- ─── MOBILE BOTTOM NAV ─── -->
+<nav class="fixed bottom-0 left-0 right-0 bg-surface/90 backdrop-blur-xl border-t border-outline-variant/20 flex items-center justify-around px-2 py-2 z-30 lg:hidden">
+  <button onclick="setNav(null,'dashboard')" class="mobile-nav-btn flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl transition-colors text-on-surface-variant">
+    <span class="material-symbols-outlined text-[22px]">dashboard</span>
+    <span class="text-[9px] font-semibold">Home</span>
+  </button>
+  <button onclick="setNav(null,'products')" class="mobile-nav-btn flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl transition-colors text-on-surface-variant">
+    <span class="material-symbols-outlined text-[22px]">inventory_2</span>
+    <span class="text-[9px] font-semibold">Products</span>
+  </button>
+  <button onclick="setNav(null,'orders')" class="mobile-nav-btn flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl transition-colors text-on-surface-variant">
+    <span class="material-symbols-outlined text-[22px]">receipt_long</span>
+    <span class="text-[9px] font-semibold">Orders</span>
+  </button>
+  <button class="mobile-nav-btn flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl transition-colors text-primary">
+    <span class="material-symbols-outlined text-[22px]">settings</span>
+    <span class="text-[9px] font-semibold">Settings</span>
+  </button>
+  <button onclick="toggleSidebar()" class="mobile-nav-btn flex flex-col items-center gap-0.5 px-3 py-1 rounded-xl transition-colors text-on-surface-variant">
+    <span class="material-symbols-outlined text-[22px]">menu</span>
+    <span class="text-[9px] font-semibold">More</span>
+  </button>
+</nav>
+
+<!-- ─── TOAST ─── -->
+<div id="toast" class="fixed bottom-24 lg:bottom-8 right-4 lg:right-8 bg-inverse-surface text-inverse-on-surface text-[13px] font-semibold px-5 py-3.5 rounded-2xl shadow-2xl flex items-center gap-3 opacity-0 translate-y-4 pointer-events-none z-50 transition-all">
+  <span class="material-symbols-outlined text-[18px] text-secondary-fixed">check_circle</span>
+  Settings saved successfully
+</div>
+
+<script>
+  /* ─── Date ─── */
+  const d = new Date();
+  document.getElementById('current-date').textContent = d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+
+  /* ─── Sidebar mobile ─── */
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  let sidebarOpen = false;
+  let miniMode = false;
+
+  function toggleSidebar() {
+    sidebarOpen = !sidebarOpen;
+    sidebar.classList.toggle('open', sidebarOpen);
+    overlay.style.opacity = sidebarOpen ? '1' : '0';
+    overlay.style.pointerEvents = sidebarOpen ? 'auto' : 'none';
+    document.getElementById('hamburger-icon').textContent = sidebarOpen ? 'close' : 'menu';
+  }
+  function closeSidebar() {
+    sidebarOpen = false;
+    sidebar.classList.remove('open');
+    overlay.style.opacity = '0';
+    overlay.style.pointerEvents = 'none';
+    document.getElementById('hamburger-icon').textContent = 'menu';
+  }
+  function toggleMiniSidebar() {
+    miniMode = !miniMode;
+    const main = document.getElementById('main-content');
+    if (miniMode) {
+      sidebar.classList.add('sidebar-mini');
+      sidebar.style.width = '72px';
+      main.style.marginLeft = '72px';
+    } else {
+      sidebar.classList.remove('sidebar-mini');
+      sidebar.style.width = '';
+      main.style.marginLeft = '';
+    }
+  }
+
+  /* ─── Sidebar nav (non-settings redirect hint) ─── */
+  function setNav(el, key) {
+    closeSidebar();
+    // In this standalone page just close and hint
+    showToast('Navigate to admin.html for ' + key);
+  }
+
+  /* ─── Toggle switches ─── */
+  function toggleSwitch(el) {
+    const isOn = el.classList.contains('toggle-on');
+    el.classList.toggle('toggle-on', !isOn);
+    el.classList.toggle('toggle-off', isOn);
+  }
+
+  /* ─── Settings tabs ─── */
+  function switchTab(key, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.settings-tab').forEach(t => {
+      t.classList.remove('active');
+      t.classList.add('text-on-surface-variant');
+    });
+    document.getElementById('tab-' + key).classList.add('active');
+    btn.classList.add('active');
+    btn.classList.remove('text-on-surface-variant');
+  }
+
+  /* ─── Theme picker ─── */
+  function selectTheme(el, theme) {
+    document.querySelectorAll('.theme-option').forEach(o => {
+      o.classList.remove('border-primary');
+      o.classList.add('border-outline-variant/30');
+    });
+    el.classList.add('border-primary');
+    el.classList.remove('border-outline-variant/30');
+  }
+
+  /* ─── Density picker ─── */
+  function selectDensity(el, density) {
+    document.querySelectorAll('.density-option').forEach(o => {
+      o.classList.remove('border-primary', 'bg-surface-container');
+      o.classList.add('border-outline-variant/30');
+    });
+    el.classList.add('border-primary', 'bg-surface-container');
+    el.classList.remove('border-outline-variant/30');
+  }
+
+  /* ─── Save all (toast) ─── */
+  function saveAll() {
+    showToast('Settings saved successfully');
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.querySelector('span + span') && (toast.childNodes[2].textContent = ' ' + msg);
+    toast.classList.add('show');
+    toast.style.opacity = '1';
+    toast.style.pointerEvents = 'auto';
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.pointerEvents = 'none';
+      toast.classList.remove('show');
+    }, 3000);
+  }
+</script>
+</body>
+</html>
