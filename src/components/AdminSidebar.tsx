@@ -8,12 +8,18 @@ interface AdminSidebarProps {
   pendingRefunds?: number;
   pendingProducts?: number;
   pendingUsers?: number;
+  pendingOrders?: number;
+  pendingCoupons?: number;
+  pendingReviews?: number;
 }
 
 export default function AdminSidebar({
   pendingRefunds = 4,
   pendingProducts = 48,
   pendingUsers = 1200,
+  pendingOrders = 3,
+  pendingCoupons = 10,
+  pendingReviews = 14,
 }: AdminSidebarProps) {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -123,6 +129,11 @@ export default function AdminSidebar({
           <Link href="/admin/orders" className={navItemClass("/admin/orders")}>
             <span className="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">receipt_long</span>
             <span className="sidebar-label">Orders</span>
+            {pendingOrders > 0 && (
+              <span className="nav-badge ml-auto bg-primary-fixed text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded-full badge-pulse">
+                {pendingOrders}
+              </span>
+            )}
           </Link>
 
           <Link href="/admin/refund" className={navItemClass("/admin/refund")}>
@@ -138,11 +149,21 @@ export default function AdminSidebar({
           <Link href="/admin/reviews" className={navItemClass("/admin/reviews")}>
             <span className="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">rate_review</span>
             <span className="sidebar-label">Reviews</span>
+            {pendingReviews > 0 && (
+              <span className="nav-badge ml-auto bg-primary-fixed text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded-full badge-pulse">
+                {pendingReviews}
+              </span>
+            )}
           </Link>
 
-          <Link href="/admin/coupons" className={navItemClass("/admin/coupons")}>
+          <Link href="/admin/coupon" className={navItemClass("/admin/coupon")}>
             <span className="nav-icon material-symbols-outlined text-[20px] text-on-surface-variant shrink-0">local_offer</span>
             <span className="sidebar-label">Coupons</span>
+            {pendingCoupons > 0 && (
+              <span className="nav-badge ml-auto bg-primary-fixed text-on-primary-container text-[10px] font-bold px-2 py-0.5 rounded-full">
+                {pendingCoupons}
+              </span>
+            )}
           </Link>
 
           <div className="h-px bg-outline-variant/30 my-3 mx-2" />

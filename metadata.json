@@ -1,0 +1,8 @@
+{
+  "name": "Shuddhota Co.",
+  "description": "Authentic masalas and premium dry foods shop.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
