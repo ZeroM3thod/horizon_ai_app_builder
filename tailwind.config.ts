@@ -2,9 +2,10 @@ import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    // ✅ Fixed: removed ./src/ prefix — project uses app/ at root
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -71,12 +72,15 @@ const config: Config = {
         "card-internal": "40px",
       },
       fontFamily: {
-        "body-lg": ["var(--font-plus-jakarta-sans)"],
-        "label-caps": ["var(--font-plus-jakarta-sans)"],
-        "headline-lg": ["var(--font-plus-jakarta-sans)"],
-        "headline-md": ["var(--font-plus-jakarta-sans)"],
-        "display-xl": ["var(--font-plus-jakarta-sans)"],
-        "body-md": ["var(--font-plus-jakarta-sans)"],
+        // ✅ Fixed: font-sans now resolves to Plus Jakarta Sans via next/font CSS variable
+        "sans": ["var(--font-plus-jakarta-sans)", "Plus Jakarta Sans", "sans-serif"],
+        // existing named scale utilities (unchanged)
+        "body-lg": ["var(--font-plus-jakarta-sans)", "sans-serif"],
+        "label-caps": ["var(--font-plus-jakarta-sans)", "sans-serif"],
+        "headline-lg": ["var(--font-plus-jakarta-sans)", "sans-serif"],
+        "headline-md": ["var(--font-plus-jakarta-sans)", "sans-serif"],
+        "display-xl": ["var(--font-plus-jakarta-sans)", "sans-serif"],
+        "body-md": ["var(--font-plus-jakarta-sans)", "sans-serif"],
       },
       fontSize: {
         "body-lg": ["18px", { lineHeight: "1.6", letterSpacing: "0", fontWeight: "400" }],
