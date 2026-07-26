@@ -60,7 +60,7 @@ interface WeightOption {
 
 export default function ProductDetailPage() {
   const params = useParams();
-  const id = parseInt(params.id as string);
+  const id = params?.id ? parseInt(params.id as string) : 1;
   const product = ALL_PRODUCTS.find(p => p.id === id) || ALL_PRODUCTS[5]; // Default to Garam Masala Blend if not found
 
   const [activePhoto, setActivePhoto] = useState(0);

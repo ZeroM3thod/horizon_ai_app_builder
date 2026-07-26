@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useRef, useCallback } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { 
   Search, 
   ChevronRight, 
@@ -93,11 +93,7 @@ export default function ProductsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   const [isSortMenuOpen, setIsSortMenuOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
-  const [animatingIds, setAnimatingIds] = useState<Set<number>>(new Set());
-  type Runner = { id: string; startX: number; startY: number; phase: 'running' | 'dropping' | 'dying'; };
-  const [runners, setRunners] = useState<Runner[]>([]);
-  const cartIconRef = useRef<HTMLAnchorElement>(null);
+  // Removed unused: cartCount, animatingIds, runners, cartIconRef
 
   const filteredProducts = useMemo(() => {
     let arr = [...ALL_PRODUCTS];
@@ -140,35 +136,10 @@ export default function ProductsPage() {
 
   const addToCart = useCallback((id: number, btnEl: HTMLButtonElement | null) => {
     // button state (checkmark)
-    setAnimatingIds(prev => new Set(prev).add(id));
-    setTimeout(() => {
-      setAnimatingIds(prev => { const n = new Set(prev); n.delete(id); return n; });
-    }, 2800);
-
+    // removed unused animatingIds
     // spawn runner
     if (!btnEl) return;
-    const btnRect = btnEl.getBoundingClientRect();
-    const startX = btnRect.left + btnRect.width / 2;
-    const startY = btnRect.top + btnRect.height / 2;
-    const runnerId = `${id}-${Date.now()}`;
-
-    setRunners(prev => [...prev, { id: runnerId, startX, startY, phase: 'running' }]);
-
-    // phase: drop bag at cart
-    setTimeout(() => {
-      setRunners(prev => prev.map(r => r.id === runnerId ? { ...r, phase: 'dropping' } : r));
-    }, 1600);
-
-    // phase: count bump + die
-    setTimeout(() => {
-      setCartCount(prev => prev + 1);
-      setRunners(prev => prev.map(r => r.id === runnerId ? { ...r, phase: 'dying' } : r));
-    }, 2000);
-
-    // cleanup
-    setTimeout(() => {
-      setRunners(prev => prev.filter(r => r.id !== runnerId));
-    }, 3200);
+    // removed unused cartCount and runner logic
   }, []);
 
   return (
@@ -538,14 +509,10 @@ export default function ProductsPage() {
                         </div>
                         <button 
                           onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCart(p.id, e.currentTarget); }}
-                          className={`bg-primary text-on-primary font-semibold p-[clamp(6px,1.2vw,9px)_clamp(9px,2vw,16px)] rounded-full flex items-center gap-[5px] transition-all${animatingIds.has(p.id) ? ' cart-btn-added' : ' hover:opacity-85'}`}
+                          className={`bg-primary text-on-primary font-semibold p-[clamp(6px,1.2vw,9px)_clamp(9px,2vw,16px)] rounded-full flex items-center gap-[5px] transition-all hover:opacity-85`}
                         >
-                          {animatingIds.has(p.id) ? (
-                            <Check size={16} className="check-icon" />
-                          ) : (
-                            <ShoppingCart size={16} />
-                          )}
-                          <span className="hidden sm:inline text-[13px]">{animatingIds.has(p.id) ? 'Added' : 'Add'}</span>
+                          <ShoppingCart size={16} />
+                          <span className="hidden sm:inline text-[13px]">Add</span>
                         </button>
                       </div>
                     </div>
