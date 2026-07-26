@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useRef, useCallback } from "react";
 import { 
   Search, 
   ChevronRight, 
@@ -93,8 +93,11 @@ export default function ProductsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   const [isSortMenuOpen, setIsSortMenuOpen] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [cartCount, setCartCount] = useState(0);
+  const [animatingIds, setAnimatingIds] = useState<Set<number>>(new Set());
+  type Runner = { id: string; startX: number; startY: number; phase: 'running' | 'dropping' | 'dying'; };
+  const [runners, setRunners] = useState<Runner[]>([]);
+  const cartIconRef = useRef<HTMLAnchorElement>(null);
 
   const filteredProducts = useMemo(() => {
     let arr = [...ALL_PRODUCTS];
@@ -135,9 +138,38 @@ export default function ProductsPage() {
     setSelectedTags(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]);
   };
 
-  const addToCart = () => {
-    setCartCount(prev => prev + 1);
-  };
+  const addToCart = useCallback((id: number, btnEl: HTMLButtonElement | null) => {
+    // button state (checkmark)
+    setAnimatingIds(prev => new Set(prev).add(id));
+    setTimeout(() => {
+      setAnimatingIds(prev => { const n = new Set(prev); n.delete(id); return n; });
+    }, 2800);
+
+    // spawn runner
+    if (!btnEl) return;
+    const btnRect = btnEl.getBoundingClientRect();
+    const startX = btnRect.left + btnRect.width / 2;
+    const startY = btnRect.top + btnRect.height / 2;
+    const runnerId = `${id}-${Date.now()}`;
+
+    setRunners(prev => [...prev, { id: runnerId, startX, startY, phase: 'running' }]);
+
+    // phase: drop bag at cart
+    setTimeout(() => {
+      setRunners(prev => prev.map(r => r.id === runnerId ? { ...r, phase: 'dropping' } : r));
+    }, 1600);
+
+    // phase: count bump + die
+    setTimeout(() => {
+      setCartCount(prev => prev + 1);
+      setRunners(prev => prev.map(r => r.id === runnerId ? { ...r, phase: 'dying' } : r));
+    }, 2000);
+
+    // cleanup
+    setTimeout(() => {
+      setRunners(prev => prev.filter(r => r.id !== runnerId));
+    }, 3200);
+  }, []);
 
   return (
     <div className="bg-background text-on-background font-body-md antialiased overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container min-h-screen">
@@ -179,6 +211,25 @@ export default function ProductsPage() {
         }
         .card-animate { animation: cardIn 0.3s ease both; }
         .mobile-filter-bar { box-shadow: 0 -1px 0 rgba(221,192,184,0.4), 0 4px 16px rgba(159,65,34,0.06); }
+
+        @keyframes checkPop {
+          0%   { transform: scale(0.5); opacity: 0; }
+          60%  { transform: scale(1.25); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes btnConfirm {
+          0%   { transform: scale(1); }
+          15%  { transform: scale(0.88); }
+          40%  { transform: scale(1.08); }
+          100% { transform: scale(1); }
+        }
+        .cart-btn-added {
+          animation: btnConfirm 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+          background: #2e7d32 !important;
+        }
+        .cart-btn-added .check-icon {
+          animation: checkPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
       `}</style>
 
       <main className="max-w-[1728px] mx-auto w-full">
@@ -486,11 +537,15 @@ export default function ProductsPage() {
                           {p.originalPrice && <span className="text-[11px] text-outline line-through">৳{p.originalPrice}</span>}
                         </div>
                         <button 
-                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCart(); }}
-                          className="bg-primary text-on-primary font-semibold p-[clamp(6px,1.2vw,9px)_clamp(9px,2vw,16px)] rounded-full flex items-center gap-[5px] hover:opacity-85 transition-opacity"
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); addToCart(p.id, e.currentTarget); }}
+                          className={`bg-primary text-on-primary font-semibold p-[clamp(6px,1.2vw,9px)_clamp(9px,2vw,16px)] rounded-full flex items-center gap-[5px] transition-all${animatingIds.has(p.id) ? ' cart-btn-added' : ' hover:opacity-85'}`}
                         >
-                          <ShoppingCart size={16} />
-                          <span className="hidden sm:inline text-[13px]">Add</span>
+                          {animatingIds.has(p.id) ? (
+                            <Check size={16} className="check-icon" />
+                          ) : (
+                            <ShoppingCart size={16} />
+                          )}
+                          <span className="hidden sm:inline text-[13px]">{animatingIds.has(p.id) ? 'Added' : 'Add'}</span>
                         </button>
                       </div>
                     </div>

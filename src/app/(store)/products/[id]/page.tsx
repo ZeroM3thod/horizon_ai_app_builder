@@ -530,9 +530,7 @@ export default function ProductDetailPage() {
                 <span className="font-label-caps text-label-caps text-on-surface-variant tracking-widest mb-2 block uppercase">CUSTOMER REVIEWS</span>
                 <h2 className="font-display-xl text-[26px] md:text-[44px] leading-tight text-on-surface">What Our Customers Say</h2>
               </div>
-              <button className="flex items-center gap-2 bg-primary text-on-primary font-medium text-[13px] md:text-body-md px-5 py-2.5 rounded-full hover:bg-primary/90 transition-colors shadow">
-                <MaterialIcon name="edit" size={18} /> Write a Review
-              </button>
+
             </div>
 
             {/* Rating Summary */}
