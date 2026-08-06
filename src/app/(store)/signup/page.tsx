@@ -144,7 +144,7 @@ export default function SignupPage() {
  <span className="text-[16px] text-on-surface whitespace-nowrap">No credit card required</span>
  </div>
  <h1 className="text-[52px] leading-[1.1] tracking-tighter text-on-surface mb-6">
- Join the<br/>Shuddhota<br/><span className="text-primary">Family.</span>
+ Join the<br/>Khati<br/><span className="text-primary">Family.</span>
  </h1>
  <p className="text-[18px] leading-relaxed text-on-surface-variant mb-10 max-w-sm">
  Get access to pure spices, premium dry foods, and exclusive member deals — delivered fresh from farms to your kitchen.
@@ -199,7 +199,7 @@ export default function SignupPage() {
  <div className="mb-7 md:mb-8">
  <div className="flex items-center gap-2 mb-5 lg:hidden">
  <span className="material-symbols-outlined text-primary text-[22px]">shopping_basket</span>
- <span className="font-bold text-primary text-[16px] tracking-tight">Shuddhota CO.</span>
+ <span className="font-bold text-primary text-[16px] tracking-tight">Khati Family</span>
  </div>
  <h2 className="text-[26px] md:text-[34px] leading-tight tracking-tight text-on-surface mb-1.5">Create your account</h2>
  <p className="text-on-surface-variant text-[13px] md:text-[16px]">Already have an account? <Link href="/signin"className="text-primary font-semibold hover:underline underline-offset-2 ml-0.5">Sign in</Link></p>
@@ -312,7 +312,7 @@ export default function SignupPage() {
  <span className="material-symbols-outlined text-secondary text-[34px]">check_circle</span>
  </div>
  <h3 className="text-[24px] text-on-surface tracking-tight mb-2">You&apos;re in!</h3>
- <p className="text-on-surface-variant text-[14px] mb-7">Welcome to Shuddhota Co. Your account has been created successfully.</p>
+ <p className="text-on-surface-variant text-[14px] mb-7">Welcome to Khati Family. Your account has been created successfully.</p>
  <Link href="/"className="inline-flex items-center gap-2 bg-primary text-on-primary font-medium px-8 py-3 rounded-full hover:bg-primary/90 transition-colors text-[14px]">
  Start Shopping <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
  </Link>

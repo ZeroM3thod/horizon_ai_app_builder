@@ -1131,7 +1131,7 @@ export default function UserManagementPage() {
                             desc: `${o.status.charAt(0).toUpperCase() + o.status.slice(1)} · ৳${o.total.toLocaleString()}`,
                             time: o.date
                           })),
-                          { icon: 'person_add', color: 'text-primary', bg: 'bg-primary-fixed/50', title: 'Account Created', desc: 'Registered on Shuddhota Co.', time: detailUser.joined }
+                          { icon: 'person_add', color: 'text-primary', bg: 'bg-primary-fixed/50', title: 'Account Created', desc: 'Registered on Khati Family', time: detailUser.joined }
                         ].map((ev, i) => (
                           <div key={i} className="flex items-start gap-4 relative">
                             <div className={`w-10 h-10 rounded-full ${ev.bg} flex items-center justify-center shrink-0 z-10 ring-4 ring-background`}>

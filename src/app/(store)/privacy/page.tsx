@@ -190,7 +190,7 @@ export default function PrivacyPage() {
                   <div>
                     <h2 className="font-headline-md text-on-surface mb-2">Your Privacy, Our Commitment</h2>
                     <p className="text-on-surface-variant text-[15px] leading-relaxed">
-                      Shuddhota Co. (&quot;we,&quot; &quot;us,&quot; &quot;our&quot;) is committed to protecting your personal information. This Privacy Policy describes how we collect, use, store, and share data when you visit our website or place an order. We operate in accordance with applicable Bangladeshi data protection standards. By using our services, you consent to the practices described here.
+                      Khati Family (&quot;we,&quot; &quot;us,&quot; &quot;our&quot;) is committed to protecting your personal information. This Privacy Policy describes how we collect, use, store, and share data when you visit our website or place an order. We operate in accordance with applicable Bangladeshi data protection standards. By using our services, you consent to the practices described here.
                     </p>
                   </div>
                 </div>
@@ -211,7 +211,7 @@ export default function PrivacyPage() {
                 </div>
                 <div className="space-y-4 text-on-surface-variant text-[15px] leading-relaxed">
                   <p>
-                    This Privacy Policy applies to all personal information collected through our website, mobile-optimised pages, customer service channels, and any other interactions you may have with Shuddhota Co.
+                    This Privacy Policy applies to all personal information collected through our website, mobile-optimised pages, customer service channels, and any other interactions you may have with Khati Family.
                   </p>
                   <p>
                     We act as the data controller for the personal information you provide. We take this responsibility seriously and have put in place appropriate technical and organisational measures to protect your data.
@@ -632,8 +632,8 @@ export default function PrivacyPage() {
                 <div className="space-y-4 text-on-surface-variant text-[15px] leading-relaxed">
                   <p>
                     You have the following rights regarding your personal data. To exercise any of these, contact us at{" "}
-                    <a href="mailto:privacy@shuddhota.com.bd" className="text-primary font-medium hover:underline">
-                      privacy@shuddhota.com.bd
+                    <a href="mailto:privacy@khatifamily.com" className="text-primary font-medium hover:underline">
+                      privacy@khatifamily.com
                     </a>
                     .
                   </p>
@@ -785,13 +785,13 @@ export default function PrivacyPage() {
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <a
-                      href="mailto:privacy@shuddhota.com.bd"
+                      href="mailto:privacy@khatifamily.com"
                       className="flex items-center gap-3 bg-white/15 hover:bg-white/25 transition-colors rounded-2xl px-4 py-4 backdrop-blur-sm"
                     >
                       <span className="material-symbols-outlined text-on-primary text-[22px]">mail</span>
                       <div>
                         <p className="text-[11px] text-on-primary/60 uppercase tracking-wider mb-0.5">Email</p>
-                        <p className="text-[13px] text-on-primary font-semibold">privacy@shuddhota.com.bd</p>
+                        <p className="text-[13px] text-on-primary font-semibold">privacy@khatifamily.com</p>
                       </div>
                     </a>
                     <a

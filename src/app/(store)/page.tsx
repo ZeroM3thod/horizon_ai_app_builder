@@ -54,7 +54,7 @@ export default function Home() {
           Bold Flavors
         </h1>
         <p className="font-body-lg text-[14px] md:text-body-lg text-on-surface-variant max-w-2xl mb-8 md:mb-12 px-2 md:px-0">
-          Shuddhota Co. brings you authentic masalas and premium dry foods — sourced directly from
+          Khati Family brings you authentic masalas and premium dry foods — sourced directly from
           certified farms, lab-tested for purity, and delivered fresh to your kitchen.
         </p>
 
@@ -1088,7 +1088,7 @@ export default function Home() {
             <div className="bg-surface-container-low rounded-[24px] p-5 md:p-8 border border-outline-variant/30">
               <div className="text-primary text-[18px] md:text-[20px] mb-3 md:mb-4">★★★★★</div>
               <p className="font-body-lg text-[13px] md:text-body-lg text-on-surface mb-4 md:mb-6">
-                We switched our restaurant to Shuddhota Co. for all spice needs. The consistency and
+                We switched our restaurant to Khati Family for all spice needs. The consistency and
                 quality are excellent. The bulk ordering is seamless and delivery is always on
                 time.
               </p>
@@ -1168,7 +1168,7 @@ export default function Home() {
           </div>
           <div className="lg:w-2/3 flex flex-col">
             <FAQItem
-              question="What makes Shuddhota Co. spices different?"
+              question="What makes Khati Family spices different?"
               answer="Our spices are sourced directly from certified farms and tested in independent labs for purity and potency. No middlemen, no artificial additives — just the purest spices you can buy at honest prices."
             />
             <FAQItem

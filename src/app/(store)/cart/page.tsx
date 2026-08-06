@@ -164,7 +164,7 @@ export default function CartPage() {
 
   const applyPromo = () => {
     const code = promoCode.trim().toUpperCase();
-    if (code === 'SHUDDHOTA10') {
+    if (code === 'KHATIFAMILY10') {
       setPromoDiscount(0.10);
       setPromoMsg({ type: 'success', text: '10% discount applied!' });
     } else if (code === 'SPICE20') {
@@ -172,7 +172,7 @@ export default function CartPage() {
       setPromoMsg({ type: 'success', text: '20% discount applied!' });
     } else {
       setPromoDiscount(0);
-      setPromoMsg({ type: 'error', text: 'Invalid promo code. Try SHUDDHOTA10' });
+      setPromoMsg({ type: 'error', text: 'Invalid promo code. Try KHATIFAMILY10' });
     }
   };
 
@@ -315,7 +315,7 @@ export default function CartPage() {
                           {promoMsg.text}
                         </div>
                       )}
-                      <p className="text-[10px] text-on-surface-variant mt-1.5">Try <span className="font-semibold text-primary cursor-pointer hover:underline" onClick={() => { setPromoCode('SHUDDHOTA10'); setPromoDiscount(0.10); setPromoMsg({ type: 'success', text: '10% discount applied!' }); }}>SHUDDHOTA10</span> for 10% off</p>
+                      <p className="text-[10px] text-on-surface-variant mt-1.5">Try <span className="font-semibold text-primary cursor-pointer hover:underline" onClick={() => { setPromoCode('KHATIFAMILY10'); setPromoDiscount(0.10); setPromoMsg({ type: 'success', text: '10% discount applied!' }); }}>KHATIFAMILY10</span> for 10% off</p>
                     </div>
 
                     {/* Breakdown */}

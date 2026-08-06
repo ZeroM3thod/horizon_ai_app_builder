@@ -100,7 +100,7 @@ export default function AdminSidebar({
             <span className="material-symbols-outlined text-on-primary text-[18px]">shopping_basket</span>
           </div>
           <div className="sidebar-logo-text">
-            <div className="font-bold text-[15px] text-on-surface leading-none">Shuddhota Co.</div>
+            <div className="font-bold text-[15px] text-on-surface leading-none">Khati Family</div>
             <div className="text-[10px] text-on-surface-variant mt-0.5 font-medium uppercase tracking-wider">Admin Panel</div>
           </div>
         </div>
@@ -186,7 +186,7 @@ export default function AdminSidebar({
             <div className="w-8 h-8 rounded-full bg-primary-fixed-dim flex items-center justify-center shrink-0 font-bold text-[13px] text-on-primary-container">RA</div>
             <div className="sidebar-label flex-1 min-w-0">
               <div className="text-[13px] font-semibold text-on-surface truncate">Rakib Admin</div>
-              <div className="text-[11px] text-on-surface-variant truncate">admin@shuddhota.com</div>
+              <div className="text-[11px] text-on-surface-variant truncate">admin@khatifamily.com</div>
             </div>
             <span className="sidebar-label material-symbols-outlined text-on-surface-variant text-[18px]">logout</span>
           </div>

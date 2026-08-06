@@ -1617,7 +1617,7 @@ export default function CheckoutPage() {
                     <span className="material-symbols-outlined text-[13px] text-secondary">
                       shield
                     </span>
-                    Protected by Shuddhota secure checkout
+                    Protected by Khati Family secure checkout
                   </p>
                 </div>
               </div>
@@ -1678,7 +1678,7 @@ export default function CheckoutPage() {
                 Order Placed!
               </h2>
               <p className="text-on-surface-variant text-[14px] mb-1">
-                Thank you for shopping with Shuddhota Co.
+                Thank you for shopping with Khati Family.
               </p>
               <div className="inline-flex items-center gap-1.5 bg-secondary-container text-on-secondary-container text-[12px] font-bold px-3 py-1 rounded-full mb-5">
                 <span className="material-symbols-outlined text-[14px]">

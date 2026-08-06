@@ -913,7 +913,7 @@ export default function RequestRefundPage() {
                           </span>
                         </div>
                         <p className="text-[11px] md:text-[12px] text-on-surface-variant mt-0.5">
-                          Get an extra 5% added to your Shuddhota wallet
+                          Get an extra 5% added to your Khati Family wallet
                         </p>
                       </div>
                       <div className="shrink-0 text-right hidden sm:block">

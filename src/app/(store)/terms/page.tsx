@@ -115,7 +115,7 @@ export default function TermsPage() {
             Conditions
           </h1>
           <p className="font-body-lg text-[14px] md:text-body-lg text-on-surface-variant max-w-2xl mx-auto">
-            By shopping with Shuddhota Co., you agree to these terms. Please read them carefully — they&apos;re written in plain language so you know exactly where you stand.
+            By shopping with Khati Family, you agree to these terms. Please read them carefully — they&apos;re written in plain language so you know exactly where you stand.
           </p>
         </div>
       </section>
@@ -170,9 +170,9 @@ export default function TermsPage() {
                     <span className="material-symbols-outlined text-primary text-[22px]">info</span>
                   </div>
                   <div>
-                    <h2 className="font-headline-md text-on-surface mb-2">Welcome to Shuddhota Co.</h2>
+                    <h2 className="font-headline-md text-on-surface mb-2">Welcome to Khati Family</h2>
                     <p className="text-on-surface-variant text-[15px] leading-relaxed">
-                      These Terms &amp; Conditions (&quot;Terms&quot;) govern your use of our website and your purchase of products from Shuddhota Co. (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;). Shuddhota Co. is a registered business in Bangladesh, specialising in pure spices and premium dry foods. By accessing our website or placing an order, you confirm that you have read, understood, and agreed to these Terms.
+                      These Terms &amp; Conditions (&quot;Terms&quot;) govern your use of our website and your purchase of products from Khati Family (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;). Khati Family is a registered business in Bangladesh, specialising in pure spices and premium dry foods. By accessing our website or placing an order, you confirm that you have read, understood, and agreed to these Terms.
                     </p>
                   </div>
                 </div>
@@ -193,7 +193,7 @@ export default function TermsPage() {
                 </div>
                 <div className="space-y-4 text-on-surface-variant text-[15px] leading-relaxed">
                   <p>
-                    By visiting our website, creating an account, or completing a purchase, you enter into a legally binding agreement with Shuddhota Co. under these Terms. If you do not agree, please refrain from using our website or placing orders.
+                    By visiting our website, creating an account, or completing a purchase, you enter into a legally binding agreement with Khati Family under these Terms. If you do not agree, please refrain from using our website or placing orders.
                   </p>
                   <p>
                     These Terms apply to all users of the site, including browsers, customers, merchants, and contributors of content.
@@ -253,7 +253,7 @@ export default function TermsPage() {
                       eco
                     </span>
                     <p className="text-[13px] text-on-surface-variant">
-                      All Shuddhota Co. products are 100% natural, free from artificial colours, flavours, and preservatives unless explicitly stated on the product label.
+                      All Khati Family products are 100% natural, free from artificial colours, flavours, and preservatives unless explicitly stated on the product label.
                     </p>
                   </div>
                 </div>
@@ -433,8 +433,8 @@ export default function TermsPage() {
                   <p>
                     Returns must be requested within{" "}
                     <strong className="text-on-surface font-semibold">7 calendar days</strong> of delivery. To initiate a return, contact us at{" "}
-                    <a href="mailto:support@shuddhota.com.bd" className="text-primary font-medium hover:underline">
-                      support@shuddhota.com.bd
+                    <a href="mailto:support@khatifamily.com" className="text-primary font-medium hover:underline">
+                      support@khatifamily.com
                     </a>{" "}
                     with your order ID and a clear photograph of the issue.
                   </p>
@@ -469,10 +469,10 @@ export default function TermsPage() {
                 </div>
                 <div className="space-y-4 text-on-surface-variant text-[15px] leading-relaxed">
                   <p>
-                    All content on this website — including text, images, logos, graphics, videos, and the overall design — is the exclusive property of Shuddhota Co. or its content partners and is protected under Bangladeshi copyright and intellectual property laws.
+                    All content on this website — including text, images, logos, graphics, videos, and the overall design — is the exclusive property of Khati Family or its content partners and is protected under Bangladeshi copyright and intellectual property laws.
                   </p>
                   <p>
-                    You may not reproduce, distribute, modify, or create derivative works from any content on our website without prior written consent from Shuddhota Co. Sharing product images or reviews for personal, non-commercial purposes with attribution is permitted.
+                    You may not reproduce, distribute, modify, or create derivative works from any content on our website without prior written consent from Khati Family. Sharing product images or reviews for personal, non-commercial purposes with attribution is permitted.
                   </p>
                 </div>
               </div>
@@ -492,7 +492,7 @@ export default function TermsPage() {
                 </div>
                 <div className="space-y-4 text-on-surface-variant text-[15px] leading-relaxed">
                   <p>
-                    To the fullest extent permitted by law, Shuddhota Co. shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our website or products, including but not limited to loss of data, revenue, or profit.
+                    To the fullest extent permitted by law, Khati Family shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our website or products, including but not limited to loss of data, revenue, or profit.
                   </p>
                   <p>
                     Our total liability for any claim arising from your purchase shall not exceed the amount you paid for the specific order giving rise to the claim.
@@ -619,13 +619,13 @@ export default function TermsPage() {
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <a
-                      href="mailto:support@shuddhota.com.bd"
+                      href="mailto:support@khatifamily.com"
                       className="flex items-center gap-3 bg-white/15 hover:bg-white/25 transition-colors rounded-2xl px-4 py-4 backdrop-blur-sm"
                     >
                       <span className="material-symbols-outlined text-on-primary text-[22px]">mail</span>
                       <div>
                         <p className="text-[11px] text-on-primary/60 uppercase tracking-wider mb-0.5">Email</p>
-                        <p className="text-[13px] text-on-primary font-semibold">support@shuddhota.com.bd</p>
+                        <p className="text-[13px] text-on-primary font-semibold">support@khatifamily.com</p>
                       </div>
                     </a>
                     <a

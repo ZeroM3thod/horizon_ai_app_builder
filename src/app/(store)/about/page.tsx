@@ -9,7 +9,7 @@ const teamMembers = [
     initial: "F",
     color: "bg-primary-container",
     textColor: "text-primary",
-    bio: "Started Shuddhota Co. after years of buying substandard spices from local markets. His mission: bring lab-tested purity to every Bangladeshi kitchen.",
+    bio: "Started Khati Family after years of buying substandard spices from local markets. His mission: bring lab-tested purity to every Bangladeshi kitchen.",
   },
   {
     name: "Nusrat Jahan",
@@ -33,7 +33,7 @@ const teamMembers = [
     initial: "S",
     color: "bg-primary-fixed",
     textColor: "text-primary",
-    bio: "Sadia built Shuddhota's 7-day returns process and the real-time order tracking system from scratch. She treats every complaint as a design problem.",
+    bio: "Sadia built Khati Family's 7-day returns process and the real-time order tracking system from scratch. She treats every complaint as a design problem.",
   },
 ];
 
@@ -56,7 +56,7 @@ const milestones = [
   {
     year: "May '26",
     title: "Soft Launch",
-    desc: "Shuddhota Co. goes live with 12 products. First 200 orders come entirely from word of mouth within the first two weeks.",
+    desc: "Khati Family goes live with 12 products. First 200 orders come entirely from word of mouth within the first two weeks.",
   },
   {
     year: "Jun '26",
@@ -120,7 +120,7 @@ export default function AboutPage() {
           Pure by Nature.
         </h1>
         <p className="font-body-lg text-[14px] md:text-body-lg text-on-surface-variant max-w-2xl mb-10 md:mb-14 px-2 md:px-0">
-          Shuddhota means purity in Bengali. That&apos;s not a tagline — it&apos;s the single standard every
+          Khati Family means purity in Bengali. That&apos;s not a tagline — it&apos;s the single standard every
           product in our catalog must meet before it reaches your kitchen.
         </p>
 
@@ -162,7 +162,7 @@ export default function AboutPage() {
               In early 2026, our founder grew frustrated by adulterated spices sold in local markets — products that smelled of nothing and did nothing for food. He drove to Narsingdi, found a turmeric farmer, bought a sack, and the difference was immediate.
             </p>
             <p className="font-body-lg text-[14px] md:text-body-lg text-on-surface-variant mb-8 md:mb-10 max-w-md">
-              The first 50 packages were hand-packed at a kitchen table. Within two weeks there were 200 orders — all word of mouth. Shuddhota Co. was born from the simple idea that every Bangladeshi cook deserves spices as good as what the farmers themselves use.
+              The first 50 packages were hand-packed at a kitchen table. Within two weeks there were 200 orders — all word of mouth. Khati Family was born from the simple idea that every Bangladeshi cook deserves spices as good as what the farmers themselves use.
             </p>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary-container flex items-center justify-center shrink-0">
@@ -170,7 +170,7 @@ export default function AboutPage() {
               </div>
               <div>
                 <p className="font-body-md text-[13px] md:text-body-md text-on-surface font-semibold">Farrukh Rahman</p>
-                <p className="text-[11px] md:text-body-md text-on-surface-variant">Founder & CEO, Shuddhota Co.</p>
+                <p className="text-[11px] md:text-body-md text-on-surface-variant">Founder & CEO, Khati Family</p>
               </div>
             </div>
           </div>

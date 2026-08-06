@@ -14,7 +14,7 @@ export default function Footer() {
               <span className="material-symbols-outlined text-[26px]">
                 shopping_basket
               </span>
-              Shuddhota CO.
+              Khati Family
             </Link>
             <p className="text-on-surface-variant text-[12px] md:text-body-md leading-relaxed">
               Pure spices, bold flavors. Stone-ground in Bangladesh since 2018.
@@ -143,7 +143,7 @@ export default function Footer() {
         </div>
         <div className="border-t border-outline-variant/20 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-on-surface-variant text-[11px] md:text-sm">
-            © 2024 Shuddhota Co. Pure spices, bold flavors.
+            © 2024 Khati Family. Pure spices, bold flavors.
           </p>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30">

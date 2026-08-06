@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Coupons — Admin Panel · Shuddhota Co.</title>
+<title>Coupons — Admin Panel · Khati Family</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet"/>
@@ -106,7 +106,7 @@ tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#9f4122","pr
       <span class="material-symbols-outlined text-on-primary text-[18px]">shopping_basket</span>
     </div>
     <div class="sidebar-logo-text">
-      <div class="font-bold text-[15px] text-on-surface leading-none">Shuddhota Co.</div>
+      <div class="font-bold text-[15px] text-on-surface leading-none">Khati Family</div>
       <div class="text-[10px] text-on-surface-variant mt-0.5 font-medium uppercase tracking-wider">Admin Panel</div>
     </div>
   </div>
@@ -148,7 +148,7 @@ tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#9f4122","pr
       <div class="w-8 h-8 rounded-full bg-primary-fixed-dim flex items-center justify-center shrink-0 font-bold text-[13px] text-on-primary-container">RA</div>
       <div class="sidebar-label flex-1 min-w-0">
         <div class="text-[13px] font-semibold text-on-surface truncate">Rakib Admin</div>
-        <div class="text-[11px] text-on-surface-variant truncate">admin@shuddhota.com</div>
+        <div class="text-[11px] text-on-surface-variant truncate">admin@khatifamily.com</div>
       </div>
       <span class="sidebar-label material-symbols-outlined text-on-surface-variant text-[18px]">logout</span>
     </div>
@@ -440,16 +440,16 @@ tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#9f4122","pr
           <label class="text-[11px] font-semibold text-on-surface-variant block mb-1.5">Applicable Product <span class="text-error">*</span></label>
           <select id="f-product" class="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary outline-none transition">
             <option value="">— Select a product —</option>
-            <option>Shuddhota Garam Masala</option>
-            <option>Shuddhota Turmeric Powder</option>
-            <option>Shuddhota Chili Powder</option>
-            <option>Shuddhota Coriander Powder</option>
-            <option>Shuddhota Black Pepper</option>
-            <option>Shuddhota Cumin Powder</option>
-            <option>Shuddhota Mustard Seeds</option>
-            <option>Shuddhota Fenugreek</option>
-            <option>Shuddhota Cardamom</option>
-            <option>Shuddhota Cinnamon Sticks</option>
+            <option>Khati Family Garam Masala</option>
+            <option>Khati Family Turmeric Powder</option>
+            <option>Khati Family Chili Powder</option>
+            <option>Khati Family Coriander Powder</option>
+            <option>Khati Family Black Pepper</option>
+            <option>Khati Family Cumin Powder</option>
+            <option>Khati Family Mustard Seeds</option>
+            <option>Khati Family Fenugreek</option>
+            <option>Khati Family Cardamom</option>
+            <option>Khati Family Cinnamon Sticks</option>
           </select>
           <p class="text-[11px] text-on-surface-variant/70 mt-1">Discount applies only to this specific product.</p>
         </div>
@@ -635,13 +635,13 @@ tailwind.config={darkMode:"class",theme:{extend:{colors:{"primary":"#9f4122","pr
 let COUPONS = [
   {id:1, code:'WELCOME20', name:'Welcome Discount', type:'percent', discount:20, maxCap:200, minOrder:0, product:'', pointsReq:null, startDate:'2026-06-01', endDate:'2026-06-30', usageLimit:500, usedCount:187, perUserLimit:1, status:'active'},
   {id:2, code:'SAVE100', name:'Flat ৳100 Off', type:'amount', discount:100, maxCap:null, minOrder:500, product:'', pointsReq:null, startDate:'2026-06-01', endDate:'2026-06-30', usageLimit:200, usedCount:64, perUserLimit:1, status:'active'},
-  {id:3, code:'MASALA15', name:'Masala Product Offer', type:'product_pct', discount:15, maxCap:null, minOrder:0, product:'Shuddhota Garam Masala', pointsReq:null, startDate:'2026-05-15', endDate:'2026-07-15', usageLimit:100, usedCount:43, perUserLimit:0, status:'active'},
+  {id:3, code:'MASALA15', name:'Masala Product Offer', type:'product_pct', discount:15, maxCap:null, minOrder:0, product:'Khati Family Garam Masala', pointsReq:null, startDate:'2026-05-15', endDate:'2026-07-15', usageLimit:100, usedCount:43, perUserLimit:0, status:'active'},
   {id:4, code:'EID2026', name:'Eid Special', type:'percent', discount:30, maxCap:500, minOrder:800, product:'', pointsReq:null, startDate:'2026-07-01', endDate:'2026-07-10', usageLimit:1000, usedCount:0, perUserLimit:1, status:'scheduled'},
   {id:5, code:'PTS500OFF', name:'500 Points → 10% Discount', type:'pts_pct', discount:10, maxCap:150, minOrder:0, product:'', pointsReq:500, startDate:'2026-01-01', endDate:'2026-12-31', usageLimit:null, usedCount:312, perUserLimit:3, status:'active'},
   {id:6, code:'PTS200TK', name:'200 Points → ৳50 Discount', type:'pts_amt', discount:50, maxCap:null, minOrder:0, product:'', pointsReq:200, startDate:'2026-01-01', endDate:'2026-12-31', usageLimit:null, usedCount:891, perUserLimit:0, status:'active'},
   {id:7, code:'RAMADAN30', name:'Ramadan 30% Off', type:'percent', discount:30, maxCap:300, minOrder:600, product:'', pointsReq:null, startDate:'2026-03-01', endDate:'2026-03-31', usageLimit:300, usedCount:300, perUserLimit:2, status:'expired'},
   {id:8, code:'FIRSTBUY', name:'First Purchase Offer', type:'amount', discount:200, maxCap:null, minOrder:0, product:'', pointsReq:null, startDate:'2026-06-01', endDate:'2026-12-31', usageLimit:null, usedCount:29, perUserLimit:1, status:'active'},
-  {id:9, code:'SPICE20', name:'Spice Range 20%', type:'product_pct', discount:20, maxCap:null, minOrder:0, product:'Shuddhota Turmeric Powder', pointsReq:null, startDate:'2026-05-01', endDate:'2026-05-31', usageLimit:50, usedCount:50, perUserLimit:1, status:'expired'},
+  {id:9, code:'SPICE20', name:'Spice Range 20%', type:'product_pct', discount:20, maxCap:null, minOrder:0, product:'Khati Family Turmeric Powder', pointsReq:null, startDate:'2026-05-01', endDate:'2026-05-31', usageLimit:50, usedCount:50, perUserLimit:1, status:'expired'},
   {id:10, code:'VIP15', name:'VIP Member Reward', type:'percent', discount:15, maxCap:null, minOrder:1000, product:'', pointsReq:null, startDate:'2026-06-15', endDate:'2026-09-15', usageLimit:100, usedCount:0, perUserLimit:0, status:'inactive'},
 ];
 

@@ -580,7 +580,7 @@ export default function RedeemPointsPage() {
                 Redeem Your Points
               </h1>
               <p className="font-body-md text-[13px] md:text-body-md text-on-surface-variant max-w-xl">
-                Convert your loyalty points into discount coupons and save on your next Shuddhota Co. order. Every point
+                Convert your loyalty points into discount coupons and save on your next Khati Family order. Every point
                 counts!
               </p>
             </div>

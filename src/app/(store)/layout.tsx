@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import OrganizationSchema from "@/components/OrganizationSchema";
 
 /**
  * (store)/layout.tsx
@@ -24,6 +25,7 @@ export default function StoreLayout({
 }) {
   return (
     <>
+      <OrganizationSchema />
       <Navbar />
       <main className="max-w-[1728px] mx-auto w-full">{children}</main>
       <Footer />

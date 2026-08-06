@@ -1,0 +1,17 @@
+# Robots.txt for Khati Family
+# Updated: 2026-08-06
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /checkout
+Disallow: /cart
+Disallow: /profile
+Disallow: /orders
+Disallow: /order
+Disallow: /refund
+Disallow: /redeem
+
+# Sitemap location
+Sitemap: https://www.khatifamily.com/sitemap.xml

@@ -274,7 +274,7 @@ export default function SigninPage() {
                   {/* Mobile brand logo */}
                   <div className="flex items-center gap-2 mb-5 lg:hidden">
                     <span className="material-symbols-outlined text-primary text-[22px]">shopping_basket</span>
-                    <span className="font-bold text-primary text-[16px] tracking-tight">Shuddhota CO.</span>
+                    <span className="font-bold text-primary text-[16px] tracking-tight">Khati Family</span>
                   </div>
                   <h2 className="font-display-xl text-[26px] md:text-[34px] leading-tight tracking-tight text-on-surface mb-1.5">
                     Sign in to your account

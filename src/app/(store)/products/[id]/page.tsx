@@ -341,7 +341,7 @@ export default function ProductDetailPage() {
                       Our {product.name} is the result of decades of culinary research and farmer partnerships. We source each of the 14 whole spices from their origin states — green cardamom from Kerala, cloves from Zanzibar-via-Bengal, cumin from Rajasthan — and stone-grind them in small batches for maximum freshness and potency.
                     </p>
                     <p className="text-on-surface-variant text-[14px] md:text-body-lg leading-relaxed mb-6 md:mb-8">
-                      Unlike mass-produced blends that use stale pre-ground spices, Shuddhota Co. stone-grinds every batch fresh. The result? A deeper, more complex flavour profile with visible spice particles — not a fine, lifeless powder.
+                      Unlike mass-produced blends that use stale pre-ground spices, Khati Family stone-grinds every batch fresh. The result? A deeper, more complex flavour profile with visible spice particles — not a fine, lifeless powder.
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {['14 Whole Spices', 'No MSG', 'Gluten Free', 'Vegan', 'Halal'].map((tag) => (
@@ -625,7 +625,7 @@ export default function ProductDetailPage() {
                 </div>
                 <div>
                   <h4 className="font-bold text-[13px] md:text-[15px] text-on-surface mb-1.5">&ldquo;Genuinely addictive — in the best way&rdquo;</h4>
-                  <p className="text-[12px] md:text-[14px] text-on-surface-variant leading-relaxed">As someone who cooks every day, I&apos;ve tried almost every brand on the market. Shuddhota is on a completely different level. The balance between the warm spices (cardamom, cloves) and the earthy ones (cumin, coriander) is perfect. It never overwhelms a dish — it enhances it.</p>
+                  <p className="text-[12px] md:text-[14px] text-on-surface-variant leading-relaxed">As someone who cooks every day, I&apos;ve tried almost every brand on the market. Khati Family is on a completely different level. The balance between the warm spices (cardamom, cloves) and the earthy ones (cumin, coriander) is perfect. It never overwhelms a dish — it enhances it.</p>
                 </div>
                 <div className="flex items-center gap-4 pt-1 border-t border-outline-variant/20">
                   <button className="flex items-center gap-1.5 text-[11px] md:text-[13px] text-on-surface-variant hover:text-primary transition-colors"><MaterialIcon name="thumb_up" size={16} /> Helpful (28)</button>
@@ -658,7 +658,7 @@ export default function ProductDetailPage() {
                 <div className="bg-surface-container-low rounded-[14px] p-3.5 border border-outline-variant/40">
                   <div className="flex items-center gap-2 mb-1.5">
                     <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center shrink-0"><MaterialIcon name="shopping_basket" size={13} className="text-on-primary" /></div>
-                    <span className="text-[11px] md:text-[13px] font-bold text-primary">Shuddhota Co.</span>
+                    <span className="text-[11px] md:text-[13px] font-bold text-primary">Khati Family</span>
                     <span className="text-[10px] text-on-surface-variant">· Brand Reply</span>
                   </div>
                   <p className="text-[11px] md:text-[13px] text-on-surface-variant leading-snug">Thank you so much, Sajid bhai! We love hearing that your guests are noticing the difference. For restaurant accounts, please ask about our bulk pricing program — we have dedicated support for food businesses. 🌿</p>

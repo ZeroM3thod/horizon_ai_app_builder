@@ -24,13 +24,13 @@ interface Coupon {
 const INITIAL_COUPONS: Coupon[] = [
   {id:1, code:'WELCOME20', name:'Welcome Discount', type:'percent', discount:20, maxCap:200, minOrder:0, product:'', pointsReq:null, startDate:'2026-06-01', endDate:'2026-06-30', usageLimit:500, usedCount:187, perUserLimit:1, status:'active'},
   {id:2, code:'SAVE100', name:'Flat ৳100 Off', type:'amount', discount:100, maxCap:null, minOrder:500, product:'', pointsReq:null, startDate:'2026-06-01', endDate:'2026-06-30', usageLimit:200, usedCount:64, perUserLimit:1, status:'active'},
-  {id:3, code:'MASALA15', name:'Masala Product Offer', type:'product_pct', discount:15, maxCap:null, minOrder:0, product:'Shuddhota Garam Masala', pointsReq:null, startDate:'2026-05-15', endDate:'2026-07-15', usageLimit:100, usedCount:43, perUserLimit:0, status:'active'},
+  {id:3, code:'MASALA15', name:'Masala Product Offer', type:'product_pct', discount:15, maxCap:null, minOrder:0, product:'Khati Family Garam Masala', pointsReq:null, startDate:'2026-05-15', endDate:'2026-07-15', usageLimit:100, usedCount:43, perUserLimit:0, status:'active'},
   {id:4, code:'EID2026', name:'Eid Special', type:'percent', discount:30, maxCap:500, minOrder:800, product:'', pointsReq:null, startDate:'2026-07-01', endDate:'2026-07-10', usageLimit:1000, usedCount:0, perUserLimit:1, status:'scheduled'},
   {id:5, code:'PTS500OFF', name:'500 Points → 10% Discount', type:'pts_pct', discount:10, maxCap:150, minOrder:0, product:'', pointsReq:500, startDate:'2026-01-01', endDate:'2026-12-31', usageLimit:null, usedCount:312, perUserLimit:3, status:'active'},
   {id:6, code:'PTS200TK', name:'200 Points → ৳50 Discount', type:'pts_amt', discount:50, maxCap:null, minOrder:0, product:'', pointsReq:200, startDate:'2026-01-01', endDate:'2026-12-31', usageLimit:null, usedCount:891, perUserLimit:0, status:'active'},
   {id:7, code:'RAMADAN30', name:'Ramadan 30% Off', type:'percent', discount:30, maxCap:300, minOrder:600, product:'', pointsReq:null, startDate:'2026-03-01', endDate:'2026-03-31', usageLimit:300, usedCount:300, perUserLimit:2, status:'expired'},
   {id:8, code:'FIRSTBUY', name:'First Purchase Offer', type:'amount', discount:200, maxCap:null, minOrder:0, product:'', pointsReq:null, startDate:'2026-06-01', endDate:'2026-12-31', usageLimit:null, usedCount:29, perUserLimit:1, status:'active'},
-  {id:9, code:'SPICE20', name:'Spice Range 20%', type:'product_pct', discount:20, maxCap:null, minOrder:0, product:'Shuddhota Turmeric Powder', pointsReq:null, startDate:'2026-05-01', endDate:'2026-05-31', usageLimit:50, usedCount:50, perUserLimit:1, status:'expired'},
+  {id:9, code:'SPICE20', name:'Spice Range 20%', type:'product_pct', discount:20, maxCap:null, minOrder:0, product:'Khati Family Turmeric Powder', pointsReq:null, startDate:'2026-05-01', endDate:'2026-05-31', usageLimit:50, usedCount:50, perUserLimit:1, status:'expired'},
   {id:10, code:'VIP15', name:'VIP Member Reward', type:'percent', discount:15, maxCap:null, minOrder:1000, product:'', pointsReq:null, startDate:'2026-06-15', endDate:'2026-09-15', usageLimit:100, usedCount:0, perUserLimit:0, status:'inactive'},
 ];
 
@@ -790,16 +790,16 @@ export default function CouponManagementPage() {
                     className="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] focus:ring-1 focus:ring-primary outline-none transition"
                   >
                     <option value="">— Select a product —</option>
-                    <option>Shuddhota Garam Masala</option>
-                    <option>Shuddhota Turmeric Powder</option>
-                    <option>Shuddhota Chili Powder</option>
-                    <option>Shuddhota Coriander Powder</option>
-                    <option>Shuddhota Black Pepper</option>
-                    <option>Shuddhota Cumin Powder</option>
-                    <option>Shuddhota Mustard Seeds</option>
-                    <option>Shuddhota Fenugreek</option>
-                    <option>Shuddhota Cardamom</option>
-                    <option>Shuddhota Cinnamon Sticks</option>
+                    <option>Khati Family Garam Masala</option>
+                    <option>Khati Family Turmeric Powder</option>
+                    <option>Khati Family Chili Powder</option>
+                    <option>Khati Family Coriander Powder</option>
+                    <option>Khati Family Black Pepper</option>
+                    <option>Khati Family Cumin Powder</option>
+                    <option>Khati Family Mustard Seeds</option>
+                    <option>Khati Family Fenugreek</option>
+                    <option>Khati Family Cardamom</option>
+                    <option>Khati Family Cinnamon Sticks</option>
                   </select>
                 </div>
               )}

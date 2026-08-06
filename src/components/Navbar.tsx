@@ -35,10 +35,10 @@ export default function Navbar() {
           href="/"
         >
           <span className="material-symbols-outlined text-[20px] md:text-[28px]">
-            shopping_basket
+            diversity_1
           </span>
-          <span className="hidden sm:inline">Shuddhota CO.</span>
-          <span className="sm:hidden font-bold">Shuddhota</span>
+          <span className="hidden sm:inline">Khati Family</span>
+          <span className="sm:hidden font-bold">Khati Family</span>
         </Link>
         <div className="hidden md:flex items-center gap-6">
           <Link

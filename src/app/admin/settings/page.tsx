@@ -81,11 +81,11 @@ export default function AdminSettings() {
                 <h3 className="font-bold text-[15px] text-on-surface border-b border-outline-variant/20 pb-3">Store Information</h3>
                 <div>
                   <label className="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider block mb-1.5">Store Name</label>
-                  <input type="text" defaultValue="Shuddhota Co." className="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface focus:ring-primary focus:border-primary"/>
+                  <input type="text" defaultValue="Khati Family" className="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface focus:ring-primary focus:border-primary"/>
                 </div>
                 <div>
                   <label className="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider block mb-1.5">Support Email</label>
-                  <input type="email" defaultValue="support@shuddhota.com" className="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface focus:ring-primary focus:border-primary"/>
+                  <input type="email" defaultValue="support@khatifamily.com" className="w-full bg-surface-container border border-outline-variant/30 rounded-xl px-4 py-2.5 text-[13px] text-on-surface focus:ring-primary focus:border-primary"/>
                 </div>
                 <div>
                   <label className="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider block mb-1.5">Phone</label>

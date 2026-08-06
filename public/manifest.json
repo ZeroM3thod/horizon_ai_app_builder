@@ -1,0 +1,27 @@
+{
+  "name": "Khati Family",
+  "short_name": "Khati Family",
+  "description": "Authentic masalas and premium dry foods from certified farms",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff9ee",
+  "theme_color": "#9f4122",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["food", "shopping"],
+  "lang": "en-BD",
+  "dir": "ltr"
+}

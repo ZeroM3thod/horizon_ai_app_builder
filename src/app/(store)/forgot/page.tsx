@@ -538,7 +538,7 @@ export default function ForgotPasswordPage() {
                   {/* Mobile brand logo */}
                   <div className="flex items-center gap-2 mb-5 lg:hidden">
                     <span className="material-symbols-outlined text-primary text-[22px]">shopping_basket</span>
-                    <span className="font-bold text-primary text-[16px] tracking-tight">Shuddhota CO.</span>
+                    <span className="font-bold text-primary text-[16px] tracking-tight">Khati Family</span>
                   </div>
 
                   {/* ═══════════════════════════════════
