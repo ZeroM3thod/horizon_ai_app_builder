@@ -1,7 +1,77 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
+
+// ─── Data ───────────────────────────────────────────────────────────────────
+
+const CATEGORIES = [
+  { label: "All Categories", icon: "apps" },
+  { label: "Whole Spices", icon: "local_fire_department" },
+  { label: "Ground Masalas", icon: "soup_kitchen" },
+  { label: "Dry Fruits & Nuts", icon: "nutrition" },
+  { label: "Dals & Pulses", icon: "grain" },
+  { label: "Ready Spice Mixes", icon: "skillet" },
+];
+
+const SORT_OPTIONS = [
+  { label: "Relevance", value: "relevance" },
+  { label: "Price: Low to High", value: "price_asc" },
+  { label: "Price: High to Low", value: "price_desc" },
+  { label: "Best Rated", value: "rating" },
+  { label: "Newest First", value: "newest" },
+];
+
+const PRICE_RANGES = [
+  { label: "Any Price", value: "any" },
+  { label: "Under ৳200", value: "0-200" },
+  { label: "৳200 – ৳500", value: "200-500" },
+  { label: "৳500 – ৳1000", value: "500-1000" },
+  { label: "Above ৳1000", value: "1000+" },
+];
+
+type Product = {
+  id: number;
+  name: string;
+  category: string;
+  price: number;
+  originalPrice?: number;
+  weight: string;
+  rating: number;
+  reviews: number;
+  badge?: string;
+  badgeColor?: string;
+  icon: string;
+  iconColor: string;
+  gradientFrom: string;
+  gradientTo: string;
+  inStock: boolean;
+  isNew: boolean;
+};
+
+const ALL_PRODUCTS: Product[] = [
+  { id: 1, name: "Garam Masala Blend",   category: "Ground Masalas",    price: 249, weight: "200g • Premium Grade",      rating: 5, reviews: 428, badge: "Bestseller", badgeColor: "bg-on-surface text-surface",       icon: "local_fire_department", iconColor: "text-primary",          gradientFrom: "from-primary-container",     gradientTo: "to-primary/20",              inStock: true,  isNew: false },
+  { id: 2, name: "Premium Almonds",       category: "Dry Fruits & Nuts", price: 649, weight: "500g • California Grade A", rating: 5, reviews: 312,                                                                           icon: "nutrition",             iconColor: "text-outline",          gradientFrom: "from-surface-container-high",gradientTo: "to-primary-fixed/50",        inStock: true,  isNew: false },
+  { id: 3, name: "Biryani Masala",        category: "Ground Masalas",    price: 199, weight: "100g • Restaurant Grade",   rating: 4, reviews: 186, badge: "New",         badgeColor: "bg-primary text-on-primary top-2.5 right-2.5", icon: "soup_kitchen",          iconColor: "text-secondary",        gradientFrom: "from-secondary-container",   gradientTo: "to-secondary-fixed/50",      inStock: true,  isNew: true  },
+  { id: 4, name: "Yellow Moong Dal",      category: "Dals & Pulses",     price: 149, originalPrice: 185, weight: "1kg • Premium Washed",     rating: 5, reviews: 541,                                                       icon: "set_meal",              iconColor: "text-on-surface",       gradientFrom: "from-secondary-fixed",       gradientTo: "to-secondary-fixed-dim/50",  inStock: true,  isNew: false },
+  { id: 5, name: "Green Cardamom",        category: "Whole Spices",      price: 349, weight: "50g • Kerala Origin",       rating: 5, reviews: 267,                                                                           icon: "spa",                   iconColor: "text-tertiary",         gradientFrom: "from-tertiary-fixed",        gradientTo: "to-tertiary-container",      inStock: true,  isNew: false },
+  { id: 6, name: "Mixed Dry Fruits",      category: "Dry Fruits & Nuts", price: 719, originalPrice: 899, weight: "250g • Premium Selection", rating: 4, reviews: 193, badge: "20% OFF",    badgeColor: "bg-error text-on-error top-2.5 left-2.5",      icon: "shopping_basket",       iconColor: "text-primary",          gradientFrom: "from-primary-fixed",         gradientTo: "to-inverse-primary/40",      inStock: true,  isNew: false },
+  { id: 7, name: "Turmeric Powder",       category: "Ground Masalas",    price: 129, weight: "200g • Pure Ground",        rating: 5, reviews: 612,                                                                           icon: "colorize",              iconColor: "text-tertiary",         gradientFrom: "from-tertiary-fixed",        gradientTo: "to-primary-container/50",    inStock: true,  isNew: false },
+  { id: 8, name: "Black Pepper Whole",    category: "Whole Spices",      price: 289, weight: "100g • Malabar Grade",      rating: 5, reviews: 334,                                                                           icon: "grass",                 iconColor: "text-secondary",        gradientFrom: "from-secondary-container",   gradientTo: "to-surface-container-high",  inStock: true,  isNew: false },
+  { id: 9, name: "Cashew Nuts W240",      category: "Dry Fruits & Nuts", price: 899, weight: "500g • Premium Grade",      rating: 5, reviews: 201, badge: "Bestseller", badgeColor: "bg-on-surface text-surface",       icon: "nutrition",             iconColor: "text-primary",          gradientFrom: "from-primary-container",     gradientTo: "to-tertiary-fixed/40",       inStock: false, isNew: false },
+  { id:10, name: "Biryani Spice Mix",     category: "Ready Spice Mixes", price: 179, weight: "75g • Restaurant Pack",     rating: 4, reviews: 155,                                                                           icon: "skillet",               iconColor: "text-secondary",        gradientFrom: "from-secondary-fixed",       gradientTo: "to-secondary-container",     inStock: true,  isNew: true  },
+  { id:11, name: "Red Lentil (Masoor)",   category: "Dals & Pulses",     price: 119, weight: "1kg • Premium Whole",       rating: 4, reviews: 278,                                                                           icon: "grain",                 iconColor: "text-on-surface",       gradientFrom: "from-surface-container-high",gradientTo: "to-primary-fixed/30",        inStock: true,  isNew: false },
+  { id:12, name: "Cinnamon Sticks",       category: "Whole Spices",      price: 219, weight: "100g • Ceylon Grade",       rating: 5, reviews: 189, badge: "New",         badgeColor: "bg-primary text-on-primary top-2.5 right-2.5", icon: "local_fire_department", iconColor: "text-tertiary",         gradientFrom: "from-tertiary-container",    gradientTo: "to-tertiary-fixed/50",       inStock: true,  isNew: true  },
+];
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
+function parsePrice(value: string): [number, number] {
+  if (value === "any") return [0, Infinity];
+  if (value === "1000+") return [1000, Infinity];
+  const [lo, hi] = value.split("-").map(Number);
+  return [lo, hi];
+}
 
 function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,14 +100,180 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
   );
 }
 
+// ─── Product Card ────────────────────────────────────────────────────────────
+
+function ProductCard({ p }: { p: Product }) {
+  const stars = "★".repeat(p.rating) + (p.rating < 5 ? "☆" : "");
+  return (
+    <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
+      <div className={`h-36 md:h-52 bg-gradient-to-br ${p.gradientFrom} ${p.gradientTo} relative overflow-hidden p-3 md:p-5 flex items-end`}>
+        {p.badge && (
+          <div className={`absolute text-[8px] md:text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${p.badgeColor}`}>
+            {p.badge}
+          </div>
+        )}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-16 md:w-24 h-16 md:h-24 rounded-full bg-white/10"></div>
+        </div>
+        <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
+          <span className={`material-symbols-outlined ${p.iconColor} text-[18px] md:text-[22px]`}>{p.icon}</span>
+        </div>
+      </div>
+      <div className="p-3 md:p-5 flex flex-col flex-1">
+        <div className="flex items-center gap-1 mb-0.5">
+          <span className="text-primary text-[11px] md:text-[13px]">{stars}</span>
+          <span className="text-[9px] md:text-[11px] text-on-surface-variant">({p.reviews})</span>
+        </div>
+        <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">{p.name}</h4>
+        <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">{p.weight}</p>
+        {!p.inStock && (
+          <p className="text-[9px] md:text-[11px] text-error font-medium mb-1">Out of stock</p>
+        )}
+        <div className="flex items-center justify-between mt-auto">
+          <div className="flex items-baseline gap-1">
+            <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳{p.price}</span>
+            {p.originalPrice && (
+              <span className="text-[10px] md:text-[12px] text-on-surface-variant line-through">৳{p.originalPrice}</span>
+            )}
+          </div>
+          <button
+            disabled={!p.inStock}
+            className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
+            <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
+
 export default function Home() {
+  // Search
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeSearch, setActiveSearch] = useState(""); // committed on Enter / button click
+
+  // Category dropdown
+  const [categoryOpen, setCategoryOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(CATEGORIES[0]);
+  const categoryRef = useRef<HTMLDivElement>(null);
+
+  // Filter dropdown — pending (while panel is open) vs applied
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [pendingSort, setPendingSort]   = useState(SORT_OPTIONS[0]);
+  const [pendingPrice, setPendingPrice] = useState(PRICE_RANGES[0]);
+  const [pendingStock, setPendingStock] = useState(false);
+  // Applied filters (committed when "Apply Filters" is clicked)
+  const [appliedSort, setAppliedSort]   = useState(SORT_OPTIONS[0]);
+  const [appliedPrice, setAppliedPrice] = useState(PRICE_RANGES[0]);
+  const [appliedStock, setAppliedStock] = useState(false);
+  const filterRef = useRef<HTMLDivElement>(null);
+  const resultsRef = useRef<HTMLElement>(null);
+
+  // Whether a search / filter is active
+  const isSearchActive = useMemo(
+    () =>
+      activeSearch.trim() !== "" ||
+      selectedCategory.label !== "All Categories" ||
+      appliedPrice.value !== "any" ||
+      appliedStock,
+    [activeSearch, selectedCategory, appliedPrice, appliedStock]
+  );
+
+  // Derived filtered + sorted product list
+  const results = useMemo(() => {
+    let list = [...ALL_PRODUCTS];
+
+    // text search
+    const q = activeSearch.toLowerCase().trim();
+    if (q) list = list.filter((p) => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
+
+    // category
+    if (selectedCategory.label !== "All Categories")
+      list = list.filter((p) => p.category === selectedCategory.label);
+
+    // price
+    const [lo, hi] = parsePrice(appliedPrice.value);
+    if (appliedPrice.value !== "any") list = list.filter((p) => p.price >= lo && p.price <= hi);
+
+    // in stock
+    if (appliedStock) list = list.filter((p) => p.inStock);
+
+    // sort
+    if (appliedSort.value === "price_asc")  list.sort((a, b) => a.price - b.price);
+    if (appliedSort.value === "price_desc") list.sort((a, b) => b.price - a.price);
+    if (appliedSort.value === "rating")     list.sort((a, b) => b.rating - a.rating || b.reviews - a.reviews);
+    if (appliedSort.value === "newest")     list.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0));
+
+    return list;
+  }, [activeSearch, selectedCategory, appliedPrice, appliedStock, appliedSort]);
+
+  // Active filter tags to show below search box
+  const activeTags = useMemo(() => {
+    const tags: { key: string; label: string }[] = [];
+    if (selectedCategory.label !== "All Categories") tags.push({ key: "category", label: selectedCategory.label });
+    if (appliedSort.value !== "relevance")           tags.push({ key: "sort",     label: appliedSort.label });
+    if (appliedPrice.value !== "any")                tags.push({ key: "price",    label: appliedPrice.label });
+    if (appliedStock)                                tags.push({ key: "stock",    label: "In Stock Only" });
+    return tags;
+  }, [selectedCategory, appliedSort, appliedPrice, appliedStock]);
+
+  function removeTag(key: string) {
+    if (key === "category") setSelectedCategory(CATEGORIES[0]);
+    if (key === "sort")     { setAppliedSort(SORT_OPTIONS[0]);   setPendingSort(SORT_OPTIONS[0]); }
+    if (key === "price")    { setAppliedPrice(PRICE_RANGES[0]);  setPendingPrice(PRICE_RANGES[0]); }
+    if (key === "stock")    { setAppliedStock(false);            setPendingStock(false); }
+  }
+
+  function clearAllTags() {
+    setSelectedCategory(CATEGORIES[0]);
+    setAppliedSort(SORT_OPTIONS[0]);   setPendingSort(SORT_OPTIONS[0]);
+    setAppliedPrice(PRICE_RANGES[0]);  setPendingPrice(PRICE_RANGES[0]);
+    setAppliedStock(false);            setPendingStock(false);
+    setActiveSearch("");               setSearchQuery("");
+  }
+
+  function applyFilters() {
+    setAppliedSort(pendingSort);
+    setAppliedPrice(pendingPrice);
+    setAppliedStock(pendingStock);
+    setFilterOpen(false);
+  }
+
+  function triggerSearch() {
+    setActiveSearch(searchQuery);
+  }
+
+  // Auto-scroll to results when search/filter activates
+  useEffect(() => {
+    if (isSearchActive && resultsRef.current) {
+      resultsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [isSearchActive, results]);
+
+  // Close both dropdowns on outside click
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (categoryRef.current && !categoryRef.current.contains(e.target as Node)) setCategoryOpen(false);
+      if (filterRef.current  && !filterRef.current.contains(e.target as Node))  setFilterOpen(false);
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <>
       {/* ─── SECTION 1: HERO ─── */}
-      <section className="relative pt-28 md:pt-48 pb-12 md:pb-section-gap px-6 md:px-container-padding min-h-[88vh] md:min-h-[90vh] flex flex-col items-center justify-center text-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-tertiary-fixed/30 to-background -z-10"></div>
-        <div className="absolute top-32 right-8 md:right-20 w-24 md:w-48 h-24 md:h-48 rounded-full bg-primary-container/25 blur-3xl -z-10"></div>
-        <div className="absolute bottom-16 left-8 md:left-24 w-28 md:w-56 h-28 md:h-56 rounded-full bg-secondary-container/30 blur-3xl -z-10"></div>
+      <section className="relative pt-28 md:pt-48 pb-12 md:pb-section-gap px-6 md:px-container-padding min-h-[88vh] md:min-h-[90vh] flex flex-col items-center justify-center text-center">
+        {/* Background decoration — clipped to section only */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+          <div className="absolute inset-0 bg-gradient-to-b from-tertiary-fixed/30 to-background"></div>
+          <div className="absolute top-32 right-8 md:right-20 w-24 md:w-48 h-24 md:h-48 rounded-full bg-primary-container/25 blur-3xl"></div>
+          <div className="absolute bottom-16 left-8 md:left-24 w-28 md:w-56 h-28 md:h-56 rounded-full bg-secondary-container/30 blur-3xl"></div>
+        </div>
 
         <div className="inline-flex items-center gap-2 bg-surface/70 backdrop-blur-xl border border-outline-variant/50 rounded-full px-3 md:px-4 py-1.5 md:py-2 mb-6 md:mb-8 shadow-sm">
           <span className="bg-secondary-container text-on-secondary-container font-label-caps text-[10px] md:text-label-caps px-2 py-1 rounded-full uppercase">
@@ -59,33 +295,170 @@ export default function Home() {
         </p>
 
         {/* Search Box */}
-        <div className="w-full max-w-[870px] bg-surface rounded-3xl border border-outline-variant shadow-[0_24px_64px_rgba(159,65,34,0.08)] p-4 md:p-6 mb-6 md:mb-8 backdrop-blur-xl">
-          <div className="flex flex-col gap-3 md:gap-4">
+        <div className="w-full max-w-[870px] bg-surface rounded-3xl border border-outline-variant shadow-[0_24px_64px_rgba(159,65,34,0.08)] p-4 md:p-6 mb-3 backdrop-blur-xl overflow-visible">
+          <div className="flex flex-col gap-3 md:gap-4 overflow-visible">
             <input
               type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && triggerSearch()}
               className="w-full bg-transparent border-none font-body-lg text-[14px] md:text-body-lg text-on-surface placeholder:text-outline focus:ring-0 py-1 md:py-2"
               placeholder="Search spices, dals, dry fruits, masalas..."
             />
-            <div className="flex items-center justify-between pt-3 md:pt-4 border-t border-surface-variant">
-              <div className="flex items-center gap-2 md:gap-3">
-                <button className="p-1.5 md:p-2 rounded-full hover:bg-surface-variant transition-colors text-on-surface-variant">
-                  <span className="material-symbols-outlined text-[20px] md:text-[24px]">tune</span>
-                </button>
-                <div className="flex items-center gap-1.5 md:gap-2 bg-surface-variant rounded-full px-3 md:px-4 py-1.5 md:py-2 cursor-pointer">
-                  <span className="font-body-md text-[11px] md:text-body-md text-on-surface-variant">
-                    All Categories
-                  </span>
-                  <span className="material-symbols-outlined text-[16px] md:text-[20px]">
-                    expand_more
-                  </span>
+            <div className="flex items-center justify-between pt-3 md:pt-4 border-t border-surface-variant overflow-visible">
+              <div className="flex items-center gap-2 md:gap-3 overflow-visible">
+
+                {/* ── Filter button dropdown ── */}
+                <div className="relative" ref={filterRef}>
+                  <button
+                    onClick={() => { setFilterOpen((o) => !o); setCategoryOpen(false); }}
+                    className={`p-1.5 md:p-2 rounded-full transition-colors ${filterOpen ? "bg-primary text-on-primary" : "hover:bg-surface-variant text-on-surface-variant"}`}
+                    aria-label="Open filters"
+                  >
+                    <span className="material-symbols-outlined text-[20px] md:text-[24px]">tune</span>
+                  </button>
+
+                  {filterOpen && (
+                    <div className="absolute left-0 bottom-[calc(100%+8px)] z-[9999] w-64 bg-surface border border-outline-variant/50 rounded-2xl shadow-[0_-8px_40px_rgba(0,0,0,0.12)] p-4 flex flex-col gap-4">
+                      {/* Sort by */}
+                      <div>
+                        <p className="font-label-caps text-[10px] text-on-surface-variant tracking-widest mb-2">SORT BY</p>
+                        <div className="flex flex-col gap-1">
+                          {SORT_OPTIONS.map((opt) => (
+                            <button
+                              key={opt.value}
+                              onClick={() => setPendingSort(opt)}
+                              className={`text-left px-3 py-2 rounded-xl text-[12px] md:text-body-md transition-colors ${
+                                pendingSort.value === opt.value
+                                  ? "bg-primary-container text-on-primary-container font-medium"
+                                  : "text-on-surface hover:bg-surface-variant"
+                              }`}
+                            >
+                              {opt.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Divider */}
+                      <div className="border-t border-outline-variant/30" />
+
+                      {/* Price range */}
+                      <div>
+                        <p className="font-label-caps text-[10px] text-on-surface-variant tracking-widest mb-2">PRICE RANGE</p>
+                        <div className="flex flex-col gap-1">
+                          {PRICE_RANGES.map((range) => (
+                            <button
+                              key={range.value}
+                              onClick={() => setPendingPrice(range)}
+                              className={`text-left px-3 py-2 rounded-xl text-[12px] md:text-body-md transition-colors ${
+                                pendingPrice.value === range.value
+                                  ? "bg-primary-container text-on-primary-container font-medium"
+                                  : "text-on-surface hover:bg-surface-variant"
+                              }`}
+                            >
+                              {range.label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Divider */}
+                      <div className="border-t border-outline-variant/30" />
+
+                      {/* In stock toggle */}
+                      <button
+                        onClick={() => setPendingStock((v) => !v)}
+                        className="flex items-center justify-between px-1"
+                      >
+                        <span className="text-[12px] md:text-body-md text-on-surface">In Stock Only</span>
+                        <div className={`w-9 h-5 rounded-full transition-colors relative ${pendingStock ? "bg-primary" : "bg-surface-variant"}`}>
+                          <span className={`absolute top-0.5 w-4 h-4 rounded-full bg-surface shadow transition-all ${pendingStock ? "left-4" : "left-0.5"}`} />
+                        </div>
+                      </button>
+
+                      {/* Apply */}
+                      <button
+                        onClick={applyFilters}
+                        className="w-full bg-primary text-on-primary rounded-full py-2 text-[12px] md:text-body-md font-medium hover:bg-primary/90 transition-colors"
+                      >
+                        Apply Filters
+                      </button>
+                    </div>
+                  )}
                 </div>
+
+                {/* ── Category dropdown ── */}
+                <div className="relative" ref={categoryRef}>
+                  <button
+                    onClick={() => { setCategoryOpen((o) => !o); setFilterOpen(false); }}
+                    className="flex items-center gap-1.5 md:gap-2 bg-surface-variant rounded-full px-3 md:px-4 py-1.5 md:py-2 cursor-pointer hover:bg-surface-container-high transition-colors"
+                  >
+                    <span className="font-body-md text-[11px] md:text-body-md text-on-surface-variant">
+                      {selectedCategory.label}
+                    </span>
+                    <span className={`material-symbols-outlined text-[16px] md:text-[20px] transition-transform duration-200 ${categoryOpen ? "rotate-180" : ""}`}>
+                      expand_more
+                    </span>
+                  </button>
+
+                  {categoryOpen && (
+                    <div className="absolute left-0 bottom-[calc(100%+8px)] z-[9999] w-52 bg-surface border border-outline-variant/50 rounded-2xl shadow-[0_-8px_40px_rgba(0,0,0,0.12)] py-2 overflow-hidden">
+                      {CATEGORIES.map((cat) => (
+                        <button
+                          key={cat.label}
+                          onClick={() => { setSelectedCategory(cat); setCategoryOpen(false); }}
+                          className={`w-full flex items-center gap-2.5 px-4 py-2.5 text-left text-[12px] md:text-body-md transition-colors ${
+                            selectedCategory.label === cat.label
+                              ? "bg-primary-container text-on-primary-container font-medium"
+                              : "text-on-surface hover:bg-surface-variant"
+                          }`}
+                        >
+                          <span className="material-symbols-outlined text-[16px] shrink-0">{cat.icon}</span>
+                          {cat.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
               </div>
-              <button className="bg-primary text-on-primary rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center shadow-md hover:bg-primary/90 transition-colors">
+              <button
+                onClick={triggerSearch}
+                className="bg-primary text-on-primary rounded-full w-10 h-10 md:w-12 md:h-12 flex items-center justify-center shadow-md hover:bg-primary/90 transition-colors"
+              >
                 <span className="material-symbols-outlined text-[20px] md:text-[24px]">search</span>
               </button>
             </div>
           </div>
         </div>
+
+        {/* ── Active filter tags ── */}
+        {activeTags.length > 0 && (
+          <div className="w-full max-w-[870px] flex flex-wrap items-center gap-2 mb-5 px-1">
+            {activeTags.map((tag) => (
+              <span
+                key={tag.key}
+                className="inline-flex items-center gap-1.5 bg-primary-container text-on-primary-container text-[11px] md:text-[12px] font-medium px-3 py-1.5 rounded-full"
+              >
+                {tag.label}
+                <button
+                  onClick={() => removeTag(tag.key)}
+                  className="flex items-center hover:opacity-70 transition-opacity"
+                  aria-label={`Remove ${tag.label} filter`}
+                >
+                  <span className="material-symbols-outlined text-[14px]">close</span>
+                </button>
+              </span>
+            ))}
+            <button
+              onClick={clearAllTags}
+              className="text-[11px] md:text-[12px] text-on-surface-variant hover:text-primary underline underline-offset-2 transition-colors ml-1"
+            >
+              Clear all
+            </button>
+          </div>
+        )}
 
         {/* Category Pills */}
         <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3">
@@ -113,18 +486,71 @@ export default function Home() {
       </section>
 
       {/* ─── SECTION 2: SLOGAN ─── */}
-      <section className="py-12 md:py-section-gap px-6 md:px-container-padding bg-surface relative">
-        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-primary-container/10 to-transparent"></div>
-        <div className="max-w-5xl mx-auto text-center">
-          <h2 className="font-display-xl text-[34px] md:text-[68px] leading-[1.2] font-normal text-on-surface tracking-tight">
-            Flavor without compromise.
-          </h2>
-        </div>
-      </section>
+      {!isSearchActive && (
+        <section className="py-12 md:py-section-gap px-6 md:px-container-padding bg-surface relative">
+          <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-primary-container/10 to-transparent"></div>
+          <div className="max-w-5xl mx-auto text-center">
+            <h2 className="font-display-xl text-[34px] md:text-[68px] leading-[1.2] font-normal text-on-surface tracking-tight">
+              Flavor without compromise.
+            </h2>
+          </div>
+        </section>
+      )}
 
-      {/* ─── SECTION 7: BESTSELLING PRODUCTS ─── */}
-      <section className="py-12 md:py-section-gap px-6 md:px-container-padding bg-surface-container-low">
+      {/* ─── SECTION 7: SEARCH RESULTS / BESTSELLING PRODUCTS ─── */}
+      <section ref={resultsRef} className="py-12 md:py-section-gap px-6 md:px-container-padding bg-surface-container-low">
         <div className="max-w-7xl mx-auto">
+
+          {isSearchActive ? (
+            /* ── Search / Filter Results ── */
+            <>
+              <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-8 md:mb-10 gap-3">
+                <div>
+                  <span className="font-label-caps text-label-caps text-on-surface-variant tracking-widest mb-2 block">
+                    RESULTS
+                  </span>
+                  <h2 className="font-display-xl text-[28px] md:text-[48px] leading-tight text-on-surface">
+                    {results.length > 0
+                      ? <>{results.length} product{results.length !== 1 ? "s" : ""} found</>
+                      : "No products found"}
+                  </h2>
+                  {activeSearch && (
+                    <p className="text-[13px] md:text-body-md text-on-surface-variant mt-1">
+                      for &ldquo;<span className="font-medium text-on-surface">{activeSearch}</span>&rdquo;
+                    </p>
+                  )}
+                </div>
+                <button
+                  onClick={clearAllTags}
+                  className="inline-flex items-center gap-1.5 text-primary font-body-md text-[13px] md:text-body-md font-medium hover:underline underline-offset-4 shrink-0"
+                >
+                  <span className="material-symbols-outlined text-[18px] md:text-[20px]">close</span>
+                  Clear search
+                </button>
+              </div>
+
+              {results.length > 0 ? (
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+                  {results.map((p) => <ProductCard key={p.id} p={p} />)}
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-20 gap-4 text-center">
+                  <span className="material-symbols-outlined text-[48px] text-on-surface-variant">search_off</span>
+                  <p className="font-body-lg text-[14px] md:text-body-lg text-on-surface-variant max-w-sm">
+                    Try a different keyword or remove some filters to see more products.
+                  </p>
+                  <button
+                    onClick={clearAllTags}
+                    className="bg-primary text-on-primary px-6 py-2.5 rounded-full text-[13px] md:text-body-md font-medium hover:bg-primary/90 transition-colors"
+                  >
+                    Reset filters
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            /* ── Default Bestsellers ── */
+            <>
           <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-8 md:mb-12 gap-3">
             <div>
               <span className="font-label-caps text-label-caps text-on-surface-variant tracking-widest mb-2 block">
@@ -374,6 +800,9 @@ export default function Home() {
               </div>
             </div>
           </div>
+            </>
+          )}
+
         </div>
       </section>
 
