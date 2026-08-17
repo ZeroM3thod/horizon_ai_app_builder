@@ -64,6 +64,65 @@ const ALL_PRODUCTS: Product[] = [
   { id:12, name: "Cinnamon Sticks",       category: "Whole Spices",      price: 219, weight: "100g • Ceylon Grade",       rating: 5, reviews: 189, badge: "New",         badgeColor: "bg-primary text-on-primary top-2.5 right-2.5", icon: "local_fire_department", iconColor: "text-tertiary",         gradientFrom: "from-tertiary-container",    gradientTo: "to-tertiary-fixed/50",       inStock: true,  isNew: true  },
 ];
 
+// ─── Category Pills Scroller ─────────────────────────────────────────────────
+
+const CATEGORY_PILLS = [
+  { label: "Whole Spices",      icon: "local_fire_department" },
+  { label: "Ground Masalas",    icon: "soup_kitchen" },
+  { label: "Dry Fruits & Nuts", icon: "nutrition" },
+  { label: "Dals & Pulses",     icon: "grain" },
+  { label: "Ready Spice Mixes", icon: "skillet" },
+  { label: "Premium Blends",    icon: "auto_awesome" },
+  { label: "Gift Sets",         icon: "card_giftcard" },
+];
+
+function CategoryPillsScroller() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    isDragging.current = true;
+    startX.current = e.pageX - (scrollRef.current?.offsetLeft ?? 0);
+    scrollLeft.current = scrollRef.current?.scrollLeft ?? 0;
+    if (scrollRef.current) scrollRef.current.style.cursor = "grabbing";
+  };
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging.current || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX.current) * 1.2;
+    scrollRef.current.scrollLeft = scrollLeft.current - walk;
+  };
+  const onMouseUp = () => {
+    isDragging.current = false;
+    if (scrollRef.current) scrollRef.current.style.cursor = "grab";
+  };
+
+  return (
+    <div
+      ref={scrollRef}
+      className="flex items-center gap-2 md:gap-3 overflow-x-auto pb-1 w-full max-w-[870px] hide-scrollbar"
+      style={{ cursor: "grab", scrollBehavior: "smooth", WebkitOverflowScrolling: "touch" }}
+      onMouseDown={onMouseDown}
+      onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}
+      onMouseLeave={onMouseUp}
+    >
+      {CATEGORY_PILLS.map((pill) => (
+        <button
+          key={pill.label}
+          className="bg-secondary-fixed/20 text-on-surface border border-secondary-fixed/30 rounded-full px-3 md:px-5 py-1.5 md:py-2 text-[11px] md:text-body-md hover:bg-secondary-fixed/30 transition-colors backdrop-blur-sm inline-flex items-center gap-1.5 shrink-0"
+        >
+          <span className="material-symbols-outlined text-[14px] md:text-[16px]">{pill.icon}</span>
+          &nbsp;{pill.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function parsePrice(value: string): [number, number] {
@@ -71,6 +130,81 @@ function parsePrice(value: string): [number, number] {
   if (value === "1000+") return [1000, Infinity];
   const [lo, hi] = value.split("-").map(Number);
   return [lo, hi];
+}
+
+// ─── Auto-Scroll Reviews ─────────────────────────────────────────────────────
+
+const ALL_REVIEWS = [
+  { stars: 5, text: "The garam masala is unlike anything from a supermarket. You can smell the freshness the moment you open the packet. My curries taste completely different now.", name: "Rehana Begum", role: "Home Cook, Dhaka", initial: "R", bg: "bg-primary-container", color: "text-primary" },
+  { stars: 5, text: "We switched our restaurant to Khati Family for all spice needs. The consistency and quality are excellent. Bulk ordering is seamless and delivery is always on time.", name: "Kabir Hossain", role: "Chef & Restaurant Owner, Chittagong", initial: "K", bg: "bg-secondary-container", color: "text-secondary" },
+  { stars: 5, text: "The Premium Spice Box subscription is a game changer. Every month I discover new spices. The dry fruits are incredibly fresh — much better than local stores.", name: "Sadia Rahman", role: "Food Blogger, Sylhet", initial: "S", bg: "bg-tertiary-fixed", color: "text-tertiary" },
+  { stars: 5, text: "I have been buying almonds and cashews from Khati Family for 6 months. The quality never disappoints — always fresh, always delivered on time. Highly recommended!", name: "Farida Khanam", role: "Home Chef, Rajshahi", initial: "F", bg: "bg-primary-container", color: "text-primary" },
+  { stars: 5, text: "Finally found a place where spices actually smell like spices! The turmeric and coriander have transformed my cooking. Free delivery above ৳500 is a great bonus.", name: "Nadia Islam", role: "Food Content Creator, Dhaka", initial: "N", bg: "bg-secondary-container", color: "text-secondary" },
+  { stars: 4, text: "Ordered the Biryani Masala and the Garam Masala together — both excellent. My guests kept asking what restaurant cooked the biryani. Shipping was very fast too.", name: "Arif Hossain", role: "Home Cook, Khulna", initial: "A", bg: "bg-tertiary-fixed", color: "text-tertiary" },
+  { stars: 5, text: "The mixed dry fruits pack is value for money. Great quality pistachios and raisins — fresher than what I find in local stores. Will definitely order again!", name: "Taslima Akter", role: "Nutritionist, Cumilla", initial: "T", bg: "bg-primary-container", color: "text-primary" },
+  { stars: 5, text: "Running a catering business, I need consistent quality in bulk. Khati Family delivers exactly that. Their wholesale team is very responsive and helpful.", name: "Mizanur Rahman", role: "Catering Business Owner, Gazipur", initial: "M", bg: "bg-secondary-container", color: "text-secondary" },
+  { stars: 5, text: "I love that the packs clearly show the sourcing region. Kerala cardamom — the aroma is phenomenal! This is the real deal, not some generic store brand.", name: "Sumaiya Chowdhury", role: "Cooking Enthusiast, Sylhet", initial: "S", bg: "bg-tertiary-fixed", color: "text-tertiary" },
+  { stars: 4, text: "Very impressed with the packaging — airtight and well-sealed. The moong dal cooked beautifully, no stones or debris. Solid quality for a great price.", name: "Jahangir Alam", role: "Home Cook, Comilla", initial: "J", bg: "bg-primary-container", color: "text-primary" },
+];
+
+function AutoScrollReviews() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const isPaused = useRef(false);
+  const posRef = useRef(0);
+  const rafRef = useRef<number>(0);
+  const doubled = [...ALL_REVIEWS, ...ALL_REVIEWS];
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const speed = 0.5; // px per frame
+
+    function step() {
+      if (!isPaused.current && track) {
+        posRef.current += speed;
+        const halfWidth = track.scrollWidth / 2;
+        if (posRef.current >= halfWidth) posRef.current = 0;
+        track.style.transform = `translateX(-${posRef.current}px)`;
+      }
+      rafRef.current = requestAnimationFrame(step);
+    }
+    rafRef.current = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, []);
+
+  const pause = () => { isPaused.current = true; };
+  const resume = () => { isPaused.current = false; };
+
+  return (
+    <div
+      className="overflow-hidden w-full"
+      onMouseEnter={pause}
+      onMouseLeave={resume}
+      onTouchStart={pause}
+      onTouchEnd={resume}
+    >
+      <div ref={trackRef} className="flex gap-4 md:gap-6 will-change-transform" style={{ width: "max-content" }}>
+        {doubled.map((r, i) => (
+          <div
+            key={i}
+            className="bg-surface-container-low rounded-[24px] p-5 md:p-8 border border-outline-variant/30 w-[280px] md:w-[360px] shrink-0 flex flex-col"
+          >
+            <div className="text-primary text-[16px] md:text-[20px] mb-3">{"★".repeat(r.stars)}{"☆".repeat(5 - r.stars)}</div>
+            <p className="font-body-lg text-[12px] md:text-body-lg text-on-surface mb-4 flex-1">{r.text}</p>
+            <div className="flex items-center gap-3">
+              <div className={`w-9 h-9 md:w-10 md:h-10 rounded-full ${r.bg} flex items-center justify-center shrink-0`}>
+                <span className={`font-bold ${r.color} text-[13px] md:text-[14px]`}>{r.initial}</span>
+              </div>
+              <div>
+                <p className="font-body-md text-[12px] md:text-body-md text-on-surface font-semibold">{r.name}</p>
+                <p className="text-[10px] md:text-body-md text-on-surface-variant">{r.role}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function FAQItem({ question, answer }: { question: string; answer: string }) {
@@ -460,29 +594,8 @@ export default function Home() {
           </div>
         )}
 
-        {/* Category Pills */}
-        <div className="flex flex-wrap items-center justify-center gap-2 md:gap-3">
-          <button className="bg-secondary-fixed/20 text-on-surface border border-secondary-fixed/30 rounded-full px-3 md:px-5 py-1.5 md:py-2 text-[11px] md:text-body-md hover:bg-secondary-fixed/30 transition-colors backdrop-blur-sm inline-flex items-center gap-1.5">
-            <span className="material-symbols-outlined text-[14px] md:text-[16px]">
-              local_fire_department
-            </span>
-            &nbsp;Whole Spices
-          </button>
-          <button className="bg-secondary-fixed/20 text-on-surface border border-secondary-fixed/30 rounded-full px-3 md:px-5 py-1.5 md:py-2 text-[11px] md:text-body-md hover:bg-secondary-fixed/30 transition-colors backdrop-blur-sm inline-flex items-center gap-1.5">
-            <span className="material-symbols-outlined text-[14px] md:text-[16px]">
-              soup_kitchen
-            </span>
-            &nbsp;Ground Masalas
-          </button>
-          <button className="bg-secondary-fixed/20 text-on-surface border border-secondary-fixed/30 rounded-full px-3 md:px-5 py-1.5 md:py-2 text-[11px] md:text-body-md hover:bg-secondary-fixed/30 transition-colors backdrop-blur-sm inline-flex items-center gap-1.5">
-            <span className="material-symbols-outlined text-[14px] md:text-[16px]">nutrition</span>
-            &nbsp;Dry Fruits & Nuts
-          </button>
-          <button className="bg-secondary-fixed/20 text-on-surface border border-secondary-fixed/30 rounded-full px-3 md:px-5 py-1.5 md:py-2 text-[11px] md:text-body-md hover:bg-secondary-fixed/30 transition-colors backdrop-blur-sm inline-flex items-center gap-1.5">
-            <span className="material-symbols-outlined text-[14px] md:text-[16px]">grain</span>
-            &nbsp;Dals & Pulses
-          </button>
-        </div>
+        {/* Category Pills — horizontally scrollable with smooth drag */}
+        <CategoryPillsScroller />
       </section>
 
       {/* ─── SECTION 2: SLOGAN ─── */}
@@ -805,6 +918,305 @@ export default function Home() {
 
         </div>
       </section>
+
+      {/* ─── PRODUCT SECTION A: TOP SPICES ─── */}
+      {!isSearchActive && (
+        <section className="py-12 md:py-section-gap px-6 md:px-container-padding bg-surface">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-8 md:mb-12 gap-3">
+              <div>
+                <span className="font-label-caps text-label-caps text-on-surface-variant tracking-widest mb-2 block">WHOLE SPICES</span>
+                <h2 className="font-display-xl text-[28px] md:text-[48px] leading-tight text-on-surface">Straight from the Source</h2>
+              </div>
+              <Link href="/products" className="inline-flex items-center gap-1.5 text-primary font-body-md text-[13px] md:text-body-md font-medium hover:underline underline-offset-4 shrink-0">
+                View All <span className="material-symbols-outlined text-[18px] md:text-[20px]">arrow_forward</span>
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
+              {/* Green Cardamom */}
+              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
+                <div className="h-36 md:h-44 bg-gradient-to-br from-tertiary-fixed to-tertiary-container relative overflow-hidden p-3 md:p-5 flex items-end">
+                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-20 h-16 md:h-20 rounded-full bg-white/10"></div></div>
+                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
+                    <span className="material-symbols-outlined text-tertiary text-[18px] md:text-[22px]">spa</span>
+                  </div>
+                </div>
+                <div className="p-3 md:p-5 flex flex-col flex-1">
+                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★★</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(267)</span></div>
+                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Green Cardamom</h4>
+                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">50g • Kerala Origin</p>
+                  <div className="flex items-center justify-between mt-auto">
+                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳349</span>
+                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
+                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              {/* Black Pepper */}
+              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
+                <div className="h-36 md:h-44 bg-gradient-to-br from-secondary-container to-surface-container-high relative overflow-hidden p-3 md:p-5 flex items-end">
+                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-20 h-16 md:h-20 rounded-full bg-white/10"></div></div>
+                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
+                    <span className="material-symbols-outlined text-secondary text-[18px] md:text-[22px]">grass</span>
+                  </div>
+                </div>
+                <div className="p-3 md:p-5 flex flex-col flex-1">
+                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★★</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(334)</span></div>
+                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Black Pepper Whole</h4>
+                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">100g • Malabar Grade</p>
+                  <div className="flex items-center justify-between mt-auto">
+                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳289</span>
+                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
+                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              {/* Cinnamon Sticks */}
+              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
+                <div className="h-36 md:h-44 bg-gradient-to-br from-tertiary-container to-tertiary-fixed/50 relative overflow-hidden p-3 md:p-5 flex items-end">
+                  <div className="absolute top-2.5 right-2.5 bg-primary text-on-primary text-[8px] md:text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">New</div>
+                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-20 h-16 md:h-20 rounded-full bg-white/10"></div></div>
+                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
+                    <span className="material-symbols-outlined text-tertiary text-[18px] md:text-[22px]">local_fire_department</span>
+                  </div>
+                </div>
+                <div className="p-3 md:p-5 flex flex-col flex-1">
+                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★★</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(189)</span></div>
+                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Cinnamon Sticks</h4>
+                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">100g • Ceylon Grade</p>
+                  <div className="flex items-center justify-between mt-auto">
+                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳219</span>
+                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
+                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              {/* Cloves */}
+              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
+                <div className="h-36 md:h-44 bg-gradient-to-br from-primary-container/60 to-primary/10 relative overflow-hidden p-3 md:p-5 flex items-end">
+                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-20 h-16 md:h-20 rounded-full bg-white/10"></div></div>
+                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
+                    <span className="material-symbols-outlined text-primary text-[18px] md:text-[22px]">local_florist</span>
+                  </div>
+                </div>
+                <div className="p-3 md:p-5 flex flex-col flex-1">
+                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★★</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(142)</span></div>
+                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Whole Cloves</h4>
+                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">50g • Zanzibar Grade</p>
+                  <div className="flex items-center justify-between mt-auto">
+                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳299</span>
+                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
+                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ─── PRODUCT SECTION B: DRY FRUITS & NUTS ─── */}
+      {!isSearchActive && (
+        <section className="py-12 md:py-section-gap px-6 md:px-container-padding bg-surface-container-low">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-8 md:mb-12 gap-3">
+              <div>
+                <span className="font-label-caps text-label-caps text-on-surface-variant tracking-widest mb-2 block">DRY FRUITS & NUTS</span>
+                <h2 className="font-display-xl text-[28px] md:text-[48px] leading-tight text-on-surface">Premium Picks, Every Time</h2>
+              </div>
+              <Link href="/products" className="inline-flex items-center gap-1.5 text-primary font-body-md text-[13px] md:text-body-md font-medium hover:underline underline-offset-4 shrink-0">
+                View All <span className="material-symbols-outlined text-[18px] md:text-[20px]">arrow_forward</span>
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+              {/* Premium Almonds */}
+              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
+                <div className="h-36 md:h-52 bg-gradient-to-br from-surface-container-high to-primary-fixed/50 relative overflow-hidden p-3 md:p-5 flex items-end">
+                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-24 h-12 md:h-16 rounded-2xl bg-outline/15"></div></div>
+                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
+                    <span className="material-symbols-outlined text-outline text-[18px] md:text-[22px]">nutrition</span>
+                  </div>
+                </div>
+                <div className="p-3 md:p-5 flex flex-col flex-1">
+                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★★</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(312)</span></div>
+                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Premium Almonds</h4>
+                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">500g • California Grade A</p>
+                  <div className="flex items-center justify-between mt-auto">
+                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳649</span>
+                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
+                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              {/* Cashew W240 */}
+              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
+                <div className="h-36 md:h-52 bg-gradient-to-br from-primary-container to-tertiary-fixed/40 relative overflow-hidden p-3 md:p-5 flex items-end">
+                  <div className="absolute top-2.5 left-2.5 bg-on-surface text-surface text-[8px] md:text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Bestseller</div>
+                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-24 h-16 md:h-24 rounded-full bg-white/10"></div></div>
+                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
+                    <span className="material-symbols-outlined text-primary text-[18px] md:text-[22px]">nutrition</span>
+                  </div>
+                </div>
+                <div className="p-3 md:p-5 flex flex-col flex-1">
+                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★★</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(201)</span></div>
+                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Cashew Nuts W240</h4>
+                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">500g • Premium Grade</p>
+                  <p className="text-[9px] md:text-[11px] text-error font-medium mb-1">Out of stock</p>
+                  <div className="flex items-center justify-between mt-auto">
+                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳899</span>
+                    <button disabled className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full flex items-center gap-1 opacity-40 cursor-not-allowed">
+                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
+                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              {/* Mixed Dry Fruits */}
+              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
+                <div className="h-36 md:h-52 bg-gradient-to-br from-primary-fixed to-inverse-primary/40 relative overflow-hidden p-3 md:p-5 flex items-end">
+                  <div className="absolute top-2.5 left-2.5 bg-error text-on-error text-[8px] md:text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">20% OFF</div>
+                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-24 h-16 md:h-24 rounded-full bg-white/10"></div></div>
+                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
+                    <span className="material-symbols-outlined text-primary text-[18px] md:text-[22px]">shopping_basket</span>
+                  </div>
+                </div>
+                <div className="p-3 md:p-5 flex flex-col flex-1">
+                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★☆</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(193)</span></div>
+                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Mixed Dry Fruits</h4>
+                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">250g • Premium Selection</p>
+                  <div className="flex items-center justify-between mt-auto">
+                    <div className="flex items-baseline gap-1">
+                      <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳719</span>
+                      <span className="text-[10px] md:text-[12px] text-on-surface-variant line-through">৳899</span>
+                    </div>
+                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
+                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ─── PRODUCT SECTION C: DALS & READY MIXES ─── */}
+      {!isSearchActive && (
+        <section className="py-12 md:py-section-gap px-6 md:px-container-padding bg-surface">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-8 md:mb-12 gap-3">
+              <div>
+                <span className="font-label-caps text-label-caps text-on-surface-variant tracking-widest mb-2 block">DALS, PULSES & READY MIXES</span>
+                <h2 className="font-display-xl text-[28px] md:text-[48px] leading-tight text-on-surface">Kitchen Essentials, Sorted</h2>
+              </div>
+              <Link href="/products" className="inline-flex items-center gap-1.5 text-primary font-body-md text-[13px] md:text-body-md font-medium hover:underline underline-offset-4 shrink-0">
+                View All <span className="material-symbols-outlined text-[18px] md:text-[20px]">arrow_forward</span>
+              </Link>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
+              {/* Yellow Moong */}
+              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
+                <div className="h-36 md:h-44 bg-gradient-to-br from-secondary-fixed to-secondary-fixed-dim/50 relative overflow-hidden p-3 md:p-5 flex items-end">
+                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-20 h-16 md:h-20 rounded-full bg-white/10"></div></div>
+                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
+                    <span className="material-symbols-outlined text-on-surface text-[18px] md:text-[22px]">set_meal</span>
+                  </div>
+                </div>
+                <div className="p-3 md:p-5 flex flex-col flex-1">
+                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★★</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(541)</span></div>
+                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Yellow Moong Dal</h4>
+                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">1kg • Premium Washed</p>
+                  <div className="flex items-center justify-between mt-auto">
+                    <div className="flex items-baseline gap-1">
+                      <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳149</span>
+                      <span className="text-[10px] md:text-[12px] text-on-surface-variant line-through">৳185</span>
+                    </div>
+                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
+                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              {/* Red Lentil */}
+              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
+                <div className="h-36 md:h-44 bg-gradient-to-br from-surface-container-high to-primary-fixed/30 relative overflow-hidden p-3 md:p-5 flex items-end">
+                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-20 h-16 md:h-20 rounded-full bg-white/10"></div></div>
+                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
+                    <span className="material-symbols-outlined text-on-surface text-[18px] md:text-[22px]">grain</span>
+                  </div>
+                </div>
+                <div className="p-3 md:p-5 flex flex-col flex-1">
+                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★☆</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(278)</span></div>
+                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Red Lentil (Masoor)</h4>
+                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">1kg • Premium Whole</p>
+                  <div className="flex items-center justify-between mt-auto">
+                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳119</span>
+                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
+                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              {/* Biryani Spice Mix */}
+              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
+                <div className="h-36 md:h-44 bg-gradient-to-br from-secondary-fixed to-secondary-container relative overflow-hidden p-3 md:p-5 flex items-end">
+                  <div className="absolute top-2.5 right-2.5 bg-primary text-on-primary text-[8px] md:text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">New</div>
+                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-20 h-16 md:h-20 rounded-full bg-white/10"></div></div>
+                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
+                    <span className="material-symbols-outlined text-secondary text-[18px] md:text-[22px]">skillet</span>
+                  </div>
+                </div>
+                <div className="p-3 md:p-5 flex flex-col flex-1">
+                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★☆</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(155)</span></div>
+                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Biryani Spice Mix</h4>
+                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">75g • Restaurant Pack</p>
+                  <div className="flex items-center justify-between mt-auto">
+                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳179</span>
+                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
+                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              {/* Chana Dal */}
+              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
+                <div className="h-36 md:h-44 bg-gradient-to-br from-primary-container/50 to-secondary-fixed/40 relative overflow-hidden p-3 md:p-5 flex items-end">
+                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-20 h-16 md:h-20 rounded-full bg-white/10"></div></div>
+                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
+                    <span className="material-symbols-outlined text-primary text-[18px] md:text-[22px]">eco</span>
+                  </div>
+                </div>
+                <div className="p-3 md:p-5 flex flex-col flex-1">
+                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★★</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(398)</span></div>
+                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Chana Dal Split</h4>
+                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">1kg • Double Washed</p>
+                  <div className="flex items-center justify-between mt-auto">
+                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳139</span>
+                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
+                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
+                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* ─── SECTION 8: CATEGORY SHOWCASE ─── */}
       <section className="py-12 md:py-section-gap bg-surface relative overflow-hidden">
@@ -1482,8 +1894,8 @@ export default function Home() {
       </section>
 
       {/* ─── SECTION 10: CUSTOMER REVIEWS ─── */}
-      <section className="py-12 md:py-section-gap px-6 md:px-container-padding bg-surface">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-12 md:py-section-gap bg-surface overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 md:px-container-padding">
           <div className="text-center mb-8 md:mb-12">
             <span className="font-label-caps text-label-caps text-on-surface-variant tracking-widest mb-2 block">
               REVIEWS
@@ -1493,70 +1905,9 @@ export default function Home() {
               <br className="hidden md:block" /> & Restaurants Alike
             </h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
-            <div className="bg-surface-container-low rounded-[24px] p-5 md:p-8 border border-outline-variant/30">
-              <div className="text-primary text-[18px] md:text-[20px] mb-3 md:mb-4">★★★★★</div>
-              <p className="font-body-lg text-[13px] md:text-body-lg text-on-surface mb-4 md:mb-6">
-                The garam masala is unlike anything from a supermarket. You can smell the freshness
-                the moment you open the packet. My curries taste completely different now.
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-primary-container flex items-center justify-center shrink-0">
-                  <span className="font-bold text-primary text-[13px] md:text-[14px]">R</span>
-                </div>
-                <div>
-                  <p className="font-body-md text-[12px] md:text-body-md text-on-surface font-semibold">
-                    Rehana Begum
-                  </p>
-                  <p className="text-[10px] md:text-body-md text-on-surface-variant">
-                    Home Cook, Dhaka
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="bg-surface-container-low rounded-[24px] p-5 md:p-8 border border-outline-variant/30">
-              <div className="text-primary text-[18px] md:text-[20px] mb-3 md:mb-4">★★★★★</div>
-              <p className="font-body-lg text-[13px] md:text-body-lg text-on-surface mb-4 md:mb-6">
-                We switched our restaurant to Khati Family for all spice needs. The consistency and
-                quality are excellent. The bulk ordering is seamless and delivery is always on
-                time.
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-secondary-container flex items-center justify-center shrink-0">
-                  <span className="font-bold text-secondary text-[13px] md:text-[14px]">K</span>
-                </div>
-                <div>
-                  <p className="font-body-md text-[12px] md:text-body-md text-on-surface font-semibold">
-                    Kabir Hossain
-                  </p>
-                  <p className="text-[10px] md:text-body-md text-on-surface-variant">
-                    Chef & Restaurant Owner, Chittagong
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="bg-surface-container-low rounded-[24px] p-5 md:p-8 border border-outline-variant/30">
-              <div className="text-primary text-[18px] md:text-[20px] mb-3 md:mb-4">★★★★★</div>
-              <p className="font-body-lg text-[13px] md:text-body-lg text-on-surface mb-4 md:mb-6">
-                The Premium Spice Box subscription is a game changer. Every month I discover new
-                spices. The dry fruits are incredibly fresh — much better than anything in local
-                stores.
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 md:w-10 md:h-10 rounded-full bg-tertiary-fixed flex items-center justify-center shrink-0">
-                  <span className="font-bold text-tertiary text-[13px] md:text-[14px]">S</span>
-                </div>
-                <div>
-                  <p className="font-body-md text-[12px] md:text-body-md text-on-surface font-semibold">
-                    Sadia Rahman
-                  </p>
-                  <p className="text-[10px] md:text-body-md text-on-surface-variant">
-                    Food Blogger, Sylhet
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+        </div>
+        <AutoScrollReviews />
+        <div className="max-w-7xl mx-auto px-6 md:px-container-padding mt-8 md:mt-12">
           {/* Stats */}
           <div className="grid grid-cols-3 gap-3 md:gap-6">
             <div className="text-center p-4 md:p-6 bg-surface-container rounded-[20px] border border-outline-variant/20">
