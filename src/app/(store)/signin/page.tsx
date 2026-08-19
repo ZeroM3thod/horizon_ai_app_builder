@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function SigninPage() {
   const [email, setEmail] = useState("");
@@ -12,12 +14,14 @@ export default function SigninPage() {
   const [forgotModal, setForgotModal] = useState({ show: false, success: false });
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [shaking, setShaking] = useState(false);
+  const { signIn, signInWithGoogle, signInWithFacebook, resetPassword } = useAuth();
+  const router = useRouter();
 
   const togglePass = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSignIn = () => {
+  const handleSignIn = async () => {
     setError({ show: false, message: "" });
 
     if (!email.trim() || !password) {
@@ -29,11 +33,39 @@ export default function SigninPage() {
 
     setIsSigningIn(true);
 
-    // Simulate loading state
-    setTimeout(() => {
+    const { error: signInError } = await signIn(email, password);
+
+    if (signInError) {
       setIsSigningIn(false);
-      setShowSuccessModal(true);
-    }, 1200);
+      setError({ show: true, message: signInError.message || "Invalid email or password." });
+      setShaking(true);
+      setTimeout(() => setShaking(false), 450);
+      return;
+    }
+
+    setIsSigningIn(false);
+    setShowSuccessModal(true);
+    setTimeout(() => {
+      router.push("/");
+    }, 1500);
+  };
+
+  const handleGoogleSignIn = async () => {
+    const { error: googleError } = await signInWithGoogle();
+    if (googleError) {
+      setError({ show: true, message: googleError.message || "Failed to sign in with Google." });
+      setShaking(true);
+      setTimeout(() => setShaking(false), 450);
+    }
+  };
+
+  const handleFacebookSignIn = async () => {
+    const { error: facebookError } = await signInWithFacebook();
+    if (facebookError) {
+      setError({ show: true, message: facebookError.message || "Failed to sign in with Facebook." });
+      setShaking(true);
+      setTimeout(() => setShaking(false), 450);
+    }
   };
 
   const showForgot = () => {
@@ -44,10 +76,15 @@ export default function SigninPage() {
     setForgotModal({ ...forgotModal, show: false });
   };
 
-  const sendReset = () => {
+  const sendReset = async () => {
     const forgotEmailInput = document.getElementById("forgot-email") as HTMLInputElement;
     if (!forgotEmailInput?.value.trim()) {
       forgotEmailInput?.focus();
+      return;
+    }
+    const { error: resetError } = await resetPassword(forgotEmailInput.value);
+    if (resetError) {
+      setError({ show: true, message: resetError.message || "Failed to send reset email." });
       return;
     }
     setForgotModal({ ...forgotModal, success: true });
@@ -180,6 +217,56 @@ export default function SigninPage() {
           background: #ddc0b8;
           opacity: 0.5;
         }
+
+        /* Blur-lock social button overlay */
+        .social-locked-wrapper {
+          position: relative;
+          overflow: hidden;
+          border-radius: 9999px;
+        }
+        .social-locked-wrapper .lock-overlay {
+          position: absolute;
+          inset: 0;
+          border-radius: 9999px;
+          backdrop-filter: blur(5px);
+          -webkit-backdrop-filter: blur(5px);
+          background: rgba(255, 255, 255, 0.45);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          z-index: 10;
+          animation: lockPulse 2.6s ease-in-out infinite;
+          cursor: not-allowed;
+          pointer-events: all;
+        }
+        .social-locked-wrapper .lock-overlay .lock-icon {
+          font-size: 18px;
+          color: #9f4122;
+          animation: lockBounce 2.6s ease-in-out infinite;
+        }
+        .social-locked-wrapper .lock-overlay .lock-text {
+          font-size: 12px;
+          font-weight: 600;
+          color: #9f4122;
+          letter-spacing: 0.02em;
+          opacity: 0;
+          animation: lockTextFade 2.6s ease-in-out infinite;
+        }
+        @keyframes lockPulse {
+          0%, 100% { background: rgba(255, 255, 255, 0.40); }
+          50%       { background: rgba(255, 255, 255, 0.60); }
+        }
+        @keyframes lockBounce {
+          0%, 100% { transform: translateY(0px) scale(1);    }
+          30%       { transform: translateY(-3px) scale(1.1); }
+          60%       { transform: translateY(1px) scale(0.95); }
+        }
+        @keyframes lockTextFade {
+          0%, 20%       { opacity: 0; }
+          40%, 70%      { opacity: 1; }
+          90%, 100%     { opacity: 0; }
+        }
       `}</style>
 
       <section className="relative flex-1 flex items-center justify-center px-4 pt-28 pb-16 md:pt-36 md:pb-20 overflow-hidden">
@@ -299,7 +386,12 @@ export default function SigninPage() {
 
                 {/* Social Sign In */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-                  <button className="btn-social flex items-center justify-center gap-2.5 border border-outline-variant/60 bg-surface rounded-full py-2.5 md:py-3 px-4 text-[13px] md:text-[14px] font-medium text-on-surface">
+                  <div className="social-locked-wrapper">
+                    <div className="lock-overlay" title="Coming soon">
+                      <span className="material-symbols-outlined lock-icon">lock</span>
+                      <span className="lock-text">Coming soon</span>
+                    </div>
+                  <button onClick={handleGoogleSignIn} type="button" className="btn-social flex items-center justify-center gap-2.5 border border-outline-variant/60 bg-surface rounded-full py-2.5 md:py-3 px-4 text-[13px] md:text-[14px] font-medium text-on-surface">
                     <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -320,12 +412,19 @@ export default function SigninPage() {
                     </svg>
                     Continue with Google
                   </button>
-                  <button className="btn-social flex items-center justify-center gap-2.5 border border-outline-variant/60 bg-surface rounded-full py-2.5 md:py-3 px-4 text-[13px] md:text-[14px] font-medium text-on-surface">
+                  </div>
+                  <div className="social-locked-wrapper">
+                    <div className="lock-overlay" title="Coming soon">
+                      <span className="material-symbols-outlined lock-icon">lock</span>
+                      <span className="lock-text">Coming soon</span>
+                    </div>
+                  <button onClick={handleFacebookSignIn} type="button" className="btn-social flex items-center justify-center gap-2.5 border border-outline-variant/60 bg-surface rounded-full py-2.5 md:py-3 px-4 text-[13px] md:text-[14px] font-medium text-on-surface">
                     <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                       <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                     </svg>
                     Continue with Facebook
                   </button>
+                  </div>
                 </div>
 
                 {/* Divider */}

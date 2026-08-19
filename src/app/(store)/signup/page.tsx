@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from"react";
 import Link from"next/link";
+import { useAuth } from "@/contexts/AuthContext";
 
 const COUNTRY_CODES = [
  { flag:"🇧🇩", code:"+880", country:"BD" },
@@ -36,6 +37,7 @@ export default function SignupPage() {
  const [selectedCountry, setSelectedCountry] = useState(COUNTRY_CODES[0]);
  const [showCountryDropdown, setShowCountryDropdown] = useState(false);
  const [phoneError, setPhoneError] = useState("");
+ const [error, setError] = useState({ show: false, message: "" });
  const countryDropdownRef = useRef<HTMLDivElement>(null);
 
  const [showPassword, setShowPassword] = useState(false);
@@ -44,6 +46,8 @@ export default function SignupPage() {
  const [matchMsg, setMatchMsg] = useState({ text:"", color:"", hidden: true });
  const [showEmailConfirmModal, setShowEmailConfirmModal] = useState(false);
  const [showSuccessModal, setShowSuccessModal] = useState(false);
+ const [isSigningUp, setIsSigningUp] = useState(false);
+ const { signUp, signInWithGoogle, signInWithFacebook } = useAuth();
 
  const { password, confirmPassword } = formData;
 
@@ -127,27 +131,58 @@ export default function SignupPage() {
  }
  };
 
- const handleSignUp = () => {
- const { firstName, email, password, confirmPassword, terms, phone } = formData;
+ const handleSignUp = async () => {
+  const { firstName, lastName, email, password, confirmPassword, terms, phone } = formData;
 
- if (!firstName || !email || !password || !confirmPassword) {
- alert("Please fill in all required fields.");
- return;
- }
- if (password !== confirmPassword) {
- alert("Passwords do not match!");
- return;
- }
- if (!terms) {
- alert("Please accept the Terms of Service to continue.");
- return;
- }
- if (phone && selectedCountry.country === "BD" && phone.replace(/\s/g,"").length < 10) {
- setPhoneError("BD phone number must be at least 10 digits.");
- return;
- }
- setPhoneError("");
- setShowEmailConfirmModal(true);
+  if (!firstName || !email || !password || !confirmPassword) {
+    setError({ show: true, message: "Please fill in all required fields." });
+    return;
+  }
+  if (password !== confirmPassword) {
+    setError({ show: true, message: "Passwords do not match!" });
+    return;
+  }
+  if (!terms) {
+    setError({ show: true, message: "Please accept the Terms of Service to continue." });
+    return;
+  }
+  if (phone && selectedCountry.country === "BD" && phone.replace(/\s/g,"").length < 10) {
+    setPhoneError("BD phone number must be at least 10 digits.");
+    return;
+  }
+  setPhoneError("");
+  setError({ show: false, message: "" });
+  setIsSigningUp(true);
+
+  const fullPhone = phone ? `${selectedCountry.code}${phone}` : "";
+  const { error: signUpError } = await signUp(email, password, {
+    firstName,
+    lastName,
+    phone: fullPhone,
+  });
+
+  setIsSigningUp(false);
+
+  if (signUpError) {
+    setError({ show: true, message: signUpError.message || "Failed to create account. Please try again." });
+    return;
+  }
+
+  setShowEmailConfirmModal(true);
+ };
+
+ const handleGoogleSignUp = async () => {
+  const { error: googleError } = await signInWithGoogle();
+  if (googleError) {
+    setError({ show: true, message: googleError.message || "Failed to sign up with Google." });
+  }
+ };
+
+ const handleFacebookSignUp = async () => {
+  const { error: facebookError } = await signInWithFacebook();
+  if (facebookError) {
+    setError({ show: true, message: facebookError.message || "Failed to sign up with Facebook." });
+  }
  };
 
  return (
@@ -167,6 +202,38 @@ export default function SignupPage() {
  .animate-slide-up { animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
  .eye-btn { cursor: pointer; transition: color 0.15s ease; }
  .eye-btn:hover { color: #9f4122; }
+
+ /* Blur-lock social button overlay */
+ .social-locked-wrapper { position: relative; overflow: hidden; border-radius: 9999px; }
+ .social-locked-wrapper .lock-overlay {
+   position: absolute; inset: 0; border-radius: 9999px;
+   backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+   background: rgba(255,255,255,0.45);
+   display: flex; align-items: center; justify-content: center; gap: 6px;
+   z-index: 10; animation: lockPulse 2.6s ease-in-out infinite;
+   cursor: not-allowed; pointer-events: all;
+ }
+ .social-locked-wrapper .lock-overlay .lock-icon {
+   font-size: 18px; color: #9f4122; animation: lockBounce 2.6s ease-in-out infinite;
+ }
+ .social-locked-wrapper .lock-overlay .lock-text {
+   font-size: 12px; font-weight: 600; color: #9f4122; letter-spacing: 0.02em;
+   opacity: 0; animation: lockTextFade 2.6s ease-in-out infinite;
+ }
+ @keyframes lockPulse {
+   0%, 100% { background: rgba(255,255,255,0.40); }
+   50%       { background: rgba(255,255,255,0.60); }
+ }
+ @keyframes lockBounce {
+   0%, 100% { transform: translateY(0px) scale(1);    }
+   30%       { transform: translateY(-3px) scale(1.1); }
+   60%       { transform: translateY(1px) scale(0.95); }
+ }
+ @keyframes lockTextFade {
+   0%, 20%  { opacity: 0; }
+   40%, 70% { opacity: 1; }
+   90%, 100%{ opacity: 0; }
+ }
  `}</style>
 
  <section className="relative flex-1 flex items-center justify-center px-4 pt-28 pb-16 md:pt-36 md:pb-20 overflow-hidden">
@@ -235,32 +302,54 @@ export default function SignupPage() {
 
  <div className="w-full animate-slide-up">
  <div className="bg-surface/90 backdrop-blur-xl rounded-[28px] md:rounded-[32px] border border-outline-variant/40 shadow-[0_24px_64px_rgba(159,65,34,0.10)] p-6 md:p-10">
- <div className="mb-7 md:mb-8">
- <div className="flex items-center gap-2 mb-5 lg:hidden">
- <span className="material-symbols-outlined text-primary text-[22px]">shopping_basket</span>
- <span className="font-bold text-primary text-[16px] tracking-tight">Khati Family</span>
- </div>
- <h2 className="text-[26px] md:text-[34px] leading-tight tracking-tight text-on-surface mb-1.5">Create your account</h2>
- <p className="text-on-surface-variant text-[13px] md:text-[16px]">Already have an account? <Link href="/signin"className="text-primary font-semibold hover:underline underline-offset-2 ml-0.5">Sign in</Link></p>
- </div>
+  <div className="mb-7 md:mb-8">
+  <div className="flex items-center gap-2 mb-5 lg:hidden">
+  <span className="material-symbols-outlined text-primary text-[22px]">shopping_basket</span>
+  <span className="font-bold text-primary text-[16px] tracking-tight">Khati Family</span>
+  </div>
+  <h2 className="text-[26px] md:text-[34px] leading-tight tracking-tight text-on-surface mb-1.5">Create your account</h2>
+  <p className="text-on-surface-variant text-[13px] md:text-[16px]">Already have an account? <Link href="/signin"className="text-primary font-semibold hover:underline underline-offset-2 ml-0.5">Sign in</Link></p>
+  </div>
 
- <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
- <button className="btn-social flex items-center justify-center gap-2.5 border border-outline-variant/60 bg-surface rounded-full py-2.5 md:py-3 px-4 text-[13px] md:text-[14px] font-medium text-on-surface hover:border-outline-variant">
- <svg className="w-4 h-4 shrink-0"viewBox="0 0 24 24"xmlns="http://www.w3.org/2000/svg">
- <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"fill="#4285F4"/>
- <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"fill="#34A853"/>
- <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"fill="#FBBC05"/>
- <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"fill="#EA4335"/>
- </svg>
- Continue with Google
- </button>
- <button className="btn-social flex items-center justify-center gap-2.5 border border-outline-variant/60 bg-surface rounded-full py-2.5 md:py-3 px-4 text-[13px] md:text-[14px] font-medium text-on-surface hover:border-outline-variant">
- <svg className="w-4 h-4 shrink-0"viewBox="0 0 24 24"fill="currentColor"xmlns="http://www.w3.org/2000/svg">
- <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
- </svg>
- Continue with Facebook
- </button>
- </div>
+  {/* Error Banner */}
+  {error.show && (
+   <div className="mb-5 flex items-center gap-3 bg-error-container/60 border border-error/20 rounded-[16px] px-4 py-3.5">
+    <span className="material-symbols-outlined text-error text-[20px] shrink-0">error</span>
+    <p className="text-[13px] text-on-error-container font-medium">
+     {error.message}
+    </p>
+   </div>
+  )}
+
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+  <div className="social-locked-wrapper">
+    <div className="lock-overlay" title="Coming soon">
+      <span className="material-symbols-outlined lock-icon">lock</span>
+      <span className="lock-text">Coming soon</span>
+    </div>
+  <button onClick={handleGoogleSignUp} type="button" className="btn-social flex items-center justify-center gap-2.5 border border-outline-variant/60 bg-surface rounded-full py-2.5 md:py-3 px-4 text-[13px] md:text-[14px] font-medium text-on-surface hover:border-outline-variant">
+  <svg className="w-4 h-4 shrink-0"viewBox="0 0 24 24"xmlns="http://www.w3.org/2000/svg">
+  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"fill="#4285F4"/>
+  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"fill="#34A853"/>
+  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"fill="#FBBC05"/>
+  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"fill="#EA4335"/>
+  </svg>
+  Continue with Google
+  </button>
+  </div>
+  <div className="social-locked-wrapper">
+    <div className="lock-overlay" title="Coming soon">
+      <span className="material-symbols-outlined lock-icon">lock</span>
+      <span className="lock-text">Coming soon</span>
+    </div>
+  <button onClick={handleFacebookSignUp} type="button" className="btn-social flex items-center justify-center gap-2.5 border border-outline-variant/60 bg-surface rounded-full py-2.5 md:py-3 px-4 text-[13px] md:text-[14px] font-medium text-on-surface hover:border-outline-variant">
+  <svg className="w-4 h-4 shrink-0"viewBox="0 0 24 24"fill="currentColor"xmlns="http://www.w3.org/2000/svg">
+  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+  </svg>
+  Continue with Facebook
+  </button>
+  </div>
+  </div>
 
  <div className="flex items-center gap-4 mb-6"><div className="flex-1 h-px bg-outline-variant/40"></div><span className="text-on-surface-variant text-[12px] font-medium">or sign up with email</span><div className="flex-1 h-px bg-outline-variant/40"></div></div>
 
@@ -359,11 +448,11 @@ export default function SignupPage() {
  <span className="text-[12px] md:text-[13px] text-on-surface-variant leading-snug group-hover:text-on-surface transition-colors">Send me exclusive deals, new arrivals, and seasonal offers</span>
  </label>
  </div>
- <div className="pt-2">
- <button type="button"onClick={handleSignUp} className="btn-primary w-full bg-primary text-on-primary font-semibold text-[14px] md:text-[18px] leading-relaxed py-3.5 md:py-4 rounded-full shadow-lg flex items-center justify-center gap-2.5 group">
- <span className="material-symbols-outlined text-[20px] md:text-[22px] group-hover:scale-110 transition-transform">person_add</span>Create Free Account<span className="material-symbols-outlined text-[18px] md:text-[20px] text-secondary-fixed group-hover:translate-x-1 transition-transform">arrow_forward</span>
- </button>
- </div>
+  <div className="pt-2">
+  <button type="button" onClick={handleSignUp} disabled={isSigningUp} className={`btn-primary w-full bg-primary text-on-primary font-semibold text-[14px] md:text-[18px] leading-relaxed py-3.5 md:py-4 rounded-full shadow-lg flex items-center justify-center gap-2.5 group ${isSigningUp ? "opacity-80 cursor-not-allowed" : ""}`}>
+  <span className="material-symbols-outlined text-[20px] md:text-[22px] group-hover:scale-110 transition-transform">person_add</span>{isSigningUp ? "Creating Account..." : "Create Free Account"}<span className="material-symbols-outlined text-[18px] md:text-[20px] text-secondary-fixed group-hover:translate-x-1 transition-transform">arrow_forward</span>
+  </button>
+  </div>
  </div>
 
  <div className="mt-6 pt-5 border-t border-outline-variant/20 flex items-center justify-center gap-4 flex-wrap">

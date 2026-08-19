@@ -1,0 +1,98 @@
+-- =====================================================
+-- OAuth Provider Configuration
+-- =====================================================
+-- This file contains instructions for setting up
+-- Google and Facebook OAuth providers in Supabase
+-- =====================================================
+
+-- IMPORTANT: These are MANUAL steps to be done in Supabase Dashboard
+-- Navigate to: Authentication > Providers in your Supabase project
+
+-- =====================================================
+-- GOOGLE OAUTH SETUP
+-- =====================================================
+-- 
+-- 1. Go to Google Cloud Console: https://console.cloud.google.com/
+-- 2. Create a new project or select existing project
+-- 3. Enable Google+ API for your project
+-- 4. Go to "Credentials" section
+-- 5. Click "Create Credentials" > "OAuth 2.0 Client ID"
+-- 6. Configure OAuth consent screen if not already done
+-- 7. For Application type, select "Web application"
+-- 8. Add authorized redirect URI:
+--    https://YOUR_PROJECT_REF.supabase.co/auth/v1/callback
+--    (Replace YOUR_PROJECT_REF with your actual Supabase project reference)
+-- 9. Copy the Client ID and Client Secret
+-- 10. In Supabase Dashboard > Authentication > Providers > Google:
+--     - Enable Google provider
+--     - Paste Client ID
+--     - Paste Client Secret
+--     - Save
+--
+-- Scopes requested: email, profile, openid
+
+-- =====================================================
+-- FACEBOOK OAUTH SETUP
+-- =====================================================
+--
+-- 1. Go to Facebook Developers: https://developers.facebook.com/
+-- 2. Create a new app or select existing app
+-- 3. Add "Facebook Login" product to your app
+-- 4. In Facebook Login Settings, add OAuth Redirect URI:
+--    https://YOUR_PROJECT_REF.supabase.co/auth/v1/callback
+--    (Replace YOUR_PROJECT_REF with your actual Supabase project reference)
+-- 5. Go to Settings > Basic
+-- 6. Copy the App ID and App Secret
+-- 7. In Supabase Dashboard > Authentication > Providers > Facebook:
+--     - Enable Facebook provider
+--     - Paste App ID as Client ID
+--     - Paste App Secret as Client Secret
+--     - Save
+--
+-- Scopes requested: email, public_profile
+
+-- =====================================================
+-- EMAIL AUTH CONFIGURATION
+-- =====================================================
+--
+-- Email authentication is enabled by default in Supabase.
+-- 
+-- Additional configurations in Supabase Dashboard:
+--
+-- 1. Go to Authentication > Settings
+-- 2. Enable "Enable email confirmations" if you want users to verify email
+-- 3. Configure email templates under Authentication > Email Templates:
+--    - Confirmation email
+--    - Reset password email
+--    - Magic link email (if using magic links)
+-- 4. Update site URL and redirect URLs:
+--    - Site URL: https://your-production-domain.com
+--    - Redirect URLs: Add your app's URLs (including localhost for dev)
+
+-- =====================================================
+-- SECURITY RECOMMENDATIONS
+-- =====================================================
+--
+-- 1. Row Level Security (RLS) is already enabled on all tables
+-- 2. API keys are environment-specific - never commit them
+-- 3. Use HTTPS in production
+-- 4. Configure allowed redirect URLs carefully
+-- 5. Set up rate limiting in Supabase Dashboard
+-- 6. Enable MFA (Multi-Factor Authentication) for admin accounts
+-- 7. Regularly review and rotate OAuth credentials
+
+-- =====================================================
+-- TESTING CHECKLIST
+-- =====================================================
+--
+-- Before going to production, test:
+-- [ ] Email/password signup
+-- [ ] Email/password signin
+-- [ ] Email confirmation flow
+-- [ ] Password reset flow
+-- [ ] Google OAuth signin
+-- [ ] Facebook OAuth signin
+-- [ ] User profile creation on signup
+-- [ ] RLS policies (users can only see their own data)
+-- [ ] Session management and refresh tokens
+-- [ ] Logout functionality
