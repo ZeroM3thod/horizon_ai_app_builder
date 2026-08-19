@@ -164,7 +164,7 @@ export default function ForgotPasswordPage() {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailStr);
   };
 
-  const sendOTP = () => {
+  const sendOTP = async () => {
     setEmailError("");
     setIsEmailInputError(false);
 
@@ -177,7 +177,23 @@ export default function ForgotPasswordPage() {
 
     setIsSendingEmail(true);
 
-    setTimeout(() => {
+    try {
+      const response = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setEmailError(data.error || "Failed to send reset code.");
+        setIsEmailInputError(true);
+        setIsSendingEmail(false);
+        triggerShake("step1");
+        return;
+      }
+
       setIsSendingEmail(false);
       setCurrentStep(2);
       setResendCooldown(30);
@@ -185,10 +201,15 @@ export default function ForgotPasswordPage() {
       setTimeout(() => {
         otpRefs.current[0]?.focus();
       }, 100);
-    }, 1400);
+    } catch (error) {
+      setEmailError("Network error. Please try again.");
+      setIsEmailInputError(true);
+      setIsSendingEmail(false);
+      triggerShake("step1");
+    }
   };
 
-  const verifyOTP = () => {
+  const verifyOTP = async () => {
     setOtpError("");
     const code = otp.join("");
 
@@ -200,23 +221,55 @@ export default function ForgotPasswordPage() {
 
     setIsVerifyingOtp(true);
 
-    setTimeout(() => {
+    try {
+      const response = await fetch('/api/auth/verify-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, code }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setOtpError(data.error || "Invalid or expired code.");
+        setIsVerifyingOtp(false);
+        triggerShake("otp");
+        return;
+      }
+
       setIsVerifyingOtp(false);
       setCurrentStep(3);
-    }, 1200);
+    } catch (error) {
+      setOtpError("Network error. Please try again.");
+      setIsVerifyingOtp(false);
+      triggerShake("otp");
+    }
   };
 
-  const resendOTP = () => {
+  const resendOTP = async () => {
     setOtp(["", "", "", "", "", ""]);
-    setTimeout(() => {
-      otpRefs.current[0]?.focus();
-    }, 100);
     setOtpError("");
-    setOtpSeconds(899);
-    setResendCooldown(30);
+    
+    try {
+      const response = await fetch('/api/auth/forgot-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        setOtpSeconds(899);
+        setResendCooldown(30);
+        setTimeout(() => {
+          otpRefs.current[0]?.focus();
+        }, 100);
+      }
+    } catch (error) {
+      setOtpError("Failed to resend code. Please try again.");
+    }
   };
 
-  const setNewPassword = () => {
+  const setNewPassword = async () => {
     setPasswordError("");
 
     if (newPassword.length < 8) {
@@ -232,10 +285,34 @@ export default function ForgotPasswordPage() {
 
     setIsUpdatingPassword(true);
 
-    setTimeout(() => {
+    try {
+      const code = otp.join("");
+      const response = await fetch('/api/auth/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          email, 
+          code, 
+          newPassword 
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setPasswordError(data.error || "Failed to reset password.");
+        setIsUpdatingPassword(false);
+        triggerShake("step3");
+        return;
+      }
+
       setIsUpdatingPassword(false);
       setCurrentStep(4);
-    }, 1400);
+    } catch (error) {
+      setPasswordError("Network error. Please try again.");
+      setIsUpdatingPassword(false);
+      triggerShake("step3");
+    }
   };
 
   return (

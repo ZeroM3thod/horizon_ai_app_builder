@@ -11,10 +11,9 @@ export default function SigninPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [error, setError] = useState({ show: false, message: "" });
-  const [forgotModal, setForgotModal] = useState({ show: false, success: false });
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [shaking, setShaking] = useState(false);
-  const { signIn, signInWithGoogle, signInWithFacebook, resetPassword } = useAuth();
+  const { signIn, signInWithGoogle, signInWithFacebook } = useAuth();
   const router = useRouter();
 
   const togglePass = () => {
@@ -66,28 +65,6 @@ export default function SigninPage() {
       setShaking(true);
       setTimeout(() => setShaking(false), 450);
     }
-  };
-
-  const showForgot = () => {
-    setForgotModal({ show: true, success: false });
-  };
-
-  const closeForgot = () => {
-    setForgotModal({ ...forgotModal, show: false });
-  };
-
-  const sendReset = async () => {
-    const forgotEmailInput = document.getElementById("forgot-email") as HTMLInputElement;
-    if (!forgotEmailInput?.value.trim()) {
-      forgotEmailInput?.focus();
-      return;
-    }
-    const { error: resetError } = await resetPassword(forgotEmailInput.value);
-    if (resetError) {
-      setError({ show: true, message: resetError.message || "Failed to send reset email." });
-      return;
-    }
-    setForgotModal({ ...forgotModal, success: true });
   };
 
   return (
@@ -463,9 +440,9 @@ export default function SigninPage() {
                       <label className="block text-[12px] md:text-[13px] font-semibold text-on-surface uppercase tracking-wider" htmlFor="password">
                         Password
                       </label>
-                      <button type="button" onClick={showForgot} className="forgot-link text-[12px] md:text-[13px] text-on-surface-variant font-medium">
+                      <Link href="/forget-password" className="forgot-link text-[12px] md:text-[13px] text-on-surface-variant font-medium">
                         Forgot password?
-                      </button>
+                      </Link>
                     </div>
                     <div className="relative">
                       <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px] md:text-[20px] pointer-events-none">
@@ -555,72 +532,6 @@ export default function SigninPage() {
           </div>
         </div>
       </section>
-
-      {/* ─── FORGOT PASSWORD MODAL ─── */}
-      {forgotModal.show && (
-        <div id="forgot-modal" className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-inverse-surface/40 backdrop-blur-md" onClick={closeForgot}></div>
-          <div className="relative bg-surface rounded-[28px] border border-outline-variant/40 shadow-2xl p-8 md:p-10 max-w-sm w-full animate-fade-up">
-            <button
-              onClick={closeForgot}
-              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center hover:bg-surface-container-high transition-colors"
-            >
-              <span className="material-symbols-outlined text-on-surface-variant text-[18px]">close</span>
-            </button>
-            <div className="w-14 h-14 bg-primary-fixed/60 rounded-full flex items-center justify-center mb-5">
-              <span className="material-symbols-outlined text-primary text-[28px]">key</span>
-            </div>
-            <h3 className="font-display-xl text-[22px] text-on-surface tracking-tight mb-1.5">Forgot password?</h3>
-            <p className="text-on-surface-variant text-[13px] mb-6 leading-relaxed">
-              No worries! Enter your registered email and we&apos;ll send you a reset link.
-            </p>
-
-            {/* Forgot form */}
-            {!forgotModal.success ? (
-              <div id="forgot-form" className="space-y-4">
-                <div className="relative">
-                  <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px] pointer-events-none">
-                    mail
-                  </span>
-                  <input
-                    type="email"
-                    id="forgot-email"
-                    placeholder="your@email.com"
-                    className="input-field w-full bg-surface-container-low border border-outline-variant/60 rounded-full pl-10 pr-4 py-3 text-[13px] text-on-surface placeholder:text-outline/60 font-body-md"
-                  />
-                </div>
-                <button
-                  type="button"
-                  onClick={sendReset}
-                  className="btn-primary w-full bg-primary text-on-primary font-semibold text-[14px] py-3 rounded-full shadow-md flex items-center justify-center gap-2 group"
-                >
-                  <span className="material-symbols-outlined text-[18px] group-hover:scale-110 transition-transform">send</span>
-                  Send Reset Link
-                </button>
-                <button
-                  type="button"
-                  onClick={closeForgot}
-                  className="w-full text-center text-[13px] text-on-surface-variant hover:text-primary transition-colors py-1"
-                >
-                  ← Back to Sign In
-                </button>
-              </div>
-            ) : (
-              /* Success state */
-              <div id="forgot-success" className="text-center">
-                <div className="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="material-symbols-outlined text-secondary text-[26px]">mark_email_read</span>
-                </div>
-                <p className="font-semibold text-on-surface text-[15px] mb-2">Check your inbox!</p>
-                <p className="text-on-surface-variant text-[13px] mb-5">A reset link has been sent to your email address.</p>
-                <button onClick={closeForgot} className="text-primary text-[13px] font-semibold hover:underline underline-offset-2">
-                  ← Back to Sign In
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* ─── SUCCESS MODAL ─── */}
       {showSuccessModal && (
