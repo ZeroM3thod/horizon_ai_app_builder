@@ -1,7 +1,25 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from"react";
+import React, { useState, useEffect, useCallback, useRef } from"react";
 import Link from"next/link";
+
+const COUNTRY_CODES = [
+ { flag:"🇧🇩", code:"+880", country:"BD" },
+ { flag:"🇺🇸", code:"+1", country:"US" },
+ { flag:"🇬🇧", code:"+44", country:"GB" },
+ { flag:"🇮🇳", code:"+91", country:"IN" },
+ { flag:"🇦🇺", code:"+61", country:"AU" },
+ { flag:"🇨🇦", code:"+1", country:"CA" },
+ { flag:"🇸🇦", code:"+966", country:"SA" },
+ { flag:"🇦🇪", code:"+971", country:"AE" },
+ { flag:"🇲🇾", code:"+60", country:"MY" },
+ { flag:"🇸🇬", code:"+65", country:"SG" },
+ { flag:"🇵🇰", code:"+92", country:"PK" },
+ { flag:"🇩🇪", code:"+49", country:"DE" },
+ { flag:"🇫🇷", code:"+33", country:"FR" },
+ { flag:"🇨🇳", code:"+86", country:"CN" },
+ { flag:"🇯🇵", code:"+81", country:"JP" },
+];
 
 export default function SignupPage() {
  const [formData, setFormData] = useState({
@@ -15,10 +33,16 @@ export default function SignupPage() {
  newsletter: false,
  });
 
+ const [selectedCountry, setSelectedCountry] = useState(COUNTRY_CODES[0]);
+ const [showCountryDropdown, setShowCountryDropdown] = useState(false);
+ const [phoneError, setPhoneError] = useState("");
+ const countryDropdownRef = useRef<HTMLDivElement>(null);
+
  const [showPassword, setShowPassword] = useState(false);
  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
  const [strength, setStrength] = useState({ score: 0, label:"", color:"", barColors: ["#ddc0b8","#ddc0b8","#ddc0b8","#ddc0b8"] });
  const [matchMsg, setMatchMsg] = useState({ text:"", color:"", hidden: true });
+ const [showEmailConfirmModal, setShowEmailConfirmModal] = useState(false);
  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
  const { password, confirmPassword } = formData;
@@ -39,6 +63,16 @@ export default function SignupPage() {
  useEffect(() => {
  checkMatch();
  }, [checkMatch]);
+
+ useEffect(() => {
+ const handleClickOutside = (e: MouseEvent) => {
+ if (countryDropdownRef.current && !countryDropdownRef.current.contains(e.target as Node)) {
+ setShowCountryDropdown(false);
+ }
+ };
+ document.addEventListener("mousedown", handleClickOutside);
+ return () => document.removeEventListener("mousedown", handleClickOutside);
+ }, []);
 
  const checkStrength = (val: string) => {
  if (!val) {
@@ -94,7 +128,7 @@ export default function SignupPage() {
  };
 
  const handleSignUp = () => {
- const { firstName, email, password, confirmPassword, terms } = formData;
+ const { firstName, email, password, confirmPassword, terms, phone } = formData;
 
  if (!firstName || !email || !password || !confirmPassword) {
  alert("Please fill in all required fields.");
@@ -108,7 +142,12 @@ export default function SignupPage() {
  alert("Please accept the Terms of Service to continue.");
  return;
  }
- setShowSuccessModal(true);
+ if (phone && selectedCountry.country === "BD" && phone.replace(/\s/g,"").length < 10) {
+ setPhoneError("BD phone number must be at least 10 digits.");
+ return;
+ }
+ setPhoneError("");
+ setShowEmailConfirmModal(true);
  };
 
  return (
@@ -252,9 +291,45 @@ export default function SignupPage() {
  <div>
  <label className="block text-[12px] md:text-[13px] font-semibold text-on-surface mb-1.5 uppercase tracking-wider"htmlFor="phone">Phone Number <span className="normal-case tracking-normal text-outline font-normal ml-1">(optional)</span></label>
  <div className="relative flex">
- <div className="flex items-center gap-1.5 bg-surface-container border border-r-0 border-outline-variant/60 rounded-l-full pl-4 pr-3 py-3 md:py-3.5 shrink-0"><span className="text-[13px] md:text-[14px] font-medium text-on-surface">🇧🇩</span><span className="text-[13px] md:text-[14px] text-on-surface-variant font-medium">+880</span><span className="material-symbols-outlined text-outline text-[16px]">expand_more</span></div>
- <input type="tel"id="phone"placeholder="01XXXXXXXXX"value={formData.phone} onChange={handleInputChange} className="input-field flex-1 bg-surface-container-low border border-l-0 border-outline-variant/60 rounded-r-full pr-4 pl-3 py-3 md:py-3.5 text-[13px] md:text-[16px] text-on-surface placeholder:text-outline/60"style={{ borderRadius:"0 9999px 9999px 0"}} />
+ <div className="relative shrink-0" ref={countryDropdownRef}>
+ <button
+ type="button"
+ onClick={() => setShowCountryDropdown(prev => !prev)}
+ className="flex items-center gap-1.5 bg-surface-container border border-r-0 border-outline-variant/60 rounded-l-full pl-4 pr-3 py-3 md:py-3.5 h-full focus:outline-none focus:border-primary"
+ >
+ <span className="text-[13px] md:text-[14px] font-medium text-on-surface">{selectedCountry.flag}</span>
+ <span className="text-[13px] md:text-[14px] text-on-surface-variant font-medium">{selectedCountry.code}</span>
+ <span className="material-symbols-outlined text-outline text-[16px]" style={{ transform: showCountryDropdown ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s ease" }}>expand_more</span>
+ </button>
+ {showCountryDropdown && (
+ <div className="absolute top-full left-0 mt-1 z-50 bg-surface border border-outline-variant/60 rounded-2xl shadow-xl overflow-hidden min-w-[160px]" style={{ maxHeight: "220px", overflowY: "auto" }}>
+ {COUNTRY_CODES.map((c) => (
+ <button
+ key={c.country + c.code}
+ type="button"
+ onClick={() => { setSelectedCountry(c); setShowCountryDropdown(false); setPhoneError(""); }}
+ className="flex items-center gap-2.5 w-full px-4 py-2.5 text-left hover:bg-surface-container-low transition-colors"
+ style={{ backgroundColor: selectedCountry.country === c.country && selectedCountry.code === c.code ? "rgba(159,65,34,0.08)" : undefined }}
+ >
+ <span className="text-[16px]">{c.flag}</span>
+ <span className="text-[13px] font-medium text-on-surface-variant">{c.code}</span>
+ <span className="text-[12px] text-outline ml-auto">{c.country}</span>
+ </button>
+ ))}
  </div>
+ )}
+ </div>
+ <input
+ type="tel"
+ id="phone"
+ placeholder={selectedCountry.country === "BD" ? "01XXXXXXXXX" : "Phone number"}
+ value={formData.phone}
+ onChange={(e) => { handleInputChange(e); setPhoneError(""); }}
+ className="input-field flex-1 bg-surface-container-low border border-l-0 border-outline-variant/60 rounded-r-full pr-4 pl-3 py-3 md:py-3.5 text-[13px] md:text-[16px] text-on-surface placeholder:text-outline/60"
+ style={{ borderRadius:"0 9999px 9999px 0" }}
+ />
+ </div>
+ {phoneError && <p className="mt-1.5 text-[11px] ml-4" style={{ color: "#ba1a1a" }}>{phoneError}</p>}
  </div>
  <div>
  <label className="block text-[12px] md:text-[13px] font-semibold text-on-surface mb-1.5 uppercase tracking-wider"htmlFor="password">Password</label>
@@ -304,16 +379,67 @@ export default function SignupPage() {
  </div>
  </section>
 
+ {showEmailConfirmModal && (
+ <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+ <div className="absolute inset-0 bg-inverse-surface/40 backdrop-blur-md"></div>
+ <div className="relative bg-surface rounded-[28px] border border-outline-variant/40 shadow-2xl p-8 md:p-10 max-w-sm w-full text-center animate-slide-up">
+ {/* Animated envelope icon */}
+ <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-5 relative">
+ <span className="material-symbols-outlined text-primary text-[40px]">mark_email_unread</span>
+ <span className="absolute top-1 right-1 w-4 h-4 bg-primary rounded-full border-2 border-surface animate-pulse"></span>
+ </div>
+ <h3 className="text-[22px] md:text-[26px] font-semibold text-on-surface tracking-tight mb-2">Confirm your email</h3>
+ <p className="text-on-surface-variant text-[13px] md:text-[14px] leading-relaxed mb-1">
+ We&apos;ve sent a confirmation link to
+ </p>
+ <p className="text-primary font-semibold text-[14px] md:text-[15px] mb-5 break-all">{formData.email}</p>
+ <p className="text-on-surface-variant text-[12px] md:text-[13px] leading-relaxed mb-7">
+ Click the link in the email to activate your account. Check your spam folder if you don&apos;t see it.
+ </p>
+ {/* Steps */}
+ <div className="bg-surface-container-low rounded-2xl p-4 mb-6 text-left space-y-3">
+ {[
+ { icon: "mail", text: "Open your email inbox" },
+ { icon: "ads_click", text: "Click the confirmation link" },
+ { icon: "storefront", text: "Start shopping on Khati Family" },
+ ].map((step, i) => (
+ <div key={i} className="flex items-center gap-3">
+ <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+ <span className="material-symbols-outlined text-primary text-[14px]">{step.icon}</span>
+ </div>
+ <span className="text-[12px] md:text-[13px] text-on-surface-variant">{step.text}</span>
+ </div>
+ ))}
+ </div>
+ <button
+ type="button"
+ onClick={() => { setShowEmailConfirmModal(false); setShowSuccessModal(true); }}
+ className="btn-primary w-full bg-primary text-on-primary font-semibold text-[14px] py-3 rounded-full shadow-md flex items-center justify-center gap-2 mb-3"
+ >
+ <span className="material-symbols-outlined text-[18px]">check_circle</span>
+ I&apos;ve confirmed my email
+ </button>
+ <button
+ type="button"
+ onClick={() => setShowEmailConfirmModal(false)}
+ className="w-full text-[12px] text-on-surface-variant hover:text-on-surface transition-colors py-1"
+ >
+ Go back to sign up
+ </button>
+ </div>
+ </div>
+ )}
+
  {showSuccessModal && (
- <div id="success-modal"className="fixed inset-0 z-[100] flex items-center justify-center p-4">
- <div className="absolute inset-0 bg-inverse-surface/40 backdrop-blur-md"onClick={() => setShowSuccessModal(false)}></div>
+ <div id="success-modal" className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+ <div className="absolute inset-0 bg-inverse-surface/40 backdrop-blur-md" onClick={() => setShowSuccessModal(false)}></div>
  <div className="relative bg-surface rounded-[28px] border border-outline-variant/40 shadow-2xl p-8 md:p-12 max-w-sm w-full text-center animate-slide-up">
  <div className="w-16 h-16 bg-secondary-container rounded-full flex items-center justify-center mx-auto mb-5">
  <span className="material-symbols-outlined text-secondary text-[34px]">check_circle</span>
  </div>
  <h3 className="text-[24px] text-on-surface tracking-tight mb-2">You&apos;re in!</h3>
  <p className="text-on-surface-variant text-[14px] mb-7">Welcome to Khati Family. Your account has been created successfully.</p>
- <Link href="/"className="inline-flex items-center gap-2 bg-primary text-on-primary font-medium px-8 py-3 rounded-full hover:bg-primary/90 transition-colors text-[14px]">
+ <Link href="/" className="inline-flex items-center gap-2 bg-primary text-on-primary font-medium px-8 py-3 rounded-full hover:bg-primary/90 transition-colors text-[14px]">
  Start Shopping <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
  </Link>
  </div>
