@@ -952,7 +952,7 @@ export default function AdminProductsPage() {
               <div className="px-5 pb-5 space-y-4">
                 {/* ── NEW: Mini Label ── */}
                 <div>
-                  <label className="block text-[12px] font-semibold text-on-surface-variant uppercase tracking-wide mb-1.5">Mini Label <span className="text-[11px] font-normal text-outline normal-case tracking-normal">(e.g. "Premium Grade", "Farm Fresh")</span></label>
+                  <label className="block text-[12px] font-semibold text-on-surface-variant uppercase tracking-wide mb-1.5">Mini Label <span className="text-[11px] font-normal text-outline normal-case tracking-normal">(e.g. &quot;Premium Grade&quot;, &quot;Farm Fresh&quot;)</span></label>
                   <input
                     type="text"
                     value={formMiniLabel}
@@ -990,7 +990,7 @@ export default function AdminProductsPage() {
 
                 {/* ── NEW: Product Tags ── */}
                 <div>
-                  <label className="block text-[12px] font-semibold text-on-surface-variant uppercase tracking-wide mb-1.5">Product Tags <span className="text-[11px] font-normal text-outline normal-case tracking-normal">(e.g. "14 Whole Spices", "No MSG")</span></label>
+                  <label className="block text-[12px] font-semibold text-on-surface-variant uppercase tracking-wide mb-1.5">Product Tags <span className="text-[11px] font-normal text-outline normal-case tracking-normal">(e.g. &quot;14 Whole Spices&quot;, &quot;No MSG&quot;)</span></label>
                   <div className="flex gap-2">
                     <input
                       type="text"
