@@ -25,6 +25,8 @@ interface Product {
   thumb: number;
   featured: boolean;
   bestseller: boolean;
+  miniLabel?: string;
+  tags?: string[];
 }
 
 interface Category {
@@ -38,8 +40,8 @@ interface Category {
 ══════════════════════════════════════════════ */
 
 const INITIAL_PRODUCTS: Product[] = [
-  { id:1, name:"Garam Masala Blend", sku:"SKU-GM-001", category:"masala", catLabel:"Ground Masalas", status:"active", variants:[{w:"100g",p:149,mrp:180,s:320},{w:"200g",p:249,mrp:299,s:210},{w:"500g",p:549,mrp:699,s:85}], thumb:0, featured:true, bestseller:true },
-  { id:2, name:"Pure Turmeric Powder", sku:"SKU-TM-002", category:"masala", catLabel:"Ground Masalas", status:"active", variants:[{w:"100g",p:89,mrp:110,s:480},{w:"250g",p:199,mrp:240,s:135},{w:"500g",p:349,mrp:420,s:20}], thumb:1, featured:false, bestseller:true },
+  { id:1, name:"Garam Masala Blend", sku:"SKU-GM-001", category:"masala", catLabel:"Ground Masalas", status:"active", variants:[{w:"100g",p:149,mrp:180,s:320},{w:"200g",p:249,mrp:299,s:210},{w:"500g",p:549,mrp:699,s:85}], thumb:0, featured:true, bestseller:true, miniLabel:"Premium Grade", tags:["14 Whole Spices","No MSG","Gluten Free"] },
+  { id:2, name:"Pure Turmeric Powder", sku:"SKU-TM-002", category:"masala", catLabel:"Ground Masalas", status:"active", variants:[{w:"100g",p:89,mrp:110,s:480},{w:"250g",p:199,mrp:240,s:135},{w:"500g",p:349,mrp:420,s:20}], thumb:1, featured:false, bestseller:true, miniLabel:"Farm Fresh", tags:["100% Natural","No Preservatives"] },
   { id:3, name:"Cumin Powder (Jeera)", sku:"SKU-JR-003", category:"masala", catLabel:"Ground Masalas", status:"active", variants:[{w:"100g",p:99,mrp:120,s:295},{w:"200g",p:179,mrp:215,s:100}], thumb:2, featured:false, bestseller:false },
   { id:4, name:"Red Chilli Powder", sku:"SKU-RC-004", category:"masala", catLabel:"Ground Masalas", status:"lowstock", variants:[{w:"100g",p:99,mrp:120,s:8},{w:"200g",p:179,mrp:215,s:3}], thumb:3, featured:false, bestseller:false },
   { id:5, name:"Coriander Powder", sku:"SKU-CR-005", category:"masala", catLabel:"Ground Masalas", status:"active", variants:[{w:"100g",p:79,mrp:95,s:400},{w:"200g",p:139,mrp:170,s:260},{w:"500g",p:299,mrp:360,s:90}], thumb:4, featured:false, bestseller:false },
@@ -134,6 +136,14 @@ export default function AdminProductsPage() {
   const [formProtip, setFormProtip] = useState("");
   const [formServing, setFormServing] = useState("100g");
   const [formServingsPer, setFormServingsPer] = useState("");
+
+  // NEW: Mini label (e.g. "Premium Grade"), Tags, Description heading, Ingredients heading & Allergen Info
+  const [formMiniLabel, setFormMiniLabel] = useState("");
+  const [formTags, setFormTags] = useState<string[]>([]);
+  const [formTagInput, setFormTagInput] = useState("");
+  const [formDescHeading, setFormDescHeading] = useState("");
+  const [formIngrHeading, setFormIngrHeading] = useState("");
+  const [formAllergenInfo, setFormAllergenInfo] = useState("");
   
   const [formVariants, setFormVariants] = useState<Variant[]>([]);
   const [formDescs, setFormDescs] = useState<{icon:string, title:string, desc:string, color:string}[]>([]);
@@ -242,6 +252,11 @@ export default function AdminProductsPage() {
       {icon:'rice_bowl',theme:'secondary',title:'Biryani & Pulao',desc:'Use 1–2 tsp per kg of rice.',tip:'1–2 tsp per kg rice',tipIcon:'restaurant'},
       {icon:'skillet',theme:'tertiary',title:'Meats & Marinades',desc:'Rub 1 tsp into chicken with yoghurt.',tip:'Marinate overnight',tipIcon:'bedtime'}
     ]);
+    setFormMiniLabel("Premium Grade");
+    setFormTags(["14 Whole Spices","No MSG"]);
+    setFormDescHeading("Why Choose Our Blend?");
+    setFormIngrHeading("What's Inside");
+    setFormAllergenInfo("May contain traces of nuts and sesame. Manufactured in a facility that also processes wheat.");
     setIsProductPanelOpen(true);
   };
 
@@ -257,6 +272,8 @@ export default function AdminProductsPage() {
     setFormFeatured(p.featured);
     setFormBestseller(p.bestseller);
     setFormVariants([...p.variants]);
+    setFormMiniLabel(p.miniLabel || "");
+    setFormTags(p.tags ? [...p.tags] : []);
     // Mock other sections
     setFormDescs([
       {icon:'inventory_2',title:'Resealable Pouch',desc:'Food-grade laminated pouch with a zip-seal for extended freshness.',color:'primary'},
@@ -278,6 +295,9 @@ export default function AdminProductsPage() {
       {icon:'soup_kitchen',theme:'primary',title:'Curries & Gravies',desc:'Add ½–1 tsp per serving. Best added in last 10 minutes.',tip:'Add with 10 min to go',tipIcon:'timer'},
       {icon:'rice_bowl',theme:'secondary',title:'Biryani & Pulao',desc:'Use 1–2 tsp per kg of rice.',tip:'1–2 tsp per kg rice',tipIcon:'restaurant'}
     ]);
+    setFormDescHeading("Why Choose Our Blend?");
+    setFormIngrHeading("What's Inside");
+    setFormAllergenInfo("May contain traces of nuts and sesame.");
     setIsProductPanelOpen(true);
   };
 
@@ -286,6 +306,8 @@ export default function AdminProductsPage() {
     setFormFeatured(false); setFormBestseller(false); setFormNewbadge(false);
     setFormShortDesc(""); setFormFullDesc(""); setFormIngrText(""); setFormProtip("");
     setFormServing("100g"); setFormServingsPer("");
+    setFormMiniLabel(""); setFormTags([]); setFormTagInput("");
+    setFormDescHeading(""); setFormIngrHeading(""); setFormAllergenInfo("");
     setFormVariants([]); setFormDescs([]); setFormIngrRows([]); setFormNutrRows([]); setFormHealthRows([]); setFormHowToRows([]);
     setFormBadges(new Set());
     setCollapsedSections({
@@ -310,7 +332,9 @@ export default function AdminProductsPage() {
       variants: formVariants,
       thumb: editingProductId ? (products.find(p => p.id === editingProductId)?.thumb || 0) : Math.floor(Math.random()*6),
       featured: formFeatured,
-      bestseller: formBestseller
+      bestseller: formBestseller,
+      miniLabel: formMiniLabel.trim() || undefined,
+      tags: formTags.length > 0 ? [...formTags] : undefined,
     };
 
     if (editingProductId) {
@@ -369,6 +393,16 @@ export default function AdminProductsPage() {
       return next;
     });
   };
+
+  // Tag helpers
+  const addTag = () => {
+    const t = formTagInput.trim();
+    if (t && !formTags.includes(t)) {
+      setFormTags(prev => [...prev, t]);
+    }
+    setFormTagInput("");
+  };
+  const removeTag = (idx: number) => setFormTags(prev => prev.filter((_, i) => i !== idx));
 
   const addVariant = () => setFormVariants(prev => [...prev, { w: "", p: 0, mrp: 0, s: 0 }]);
   const removeVariant = (idx: number) => setFormVariants(prev => prev.filter((_, i) => i !== idx));
@@ -444,6 +478,7 @@ export default function AdminProductsPage() {
         .color-swatch{width:20px;height:20px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:transform 0.15s,border-color 0.15s}
         .color-swatch:hover{transform:scale(1.2)}
         .color-swatch.selected{border-color:#9f4122;transform:scale(1.15)}
+        .tag-pill{display:inline-flex;align-items:center;gap:4px;background:rgba(159,65,34,0.08);border:1px solid rgba(159,65,34,0.2);border-radius:99px;padding:3px 10px;font-size:12px;font-weight:600;color:#9f4122}
       ` }} />
 
       <AdminSidebar pendingProducts={products.length} />
@@ -634,7 +669,7 @@ export default function AdminProductsPage() {
                       <button onClick={() => { setCurrentSort('price'); setOpenDropdown(null); }} className="w-full text-left px-3 py-2 rounded-xl text-[13px] text-on-surface hover:bg-surface-container transition-colors">Price Low–High</button>
                     </div>
                   </div>
-                  <button className="flex items-center gap-1.5 bg-surface-container border border-outline-variant/30 rounded-full px-3 py-2 text-[12px] font-medium text-on-surface-variant hover:bg-surface-container-high transition-colors tooltip" data-tip="Export CSV">
+                  <button onClick={() => { showToast('CSV exported!', 'download'); }} className="flex items-center gap-1.5 bg-surface-container border border-outline-variant/30 rounded-full px-3 py-2 text-[12px] font-medium text-on-surface-variant hover:bg-surface-container-high transition-colors tooltip" data-tip="Export CSV">
                     <span className="material-symbols-outlined text-[16px]">download</span>
                     <span className="hidden sm:inline">Export</span>
                   </button>
@@ -683,9 +718,18 @@ export default function AdminProductsPage() {
                               <p className="font-semibold text-[13px] text-on-surface truncate max-w-[130px] md:max-w-none">{p.name}</p>
                               <p className="text-[11px] text-on-surface-variant">{p.sku}</p>
                               <div className="flex gap-1 mt-0.5 flex-wrap">
+                                {p.miniLabel && <span className="text-[9px] font-bold bg-primary/10 text-primary px-1.5 py-0.5 rounded-full border border-primary/20">{p.miniLabel}</span>}
                                 {p.featured && <span className="text-[9px] font-bold bg-primary-fixed text-on-primary-container px-1.5 py-0.5 rounded-full">Featured</span>}
                                 {p.bestseller && <span className="text-[9px] font-bold bg-secondary-container text-on-secondary-container px-1.5 py-0.5 rounded-full">Best Seller</span>}
                               </div>
+                              {p.tags && p.tags.length > 0 && (
+                                <div className="flex flex-wrap gap-1 mt-1">
+                                  {p.tags.slice(0,2).map((tag, ti) => (
+                                    <span key={ti} className="text-[9px] font-medium bg-surface-container border border-outline-variant/40 text-on-surface-variant px-1.5 py-0.5 rounded-full">{tag}</span>
+                                  ))}
+                                  {p.tags.length > 2 && <span className="text-[9px] text-outline">+{p.tags.length - 2}</span>}
+                                </div>
+                              )}
                             </div>
                           </div>
                         </td>
@@ -716,7 +760,7 @@ export default function AdminProductsPage() {
                             <button onClick={() => openEditProductPanel(p.id)} className="w-8 h-8 rounded-xl flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant tooltip" data-tip="Edit">
                               <span className="material-symbols-outlined text-[17px]">edit</span>
                             </button>
-                            <button className="w-8 h-8 rounded-xl flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant tooltip" data-tip="View">
+                            <button onClick={() => showToast(`Viewing ${p.name}`, 'open_in_new')} className="w-8 h-8 rounded-xl flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant tooltip" data-tip="View">
                               <span className="material-symbols-outlined text-[17px]">open_in_new</span>
                             </button>
                             <button onClick={() => { setDeletingProdId(p.id); setIsDelProdModalOpen(true); }} className="w-8 h-8 rounded-xl flex items-center justify-center hover:bg-error-container transition-colors text-on-surface-variant hover:text-error tooltip" data-tip="Delete">
@@ -892,7 +936,7 @@ export default function AdminProductsPage() {
             </div>
           </div>
 
-          {/* SECTION 4: Mini Info */}
+          {/* SECTION 4: Mini Info — now with Mini Label + Tags */}
           <div className={`form-section bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] overflow-hidden ${collapsedSections.sec_miniinfo ? 'collapsed' : ''}`}>
             <button onClick={() => toggleSection('sec_miniinfo')} className="w-full flex items-center gap-3 px-5 py-4 hover:bg-surface-container/50 transition-colors text-left">
               <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
@@ -900,17 +944,37 @@ export default function AdminProductsPage() {
               </div>
               <div className="flex-1">
                 <p className="font-semibold text-[14px] text-on-surface">Mini Product Information</p>
-                <p className="text-[11px] text-on-surface-variant">Short description, badges & product tags</p>
+                <p className="text-[11px] text-on-surface-variant">Short description, mini label, badges & product tags</p>
               </div>
               <span className="section-chevron material-symbols-outlined text-on-surface-variant text-[20px]">expand_more</span>
             </button>
-            <div className="form-section-body" style={{ maxHeight: collapsedSections.sec_miniinfo ? '0px' : '600px' }}>
+            <div className="form-section-body" style={{ maxHeight: collapsedSections.sec_miniinfo ? '0px' : '900px' }}>
               <div className="px-5 pb-5 space-y-4">
+                {/* ── NEW: Mini Label ── */}
+                <div>
+                  <label className="block text-[12px] font-semibold text-on-surface-variant uppercase tracking-wide mb-1.5">Mini Label <span className="text-[11px] font-normal text-outline normal-case tracking-normal">(e.g. "Premium Grade", "Farm Fresh")</span></label>
+                  <input
+                    type="text"
+                    value={formMiniLabel}
+                    onChange={e => setFormMiniLabel(e.target.value)}
+                    maxLength={30}
+                    placeholder="Premium Grade"
+                    className="form-inp w-full bg-surface-container rounded-[12px] border border-outline-variant/60 px-4 py-3 text-[14px] text-on-surface transition-all"
+                  />
+                  {formMiniLabel && (
+                    <div className="mt-2 flex items-center gap-2">
+                      <span className="text-[10px] text-on-surface-variant">Preview:</span>
+                      <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-0.5 rounded-full border border-primary/20">{formMiniLabel}</span>
+                    </div>
+                  )}
+                </div>
+
                 <div>
                   <label className="block text-[12px] font-semibold text-on-surface-variant uppercase tracking-wide mb-1.5">Short Description</label>
                   <textarea rows={3} value={formShortDesc} onChange={e => setFormShortDesc(e.target.value)} placeholder="Brief aromatic blend description…" className="form-inp w-full bg-surface-container rounded-[12px] border border-outline-variant/60 px-4 py-3 text-[14px] text-on-surface placeholder:text-outline resize-none transition-all"></textarea>
                   <p className="text-[11px] text-outline mt-1 text-right">{formShortDesc.length}/150 characters</p>
                 </div>
+
                 <div>
                   <label className="block text-[12px] font-semibold text-on-surface-variant uppercase tracking-wide mb-2">Product Badges</label>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -923,6 +987,38 @@ export default function AdminProductsPage() {
                     ))}
                   </div>
                 </div>
+
+                {/* ── NEW: Product Tags ── */}
+                <div>
+                  <label className="block text-[12px] font-semibold text-on-surface-variant uppercase tracking-wide mb-1.5">Product Tags <span className="text-[11px] font-normal text-outline normal-case tracking-normal">(e.g. "14 Whole Spices", "No MSG")</span></label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={formTagInput}
+                      onChange={e => setFormTagInput(e.target.value)}
+                      onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); addTag(); } }}
+                      placeholder="Type a tag and press Enter or Add"
+                      className="form-inp flex-1 bg-surface-container rounded-[12px] border border-outline-variant/60 px-4 py-2.5 text-[13px] text-on-surface transition-all"
+                    />
+                    <button onClick={addTag} className="flex items-center gap-1 bg-primary text-on-primary rounded-full px-4 py-2 text-[13px] font-semibold hover:bg-primary/90 transition-colors shrink-0">
+                      <span className="material-symbols-outlined text-[16px]">add</span>
+                      Add
+                    </button>
+                  </div>
+                  {formTags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {formTags.map((tag, i) => (
+                        <span key={i} className="tag-pill">
+                          {tag}
+                          <button onClick={() => removeTag(i)} className="ml-1 text-primary/60 hover:text-error transition-colors">
+                            <span className="material-symbols-outlined text-[13px]">close</span>
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
                 <div>
                   <label className="block text-[12px] font-semibold text-on-surface-variant uppercase tracking-wide mb-1.5">Full Description</label>
                   <textarea rows={4} value={formFullDesc} onChange={e => setFormFullDesc(e.target.value)} placeholder="Detailed product description…" className="form-inp w-full bg-surface-container rounded-[12px] border border-outline-variant/60 px-4 py-3 text-[14px] text-on-surface placeholder:text-outline resize-none transition-all"></textarea>
@@ -931,7 +1027,7 @@ export default function AdminProductsPage() {
             </div>
           </div>
 
-          {/* SECTION 5: Rich Descriptions */}
+          {/* SECTION 5: Rich Descriptions — now with Heading input */}
           <div className={`form-section bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] overflow-hidden ${collapsedSections.sec_desc ? 'collapsed' : ''}`}>
             <button onClick={() => toggleSection('sec_desc')} className="w-full flex items-center gap-3 px-5 py-4 hover:bg-surface-container/50 transition-colors text-left">
               <div className="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
@@ -939,12 +1035,23 @@ export default function AdminProductsPage() {
               </div>
               <div className="flex-1">
                 <p className="font-semibold text-[14px] text-on-surface">Rich Icon Descriptions</p>
-                <p className="text-[11px] text-on-surface-variant">Icon + title + description cards shown on product page</p>
+                <p className="text-[11px] text-on-surface-variant">Section heading + icon cards shown on product page</p>
               </div>
               <span className="section-chevron material-symbols-outlined text-on-surface-variant text-[20px]">expand_more</span>
             </button>
-            <div className="form-section-body" style={{ maxHeight: collapsedSections.sec_desc ? '0px' : '900px' }}>
+            <div className="form-section-body" style={{ maxHeight: collapsedSections.sec_desc ? '0px' : '1000px' }}>
               <div className="px-5 pb-5 space-y-3">
+                {/* ── NEW: Description Section Heading ── */}
+                <div>
+                  <label className="block text-[12px] font-semibold text-on-surface-variant uppercase tracking-wide mb-1.5">Section Heading <span className="text-[11px] font-normal text-outline normal-case tracking-normal">(shown above the description cards)</span></label>
+                  <input
+                    type="text"
+                    value={formDescHeading}
+                    onChange={e => setFormDescHeading(e.target.value)}
+                    placeholder="e.g. Why Choose Our Blend?"
+                    className="form-inp w-full bg-surface-container rounded-[12px] border border-outline-variant/60 px-4 py-3 text-[14px] text-on-surface transition-all"
+                  />
+                </div>
                 <div className="space-y-3">
                   {formDescs.map((d, i) => (
                     <div key={i} className="bg-surface-container/60 rounded-[16px] border border-outline-variant/30 p-4 space-y-3">
@@ -977,6 +1084,7 @@ export default function AdminProductsPage() {
                   Add Description Card
                 </button>
                 <div className="mt-4 pt-4 border-t border-outline-variant/20 space-y-2">
+                  {formDescHeading && <p className="font-bold text-[14px] text-on-surface mb-3">{formDescHeading}</p>}
                   {formDescs.map((d, i) => (
                     <div key={i} className="flex items-start gap-3 preview-desc-card rounded-[16px] p-4 border border-outline-variant/30">
                       <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${{primary:'bg-primary/10', secondary:'bg-secondary/10', tertiary:'bg-tertiary/10'}[d.color]}`}>
@@ -993,7 +1101,7 @@ export default function AdminProductsPage() {
             </div>
           </div>
 
-          {/* SECTION 6: Rich Ingredients */}
+          {/* SECTION 6: Rich Ingredients — now with Heading + Allergen Info */}
           <div className={`form-section bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] overflow-hidden ${collapsedSections.sec_ingr ? 'collapsed' : ''}`}>
             <button onClick={() => toggleSection('sec_ingr')} className="w-full flex items-center gap-3 px-5 py-4 hover:bg-surface-container/50 transition-colors text-left">
               <div className="w-8 h-8 rounded-full bg-tertiary/10 flex items-center justify-center shrink-0">
@@ -1001,12 +1109,24 @@ export default function AdminProductsPage() {
               </div>
               <div className="flex-1">
                 <p className="font-semibold text-[14px] text-on-surface">Rich Icon Ingredients</p>
-                <p className="text-[11px] text-on-surface-variant">Ingredient grid cards with icons, names & origin notes</p>
+                <p className="text-[11px] text-on-surface-variant">Section heading, ingredient cards, allergen info</p>
               </div>
               <span className="section-chevron material-symbols-outlined text-on-surface-variant text-[20px]">expand_more</span>
             </button>
-            <div className="form-section-body" style={{ maxHeight: collapsedSections.sec_ingr ? '0px' : '1200px' }}>
+            <div className="form-section-body" style={{ maxHeight: collapsedSections.sec_ingr ? '0px' : '1400px' }}>
               <div className="px-5 pb-5 space-y-3">
+                {/* ── NEW: Ingredients Section Heading ── */}
+                <div>
+                  <label className="block text-[12px] font-semibold text-on-surface-variant uppercase tracking-wide mb-1.5">Section Heading <span className="text-[11px] font-normal text-outline normal-case tracking-normal">(shown above ingredient cards)</span></label>
+                  <input
+                    type="text"
+                    value={formIngrHeading}
+                    onChange={e => setFormIngrHeading(e.target.value)}
+                    placeholder="e.g. What's Inside"
+                    className="form-inp w-full bg-surface-container rounded-[12px] border border-outline-variant/60 px-4 py-3 text-[14px] text-on-surface transition-all"
+                  />
+                </div>
+
                 <div>
                   <label className="block text-[12px] font-semibold text-on-surface-variant uppercase tracking-wide mb-1.5">Ingredients Text</label>
                   <textarea rows={2} value={formIngrText} onChange={e => setFormIngrText(e.target.value)} placeholder="Coriander, Cumin, Black Pepper…" className="form-inp w-full bg-surface-container rounded-[12px] border border-outline-variant/60 px-4 py-3 text-[14px] text-on-surface placeholder:text-outline resize-none transition-all"></textarea>
@@ -1042,6 +1162,30 @@ export default function AdminProductsPage() {
                   </div>
                   Add Ingredient Card
                 </button>
+
+                {/* ── NEW: Allergen Info ── */}
+                <div className="pt-2">
+                  <label className="block text-[12px] font-semibold text-on-surface-variant uppercase tracking-wide mb-1.5">
+                    <span className="flex items-center gap-1.5">
+                      <span className="material-symbols-outlined text-[14px] text-error">warning</span>
+                      Allergen Info
+                    </span>
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={formAllergenInfo}
+                    onChange={e => setFormAllergenInfo(e.target.value)}
+                    placeholder="e.g. May contain traces of nuts and sesame. Manufactured in a facility that also processes wheat."
+                    className="form-inp w-full bg-error/5 border border-error/20 rounded-[12px] px-4 py-3 text-[13px] text-on-surface placeholder:text-outline resize-none transition-all focus:border-error/40 focus:shadow-[0_0_0_3px_rgba(186,26,26,0.08)]"
+                  />
+                  {formAllergenInfo && (
+                    <div className="mt-2 flex items-start gap-2 bg-error/5 border border-error/20 rounded-[12px] px-3 py-2.5">
+                      <span className="material-symbols-outlined text-error text-[15px] shrink-0 mt-0.5">warning</span>
+                      <p className="text-[11px] text-error/80 font-medium leading-snug">{formAllergenInfo}</p>
+                    </div>
+                  )}
+                </div>
+
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-4">
                   {formIngrs.map((n, i) => (
                     <div key={i} className={`rounded-[16px] p-3 border flex flex-col gap-1.5 ${{primary:'preview-ingr-primary', secondary:'preview-ingr-secondary', tertiary:'preview-ingr-tertiary', neutral:'preview-ingr-neutral'}[n.color]}`}>
@@ -1345,6 +1489,8 @@ export default function AdminProductsPage() {
           </div>
         </div>
       </div>
+
+      {/* DELETE PRODUCT MODAL */}
       <div 
         className={`fixed inset-0 bg-black/50 z-[70] transition-opacity duration-300 ${isDelProdModalOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} 
         onClick={() => setIsDelProdModalOpen(false)}
