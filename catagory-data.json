@@ -1,0 +1,17 @@
+[
+  { "id": "spice_powders",      "label": "Spice Powders",                "icon": "local_fire_department" },
+  { "id": "veg_aromatic",       "label": "Vegetable & Aromatic Powders", "icon": "eco"                   },
+  { "id": "herbal_leaf",        "label": "Herbal & Leaf Powders",        "icon": "energy_savings_leaf"   },
+  { "id": "fruit_powders",      "label": "Fruit Powders",                "icon": "blender"               },
+  { "id": "honey",              "label": "Honey Products",               "icon": "water_drop"            },
+  { "id": "nuts",               "label": "Nuts",                         "icon": "nutrition"             },
+  { "id": "dried_fruits",       "label": "Dried Fruits",                 "icon": "favorite"              },
+  { "id": "grains_seeds",       "label": "Grains & Seeds",               "icon": "grass"                 },
+  { "id": "tea_herbal",         "label": "Tea & Herbal Drinks",          "icon": "local_cafe"            },
+  { "id": "spice_blends",       "label": "Spice Blends & Masala",        "icon": "soup_kitchen"          },
+  { "id": "pulses_beans",       "label": "Pulses & Dry Beans",           "icon": "grain"                 },
+  { "id": "healthy_snacks",     "label": "Healthy Snacks",               "icon": "restaurant"            },
+  { "id": "coconut_products",   "label": "Coconut & Coconut Products",   "icon": "yard"                  },
+  { "id": "natural_sweeteners", "label": "Natural Sweeteners",           "icon": "cookie"                },
+  { "id": "gift_combo",         "label": "Gift & Combo Packs",           "icon": "redeem"                }
+]

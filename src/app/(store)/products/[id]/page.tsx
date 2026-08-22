@@ -69,6 +69,24 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const [isWished, setIsWished] = useState(false);
   const [isStickyBarVisible, setIsStickyBarVisible] = useState(false);
+  const [cartAdded, setCartAdded] = useState(false);
+  const [stickyCartAdded, setStickyCartAdded] = useState(false);
+
+  const handleAddToCart = () => {
+    setCartAdded(true);
+    setTimeout(() => setCartAdded(false), 1200);
+  };
+
+  const handleStickyAddToCart = () => {
+    setStickyCartAdded(true);
+    setTimeout(() => setStickyCartAdded(false), 1200);
+  };
+  const [buyNowClicked, setBuyNowClicked] = useState(false);
+
+  const handleBuyNow = () => {
+    setBuyNowClicked(true);
+    setTimeout(() => setBuyNowClicked(false), 1200);
+  };
   const [currentPrice, setCurrentPrice] = useState(product.price);
   const [currentOrigPrice, setCurrentOrigPrice] = useState(product.originalPrice || Math.round(product.price * 1.2));
 
@@ -135,6 +153,30 @@ export default function ProductDetailPage() {
         .review-card:hover { box-shadow: 0 8px 32px rgba(159,65,34,0.10); transform: translateY(-2px); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         .fade-in { animation: fadeIn 0.4s ease forwards; }
+
+        /* ── Add to Cart: ripple + cart slide-in ── */
+        @keyframes cartRipple { 0% { box-shadow: 0 0 0 0 rgba(159,65,34,0.45); } 60% { box-shadow: 0 0 0 14px rgba(159,65,34,0); } 100% { box-shadow: 0 0 0 0 rgba(159,65,34,0); } }
+        @keyframes cartSlideIn { 0% { opacity:0; transform: translateX(-10px) rotate(-20deg); } 60% { opacity:1; transform: translateX(3px) rotate(8deg); } 100% { opacity:1; transform: translateX(0) rotate(0deg); } }
+        @keyframes cartTextSlide { 0% { opacity:0; transform: translateY(6px); } 100% { opacity:1; transform: translateY(0); } }
+        .cart-ripple { animation: cartRipple 0.65s ease-out forwards; }
+        .cart-icon-slide { animation: cartSlideIn 0.45s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+        .cart-text-slide { animation: cartTextSlide 0.3s ease 0.1s both; }
+
+        /* ── Buy Now: electric pulse + bolt spin-zap ── */
+        @keyframes buyPulse { 0% { transform: scale(1); } 15% { transform: scale(0.96); } 35% { transform: scale(1.04) skewX(-2deg); } 55% { transform: scale(0.98) skewX(1deg); } 75% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        @keyframes boltZap { 0% { transform: rotate(0deg) scale(1); } 20% { transform: rotate(-30deg) scale(1.3); } 50% { transform: rotate(20deg) scale(0.9); } 70% { transform: rotate(-10deg) scale(1.15); } 100% { transform: rotate(0deg) scale(1); } }
+        @keyframes buyTextFlash { 0% { opacity:0; letter-spacing: 0.08em; } 50% { opacity:1; letter-spacing: 0.02em; } 100% { opacity:1; letter-spacing: 0; } }
+        .buy-pulse { animation: buyPulse 0.55s cubic-bezier(0.36,0.07,0.19,0.97) forwards; }
+        .bolt-zap { animation: boltZap 0.5s cubic-bezier(0.34,1.2,0.64,1) forwards; }
+        .buy-text-flash { animation: buyTextFlash 0.35s ease 0.08s both; }
+
+        /* ── Sticky Add to Cart: shake-and-lock ── */
+        @keyframes stickyShake { 0% { transform: translateX(0); } 15% { transform: translateX(-5px) rotate(-1deg); } 30% { transform: translateX(5px) rotate(1deg); } 45% { transform: translateX(-3px); } 60% { transform: translateX(3px); } 75% { transform: translateX(-1px); } 100% { transform: translateX(0); } }
+        @keyframes stickyIconDrop { 0% { transform: translateY(-8px) scale(0.8); opacity:0; } 60% { transform: translateY(3px) scale(1.1); opacity:1; } 100% { transform: translateY(0) scale(1); opacity:1; } }
+        @keyframes stickyTextPop { 0% { opacity:0; transform: scale(0.8); } 70% { transform: scale(1.05); opacity:1; } 100% { transform: scale(1); opacity:1; } }
+        .sticky-shake { animation: stickyShake 0.55s ease forwards; }
+        .sticky-icon-drop { animation: stickyIconDrop 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+        .sticky-text-pop { animation: stickyTextPop 0.35s ease 0.12s both; }
       `}</style>
 
       <main className="max-w-[1728px] mx-auto w-full">
@@ -298,8 +340,14 @@ export default function ProductDetailPage() {
                     <span className="w-10 md:w-12 text-center font-bold text-[16px] text-on-surface">{quantity}</span>
                     <button onClick={() => setQuantity(quantity + 1)} className="qty-btn w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-on-surface transition-colors"><Plus size={18} /></button>
                   </div>
-                  <button className="flex-1 sm:flex-none bg-primary text-on-primary font-semibold text-[14px] md:text-body-lg px-6 md:px-10 py-3 md:py-4 rounded-full hover:bg-primary/90 transition-all flex items-center justify-center gap-2.5 shadow-lg shadow-primary/20"><ShoppingCart size={20} /> Add to Cart</button>
-                  <button className="flex-1 sm:flex-none bg-surface border-2 border-on-surface text-on-surface font-semibold text-[14px] md:text-body-md px-6 md:px-8 py-3 md:py-4 rounded-full hover:bg-surface-variant transition-all flex items-center justify-center gap-2"><Bolt size={18} /> Buy Now</button>
+                  <button onClick={handleAddToCart} className={`flex-1 sm:flex-none bg-primary text-on-primary font-semibold text-[14px] md:text-body-lg px-6 md:px-10 py-3 md:py-4 rounded-full hover:bg-primary/90 transition-all flex items-center justify-center gap-2.5 shadow-lg shadow-primary/20${cartAdded ? ' cart-ripple' : ''}`}>
+                    <ShoppingCart size={20} className={cartAdded ? 'cart-icon-slide' : ''} />
+                    {cartAdded ? <span className="cart-text-slide">Added ✓</span> : 'Add to Cart'}
+                  </button>
+                  <button onClick={handleBuyNow} className={`flex-1 sm:flex-none bg-surface border-2 border-on-surface text-on-surface font-semibold text-[14px] md:text-body-md px-6 md:px-8 py-3 md:py-4 rounded-full hover:bg-surface-variant transition-all flex items-center justify-center gap-2${buyNowClicked ? ' buy-pulse' : ''}`}>
+                    <Bolt size={18} className={buyNowClicked ? 'bolt-zap' : ''} />
+                    {buyNowClicked ? <span className="buy-text-flash">Ordering!</span> : 'Buy Now'}
+                  </button>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2.5 md:gap-3 pt-1">
@@ -803,7 +851,10 @@ export default function ProductDetailPage() {
 
       <div className={`sticky-bar fixed bottom-0 left-0 right-0 z-40 md:hidden bg-surface/95 backdrop-blur-xl border-t border-outline-variant/30 shadow-2xl px-4 py-3 flex items-center gap-3 ${isStickyBarVisible ? 'visible' : ''}`}>
         <div><p className="text-[10px] text-on-surface-variant">{product.name} · {selectedWeight}</p><p className="font-bold text-[18px] text-on-surface leading-none">৳{currentPrice}</p></div>
-        <button className="flex-1 bg-primary text-on-primary font-semibold text-[14px] py-3.5 rounded-full hover:bg-primary/90 transition-colors shadow-lg flex items-center justify-center gap-2"><ShoppingCart size={18} /> Add to Cart</button>
+        <button onClick={handleStickyAddToCart} className={`flex-1 bg-primary text-on-primary font-semibold text-[14px] py-3.5 rounded-full hover:bg-primary/90 transition-colors shadow-lg flex items-center justify-center gap-2${stickyCartAdded ? ' sticky-shake' : ''}`}>
+          <ShoppingCart size={18} className={stickyCartAdded ? 'sticky-icon-drop' : ''} />
+          {stickyCartAdded ? <span className="sticky-text-pop">In Bag ✓</span> : 'Add to Cart'}
+        </button>
       </div>
     </div>
   );

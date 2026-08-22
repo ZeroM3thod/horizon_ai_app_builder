@@ -1,0 +1,1068 @@
+[
+
+  {
+    "id": 1,
+    "name": "Pure Turmeric Powder",
+    "sku": "SKU-SP-001",
+    "category": "spice_powders",
+    "catLabel": "Spice Powders",
+    "status": "active",
+    "featured": true,
+    "bestseller": true,
+    "newbadge": false,
+    "thumbIcon": "wb_sunny",
+    "miniLabel": "Farm Fresh",
+    "tags": ["100% Natural", "No Preservatives", "No Artificial Color"],
+    "badges": ["badge-natural", "badge-nopreserv", "badge-noartificial", "badge-vegan"],
+    "photos": ["turmeric-1.png", "turmeric-2.png", "turmeric-3.png"],
+    "shortDesc": "Bright golden turmeric powder from fresh Bangladeshi rhizomes, stone-ground for maximum curcumin.",
+    "fullDesc": "Our Pure Turmeric Powder is sourced from local farms and cold-processed to retain its natural curcumin content and vibrant color.",
+    "descHeading": "Why Our Turmeric?",
+    "ingrHeading": "What's Inside",
+    "allergenInfo": "No known allergens. Packed in a dedicated spice facility.",
+    "protip": "Mix with warm milk for a golden latte or add to rice for natural color.",
+    "serving": "5g",
+    "servingsPer": "20",
+    "variants": [
+      { "w": "100g", "p": 65, "mrp": 80, "s": 500 },
+      { "w": "250g", "p": 150, "mrp": 180, "s": 320 },
+      { "w": "500g", "p": 270, "mrp": 320, "s": 180 },
+      { "w": "1kg", "p": 499, "mrp": 590, "s": 90 }
+    ],
+    "descs": [
+      { "icon": "wb_sunny", "title": "Vibrant Color", "desc": "High curcumin content gives dishes a deep golden-yellow hue naturally.", "color": "primary" },
+      { "icon": "eco", "title": "Farm Sourced", "desc": "Directly sourced from Bangladeshi turmeric farms, no middlemen.", "color": "secondary" },
+      { "icon": "inventory_2", "title": "Sealed Fresh", "desc": "Packed in airtight food-grade pouches to lock in aroma and potency.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "wb_sunny", "name": "Fresh Turmeric Rhizome", "origin": "Comilla origin · High curcumin", "color": "primary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "354", "unit": "kcal" },
+      { "name": "Total Fat", "amt": "9.9", "unit": "g" },
+      { "name": "Protein", "amt": "7.8", "unit": "g" },
+      { "name": "Carbohydrates", "amt": "64.9", "unit": "g" },
+      { "name": "Sodium", "amt": "38", "unit": "mg" }
+    ],
+    "healths": [
+      { "icon": "healing", "color": "primary", "title": "Anti-inflammatory", "desc": "Curcumin is a powerful natural anti-inflammatory compound." },
+      { "icon": "favorite", "color": "secondary", "title": "Antioxidant Rich", "desc": "Neutralizes free radicals and boosts the body's own antioxidant enzymes." }
+    ],
+    "howtos": [
+      { "icon": "soup_kitchen", "theme": "primary", "title": "Curries & Dal", "desc": "Add ½ tsp while frying onions for a rich golden base.", "tip": "Add early for depth", "tipIcon": "timer" },
+      { "icon": "local_cafe", "theme": "secondary", "title": "Golden Milk", "desc": "Stir ¼ tsp into warm milk with honey for a soothing drink.", "tip": "Best before bed", "tipIcon": "bedtime" }
+    ]
+  },
+
+  {
+    "id": 2,
+    "name": "Red Chilli Powder",
+    "sku": "SKU-SP-002",
+    "category": "spice_powders",
+    "catLabel": "Spice Powders",
+    "status": "active",
+    "featured": false,
+    "bestseller": true,
+    "newbadge": false,
+    "thumbIcon": "local_fire_department",
+    "miniLabel": "Sun Dried",
+    "tags": ["No MSG", "100% Natural", "Bold Heat"],
+    "badges": ["badge-natural", "badge-nomsg", "badge-noartificial"],
+    "photos": ["chilli-1.png", "chilli-2.png", "chilli-3.png"],
+    "shortDesc": "Fiery sun-dried red chilli powder with bold color and consistent heat for everyday Bengali cooking.",
+    "fullDesc": "Made from select dried red chillies, ground fresh in small batches to preserve the natural heat and deep red color.",
+    "descHeading": "Bold & Pure Heat",
+    "ingrHeading": "Ingredient",
+    "allergenInfo": "No known allergens. May cause irritation if inhaled.",
+    "protip": "Add to hot oil first for blooming the color before adding other ingredients.",
+    "serving": "5g",
+    "servingsPer": "20",
+    "variants": [
+      { "w": "100g", "p": 75, "mrp": 90, "s": 420 },
+      { "w": "250g", "p": 170, "mrp": 200, "s": 280 },
+      { "w": "500g", "p": 310, "mrp": 370, "s": 150 },
+      { "w": "1kg", "p": 580, "mrp": 680, "s": 60 }
+    ],
+    "descs": [
+      { "icon": "local_fire_department", "title": "Consistent Heat", "desc": "Carefully selected chillies ensure every batch delivers the same bold heat level.", "color": "primary" },
+      { "icon": "colorize", "title": "Deep Red Color", "desc": "Natural pigment-rich chillies give dishes a vibrant red color without artificial dyes.", "color": "secondary" },
+      { "icon": "inventory_2", "title": "Freshness Sealed", "desc": "Resealable zip pouch preserves heat and color for months.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "local_fire_department", "name": "Dried Red Chilli", "origin": "Bogura origin · Bold heat", "color": "primary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "282", "unit": "kcal" },
+      { "name": "Total Fat", "amt": "14", "unit": "g" },
+      { "name": "Protein", "amt": "13", "unit": "g" },
+      { "name": "Carbohydrates", "amt": "50", "unit": "g" }
+    ],
+    "healths": [
+      { "icon": "bolt", "color": "primary", "title": "Boosts Metabolism", "desc": "Capsaicin in chilli powder is known to increase metabolic rate." },
+      { "icon": "favorite", "color": "secondary", "title": "Rich in Vitamin C", "desc": "Dried chillies are a surprising source of Vitamin C and antioxidants." }
+    ],
+    "howtos": [
+      { "icon": "skillet", "theme": "primary", "title": "Bhuna & Curry", "desc": "Add ½–1 tsp to hot oil before onions for a deep color base.", "tip": "Bloom in oil first", "tipIcon": "local_fire_department" },
+      { "icon": "rice_bowl", "theme": "secondary", "title": "Marinades", "desc": "Rub onto meat with ginger-garlic paste and salt before cooking.", "tip": "Marinate 30 min", "tipIcon": "timer" }
+    ]
+  },
+
+  {
+    "id": 3,
+    "name": "Coriander Powder",
+    "sku": "SKU-SP-003",
+    "category": "spice_powders",
+    "catLabel": "Spice Powders",
+    "status": "active",
+    "featured": false,
+    "bestseller": false,
+    "newbadge": false,
+    "thumbIcon": "eco",
+    "miniLabel": "Freshly Ground",
+    "tags": ["100% Natural", "No Preservatives"],
+    "badges": ["badge-natural", "badge-nopreserv", "badge-vegan"],
+    "photos": ["coriander-1.png", "coriander-2.png", "coriander-3.png"],
+    "shortDesc": "Mild, citrusy coriander powder ground from whole dhania seeds for everyday curries and gravies.",
+    "fullDesc": "Our coriander powder is made from premium whole coriander seeds, lightly roasted and freshly ground to enhance its natural lemony warmth.",
+    "descHeading": "Freshly Ground Quality",
+    "ingrHeading": "Ingredient",
+    "allergenInfo": "No known allergens.",
+    "protip": "Dry roast whole seeds before grinding for an extra nutty, aromatic flavor.",
+    "serving": "5g",
+    "servingsPer": "20",
+    "variants": [
+      { "w": "100g", "p": 60, "mrp": 75, "s": 450 },
+      { "w": "250g", "p": 135, "mrp": 165, "s": 300 },
+      { "w": "500g", "p": 240, "mrp": 290, "s": 160 },
+      { "w": "1kg", "p": 440, "mrp": 520, "s": 80 }
+    ],
+    "descs": [
+      { "icon": "eco", "title": "Citrusy Warmth", "desc": "Freshly ground coriander gives a mild, lemony warmth that balances bold spices.", "color": "primary" },
+      { "icon": "factory", "title": "Small Batch Ground", "desc": "Processed in small lots to ensure every pack is aromatic and freshly milled.", "color": "secondary" },
+      { "icon": "inventory_2", "title": "Moisture-Proof Pouch", "desc": "Sealed in a moisture-proof laminated pouch to maintain powder quality.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "eco", "name": "Whole Coriander Seeds", "origin": "Faridpur origin · Citrusy aroma", "color": "primary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "298", "unit": "kcal" },
+      { "name": "Total Fat", "amt": "17.8", "unit": "g" },
+      { "name": "Protein", "amt": "12.4", "unit": "g" },
+      { "name": "Carbohydrates", "amt": "54.9", "unit": "g" }
+    ],
+    "healths": [
+      { "icon": "psychiatry", "color": "primary", "title": "Aids Digestion", "desc": "Coriander helps reduce bloating and supports healthy gut activity." },
+      { "icon": "bloodtype", "color": "secondary", "title": "Supports Blood Sugar", "desc": "Studies suggest coriander may help maintain healthy blood glucose levels." }
+    ],
+    "howtos": [
+      { "icon": "soup_kitchen", "theme": "primary", "title": "Gravies & Korma", "desc": "Add 1 tsp per serving along with turmeric for a balanced spice base.", "tip": "Use with turmeric", "tipIcon": "wb_sunny" },
+      { "icon": "skillet", "theme": "secondary", "title": "Dry Rubs", "desc": "Mix with salt, cumin, and chilli for a quick dry rub on fish or chicken.", "tip": "Works great on fish", "tipIcon": "set_meal" }
+    ]
+  },
+
+  {
+    "id": 4,
+    "name": "Cumin Powder (Jeera)",
+    "sku": "SKU-SP-004",
+    "category": "spice_powders",
+    "catLabel": "Spice Powders",
+    "status": "active",
+    "featured": false,
+    "bestseller": true,
+    "newbadge": false,
+    "thumbIcon": "grain",
+    "miniLabel": "Stone Ground",
+    "tags": ["No MSG", "100% Natural"],
+    "badges": ["badge-natural", "badge-nomsg", "badge-vegan"],
+    "photos": ["cumin-1.png", "cumin-2.png", "cumin-3.png"],
+    "shortDesc": "Earthy, warm cumin powder stone-ground from whole jeera seeds. Essential for dal, biryani, and curry.",
+    "fullDesc": "Stone-ground from premium whole cumin seeds, our jeera powder delivers a deep earthy aroma that is the backbone of South Asian cooking.",
+    "descHeading": "The Earthy Backbone",
+    "ingrHeading": "Ingredient",
+    "allergenInfo": "No known allergens.",
+    "protip": "Temper in hot ghee or oil at the start of cooking for a deep smoky aroma.",
+    "serving": "5g",
+    "servingsPer": "20",
+    "variants": [
+      { "w": "100g", "p": 89, "mrp": 110, "s": 380 },
+      { "w": "250g", "p": 199, "mrp": 240, "s": 240 },
+      { "w": "500g", "p": 369, "mrp": 440, "s": 130 },
+      { "w": "1kg", "p": 699, "mrp": 820, "s": 55 }
+    ],
+    "descs": [
+      { "icon": "grain", "title": "Stone Ground", "desc": "Traditional stone-grinding preserves volatile oils that give cumin its signature aroma.", "color": "primary" },
+      { "icon": "eco", "title": "Whole Seed Base", "desc": "Made only from whole cumin seeds — no fillers, no stems.", "color": "secondary" },
+      { "icon": "inventory_2", "title": "Aroma-Lock Pouch", "desc": "Multi-layer pouch blocks light and air to keep the aroma fresh longer.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "grain", "name": "Whole Cumin Seeds", "origin": "Rajshahi origin · Earthy warmth", "color": "primary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "375", "unit": "kcal" },
+      { "name": "Total Fat", "amt": "22.3", "unit": "g" },
+      { "name": "Protein", "amt": "17.8", "unit": "g" },
+      { "name": "Carbohydrates", "amt": "44.2", "unit": "g" }
+    ],
+    "healths": [
+      { "icon": "psychiatry", "color": "primary", "title": "Digestion Aid", "desc": "Cumin stimulates digestive enzymes and reduces gas and bloating." },
+      { "icon": "healing", "color": "secondary", "title": "Iron Rich", "desc": "One of the best plant-based sources of iron, supporting energy and immunity." }
+    ],
+    "howtos": [
+      { "icon": "rice_bowl", "theme": "primary", "title": "Dal & Soup", "desc": "Add a pinch to hot ghee tempering for classic dal tadka aroma.", "tip": "Temper in ghee", "tipIcon": "skillet" },
+      { "icon": "soup_kitchen", "theme": "secondary", "title": "Raita & Chaat", "desc": "Sprinkle ½ tsp over yoghurt or chaat for instant flavor lift.", "tip": "Sprinkle at serving", "tipIcon": "restaurant" }
+    ]
+  },
+
+  {
+    "id": 5,
+    "name": "Black Pepper Powder",
+    "sku": "SKU-SP-005",
+    "category": "spice_powders",
+    "catLabel": "Spice Powders",
+    "status": "active",
+    "featured": false,
+    "bestseller": false,
+    "newbadge": false,
+    "thumbIcon": "spa",
+    "miniLabel": "Freshly Milled",
+    "tags": ["100% Natural", "No Fillers"],
+    "badges": ["badge-natural", "badge-nopreserv", "badge-nomsg"],
+    "photos": ["blackpepper-1.png", "blackpepper-2.png", "blackpepper-3.png"],
+    "shortDesc": "Sharp, pungent black pepper powder milled from premium whole peppercorns. The king of spices.",
+    "fullDesc": "Freshly milled from whole black peppercorns, our pepper powder delivers the sharp, pungent heat and complex aroma that pre-ground pepper loses quickly.",
+    "descHeading": "The King of Spices",
+    "ingrHeading": "Ingredient",
+    "allergenInfo": "No known allergens.",
+    "protip": "Add black pepper at the end of cooking — heat reduces piperine content.",
+    "serving": "2g",
+    "servingsPer": "50",
+    "variants": [
+      { "w": "100g", "p": 149, "mrp": 179, "s": 300 },
+      { "w": "250g", "p": 340, "mrp": 410, "s": 180 },
+      { "w": "500g", "p": 629, "mrp": 750, "s": 90 },
+      { "w": "1kg", "p": 1199, "mrp": 1400, "s": 40 }
+    ],
+    "descs": [
+      { "icon": "spa", "title": "Full Piperine", "desc": "Freshly milled to retain piperine — the compound responsible for pepper's sharp heat.", "color": "primary" },
+      { "icon": "science", "title": "Enhances Absorption", "desc": "Piperine boosts absorption of curcumin from turmeric by up to 2000%.", "color": "secondary" },
+      { "icon": "inventory_2", "title": "Airtight Pouch", "desc": "Sealed immediately after milling to prevent volatile oil loss.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "spa", "name": "Whole Black Peppercorns", "origin": "Imported · Premium grade", "color": "primary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "251", "unit": "kcal" },
+      { "name": "Total Fat", "amt": "3.3", "unit": "g" },
+      { "name": "Protein", "amt": "10.4", "unit": "g" },
+      { "name": "Carbohydrates", "amt": "63.7", "unit": "g" }
+    ],
+    "healths": [
+      { "icon": "healing", "color": "primary", "title": "Absorption Booster", "desc": "Piperine dramatically improves bioavailability of nutrients and supplements." },
+      { "icon": "self_improvement", "color": "secondary", "title": "Brain Health", "desc": "Piperine has shown neuroprotective effects in early studies." }
+    ],
+    "howtos": [
+      { "icon": "skillet", "theme": "primary", "title": "Meats & Eggs", "desc": "Season steaks, omelettes, or grilled fish generously before or after cooking.", "tip": "Add after cooking", "tipIcon": "timer" },
+      { "icon": "local_cafe", "theme": "secondary", "title": "Drinks & Tonics", "desc": "A pinch in turmeric milk or lemon water enhances nutrient absorption.", "tip": "Pair with turmeric", "tipIcon": "wb_sunny" }
+    ]
+  },
+
+  {
+    "id": 6,
+    "name": "Ginger Powder",
+    "sku": "SKU-VAP-006",
+    "category": "veg_aromatic",
+    "catLabel": "Vegetable & Aromatic Powders",
+    "status": "active",
+    "featured": false,
+    "bestseller": true,
+    "newbadge": false,
+    "thumbIcon": "eco",
+    "miniLabel": "Sun Dried",
+    "tags": ["100% Natural", "No Preservatives"],
+    "badges": ["badge-natural", "badge-nopreserv", "badge-vegan"],
+    "photos": ["ginger-1.png", "ginger-2.png", "ginger-3.png"],
+    "shortDesc": "Pure sun-dried ginger powder with a warm, spicy kick — perfect for cooking, tea, and wellness drinks.",
+    "fullDesc": "Made from mature ginger rhizomes, sun-dried and finely ground to retain gingerol content for maximum flavor and health benefit.",
+    "descHeading": "Warming & Healing",
+    "ingrHeading": "Ingredient",
+    "allergenInfo": "No known allergens.",
+    "protip": "Mix with honey and lemon juice for a powerful immunity-boosting morning shot.",
+    "serving": "3g",
+    "servingsPer": "33",
+    "variants": [
+      { "w": "100g", "p": 99, "mrp": 120, "s": 350 },
+      { "w": "250g", "p": 220, "mrp": 265, "s": 200 },
+      { "w": "500g", "p": 399, "mrp": 480, "s": 110 },
+      { "w": "1kg", "p": 749, "mrp": 900, "s": 50 }
+    ],
+    "descs": [
+      { "icon": "eco", "title": "Gingerol Rich", "desc": "Sun-drying concentrates gingerol, the key bioactive compound in ginger.", "color": "primary" },
+      { "icon": "wb_sunny", "title": "Naturally Dried", "desc": "No artificial heating — sun-dried to preserve natural enzymes and nutrients.", "color": "secondary" },
+      { "icon": "inventory_2", "title": "Resealable Pouch", "desc": "Zip-sealed pouch keeps moisture out and aroma locked in.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "eco", "name": "Dried Ginger Rhizome", "origin": "Sylhet origin · Warm & spicy", "color": "primary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "335", "unit": "kcal" },
+      { "name": "Total Fat", "amt": "4.2", "unit": "g" },
+      { "name": "Protein", "amt": "8.9", "unit": "g" },
+      { "name": "Carbohydrates", "amt": "71.6", "unit": "g" }
+    ],
+    "healths": [
+      { "icon": "healing", "color": "primary", "title": "Anti-nausea", "desc": "Ginger is clinically proven to reduce nausea, morning sickness, and motion sickness." },
+      { "icon": "favorite", "color": "secondary", "title": "Anti-inflammatory", "desc": "Gingerol reduces inflammatory markers linked to chronic disease." }
+    ],
+    "howtos": [
+      { "icon": "local_cafe", "theme": "primary", "title": "Ginger Tea", "desc": "Add ½ tsp to boiling water with lemon and honey for a soothing tea.", "tip": "Best hot", "tipIcon": "thermostat" },
+      { "icon": "soup_kitchen", "theme": "secondary", "title": "Curries & Soups", "desc": "Replace fresh ginger with ¼ tsp powder per 1 inch of fresh ginger.", "tip": "¼ tsp = 1 inch fresh", "tipIcon": "info" }
+    ]
+  },
+
+  {
+    "id": 7,
+    "name": "Moringa Powder",
+    "sku": "SKU-HRB-007",
+    "category": "herbal_leaf",
+    "catLabel": "Herbal & Leaf Powders",
+    "status": "active",
+    "featured": true,
+    "bestseller": true,
+    "newbadge": false,
+    "thumbIcon": "energy_savings_leaf",
+    "miniLabel": "Superfood",
+    "tags": ["100% Natural", "No Preservatives", "Gluten Free"],
+    "badges": ["badge-natural", "badge-nopreserv", "badge-gluten", "badge-vegan", "badge-organic"],
+    "photos": ["moringa-1.png", "moringa-2.png", "moringa-3.png"],
+    "shortDesc": "Pure Moringa (Sajne Pata) leaf powder — one of nature's most nutrient-dense superfoods, locally sourced.",
+    "fullDesc": "Our Moringa Powder is made from shade-dried young moringa leaves, gently milled to preserve vitamins A, C, and iron content.",
+    "descHeading": "Nature's Multivitamin",
+    "ingrHeading": "Ingredient",
+    "allergenInfo": "No known allergens. Pregnant women should consult a doctor before use.",
+    "protip": "Add 1 tsp to smoothies, rice, or soup — flavor is mild and earthy.",
+    "serving": "5g",
+    "servingsPer": "20",
+    "variants": [
+      { "w": "100g", "p": 149, "mrp": 180, "s": 280 },
+      { "w": "250g", "p": 329, "mrp": 395, "s": 160 },
+      { "w": "500g", "p": 599, "mrp": 720, "s": 80 }
+    ],
+    "descs": [
+      { "icon": "energy_savings_leaf", "title": "Shade Dried", "desc": "Leaves are shade-dried to protect chlorophyll and heat-sensitive vitamins.", "color": "primary" },
+      { "icon": "science", "title": "Nutrient Dense", "desc": "Contains 7x vitamin C of oranges, 4x calcium of milk, and 3x potassium of bananas.", "color": "secondary" },
+      { "icon": "eco", "title": "Locally Grown", "desc": "Sourced from moringa trees grown in rural Bangladesh without chemicals.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "energy_savings_leaf", "name": "Moringa Oleifera Leaves", "origin": "Rangpur origin · Nutrient-rich", "color": "primary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "265", "unit": "kcal" },
+      { "name": "Protein", "amt": "27.1", "unit": "g" },
+      { "name": "Total Fat", "amt": "6.0", "unit": "g" },
+      { "name": "Iron", "amt": "28.2", "unit": "mg" },
+      { "name": "Vitamin C", "amt": "51.7", "unit": "mg" }
+    ],
+    "healths": [
+      { "icon": "favorite", "color": "primary", "title": "Iron & Anemia Support", "desc": "High plant-based iron content helps combat anemia and fatigue." },
+      { "icon": "self_improvement", "color": "secondary", "title": "Energy Booster", "desc": "Rich in B vitamins and protein that support sustained daily energy levels." }
+    ],
+    "howtos": [
+      { "icon": "local_cafe", "theme": "primary", "title": "Smoothie & Juice", "desc": "Blend 1 tsp into any fruit smoothie — barely changes flavor.", "tip": "Best in green smoothies", "tipIcon": "eco" },
+      { "icon": "rice_bowl", "theme": "secondary", "title": "Rice & Dal", "desc": "Stir 1 tsp into cooked rice or dal just before serving.", "tip": "Don't cook long", "tipIcon": "timer" }
+    ]
+  },
+
+  {
+    "id": 8,
+    "name": "Amla Powder (Amloki)",
+    "sku": "SKU-HRB-008",
+    "category": "herbal_leaf",
+    "catLabel": "Herbal & Leaf Powders",
+    "status": "active",
+    "featured": false,
+    "bestseller": false,
+    "newbadge": true,
+    "thumbIcon": "eco",
+    "miniLabel": "Vitamin C Bomb",
+    "tags": ["100% Natural", "No Preservatives"],
+    "badges": ["badge-natural", "badge-nopreserv", "badge-vegan"],
+    "photos": ["amla-1.png", "amla-2.png", "amla-3.png"],
+    "shortDesc": "Tangy amla (Indian Gooseberry) powder packed with Vitamin C — great for immunity, hair, and digestion.",
+    "fullDesc": "Made from fresh Bangladeshi amla fruits, sun-dried and finely powdered. One of the richest natural sources of Vitamin C available.",
+    "descHeading": "Ancient Immunity Booster",
+    "ingrHeading": "Ingredient",
+    "allergenInfo": "No known allergens. Sour taste may increase acidity in sensitive individuals.",
+    "protip": "Mix ½ tsp with warm water and honey every morning on an empty stomach.",
+    "serving": "5g",
+    "servingsPer": "20",
+    "variants": [
+      { "w": "100g", "p": 129, "mrp": 155, "s": 220 },
+      { "w": "250g", "p": 289, "mrp": 350, "s": 140 },
+      { "w": "500g", "p": 520, "mrp": 630, "s": 70 }
+    ],
+    "descs": [
+      { "icon": "eco", "title": "Vitamin C Powerhouse", "desc": "Amla contains 20x more Vitamin C than oranges by weight.", "color": "primary" },
+      { "icon": "wb_sunny", "title": "Sun Dried", "desc": "Fruit pulp is sun-dried at low temperature to retain maximum antioxidants.", "color": "secondary" },
+      { "icon": "verified", "title": "No Additives", "desc": "100% pure amla — no sugar, no salt, no artificial preservatives added.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "eco", "name": "Phyllanthus Emblica (Amla)", "origin": "Natore origin · Tangy & rich", "color": "primary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "258", "unit": "kcal" },
+      { "name": "Vitamin C", "amt": "921", "unit": "mg" },
+      { "name": "Total Fat", "amt": "0.6", "unit": "g" },
+      { "name": "Protein", "amt": "3.5", "unit": "g" },
+      { "name": "Carbohydrates", "amt": "65.2", "unit": "g" }
+    ],
+    "healths": [
+      { "icon": "favorite", "color": "primary", "title": "Immunity Boost", "desc": "Exceptionally high Vitamin C content supports a strong immune system." },
+      { "icon": "self_improvement", "color": "secondary", "title": "Hair & Skin Health", "desc": "Amla is traditionally used to strengthen hair and brighten skin complexion." }
+    ],
+    "howtos": [
+      { "icon": "local_cafe", "theme": "primary", "title": "Morning Tonic", "desc": "Mix ½ tsp with warm water, honey, and a pinch of black pepper daily.", "tip": "Take on empty stomach", "tipIcon": "wb_sunny" },
+      { "icon": "blender", "theme": "secondary", "title": "Smoothie Booster", "desc": "Add 1 tsp to any smoothie for a tangy, nutrient-packed punch.", "tip": "Masks well in mango", "tipIcon": "eco" }
+    ]
+  },
+
+  {
+    "id": 9,
+    "name": "Pure Sundarbans Honey",
+    "sku": "SKU-HNY-009",
+    "category": "honey",
+    "catLabel": "Honey Products",
+    "status": "active",
+    "featured": true,
+    "bestseller": true,
+    "newbadge": false,
+    "thumbIcon": "water_drop",
+    "miniLabel": "Wild Forest Harvested",
+    "tags": ["100% Raw", "Unprocessed", "No Preservatives"],
+    "badges": ["badge-natural", "badge-nopreserv", "badge-noartificial", "badge-halal"],
+    "photos": ["honey-sundarbans-1.png", "honey-sundarbans-2.png", "honey-sundarbans-3.png"],
+    "shortDesc": "Raw wild honey collected by Mawali honey hunters from the deep forests of Sundarbans, Bangladesh.",
+    "fullDesc": "Our Sundarbans honey is hand-collected from natural wild bee colonies in the mangrove forest. Unheated, unfiltered, and packed raw for maximum nutrients.",
+    "descHeading": "Wild & Unprocessed",
+    "ingrHeading": "Source",
+    "allergenInfo": "Not suitable for children under 1 year. May crystallize naturally — a sign of purity.",
+    "protip": "Never microwave raw honey — it destroys natural enzymes. Warm the jar in lukewarm water instead.",
+    "serving": "15g",
+    "servingsPer": "20",
+    "variants": [
+      { "w": "250g", "p": 349, "mrp": 420, "s": 180 },
+      { "w": "500g", "p": 649, "mrp": 780, "s": 120 },
+      { "w": "1kg", "p": 1249, "mrp": 1499, "s": 60 }
+    ],
+    "descs": [
+      { "icon": "forest", "title": "Wild Forest Source", "desc": "Collected from natural hives in Sundarbans by licensed Mawali honey hunters.", "color": "primary" },
+      { "icon": "water_drop", "title": "Raw & Unfiltered", "desc": "Never heated or filtered — contains natural pollen, propolis, and enzymes.", "color": "secondary" },
+      { "icon": "verified", "title": "Seasonal Harvest", "desc": "Available only in limited seasonal batches — harvested once a year.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "water_drop", "name": "Wild Sundarbans Honey", "origin": "Khulna · Mangrove flora", "color": "primary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "304", "unit": "kcal" },
+      { "name": "Total Sugars", "amt": "82", "unit": "g" },
+      { "name": "Total Fat", "amt": "0", "unit": "g" },
+      { "name": "Protein", "amt": "0.3", "unit": "g" }
+    ],
+    "healths": [
+      { "icon": "healing", "color": "primary", "title": "Antibacterial", "desc": "Raw honey contains hydrogen peroxide and propolis with natural antibacterial properties." },
+      { "icon": "favorite", "color": "secondary", "title": "Antioxidant Rich", "desc": "Wild honey from diverse flora contains higher polyphenol levels than farmed honey." }
+    ],
+    "howtos": [
+      { "icon": "local_cafe", "theme": "primary", "title": "Morning Routine", "desc": "Take 1 tbsp directly or mix in lukewarm water every morning for best results.", "tip": "Never use boiling water", "tipIcon": "thermostat" },
+      { "icon": "breakfast_dining", "theme": "secondary", "title": "Toast & Pancakes", "desc": "Drizzle over bread, pancakes, or oatmeal as a natural sweetener substitute.", "tip": "Replace sugar 1:1", "tipIcon": "cookie" }
+    ]
+  },
+
+  {
+    "id": 10,
+    "name": "Premium California Almonds",
+    "sku": "SKU-NUT-010",
+    "category": "nuts",
+    "catLabel": "Nuts",
+    "status": "active",
+    "featured": true,
+    "bestseller": true,
+    "newbadge": false,
+    "thumbIcon": "nutrition",
+    "miniLabel": "California Grade",
+    "tags": ["High Protein", "No Preservatives", "Gluten Free"],
+    "badges": ["badge-nopreserv", "badge-gluten", "badge-natural", "badge-vegan"],
+    "photos": ["almonds-1.png", "almonds-2.png", "almonds-3.png"],
+    "shortDesc": "Premium California almonds — crunchy, fresh, and packed with protein, healthy fats, and Vitamin E.",
+    "fullDesc": "Sourced directly from California-grade almond farms and imported fresh. Each batch is tested for quality before being packed in our airtight pouches.",
+    "descHeading": "Premium Quality Almonds",
+    "ingrHeading": "Ingredient",
+    "allergenInfo": "Contains tree nuts (almonds). May be processed in a facility handling other tree nuts.",
+    "protip": "Soak overnight in water and peel the skin for better digestion and nutrient absorption.",
+    "serving": "30g",
+    "servingsPer": "8",
+    "variants": [
+      { "w": "100g", "p": 199, "mrp": 240, "s": 300 },
+      { "w": "250g", "p": 449, "mrp": 540, "s": 200 },
+      { "w": "500g", "p": 849, "mrp": 999, "s": 120 },
+      { "w": "1kg", "p": 1599, "mrp": 1899, "s": 55 }
+    ],
+    "descs": [
+      { "icon": "nutrition", "title": "Protein Rich", "desc": "6g of protein per 30g serving — ideal for a post-workout snack.", "color": "primary" },
+      { "icon": "verified", "title": "Batch Tested", "desc": "Every import batch is tested for freshness, aflatoxin, and quality grading.", "color": "secondary" },
+      { "icon": "inventory_2", "title": "Airtight Resealable", "desc": "Nitrogen-flushed airtight pouch prevents rancidity and keeps crunch.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "nutrition", "name": "Raw Almonds (Prunus dulcis)", "origin": "California import · Premium grade", "color": "primary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "579", "unit": "kcal" },
+      { "name": "Total Fat", "amt": "49.9", "unit": "g" },
+      { "name": "Protein", "amt": "21.2", "unit": "g" },
+      { "name": "Carbohydrates", "amt": "21.7", "unit": "g" },
+      { "name": "Fiber", "amt": "12.5", "unit": "g" }
+    ],
+    "healths": [
+      { "icon": "favorite", "color": "primary", "title": "Heart Healthy", "desc": "Rich in monounsaturated fats and magnesium that support heart health." },
+      { "icon": "bolt", "color": "secondary", "title": "Brain Booster", "desc": "Vitamin E and riboflavin in almonds support cognitive function and memory." }
+    ],
+    "howtos": [
+      { "icon": "breakfast_dining", "theme": "primary", "title": "Morning Snack", "desc": "Soak 8–10 almonds overnight and eat on empty stomach with a glass of water.", "tip": "Soak overnight", "tipIcon": "bedtime" },
+      { "icon": "blender", "theme": "secondary", "title": "Almond Milk", "desc": "Blend 1 cup soaked almonds with 3 cups water, strain and sweeten lightly.", "tip": "Great dairy substitute", "tipIcon": "eco" }
+    ]
+  },
+
+  {
+    "id": 11,
+    "name": "Premium Cashew Nuts",
+    "sku": "SKU-NUT-011",
+    "category": "nuts",
+    "catLabel": "Nuts",
+    "status": "active",
+    "featured": false,
+    "bestseller": true,
+    "newbadge": false,
+    "thumbIcon": "nutrition",
+    "miniLabel": "Whole Grade W320",
+    "tags": ["High Protein", "No Preservatives"],
+    "badges": ["badge-nopreserv", "badge-natural", "badge-vegan"],
+    "photos": ["cashew-1.png", "cashew-2.png", "cashew-3.png"],
+    "shortDesc": "Buttery, whole cashew nuts — W320 grade — great for snacking, cooking, and rich curry gravies.",
+    "fullDesc": "Our cashews are sourced as W320 grade whole kernels — the most popular export grade — imported and repacked fresh for the Bangladeshi market.",
+    "descHeading": "The Creamiest Nut",
+    "ingrHeading": "Ingredient",
+    "allergenInfo": "Contains tree nuts (cashews). May be processed with other tree nuts.",
+    "protip": "Soak in water for 2 hours before blending into curry paste for a silky smooth gravy.",
+    "serving": "30g",
+    "servingsPer": "8",
+    "variants": [
+      { "w": "100g", "p": 220, "mrp": 265, "s": 250 },
+      { "w": "250g", "p": 499, "mrp": 599, "s": 160 },
+      { "w": "500g", "p": 949, "mrp": 1120, "s": 100 },
+      { "w": "1kg", "p": 1799, "mrp": 2100, "s": 45 }
+    ],
+    "descs": [
+      { "icon": "nutrition", "title": "W320 Grade", "desc": "Whole kernels graded W320 — approximately 320 kernels per pound, uniform size.", "color": "primary" },
+      { "icon": "verified", "title": "Shell-Free", "desc": "Fully de-shelled and de-skinned — ready to eat straight from the pack.", "color": "secondary" },
+      { "icon": "inventory_2", "title": "Fresh Pack", "desc": "Nitrogen-flushed resealable pack prevents oxidation and maintains crunch.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "nutrition", "name": "Whole Cashew Kernels", "origin": "Vietnam import · W320 grade", "color": "primary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "553", "unit": "kcal" },
+      { "name": "Total Fat", "amt": "43.9", "unit": "g" },
+      { "name": "Protein", "amt": "18.2", "unit": "g" },
+      { "name": "Carbohydrates", "amt": "30.2", "unit": "g" },
+      { "name": "Magnesium", "amt": "292", "unit": "mg" }
+    ],
+    "healths": [
+      { "icon": "favorite", "color": "primary", "title": "Heart Health", "desc": "Oleic acid and magnesium in cashews support blood pressure and heart function." },
+      { "icon": "bolt", "color": "secondary", "title": "Energy Dense", "desc": "High healthy fat and calorie content make cashews an excellent energy-sustaining snack." }
+    ],
+    "howtos": [
+      { "icon": "rice_bowl", "theme": "primary", "title": "Korma & Curry", "desc": "Blend soaked cashews into a smooth paste for luxuriously creamy gravies.", "tip": "Soak 2 hours first", "tipIcon": "timer" },
+      { "icon": "cookie", "theme": "secondary", "title": "Baking & Desserts", "desc": "Use whole or chopped in cookies, halwa, or festive sweets.", "tip": "Toast lightly first", "tipIcon": "skillet" }
+    ]
+  },
+
+  {
+    "id": 12,
+    "name": "Medjool Dates (Khejur)",
+    "sku": "SKU-DRF-012",
+    "category": "dried_fruits",
+    "catLabel": "Dried Fruits",
+    "status": "active",
+    "featured": true,
+    "bestseller": true,
+    "newbadge": false,
+    "thumbIcon": "favorite",
+    "miniLabel": "Soft & Meaty",
+    "tags": ["100% Natural", "No Preservatives", "Halal"],
+    "badges": ["badge-natural", "badge-nopreserv", "badge-halal", "badge-vegan"],
+    "photos": ["dates-1.png", "dates-2.png", "dates-3.png"],
+    "shortDesc": "Soft, juicy Medjool dates — naturally sweet with a rich caramel-like flavor. Perfect for Ramadan and daily snacking.",
+    "fullDesc": "Premium Medjool dates imported from Saudi Arabia and Jordan — known for their large size, soft texture, and rich molasses-like sweetness.",
+    "descHeading": "The King of Dates",
+    "ingrHeading": "Ingredient",
+    "allergenInfo": "No known allergens. High natural sugar — diabetics should consume in moderation.",
+    "protip": "Remove the pit, stuff with almond or cashew for a quick energy snack.",
+    "serving": "30g",
+    "servingsPer": "8",
+    "variants": [
+      { "w": "250g", "p": 299, "mrp": 360, "s": 300 },
+      { "w": "500g", "p": 549, "mrp": 660, "s": 200 },
+      { "w": "1kg", "p": 1049, "mrp": 1250, "s": 100 }
+    ],
+    "descs": [
+      { "icon": "favorite", "title": "Medjool Grade", "desc": "Large premium Medjool variety — selected for uniform size and softness.", "color": "primary" },
+      { "icon": "verified", "title": "Pitted Option", "desc": "Available pitted for easy snacking and cooking use.", "color": "secondary" },
+      { "icon": "inventory_2", "title": "Freshness Sealed", "desc": "Vacuum-sealed to maintain moisture and soft texture during storage.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "favorite", "name": "Medjool Dates (Phoenix dactylifera)", "origin": "Saudi Arabia import · Premium variety", "color": "primary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "277", "unit": "kcal" },
+      { "name": "Total Sugars", "amt": "66.5", "unit": "g" },
+      { "name": "Fiber", "amt": "6.7", "unit": "g" },
+      { "name": "Protein", "amt": "1.8", "unit": "g" },
+      { "name": "Potassium", "amt": "696", "unit": "mg" }
+    ],
+    "healths": [
+      { "icon": "bolt", "color": "primary", "title": "Instant Energy", "desc": "Natural sugars provide quick, sustained energy without artificial stimulants." },
+      { "icon": "psychiatry", "color": "secondary", "title": "Digestive Health", "desc": "High fiber content promotes healthy digestion and regular bowel movement." }
+    ],
+    "howtos": [
+      { "icon": "breakfast_dining", "theme": "primary", "title": "Iftar & Suhoor", "desc": "Break your fast with 3 dates and water — a Prophetic tradition with proven benefits.", "tip": "Classic iftar opener", "tipIcon": "star" },
+      { "icon": "blender", "theme": "secondary", "title": "Natural Sweetener", "desc": "Blend 3–4 pitted dates into smoothies or energy balls as a sugar substitute.", "tip": "Replace refined sugar", "tipIcon": "eco" }
+    ]
+  },
+
+  {
+    "id": 13,
+    "name": "Golden Raisins (Kishmish)",
+    "sku": "SKU-DRF-013",
+    "category": "dried_fruits",
+    "catLabel": "Dried Fruits",
+    "status": "active",
+    "featured": false,
+    "bestseller": false,
+    "newbadge": false,
+    "thumbIcon": "eco",
+    "miniLabel": "Seedless",
+    "tags": ["Seedless", "No Preservatives", "100% Natural"],
+    "badges": ["badge-natural", "badge-nopreserv", "badge-vegan"],
+    "photos": ["raisins-1.png", "raisins-2.png", "raisins-3.png"],
+    "shortDesc": "Plump, seedless golden raisins — naturally sweet and versatile for cooking, baking, and snacking.",
+    "fullDesc": "Our golden kishmish are sun-dried seedless grapes imported from Afghanistan and Iran — no sulphur dioxide treatment, purely natural.",
+    "descHeading": "Naturally Sweet",
+    "ingrHeading": "Ingredient",
+    "allergenInfo": "No known allergens.",
+    "protip": "Soak overnight in water and drink the water too — raisin water is great for liver health.",
+    "serving": "30g",
+    "servingsPer": "13",
+    "variants": [
+      { "w": "250g", "p": 179, "mrp": 215, "s": 350 },
+      { "w": "500g", "p": 329, "mrp": 395, "s": 220 },
+      { "w": "1kg", "p": 599, "mrp": 720, "s": 110 }
+    ],
+    "descs": [
+      { "icon": "eco", "title": "Seedless & Plump", "desc": "Carefully selected for plumpness and zero seeds — ready to eat or cook.", "color": "primary" },
+      { "icon": "wb_sunny", "title": "Sun Dried", "desc": "Traditional sun-drying method retains natural fruit sugars and color.", "color": "secondary" },
+      { "icon": "verified", "title": "Sulphite Free", "desc": "No sulphur dioxide treatment — unlike many commercial brands.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "eco", "name": "Dried Seedless Grapes", "origin": "Afghanistan import · Golden variety", "color": "primary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "299", "unit": "kcal" },
+      { "name": "Total Sugars", "amt": "59.2", "unit": "g" },
+      { "name": "Fiber", "amt": "3.7", "unit": "g" },
+      { "name": "Iron", "amt": "1.9", "unit": "mg" }
+    ],
+    "healths": [
+      { "icon": "favorite", "color": "primary", "title": "Iron Source", "desc": "A convenient source of iron supporting energy and reducing fatigue." },
+      { "icon": "psychiatry", "color": "secondary", "title": "Digestive Support", "desc": "Natural sorbitol and fiber promote a healthy digestive system." }
+    ],
+    "howtos": [
+      { "icon": "cookie", "theme": "primary", "title": "Baking", "desc": "Add to cakes, cookies, or bread dough for natural sweetness and moisture.", "tip": "Soak before baking", "tipIcon": "timer" },
+      { "icon": "rice_bowl", "theme": "secondary", "title": "Pulao & Zarda", "desc": "Stir into pilaf or sweet rice dishes for classic festive flavor.", "tip": "Add near end", "tipIcon": "restaurant" }
+    ]
+  },
+
+  {
+    "id": 14,
+    "name": "Chia Seeds",
+    "sku": "SKU-GRS-014",
+    "category": "grains_seeds",
+    "catLabel": "Grains & Seeds",
+    "status": "active",
+    "featured": false,
+    "bestseller": true,
+    "newbadge": true,
+    "thumbIcon": "grass",
+    "miniLabel": "Omega-3 Rich",
+    "tags": ["Gluten Free", "Vegan", "100% Natural"],
+    "badges": ["badge-gluten", "badge-vegan", "badge-natural", "badge-nopreserv"],
+    "photos": ["chia-1.png", "chia-2.png", "chia-3.png"],
+    "shortDesc": "Premium black chia seeds — an omega-3 powerhouse that forms a gel when soaked, great for puddings and smoothies.",
+    "fullDesc": "Our chia seeds are imported from South America and tested for purity before packing. They absorb 10x their weight in water, making them a powerful hydration and fiber food.",
+    "descHeading": "The Omega-3 Superfood",
+    "ingrHeading": "Ingredient",
+    "allergenInfo": "No known allergens. May cause choking if eaten dry — always consume with water.",
+    "protip": "Soak in water or milk for 30 minutes to form a gel before consuming.",
+    "serving": "15g",
+    "servingsPer": "16",
+    "variants": [
+      { "w": "100g", "p": 149, "mrp": 180, "s": 300 },
+      { "w": "250g", "p": 329, "mrp": 395, "s": 190 },
+      { "w": "500g", "p": 599, "mrp": 720, "s": 100 }
+    ],
+    "descs": [
+      { "icon": "grass", "title": "10x Water Absorption", "desc": "Chia forms a hydrating gel that helps maintain hydration and fullness.", "color": "primary" },
+      { "icon": "science", "title": "Plant Omega-3", "desc": "Highest plant-based ALA Omega-3 content — great for vegans and pescatarians.", "color": "secondary" },
+      { "icon": "inventory_2", "title": "Sealed Fresh", "desc": "Packed airtight to prevent moisture absorption before use.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "grass", "name": "Salvia Hispanica (Chia) Seeds", "origin": "Mexico import · Black variety", "color": "primary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "486", "unit": "kcal" },
+      { "name": "Total Fat", "amt": "30.7", "unit": "g" },
+      { "name": "Omega-3 (ALA)", "amt": "17.8", "unit": "g" },
+      { "name": "Fiber", "amt": "34.4", "unit": "g" },
+      { "name": "Protein", "amt": "16.5", "unit": "g" }
+    ],
+    "healths": [
+      { "icon": "favorite", "color": "primary", "title": "Heart Health", "desc": "Omega-3 fatty acids help reduce LDL cholesterol and blood pressure." },
+      { "icon": "psychiatry", "color": "secondary", "title": "Gut Health", "desc": "34g of fiber per 100g supports a healthy microbiome and regular digestion." }
+    ],
+    "howtos": [
+      { "icon": "local_cafe", "theme": "primary", "title": "Chia Pudding", "desc": "Mix 3 tbsp chia with 1 cup milk, refrigerate overnight, top with fruits.", "tip": "Best overnight", "tipIcon": "bedtime" },
+      { "icon": "blender", "theme": "secondary", "title": "Smoothie Add-in", "desc": "Add 1 tbsp dry chia to any smoothie — it thickens the drink naturally.", "tip": "Blend well", "tipIcon": "bolt" }
+    ]
+  },
+
+  {
+    "id": 15,
+    "name": "Green Tea (Imported)",
+    "sku": "SKU-TEA-015",
+    "category": "tea_herbal",
+    "catLabel": "Tea & Herbal Drinks",
+    "status": "active",
+    "featured": false,
+    "bestseller": false,
+    "newbadge": false,
+    "thumbIcon": "local_cafe",
+    "miniLabel": "Japanese Style",
+    "tags": ["No Sugar", "Antioxidant Rich", "Gluten Free"],
+    "badges": ["badge-natural", "badge-nopreserv", "badge-vegan", "badge-gluten"],
+    "photos": ["greentea-1.png", "greentea-2.png", "greentea-3.png"],
+    "shortDesc": "Premium loose-leaf green tea with a smooth grassy flavor — rich in EGCG antioxidants and low in caffeine.",
+    "fullDesc": "Our green tea is sourced from high-altitude tea gardens, steamed and dried to preserve chlorophyll and catechin antioxidants.",
+    "descHeading": "The Antioxidant Brew",
+    "ingrHeading": "Ingredient",
+    "allergenInfo": "Contains caffeine. Not recommended before bedtime.",
+    "protip": "Brew at 75°C (not boiling) for 2–3 minutes to avoid bitterness.",
+    "serving": "2g",
+    "servingsPer": "50",
+    "variants": [
+      { "w": "100g", "p": 199, "mrp": 240, "s": 200 },
+      { "w": "250g", "p": 449, "mrp": 540, "s": 130 },
+      { "w": "500g", "p": 849, "mrp": 999, "s": 60 }
+    ],
+    "descs": [
+      { "icon": "local_cafe", "title": "EGCG Rich", "desc": "High in EGCG (epigallocatechin gallate) — the most potent green tea antioxidant.", "color": "primary" },
+      { "icon": "thermostat", "title": "Low Temperature Brew", "desc": "Designed for 70–75°C brewing to extract catechins without bitterness.", "color": "secondary" },
+      { "icon": "inventory_2", "title": "Foil Sealed", "desc": "Double-layer foil pouch blocks light, moisture, and air to preserve freshness.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "local_cafe", "name": "Camellia Sinensis Leaves", "origin": "China import · Longjing style", "color": "primary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "1", "unit": "kcal" },
+      { "name": "Caffeine", "amt": "20", "unit": "mg" },
+      { "name": "EGCG", "amt": "50", "unit": "mg" },
+      { "name": "Total Fat", "amt": "0", "unit": "g" }
+    ],
+    "healths": [
+      { "icon": "favorite", "color": "primary", "title": "Antioxidant Power", "desc": "EGCG is one of the most powerful antioxidants found in nature." },
+      { "icon": "self_improvement", "color": "secondary", "title": "Focus & Calm", "desc": "L-theanine in green tea promotes calm alertness without jitteriness." }
+    ],
+    "howtos": [
+      { "icon": "local_cafe", "theme": "primary", "title": "Classic Brew", "desc": "Steep 1 tsp leaves in 200ml water at 75°C for 2–3 minutes. Strain and enjoy.", "tip": "Don't use boiling water", "tipIcon": "thermostat" },
+      { "icon": "blender", "theme": "secondary", "title": "Iced Green Tea", "desc": "Brew strong, cool, pour over ice with a squeeze of lemon.", "tip": "Add mint for freshness", "tipIcon": "eco" }
+    ]
+  },
+
+  {
+    "id": 16,
+    "name": "Garam Masala Blend",
+    "sku": "SKU-MSL-016",
+    "category": "spice_blends",
+    "catLabel": "Spice Blends & Masala",
+    "status": "active",
+    "featured": true,
+    "bestseller": true,
+    "newbadge": false,
+    "thumbIcon": "blender",
+    "miniLabel": "14 Whole Spices",
+    "tags": ["No MSG", "Gluten Free", "No Artificial Color"],
+    "badges": ["badge-nomsg", "badge-gluten", "badge-noartificial", "badge-natural"],
+    "photos": ["garammasala-1.png", "garammasala-2.png", "garammasala-3.png"],
+    "shortDesc": "Aromatic blend of 14 whole spices including cardamom, cloves, cinnamon, and black pepper — ground fresh in small batches.",
+    "fullDesc": "Our Garam Masala is crafted from 14 premium whole spices roasted and blended in a traditional recipe. The result is a warm, complex aroma that transforms any dish.",
+    "descHeading": "14-Spice Signature Blend",
+    "ingrHeading": "What's Inside",
+    "allergenInfo": "No known allergens. May contain traces of nuts from shared facility.",
+    "protip": "Add in the last 5 minutes of cooking — heat fades the aroma if added too early.",
+    "serving": "3g",
+    "servingsPer": "33",
+    "variants": [
+      { "w": "100g", "p": 149, "mrp": 180, "s": 320 },
+      { "w": "250g", "p": 330, "mrp": 399, "s": 200 },
+      { "w": "500g", "p": 599, "mrp": 720, "s": 90 },
+      { "w": "1kg", "p": 1099, "mrp": 1300, "s": 40 }
+    ],
+    "descs": [
+      { "icon": "blender", "title": "14 Whole Spices", "desc": "Cardamom, cloves, cinnamon, pepper, nutmeg, mace, bay leaf & more — blended in perfect ratio.", "color": "primary" },
+      { "icon": "factory", "title": "Small Batch Roasted", "desc": "Whole spices are dry-roasted before blending for a deep, smoky complexity.", "color": "secondary" },
+      { "icon": "qr_code", "title": "Full Traceability", "desc": "Scan the QR code to view origin spices, batch date, and freshness report.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "spa", "name": "Green Cardamom", "origin": "Kerala origin · Aromatic", "color": "primary" },
+      { "icon": "local_fire_department", "name": "Cloves", "origin": "Zanzibar grade · Intense", "color": "neutral" },
+      { "icon": "grain", "name": "Black Pepper", "origin": "Vietnam origin · Sharp heat", "color": "secondary" },
+      { "icon": "eco", "name": "Cinnamon", "origin": "Sri Lanka origin · Sweet warmth", "color": "tertiary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "312", "unit": "kcal" },
+      { "name": "Total Fat", "amt": "10.5", "unit": "g" },
+      { "name": "Protein", "amt": "12.7", "unit": "g" },
+      { "name": "Carbohydrates", "amt": "50.3", "unit": "g" }
+    ],
+    "healths": [
+      { "icon": "healing", "color": "primary", "title": "Anti-inflammatory", "desc": "Eugenol from cloves and piperine from pepper provide powerful anti-inflammatory effects." },
+      { "icon": "psychiatry", "color": "secondary", "title": "Digestive Aid", "desc": "Cardamom and fennel seeds in the blend promote healthy digestion after meals." }
+    ],
+    "howtos": [
+      { "icon": "soup_kitchen", "theme": "primary", "title": "Curries & Gravies", "desc": "Add ½–1 tsp per serving in the last 10 minutes of cooking.", "tip": "Add near the end", "tipIcon": "timer" },
+      { "icon": "rice_bowl", "theme": "secondary", "title": "Biryani & Pulao", "desc": "Use 1–2 tsp per kg of rice when layering the biryani.", "tip": "1–2 tsp per kg rice", "tipIcon": "restaurant" },
+      { "icon": "skillet", "theme": "tertiary", "title": "Meat Marinades", "desc": "Rub 1 tsp with yoghurt and garlic into chicken before grilling.", "tip": "Marinate overnight", "tipIcon": "bedtime" }
+    ]
+  },
+
+  {
+    "id": 17,
+    "name": "Red Lentils (Masoor Dal)",
+    "sku": "SKU-PLS-017",
+    "category": "pulses_beans",
+    "catLabel": "Pulses & Dry Beans",
+    "status": "active",
+    "featured": false,
+    "bestseller": true,
+    "newbadge": false,
+    "thumbIcon": "grain",
+    "miniLabel": "Premium Grade",
+    "tags": ["High Protein", "Gluten Free", "No Preservatives"],
+    "badges": ["badge-gluten", "badge-natural", "badge-nopreserv", "badge-vegan"],
+    "photos": ["masoor-1.png", "masoor-2.png", "masoor-3.png"],
+    "shortDesc": "Premium skinned red lentils (masoor dal) — quick-cooking, protein-rich, and essential for everyday Bangladeshi cooking.",
+    "fullDesc": "Our masoor dal is hand-cleaned and machine-sorted to remove stones and broken lentils, ensuring a consistent, premium cook every time.",
+    "descHeading": "Everyday Protein Staple",
+    "ingrHeading": "Ingredient",
+    "allergenInfo": "No known allergens. Store in a cool, dry place away from moisture.",
+    "protip": "No soaking needed — rinse and cook directly for 15–20 minutes for a creamy dal.",
+    "serving": "50g",
+    "servingsPer": "20",
+    "variants": [
+      { "w": "250g", "p": 49, "mrp": 60, "s": 500 },
+      { "w": "500g", "p": 89, "mrp": 110, "s": 400 },
+      { "w": "1kg", "p": 159, "mrp": 195, "s": 250 }
+    ],
+    "descs": [
+      { "icon": "grain", "title": "Stone Sorted", "desc": "Machine-sorted to remove stones, husks, and broken pieces for clean cooking.", "color": "primary" },
+      { "icon": "science", "title": "Quick Cook", "desc": "Skinned red lentils cook in just 15–20 minutes with no pre-soaking needed.", "color": "secondary" },
+      { "icon": "inventory_2", "title": "Moisture-Proof Pack", "desc": "Sealed in a thick food-grade pack to prevent humidity absorption during storage.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "grain", "name": "Skinned Red Lentils (Lens culinaris)", "origin": "Local Bangladesh · Premium sort", "color": "primary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "352", "unit": "kcal" },
+      { "name": "Protein", "amt": "24.6", "unit": "g" },
+      { "name": "Total Fat", "amt": "1.1", "unit": "g" },
+      { "name": "Carbohydrates", "amt": "63.4", "unit": "g" },
+      { "name": "Fiber", "amt": "10.7", "unit": "g" }
+    ],
+    "healths": [
+      { "icon": "favorite", "color": "primary", "title": "Heart Healthy", "desc": "High fiber and folate content helps lower cholesterol and support heart health." },
+      { "icon": "bolt", "color": "secondary", "title": "Protein Rich", "desc": "24g protein per 100g makes masoor dal an excellent plant-based protein source." }
+    ],
+    "howtos": [
+      { "icon": "soup_kitchen", "theme": "primary", "title": "Classic Dal", "desc": "Boil 1 cup dal with 3 cups water, temper with mustard oil, onion, garlic, and turmeric.", "tip": "No soaking needed", "tipIcon": "timer" },
+      { "icon": "skillet", "theme": "secondary", "title": "Dal Fry", "desc": "Temper boiled dal in ghee with cumin, garlic, dried chilli for a restaurant-style finish.", "tip": "Finish with ghee", "tipIcon": "restaurant" }
+    ]
+  },
+
+  {
+    "id": 18,
+    "name": "Roasted Peanuts",
+    "sku": "SKU-SNK-018",
+    "category": "healthy_snacks",
+    "catLabel": "Healthy Snacks",
+    "status": "active",
+    "featured": false,
+    "bestseller": true,
+    "newbadge": false,
+    "thumbIcon": "nutrition",
+    "miniLabel": "Lightly Salted",
+    "tags": ["High Protein", "No MSG", "Gluten Free"],
+    "badges": ["badge-nomsg", "badge-gluten", "badge-natural"],
+    "photos": ["peanuts-1.png", "peanuts-2.png", "peanuts-3.png"],
+    "shortDesc": "Crunchy dry-roasted peanuts with a light salt finish — the most affordable high-protein snack in Bangladesh.",
+    "fullDesc": "Our peanuts are sourced from local farms in Faridpur and Jessore, dry-roasted in-house (no oil), and lightly salted for a satisfying crunch.",
+    "descHeading": "The Ultimate Protein Snack",
+    "ingrHeading": "Ingredients",
+    "allergenInfo": "Contains peanuts. Not suitable for those with nut allergies.",
+    "protip": "Store in an airtight container after opening to maintain crunch for weeks.",
+    "serving": "30g",
+    "servingsPer": "8",
+    "variants": [
+      { "w": "100g", "p": 49, "mrp": 60, "s": 500 },
+      { "w": "250g", "p": 109, "mrp": 130, "s": 380 },
+      { "w": "500g", "p": 199, "mrp": 240, "s": 250 },
+      { "w": "1kg", "p": 369, "mrp": 440, "s": 120 }
+    ],
+    "descs": [
+      { "icon": "nutrition", "title": "Dry Roasted", "desc": "Roasted without oil for a lighter, crunchier snack with less fat than fried peanuts.", "color": "primary" },
+      { "icon": "eco", "title": "Local Sourced", "desc": "Peanuts sourced directly from Faridpur and Jessore farmers — supporting local agriculture.", "color": "secondary" },
+      { "icon": "inventory_2", "title": "Freshness Sealed", "desc": "Nitrogen-flushed resealable bag maintains crunch and prevents staleness.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "nutrition", "name": "Dry Roasted Peanuts", "origin": "Faridpur & Jessore · Local harvest", "color": "primary" },
+      { "icon": "grain", "name": "Salt", "origin": "Food grade · Light seasoning", "color": "neutral" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "567", "unit": "kcal" },
+      { "name": "Protein", "amt": "25.8", "unit": "g" },
+      { "name": "Total Fat", "amt": "49.2", "unit": "g" },
+      { "name": "Carbohydrates", "amt": "16.1", "unit": "g" },
+      { "name": "Fiber", "amt": "8.5", "unit": "g" }
+    ],
+    "healths": [
+      { "icon": "bolt", "color": "primary", "title": "Protein Powerhouse", "desc": "More protein per taka than almost any other snack available in Bangladesh." },
+      { "icon": "favorite", "color": "secondary", "title": "Heart Healthy Fats", "desc": "Rich in oleic acid and resveratrol, linked to improved cardiovascular health." }
+    ],
+    "howtos": [
+      { "icon": "breakfast_dining", "theme": "primary", "title": "Direct Snacking", "desc": "Eat a small handful between meals to curb hunger and boost protein intake.", "tip": "Great pre-workout", "tipIcon": "bolt" },
+      { "icon": "blender", "theme": "secondary", "title": "Peanut Butter", "desc": "Blend 2 cups roasted peanuts in a food processor until smooth for homemade peanut butter.", "tip": "Blend 5–8 minutes", "tipIcon": "timer" }
+    ]
+  },
+
+  {
+    "id": 19,
+    "name": "Desiccated Coconut",
+    "sku": "SKU-COC-019",
+    "category": "coconut_products",
+    "catLabel": "Coconut & Coconut Products",
+    "status": "active",
+    "featured": false,
+    "bestseller": false,
+    "newbadge": false,
+    "thumbIcon": "yard",
+    "miniLabel": "Fine Grade",
+    "tags": ["No Preservatives", "Gluten Free", "100% Natural"],
+    "badges": ["badge-nopreserv", "badge-gluten", "badge-natural", "badge-vegan"],
+    "photos": ["coconut-1.png", "coconut-2.png", "coconut-3.png"],
+    "shortDesc": "Fine desiccated coconut shreds — dried, unsweetened, and perfect for baking, cooking, and desserts.",
+    "fullDesc": "Made from fresh mature coconuts, our desiccated coconut is grated fine and dried at low temperature to preserve its natural oils and sweet aroma.",
+    "descHeading": "Pure Coconut Goodness",
+    "ingrHeading": "Ingredient",
+    "allergenInfo": "Contains coconut (tree nut). Check with your allergist.",
+    "protip": "Toast lightly in a dry pan for 2 minutes to unlock a rich, nutty aroma before use.",
+    "serving": "15g",
+    "servingsPer": "13",
+    "variants": [
+      { "w": "100g", "p": 79, "mrp": 95, "s": 300 },
+      { "w": "250g", "p": 175, "mrp": 210, "s": 200 },
+      { "w": "500g", "p": 319, "mrp": 380, "s": 110 }
+    ],
+    "descs": [
+      { "icon": "yard", "title": "Fine Grade", "desc": "Uniformly fine shreds for smooth blending into batters and coatings.", "color": "primary" },
+      { "icon": "eco", "title": "Unsweetened", "desc": "No sugar added — control your own sweetness in recipes.", "color": "secondary" },
+      { "icon": "inventory_2", "title": "Aroma-Sealed", "desc": "Sealed to lock in the natural coconut fragrance that fades when exposed to air.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "yard", "name": "Fresh Coconut (Cocos nucifera)", "origin": "Barisal origin · Mature variety", "color": "primary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "660", "unit": "kcal" },
+      { "name": "Total Fat", "amt": "64.5", "unit": "g" },
+      { "name": "Protein", "amt": "6.9", "unit": "g" },
+      { "name": "Carbohydrates", "amt": "23.7", "unit": "g" },
+      { "name": "Fiber", "amt": "16.3", "unit": "g" }
+    ],
+    "healths": [
+      { "icon": "bolt", "color": "primary", "title": "MCT Energy", "desc": "Medium-chain triglycerides (MCTs) in coconut fat are rapidly converted to energy." },
+      { "icon": "psychiatry", "color": "secondary", "title": "Digestive Fiber", "desc": "High fiber content from coconut shreds supports gut motility and health." }
+    ],
+    "howtos": [
+      { "icon": "cookie", "theme": "primary", "title": "Baking & Sweets", "desc": "Use as a coating for coconut ladoo, truffles, or mix into cake batter.", "tip": "Toast for best flavor", "tipIcon": "skillet" },
+      { "icon": "rice_bowl", "theme": "secondary", "title": "Halwa & Firni", "desc": "Add to traditional Bangladeshi halwa or firni for authentic texture.", "tip": "Add mid-cook", "tipIcon": "restaurant" }
+    ]
+  },
+
+  {
+    "id": 20,
+    "name": "Pure Date Jaggery (Khejurer Gur)",
+    "sku": "SKU-SWT-020",
+    "category": "natural_sweeteners",
+    "catLabel": "Natural Sweeteners",
+    "status": "active",
+    "featured": true,
+    "bestseller": true,
+    "newbadge": false,
+    "thumbIcon": "water_drop",
+    "miniLabel": "Winter Harvest",
+    "tags": ["100% Natural", "No Preservatives", "No Artificial Color"],
+    "badges": ["badge-natural", "badge-nopreserv", "badge-noartificial", "badge-halal", "badge-vegan"],
+    "photos": ["datejaggery-1.png", "datejaggery-2.png", "datejaggery-3.png"],
+    "shortDesc": "Pure khejurer gur — traditional Bangladeshi date palm jaggery with a rich caramel flavor. Seasonal winter harvest.",
+    "fullDesc": "Collected from date palm trees during winter months in Jessore and Khulna, this jaggery is boiled and set the traditional way — no chemicals, no additives.",
+    "descHeading": "Bangladesh's Finest Sweetener",
+    "ingrHeading": "Ingredient",
+    "allergenInfo": "No known allergens. Diabetics should monitor intake.",
+    "protip": "Grate or dissolve in warm milk for a traditional payesh or halwa base.",
+    "serving": "10g",
+    "servingsPer": "50",
+    "variants": [
+      { "w": "250g", "p": 149, "mrp": 180, "s": 250 },
+      { "w": "500g", "p": 269, "mrp": 320, "s": 180 },
+      { "w": "1kg", "p": 499, "mrp": 599, "s": 90 }
+    ],
+    "descs": [
+      { "icon": "water_drop", "title": "Wild Palm Sap", "desc": "Made from sap tapped directly from date palm trees in winter — purely traditional.", "color": "primary" },
+      { "icon": "wb_sunny", "title": "Open Kettle Boiled", "desc": "Cooked in open iron kettles the traditional way — no chemical processing.", "color": "secondary" },
+      { "icon": "eco", "title": "Seasonal Limited", "desc": "Available only from November to February — authentic winter harvest.", "color": "tertiary" }
+    ],
+    "ingrs": [
+      { "icon": "water_drop", "name": "Date Palm Sap (Phoenix sylvestris)", "origin": "Jessore & Khulna · Winter tapped", "color": "primary" }
+    ],
+    "nutrs": [
+      { "name": "Calories", "amt": "383", "unit": "kcal" },
+      { "name": "Total Sugars", "amt": "98.1", "unit": "g" },
+      { "name": "Iron", "amt": "11.4", "unit": "mg" },
+      { "name": "Potassium", "amt": "304", "unit": "mg" }
+    ],
+    "healths": [
+      { "icon": "healing", "color": "primary", "title": "Iron Rich", "desc": "Contains significantly more iron than refined white sugar — good for anemia." },
+      { "icon": "favorite", "color": "secondary", "title": "Lower Glycemic", "desc": "Jaggery has a lower glycemic index than refined sugar, causing slower blood sugar rise." }
+    ],
+    "howtos": [
+      { "icon": "coffee", "theme": "primary", "title": "Tea & Milk", "desc": "Dissolve a small piece in hot milk or tea as a natural sweetener substitute.", "tip": "Replace white sugar", "tipIcon": "local_cafe" },
+      { "icon": "cookie", "theme": "secondary", "title": "Payesh & Halwa", "desc": "Grate and add to traditional rice pudding (payesh) for authentic Bengali flavor.", "tip": "Add after removing heat", "tipIcon": "restaurant" }
+    ]
+  }
+
+]
