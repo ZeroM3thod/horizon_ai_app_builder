@@ -17,7 +17,6 @@ import {
   X,
   RefreshCw,
   Check,
-  ShoppingCart,
   Star
 } from "lucide-react";
 import Link from "next/link";
@@ -546,7 +545,7 @@ export default function ProductsPage() {
                           {animatingIds.has(p.id) ? (
                             <Check size={16} className="check-icon" />
                           ) : (
-                            <ShoppingCart size={16} />
+                            <span className="material-symbols-outlined" style={{ fontSize: '16px', lineHeight: 1 }}>add_shopping_cart</span>
                           )}
                           <span className="hidden sm:inline text-[13px]">{animatingIds.has(p.id) ? 'Added' : 'Add'}</span>
                         </button>

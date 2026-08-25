@@ -161,6 +161,40 @@ export default function AdminProductsPage() {
     show:false, target:"", x:0, y:0, q:""
   });
 
+  // Image Picker Dialog
+  const [isImagePickerOpen, setIsImagePickerOpen] = useState(false);
+  const [selectedProductImage, setSelectedProductImage] = useState<string | null>(null);
+  const [imagePickerSearch, setImagePickerSearch] = useState("");
+
+  // Simulated images from public/images folder
+  const PUBLIC_IMAGES = [
+    { name: 'garam-masala.jpg',    label: 'Garam Masala',     gradient: 'linear-gradient(135deg,#ff8a65,#9f4122)',     icon: 'local_fire_department' },
+    { name: 'turmeric.jpg',        label: 'Turmeric',          gradient: 'linear-gradient(135deg,#d6ed7a,#bbd062)',     icon: 'eco' },
+    { name: 'cardamom.jpg',        label: 'Cardamom',          gradient: 'linear-gradient(135deg,#bbe9ff,#80b1c7)',     icon: 'spa' },
+    { name: 'chilli-powder.jpg',   label: 'Chilli Powder',     gradient: 'linear-gradient(135deg,#ffdbd0,#ffb59e)',     icon: 'whatshot' },
+    { name: 'cumin-seeds.jpg',     label: 'Cumin Seeds',       gradient: 'linear-gradient(135deg,#d6ed7a,#556500)',     icon: 'grass' },
+    { name: 'cinnamon.jpg',        label: 'Cinnamon Sticks',   gradient: 'linear-gradient(135deg,#ede8dd,#ddc0b8)',     icon: 'water_drop' },
+    { name: 'cloves.jpg',          label: 'Cloves',            gradient: 'linear-gradient(135deg,#ffdbd0,#9f4122)',     icon: 'local_fire_department' },
+    { name: 'black-pepper.jpg',    label: 'Black Pepper',      gradient: 'linear-gradient(135deg,#ede8dd,#56423c)',     icon: 'grain' },
+    { name: 'almonds.jpg',         label: 'Premium Almonds',   gradient: 'linear-gradient(135deg,#f3ede2,#ddc0b8)',     icon: 'nutrition' },
+    { name: 'cashews.jpg',         label: 'Cashew Nuts',       gradient: 'linear-gradient(135deg,#d6ed7a,#8fa800)',     icon: 'grain' },
+    { name: 'mixed-fruits.jpg',    label: 'Mixed Dry Fruits',  gradient: 'linear-gradient(135deg,#ffdbd0,#ff8a65)',     icon: 'shopping_basket' },
+    { name: 'moong-dal.jpg',       label: 'Moong Dal',         gradient: 'linear-gradient(135deg,#d6ed7a,#bbd062)',     icon: 'set_meal' },
+    { name: 'masoor-dal.jpg',      label: 'Masoor Dal',        gradient: 'linear-gradient(135deg,#ff8a65,#9f4122)',     icon: 'grain' },
+    { name: 'biryani-masala.jpg',  label: 'Biryani Masala',    gradient: 'linear-gradient(135deg,#d6ed7a,#556500)',     icon: 'soup_kitchen' },
+    { name: 'curry-powder.jpg',    label: 'Curry Powder',      gradient: 'linear-gradient(135deg,#ede8dd,#ffdbd0)',     icon: 'rice_bowl' },
+    { name: 'pistachios.jpg',      label: 'Pistachios',        gradient: 'linear-gradient(135deg,#d6ed7a,#8fa800)',     icon: 'eco' },
+    { name: 'raisins.jpg',         label: 'Golden Raisins',    gradient: 'linear-gradient(135deg,#bbe9ff,#9ccee4)',     icon: 'local_florist' },
+    { name: 'halwa-mix.jpg',       label: 'Halwa Mix',         gradient: 'linear-gradient(135deg,#d6ed7a,#bbd062)',     icon: 'skillet' },
+    { name: 'khichdi-mix.jpg',     label: 'Khichdi Mix',       gradient: 'linear-gradient(135deg,#ede8dd,#ddc0b8)',     icon: 'rice_bowl' },
+    { name: 'product-default.jpg', label: 'Default Product',   gradient: 'linear-gradient(135deg,#f3ede2,#ddc0b8)',     icon: 'inventory_2' },
+  ];
+
+  const filteredPublicImages = PUBLIC_IMAGES.filter(img =>
+    img.label.toLowerCase().includes(imagePickerSearch.toLowerCase()) ||
+    img.name.toLowerCase().includes(imagePickerSearch.toLowerCase())
+  );
+
   useEffect(() => {
     setCurrentDate(new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }));
   }, []);
@@ -878,6 +912,49 @@ export default function AdminProductsPage() {
             </div>
           </div>
 
+          {/* SECTION 2: Product Image */}
+          <div className={`form-section bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] overflow-hidden ${collapsedSections.sec_photos ? 'collapsed' : ''}`}>
+            <button onClick={() => toggleSection('sec_photos')} className="w-full flex items-center gap-3 px-5 py-4 hover:bg-surface-container/50 transition-colors text-left">
+              <div className="w-8 h-8 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
+                <span className="material-symbols-outlined text-secondary text-[18px]">image</span>
+              </div>
+              <div className="flex-1">
+                <p className="font-semibold text-[14px] text-on-surface">Product Image</p>
+                <p className="text-[11px] text-on-surface-variant">Select an image from your public/images folder</p>
+              </div>
+              <span className="section-chevron material-symbols-outlined text-on-surface-variant text-[20px]">expand_more</span>
+            </button>
+            <div className="form-section-body" style={{ maxHeight: collapsedSections.sec_photos ? '0px' : '400px' }}>
+              <div className="px-5 pb-5">
+                <label className="block text-[12px] font-semibold text-on-surface-variant uppercase tracking-wide mb-2">Selected Image</label>
+                {selectedProductImage ? (
+                  <div className="flex items-center gap-3 mb-3 bg-surface-container rounded-[12px] px-4 py-3 border border-outline-variant/40">
+                    <div className="w-10 h-10 rounded-[10px] overflow-hidden shrink-0 flex items-center justify-center" style={{ background: PUBLIC_IMAGES.find(i => i.name === selectedProductImage)?.gradient || '#f3ede2' }}>
+                      <span className="material-symbols-outlined text-white text-[18px]">{PUBLIC_IMAGES.find(i => i.name === selectedProductImage)?.icon || 'image'}</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[13px] font-semibold text-on-surface truncate">{PUBLIC_IMAGES.find(i => i.name === selectedProductImage)?.label}</p>
+                      <p className="text-[11px] text-on-surface-variant truncate">public/images/{selectedProductImage}</p>
+                    </div>
+                    <button onClick={() => setSelectedProductImage(null)} className="w-7 h-7 rounded-full hover:bg-error-container hover:text-error text-on-surface-variant flex items-center justify-center transition-colors shrink-0">
+                      <span className="material-symbols-outlined text-[16px]">close</span>
+                    </button>
+                  </div>
+                ) : (
+                  <p className="text-[12px] text-outline mb-3">No image selected yet.</p>
+                )}
+                <button
+                  onClick={() => { setImagePickerSearch(""); setIsImagePickerOpen(true); }}
+                  className="photo-drop w-full border-2 border-dashed border-outline-variant/50 rounded-[16px] py-5 flex flex-col items-center gap-2 text-on-surface-variant hover:border-primary hover:text-primary transition-all"
+                >
+                  <span className="material-symbols-outlined text-[32px]">add_photo_alternate</span>
+                  <span className="text-[13px] font-semibold">Browse Images</span>
+                  <span className="text-[11px] opacity-70">Click to open image gallery</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
           {/* SECTION 3: Weight & Price Variants */}
           <div className={`form-section bg-surface-container-lowest border border-outline-variant/30 rounded-[20px] overflow-hidden ${collapsedSections.sec_variants ? 'collapsed' : ''}`}>
             <button onClick={() => toggleSection('sec_variants')} className="w-full flex items-center gap-3 px-5 py-4 hover:bg-surface-container/50 transition-colors text-left">
@@ -1505,6 +1582,106 @@ export default function AdminProductsPage() {
             <div className="flex gap-3">
               <button onClick={() => setIsDelProdModalOpen(false)} className="flex-1 py-3 rounded-full border border-outline-variant/40 text-[13px] font-semibold text-on-surface hover:bg-surface-container transition-colors">Cancel</button>
               <button onClick={() => deletingProdId && deleteProduct(deletingProdId)} className="flex-1 py-3 rounded-full bg-error text-on-error text-[13px] font-semibold hover:bg-error/90 transition-colors">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── IMAGE PICKER DIALOG ─── */}
+      <div
+        className={`fixed inset-0 bg-black/50 z-[75] transition-opacity duration-300 ${isImagePickerOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        onClick={() => setIsImagePickerOpen(false)}
+      >
+        <div className={`fixed inset-0 flex items-center justify-center p-4 pointer-events-none transition-all duration-300 ${isImagePickerOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+          <div
+            className="bg-surface-container-lowest rounded-[24px] shadow-2xl border border-outline-variant/30 w-full max-w-2xl pointer-events-auto flex flex-col"
+            style={{ maxHeight: '85vh' }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Dialog Header */}
+            <div className="flex items-center gap-3 px-5 py-4 border-b border-outline-variant/20 shrink-0">
+              <div className="w-9 h-9 rounded-full bg-secondary/10 flex items-center justify-center shrink-0">
+                <span className="material-symbols-outlined text-secondary text-[20px]">photo_library</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-bold text-[16px] text-on-surface leading-none">Select Product Image</h3>
+                <p className="text-[12px] text-on-surface-variant mt-0.5">public/images folder · {PUBLIC_IMAGES.length} images</p>
+              </div>
+              <button onClick={() => setIsImagePickerOpen(false)} className="w-8 h-8 rounded-xl flex items-center justify-center hover:bg-surface-container transition-colors text-on-surface-variant">
+                <span className="material-symbols-outlined text-[20px]">close</span>
+              </button>
+            </div>
+
+            {/* Search */}
+            <div className="px-5 pt-4 pb-3 shrink-0">
+              <div className="flex items-center gap-2 bg-surface-container rounded-[12px] border border-outline-variant/50 px-3 py-2.5">
+                <span className="material-symbols-outlined text-on-surface-variant text-[18px]">search</span>
+                <input
+                  value={imagePickerSearch}
+                  onChange={e => setImagePickerSearch(e.target.value)}
+                  type="text"
+                  placeholder="Search images…"
+                  className="flex-1 bg-transparent text-[13px] text-on-surface placeholder:text-outline border-none focus:ring-0 p-0"
+                />
+                {imagePickerSearch && (
+                  <button onClick={() => setImagePickerSearch("")} className="text-on-surface-variant hover:text-primary transition-colors">
+                    <span className="material-symbols-outlined text-[16px]">close</span>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Image Grid */}
+            <div className="flex-1 overflow-y-auto px-5 pb-5 hide-scrollbar">
+              {filteredPublicImages.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-10 text-center">
+                  <span className="material-symbols-outlined text-[40px] text-outline mb-2">image_search</span>
+                  <p className="text-[14px] font-semibold text-on-surface-variant">No images found</p>
+                  <p className="text-[12px] text-outline mt-1">Try a different search term</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                  {filteredPublicImages.map(img => (
+                    <button
+                      key={img.name}
+                      onClick={() => { setSelectedProductImage(img.name); setIsImagePickerOpen(false); showToast(`"${img.label}" selected`, 'image'); }}
+                      className={`group relative rounded-[16px] overflow-hidden border-2 transition-all ${selectedProductImage === img.name ? 'border-primary shadow-lg shadow-primary/20 scale-[1.02]' : 'border-outline-variant/30 hover:border-primary/50 hover:shadow-md'}`}
+                    >
+                      {/* Image preview (gradient placeholder since real files may not exist) */}
+                      <div className="aspect-square flex items-center justify-center relative" style={{ background: img.gradient }}>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-12 h-12 rounded-full bg-white/15"></div>
+                        </div>
+                        <span className="material-symbols-outlined text-white text-[28px] relative z-10 drop-shadow">{img.icon}</span>
+                        {selectedProductImage === img.name && (
+                          <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
+                            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-lg">
+                              <span className="material-symbols-outlined text-on-primary text-[16px]">check</span>
+                            </div>
+                          </div>
+                        )}
+                        <div className="absolute bottom-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <div className="bg-black/50 backdrop-blur-sm rounded-full px-1.5 py-0.5">
+                            <span className="material-symbols-outlined text-white text-[12px]">open_in_full</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="bg-surface-container px-2 py-1.5">
+                        <p className="text-[11px] font-semibold text-on-surface truncate text-left">{img.label}</p>
+                        <p className="text-[10px] text-on-surface-variant truncate text-left">{img.name}</p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Dialog Footer */}
+            <div className="px-5 py-4 border-t border-outline-variant/20 flex items-center justify-between shrink-0">
+              <p className="text-[12px] text-on-surface-variant">{filteredPublicImages.length} of {PUBLIC_IMAGES.length} images</p>
+              <button onClick={() => setIsImagePickerOpen(false)} className="px-4 py-2 rounded-full text-[13px] font-medium text-on-surface-variant bg-surface-container hover:bg-surface-container-high transition-colors border border-outline-variant/30">
+                Cancel
+              </button>
             </div>
           </div>
         </div>

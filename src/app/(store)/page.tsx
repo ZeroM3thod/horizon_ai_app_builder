@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
+import { Check, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
@@ -63,6 +64,171 @@ const ALL_PRODUCTS: Product[] = [
   { id:11, name: "Red Lentil (Masoor)",   category: "Dals & Pulses",     price: 119, weight: "1kg • Premium Whole",       rating: 4, reviews: 278,                                                                           icon: "grain",                 iconColor: "text-on-surface",       gradientFrom: "from-surface-container-high",gradientTo: "to-primary-fixed/30",        inStock: true,  isNew: false },
   { id:12, name: "Cinnamon Sticks",       category: "Whole Spices",      price: 219, weight: "100g • Ceylon Grade",       rating: 5, reviews: 189, badge: "New",         badgeColor: "bg-primary text-on-primary top-2.5 right-2.5", icon: "local_fire_department", iconColor: "text-tertiary",         gradientFrom: "from-tertiary-container",    gradientTo: "to-tertiary-fixed/50",       inStock: true,  isNew: true  },
 ];
+
+// ─── Hero Banner Carousel ────────────────────────────────────────────────────
+
+const BANNER_COUNT = 4;
+
+/**
+ * Banner image paths are device-specific:
+ *   public/banner/mobile/1.png   → shown on screens < 768px
+ *   public/banner/tablet/1.png   → shown on screens 768px–1279px
+ *   public/banner/desktop/1.png  → shown on screens ≥ 1280px
+ *
+ * Recommended banner dimensions:
+ *   Mobile  → 750 × 400 px  (aspect ratio ~1.875:1, full-width up to 767px)
+ *   Tablet  → 1440 × 560 px (aspect ratio ~2.57:1, full-width up to 1279px)
+ *   Desktop → 1920 × 680 px (aspect ratio ~2.82:1, full-width 1280px+)
+ */
+
+function HeroBannerCarousel() {
+  const [current, setCurrent] = useState(0);
+  const [dragStartX, setDragStartX] = useState<number | null>(null);
+  const [dragDelta, setDragDelta] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const autoRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const total = BANNER_COUNT;
+
+  const goTo = useCallback((idx: number) => {
+    setCurrent((idx + total) % total);
+  }, [total]);
+
+  const next = useCallback(() => goTo(current + 1), [goTo, current]);
+  const prev = useCallback(() => goTo(current - 1), [goTo, current]);
+
+  const resetAuto = useCallback(() => {
+    if (autoRef.current) clearInterval(autoRef.current);
+    autoRef.current = setInterval(() => {
+      setCurrent((c) => (c + 1) % total);
+    }, 4000);
+  }, [total]);
+
+  useEffect(() => {
+    resetAuto();
+    return () => { if (autoRef.current) clearInterval(autoRef.current); };
+  }, [resetAuto]);
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    setDragStartX(e.clientX);
+    setDragDelta(0);
+    setIsDragging(false);
+    if (autoRef.current) clearInterval(autoRef.current);
+  };
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (dragStartX === null) return;
+    const delta = e.clientX - dragStartX;
+    setDragDelta(delta);
+    if (Math.abs(delta) > 6) setIsDragging(true);
+  };
+  const onPointerUp = () => {
+    if (isDragging) {
+      if (dragDelta < -50) next();
+      else if (dragDelta > 50) prev();
+    }
+    setDragStartX(null);
+    setDragDelta(0);
+    setIsDragging(false);
+    resetAuto();
+  };
+
+  return (
+    <section
+      className="relative w-full select-none bg-surface"
+      style={{ touchAction: "pan-y" }}
+    >
+      {/* ══ Premium Frame ══ */}
+      <div className="mx-2 md:mx-5 xl:mx-8 mt-[90px] md:mt-[100px] rounded-[18px] md:rounded-[26px] overflow-hidden shadow-[0_4px_6px_rgba(0,0,0,0.07),0_12px_40px_rgba(0,0,0,0.13)] ring-2 ring-black/[0.06] relative">
+
+        {/* ── Slides wrapper ── */}
+        <div
+          className="relative w-full overflow-hidden h-[58vw] max-h-[500px] min-h-[200px] md:h-[42vw] md:max-h-[620px] md:min-h-[340px] xl:h-[36vw] xl:max-h-[720px]"
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerLeave={onPointerUp}
+          style={{ cursor: isDragging ? "grabbing" : "grab" }}
+        >
+          {/* Slide strip */}
+          <div
+            className="absolute inset-0 flex"
+            style={{
+              width: `${total * 100}%`,
+              transform: `translateX(calc(-${(current / total) * 100}% + ${dragDelta / total}px))`,
+              transition: isDragging ? "none" : "transform 0.55s cubic-bezier(0.77,0,0.18,1)",
+            }}
+          >
+            {Array.from({ length: total }, (_, i) => (
+              <div key={i} className="relative h-full" style={{ width: `${100 / total}%` }}>
+                {/* Mobile < 768px */}
+                <img src={`/banner/mobile/${i + 1}.png`} alt={`Banner ${i + 1}`}
+                  className="block md:hidden absolute inset-0 w-full h-full object-cover object-center" draggable={false} />
+                {/* Tablet 768px–1279px */}
+                <img src={`/banner/tablet/${i + 1}.png`} alt={`Banner ${i + 1}`}
+                  className="hidden md:block xl:hidden absolute inset-0 w-full h-full object-cover object-center" draggable={false} />
+                {/* Desktop ≥ 1280px */}
+                <img src={`/banner/desktop/${i + 1}.png`} alt={`Banner ${i + 1}`}
+                  className="hidden xl:block absolute inset-0 w-full h-full object-cover object-center" draggable={false} />
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom gradient for dot/progress visibility */}
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/40 to-transparent z-10 pointer-events-none" />
+
+          {/* ── Prev arrow ── */}
+          <button
+            onClick={(e) => { e.stopPropagation(); prev(); resetAuto(); }}
+            className="absolute left-3 md:left-5 top-1/2 -translate-y-1/2 z-20 w-9 h-9 md:w-11 md:h-11 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-md flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 border border-white/25 shadow-lg"
+            aria-label="Previous banner"
+          >
+            <span className="material-symbols-outlined text-white text-[22px] md:text-[26px]">chevron_left</span>
+          </button>
+
+          {/* ── Next arrow ── */}
+          <button
+            onClick={(e) => { e.stopPropagation(); next(); resetAuto(); }}
+            className="absolute right-3 md:right-5 top-1/2 -translate-y-1/2 z-20 w-9 h-9 md:w-11 md:h-11 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-md flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95 border border-white/25 shadow-lg"
+            aria-label="Next banner"
+          >
+            <span className="material-symbols-outlined text-white text-[22px] md:text-[26px]">chevron_right</span>
+          </button>
+
+          {/* ── Dot indicators ── */}
+          <div className="absolute bottom-5 md:bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+            {Array.from({ length: total }, (_, i) => (
+              <button
+                key={i}
+                onClick={(e) => { e.stopPropagation(); goTo(i); resetAuto(); }}
+                aria-label={`Go to banner ${i + 1}`}
+                className="rounded-full transition-all duration-300"
+                style={{
+                  width: i === current ? "28px" : "8px",
+                  height: "8px",
+                  background: i === current ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.5)",
+                }}
+              />
+            ))}
+          </div>
+
+          {/* ── Progress bar ── */}
+          <div className="absolute bottom-0 left-0 right-0 z-20 h-[3px] bg-white/20">
+            <div key={current} className="h-full bg-white/80"
+              style={{ animation: "bannerProgress 4s linear forwards" }} />
+          </div>
+        </div>
+      </div>{/* end premium frame */}
+
+
+
+      <style jsx>{`
+        @keyframes bannerProgress {
+          from { width: 0%; }
+          to   { width: 100%; }
+        }
+      `}</style>
+    </section>
+  );
+}
 
 // ─── Category Pills Scroller ─────────────────────────────────────────────────
 
@@ -238,6 +404,16 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
 
 function ProductCard({ p }: { p: Product }) {
   const stars = "★".repeat(p.rating) + (p.rating < 5 ? "☆" : "");
+  const [added, setAdded] = useState(false);
+
+  const handleAdd = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!p.inStock || added) return;
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2800);
+  }, [p.inStock, added]);
+
   return (
     <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
       <div className={`h-36 md:h-52 bg-gradient-to-br ${p.gradientFrom} ${p.gradientTo} relative overflow-hidden p-3 md:p-5 flex items-end`}>
@@ -271,11 +447,16 @@ function ProductCard({ p }: { p: Product }) {
             )}
           </div>
           <button
+            onClick={handleAdd}
             disabled={!p.inStock}
-            className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed"
+            className={`text-[10px] md:text-body-md font-semibold px-2.5 md:px-4 py-1.5 md:py-2 rounded-full transition-all flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed${added ? ' cart-btn-added' : ' bg-primary text-on-primary hover:opacity-85'}`}
           >
-            <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
-            <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
+            {added ? (
+              <Check size={13} className="check-icon md:w-4 md:h-4" />
+            ) : (
+              <ShoppingCart size={13} className="md:w-4 md:h-4" />
+            )}
+            <span className="hidden sm:inline text-[11px] md:text-body-md">{added ? 'Added' : 'Add'}</span>
           </button>
         </div>
       </div>
@@ -400,36 +581,34 @@ export default function Home() {
 
   return (
     <>
-      {/* ─── SECTION 1: HERO ─── */}
-      <section className="relative pt-28 md:pt-48 pb-12 md:pb-section-gap px-6 md:px-container-padding min-h-[88vh] md:min-h-[90vh] flex flex-col items-center justify-center text-center">
-        {/* Background decoration — clipped to section only */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-          <div className="absolute inset-0 bg-gradient-to-b from-tertiary-fixed/30 to-background"></div>
-          <div className="absolute top-32 right-8 md:right-20 w-24 md:w-48 h-24 md:h-48 rounded-full bg-primary-container/25 blur-3xl"></div>
-          <div className="absolute bottom-16 left-8 md:left-24 w-28 md:w-56 h-28 md:h-56 rounded-full bg-secondary-container/30 blur-3xl"></div>
-        </div>
+      <style jsx global>{`
+        @keyframes checkPop {
+          0%   { transform: scale(0.5); opacity: 0; }
+          60%  { transform: scale(1.25); opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes btnConfirm {
+          0%   { transform: scale(1); }
+          15%  { transform: scale(0.88); }
+          40%  { transform: scale(1.08); }
+          100% { transform: scale(1); }
+        }
+        .cart-btn-added {
+          animation: btnConfirm 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+          background: #2e7d32 !important;
+          color: #fff !important;
+        }
+        .cart-btn-added .check-icon {
+          animation: checkPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+        }
+      `}</style>
+      {/* ─── SECTION 1: HERO BANNER CAROUSEL ─── */}
+      <HeroBannerCarousel />
 
-        <div className="inline-flex items-center gap-2 bg-surface/70 backdrop-blur-xl border border-outline-variant/50 rounded-full px-3 md:px-4 py-1.5 md:py-2 mb-6 md:mb-8 shadow-sm">
-          <span className="bg-secondary-container text-on-secondary-container font-label-caps text-[10px] md:text-label-caps px-2 py-1 rounded-full uppercase">
-            NEW
-          </span>
-          <span className="font-body-md text-[11px] md:text-body-md text-on-surface">
-            Fresh Harvest 2024 — Now Available
-          </span>
-        </div>
-
-        <h1 className="font-display-xl text-[38px] md:text-[72px] leading-[1.1] tracking-tighter text-on-surface max-w-4xl mb-4 md:mb-6">
-          Pure Spices,
-          <br />
-          Bold Flavors
-        </h1>
-        <p className="font-body-lg text-[14px] md:text-body-lg text-on-surface-variant max-w-2xl mb-8 md:mb-12 px-2 md:px-0">
-          Khati Family brings you authentic masalas and premium dry foods — sourced directly from
-          certified farms, lab-tested for purity, and delivered fresh to your kitchen.
-        </p>
-
+      {/* ─── SEARCH + FILTER SECTION ─── */}
+      <section className="relative pt-6 md:pt-8 pb-8 md:pb-12 px-6 md:px-container-padding bg-surface flex flex-col items-center">
         {/* Search Box */}
-        <div className="w-full max-w-[870px] bg-surface rounded-3xl border border-outline-variant shadow-[0_24px_64px_rgba(159,65,34,0.08)] p-4 md:p-6 mb-3 backdrop-blur-xl overflow-visible">
+        <div className="w-full max-w-[870px] bg-surface rounded-3xl border border-outline-variant shadow-[0_24px_64px_rgba(159,65,34,0.08)] p-4 md:p-6 mb-3 backdrop-blur-xl overflow-visible relative z-10">
           <div className="flex flex-col gap-3 md:gap-4 overflow-visible">
             <input
               type="text"

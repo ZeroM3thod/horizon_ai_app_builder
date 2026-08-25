@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from "react";
 import { 
   ChevronRight, 
-  ShoppingCart, 
   ArrowRight, 
   Verified,
   Heart,
@@ -341,7 +340,7 @@ export default function ProductDetailPage() {
                     <button onClick={() => setQuantity(quantity + 1)} className="qty-btn w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-on-surface transition-colors"><Plus size={18} /></button>
                   </div>
                   <button onClick={handleAddToCart} className={`flex-1 sm:flex-none bg-primary text-on-primary font-semibold text-[14px] md:text-body-lg px-6 md:px-10 py-3 md:py-4 rounded-full hover:bg-primary/90 transition-all flex items-center justify-center gap-2.5 shadow-lg shadow-primary/20${cartAdded ? ' cart-ripple' : ''}`}>
-                    <ShoppingCart size={20} className={cartAdded ? 'cart-icon-slide' : ''} />
+                    <span className={`material-symbols-outlined${cartAdded ? ' cart-icon-slide' : ''}`} style={{ fontSize: '20px', lineHeight: 1 }}>add_shopping_cart</span>
                     {cartAdded ? <span className="cart-text-slide">Added ✓</span> : 'Add to Cart'}
                   </button>
                   <button onClick={handleBuyNow} className={`flex-1 sm:flex-none bg-surface border-2 border-on-surface text-on-surface font-semibold text-[14px] md:text-body-md px-6 md:px-8 py-3 md:py-4 rounded-full hover:bg-surface-variant transition-all flex items-center justify-center gap-2${buyNowClicked ? ' buy-pulse' : ''}`}>
@@ -831,7 +830,7 @@ export default function ProductDetailPage() {
                     <p className="text-[10px] md:text-[13px] text-on-surface-variant mb-2">{p.weight} · {p.catLabel}</p>
                     <div className="flex items-center justify-between mt-auto">
                       <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳{p.price}</span>
-                      <div className="bg-primary text-on-primary p-2 rounded-full"><ShoppingCart size={16} /></div>
+                      <div className="bg-primary text-on-primary p-2 rounded-full"><span className="material-symbols-outlined" style={{ fontSize: '16px', lineHeight: 1 }}>add_shopping_cart</span></div>
                     </div>
                   </div>
                 </Link>
@@ -852,7 +851,7 @@ export default function ProductDetailPage() {
       <div className={`sticky-bar fixed bottom-0 left-0 right-0 z-40 md:hidden bg-surface/95 backdrop-blur-xl border-t border-outline-variant/30 shadow-2xl px-4 py-3 flex items-center gap-3 ${isStickyBarVisible ? 'visible' : ''}`}>
         <div><p className="text-[10px] text-on-surface-variant">{product.name} · {selectedWeight}</p><p className="font-bold text-[18px] text-on-surface leading-none">৳{currentPrice}</p></div>
         <button onClick={handleStickyAddToCart} className={`flex-1 bg-primary text-on-primary font-semibold text-[14px] py-3.5 rounded-full hover:bg-primary/90 transition-colors shadow-lg flex items-center justify-center gap-2${stickyCartAdded ? ' sticky-shake' : ''}`}>
-          <ShoppingCart size={18} className={stickyCartAdded ? 'sticky-icon-drop' : ''} />
+          <span className={`material-symbols-outlined${stickyCartAdded ? ' sticky-icon-drop' : ''}`} style={{ fontSize: '18px', lineHeight: 1 }}>add_shopping_cart</span>
           {stickyCartAdded ? <span className="sticky-text-pop">In Bag ✓</span> : 'Add to Cart'}
         </button>
       </div>
