@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useMemo, useCallback } from "react";
-import { Check, ShoppingCart } from "lucide-react";
+import { Check } from "lucide-react";
 import Link from "next/link";
 
 // ─── Data ───────────────────────────────────────────────────────────────────
@@ -63,6 +63,8 @@ const ALL_PRODUCTS: Product[] = [
   { id:10, name: "Biryani Spice Mix",     category: "Ready Spice Mixes", price: 179, weight: "75g • Restaurant Pack",     rating: 4, reviews: 155,                                                                           icon: "skillet",               iconColor: "text-secondary",        gradientFrom: "from-secondary-fixed",       gradientTo: "to-secondary-container",     inStock: true,  isNew: true  },
   { id:11, name: "Red Lentil (Masoor)",   category: "Dals & Pulses",     price: 119, weight: "1kg • Premium Whole",       rating: 4, reviews: 278,                                                                           icon: "grain",                 iconColor: "text-on-surface",       gradientFrom: "from-surface-container-high",gradientTo: "to-primary-fixed/30",        inStock: true,  isNew: false },
   { id:12, name: "Cinnamon Sticks",       category: "Whole Spices",      price: 219, weight: "100g • Ceylon Grade",       rating: 5, reviews: 189, badge: "New",         badgeColor: "bg-primary text-on-primary top-2.5 right-2.5", icon: "local_fire_department", iconColor: "text-tertiary",         gradientFrom: "from-tertiary-container",    gradientTo: "to-tertiary-fixed/50",       inStock: true,  isNew: true  },
+  { id:13, name: "Whole Cloves",          category: "Whole Spices",      price: 299, weight: "50g • Zanzibar Grade",       rating: 5, reviews: 142,                                                                           icon: "local_florist",         iconColor: "text-primary",          gradientFrom: "from-primary-container/60",  gradientTo: "to-primary/10",              inStock: true,  isNew: false },
+  { id:14, name: "Chana Dal Split",       category: "Dals & Pulses",     price: 139, weight: "1kg • Double Washed",        rating: 5, reviews: 398,                                                                           icon: "eco",                   iconColor: "text-primary",          gradientFrom: "from-primary-container/50",  gradientTo: "to-secondary-fixed/40",      inStock: true,  isNew: false },
 ];
 
 // ─── Hero Banner Carousel ────────────────────────────────────────────────────
@@ -416,7 +418,7 @@ function ProductCard({ p }: { p: Product }) {
 
   return (
     <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
-      <div className={`h-36 md:h-52 bg-gradient-to-br ${p.gradientFrom} ${p.gradientTo} relative overflow-hidden p-3 md:p-5 flex items-end`}>
+      <div className={`h-36 md:h-44 bg-gradient-to-br ${p.gradientFrom} ${p.gradientTo} relative overflow-hidden p-3 md:p-5 flex items-end`}>
         {p.badge && (
           <div className={`absolute text-[8px] md:text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${p.badgeColor}`}>
             {p.badge}
@@ -452,9 +454,9 @@ function ProductCard({ p }: { p: Product }) {
             className={`text-[10px] md:text-body-md font-semibold px-2.5 md:px-4 py-1.5 md:py-2 rounded-full transition-all flex items-center gap-1 disabled:opacity-40 disabled:cursor-not-allowed${added ? ' cart-btn-added' : ' bg-primary text-on-primary hover:opacity-85'}`}
           >
             {added ? (
-              <Check size={13} className="check-icon md:w-4 md:h-4" />
+              <Check size={13} className="check-icon" />
             ) : (
-              <ShoppingCart size={13} className="md:w-4 md:h-4" />
+              <span className="material-symbols-outlined" style={{ fontSize: '16px', lineHeight: 1 }}>add_shopping_cart</span>
             )}
             <span className="hidden sm:inline text-[11px] md:text-body-md">{added ? 'Added' : 'Add'}</span>
           </button>
@@ -822,7 +824,7 @@ export default function Home() {
               </div>
 
               {results.length > 0 ? (
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
                   {results.map((p) => <ProductCard key={p.id} p={p} />)}
                 </div>
               ) : (
@@ -862,235 +864,10 @@ export default function Home() {
               </span>
             </Link>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
-            {/* Product 1 */}
-            <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
-              <div className="h-36 md:h-52 bg-gradient-to-br from-primary-container to-primary/20 relative overflow-hidden p-3 md:p-5 flex items-end">
-                <div className="absolute top-2.5 left-2.5 bg-on-surface text-surface text-[8px] md:text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
-                  Bestseller
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 md:w-24 h-16 md:h-24 rounded-full bg-primary/15"></div>
-                </div>
-                <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
-                  <span className="material-symbols-outlined text-primary text-[18px] md:text-[22px]">
-                    local_fire_department
-                  </span>
-                </div>
-              </div>
-              <div className="p-3 md:p-5 flex flex-col flex-1">
-                <div className="flex items-center gap-1 mb-0.5">
-                  <span className="text-primary text-[11px] md:text-[13px]">★★★★★</span>
-                  <span className="text-[9px] md:text-[11px] text-on-surface-variant">(428)</span>
-                </div>
-                <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">
-                  Garam Masala Blend
-                </h4>
-                <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">
-                  200g • Premium Grade
-                </p>
-                <div className="flex items-center justify-between mt-auto">
-                  <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳249</span>
-                  <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[13px] md:text-[16px]">
-                      add_shopping_cart
-                    </span>
-                    <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Product 2 */}
-            <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
-              <div className="h-36 md:h-52 bg-gradient-to-br from-surface-container-high to-primary-fixed/50 relative overflow-hidden p-3 md:p-5 flex items-end">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 md:w-24 h-12 md:h-16 rounded-2xl bg-outline/15"></div>
-                </div>
-                <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
-                  <span className="material-symbols-outlined text-outline text-[18px] md:text-[22px]">
-                    nutrition
-                  </span>
-                </div>
-              </div>
-              <div className="p-3 md:p-5 flex flex-col flex-1">
-                <div className="flex items-center gap-1 mb-0.5">
-                  <span className="text-primary text-[11px] md:text-[13px]">★★★★★</span>
-                  <span className="text-[9px] md:text-[11px] text-on-surface-variant">(312)</span>
-                </div>
-                <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">
-                  Premium Almonds
-                </h4>
-                <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">
-                  500g • California Grade A
-                </p>
-                <div className="flex items-center justify-between mt-auto">
-                  <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳649</span>
-                  <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[13px] md:text-[16px]">
-                      add_shopping_cart
-                    </span>
-                    <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Product 3 */}
-            <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
-              <div className="h-36 md:h-52 bg-gradient-to-br from-secondary-container to-secondary-fixed/50 relative overflow-hidden p-3 md:p-5 flex items-end">
-                <div className="absolute top-2.5 right-2.5 bg-primary text-on-primary text-[8px] md:text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
-                  New
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 md:w-24 h-16 md:h-24 rounded-full bg-secondary/15"></div>
-                </div>
-                <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
-                  <span className="material-symbols-outlined text-secondary text-[18px] md:text-[22px]">
-                    soup_kitchen
-                  </span>
-                </div>
-              </div>
-              <div className="p-3 md:p-5 flex flex-col flex-1">
-                <div className="flex items-center gap-1 mb-0.5">
-                  <span className="text-primary text-[11px] md:text-[13px]">★★★★☆</span>
-                  <span className="text-[9px] md:text-[11px] text-on-surface-variant">(186)</span>
-                </div>
-                <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">
-                  Biryani Masala
-                </h4>
-                <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">
-                  100g • Restaurant Grade
-                </p>
-                <div className="flex items-center justify-between mt-auto">
-                  <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳199</span>
-                  <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[13px] md:text-[16px]">
-                      add_shopping_cart
-                    </span>
-                    <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Product 4 */}
-            <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
-              <div className="h-36 md:h-52 bg-gradient-to-br from-secondary-fixed to-secondary-fixed-dim/50 relative overflow-hidden p-3 md:p-5 flex items-end">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 md:w-24 h-10 md:h-14 rounded-xl bg-secondary/20"></div>
-                </div>
-                <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
-                  <span className="material-symbols-outlined text-on-surface text-[18px] md:text-[22px]">
-                    set_meal
-                  </span>
-                </div>
-              </div>
-              <div className="p-3 md:p-5 flex flex-col flex-1">
-                <div className="flex items-center gap-1 mb-0.5">
-                  <span className="text-primary text-[11px] md:text-[13px]">★★★★★</span>
-                  <span className="text-[9px] md:text-[11px] text-on-surface-variant">(541)</span>
-                </div>
-                <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">
-                  Yellow Moong Dal
-                </h4>
-                <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">
-                  1kg • Premium Washed
-                </p>
-                <div className="flex items-center justify-between mt-auto">
-                  <div>
-                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳149</span>
-                    <span className="text-[10px] md:text-[12px] text-on-surface-variant line-through ml-1">
-                      ৳185
-                    </span>
-                  </div>
-                  <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[13px] md:text-[16px]">
-                      add_shopping_cart
-                    </span>
-                    <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Product 5 */}
-            <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
-              <div className="h-36 md:h-52 bg-gradient-to-br from-tertiary-fixed to-tertiary-container relative overflow-hidden p-3 md:p-5 flex items-end">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 md:w-24 h-16 md:h-24 rounded-full bg-tertiary/15"></div>
-                </div>
-                <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
-                  <span className="material-symbols-outlined text-tertiary text-[18px] md:text-[22px]">
-                    spa
-                  </span>
-                </div>
-              </div>
-              <div className="p-3 md:p-5 flex flex-col flex-1">
-                <div className="flex items-center gap-1 mb-0.5">
-                  <span className="text-primary text-[11px] md:text-[13px]">★★★★★</span>
-                  <span className="text-[9px] md:text-[11px] text-on-surface-variant">(267)</span>
-                </div>
-                <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">
-                  Green Cardamom
-                </h4>
-                <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">
-                  50g • Kerala Origin
-                </p>
-                <div className="flex items-center justify-between mt-auto">
-                  <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳349</span>
-                  <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[13px] md:text-[16px]">
-                      add_shopping_cart
-                    </span>
-                    <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Product 6 */}
-            <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
-              <div className="h-36 md:h-52 bg-gradient-to-br from-primary-fixed to-inverse-primary/40 relative overflow-hidden p-3 md:p-5 flex items-end">
-                <div className="absolute top-2.5 left-2.5 bg-error text-on-error text-[8px] md:text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">
-                  20% OFF
-                </div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 md:w-24 h-16 md:h-24 rounded-3xl bg-primary/10"></div>
-                </div>
-                <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
-                  <span className="material-symbols-outlined text-primary text-[18px] md:text-[22px]">
-                    shopping_basket
-                  </span>
-                </div>
-              </div>
-              <div className="p-3 md:p-5 flex flex-col flex-1">
-                <div className="flex items-center gap-1 mb-0.5">
-                  <span className="text-primary text-[11px] md:text-[13px]">★★★★☆</span>
-                  <span className="text-[9px] md:text-[11px] text-on-surface-variant">(193)</span>
-                </div>
-                <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">
-                  Mixed Dry Fruits
-                </h4>
-                <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">
-                  250g • Premium Selection
-                </p>
-                <div className="flex items-center justify-between mt-auto">
-                  <div>
-                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳719</span>
-                    <span className="text-[10px] md:text-[12px] text-on-surface-variant line-through ml-1">
-                      ৳899
-                    </span>
-                  </div>
-                  <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
-                    <span className="material-symbols-outlined text-[13px] md:text-[16px]">
-                      add_shopping_cart
-                    </span>
-                    <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
-                  </button>
-                </div>
-              </div>
-            </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
+            {ALL_PRODUCTS.slice(0, 4).map((p) => (
+              <ProductCard key={p.id} p={p} />
+            ))}
           </div>
             </>
           )}
@@ -1111,92 +888,10 @@ export default function Home() {
                 View All <span className="material-symbols-outlined text-[18px] md:text-[20px]">arrow_forward</span>
               </Link>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
-              {/* Green Cardamom */}
-              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
-                <div className="h-36 md:h-44 bg-gradient-to-br from-tertiary-fixed to-tertiary-container relative overflow-hidden p-3 md:p-5 flex items-end">
-                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-20 h-16 md:h-20 rounded-full bg-white/10"></div></div>
-                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
-                    <span className="material-symbols-outlined text-tertiary text-[18px] md:text-[22px]">spa</span>
-                  </div>
-                </div>
-                <div className="p-3 md:p-5 flex flex-col flex-1">
-                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★★</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(267)</span></div>
-                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Green Cardamom</h4>
-                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">50g • Kerala Origin</p>
-                  <div className="flex items-center justify-between mt-auto">
-                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳349</span>
-                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
-                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              {/* Black Pepper */}
-              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
-                <div className="h-36 md:h-44 bg-gradient-to-br from-secondary-container to-surface-container-high relative overflow-hidden p-3 md:p-5 flex items-end">
-                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-20 h-16 md:h-20 rounded-full bg-white/10"></div></div>
-                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
-                    <span className="material-symbols-outlined text-secondary text-[18px] md:text-[22px]">grass</span>
-                  </div>
-                </div>
-                <div className="p-3 md:p-5 flex flex-col flex-1">
-                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★★</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(334)</span></div>
-                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Black Pepper Whole</h4>
-                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">100g • Malabar Grade</p>
-                  <div className="flex items-center justify-between mt-auto">
-                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳289</span>
-                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
-                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              {/* Cinnamon Sticks */}
-              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
-                <div className="h-36 md:h-44 bg-gradient-to-br from-tertiary-container to-tertiary-fixed/50 relative overflow-hidden p-3 md:p-5 flex items-end">
-                  <div className="absolute top-2.5 right-2.5 bg-primary text-on-primary text-[8px] md:text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">New</div>
-                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-20 h-16 md:h-20 rounded-full bg-white/10"></div></div>
-                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
-                    <span className="material-symbols-outlined text-tertiary text-[18px] md:text-[22px]">local_fire_department</span>
-                  </div>
-                </div>
-                <div className="p-3 md:p-5 flex flex-col flex-1">
-                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★★</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(189)</span></div>
-                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Cinnamon Sticks</h4>
-                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">100g • Ceylon Grade</p>
-                  <div className="flex items-center justify-between mt-auto">
-                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳219</span>
-                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
-                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              {/* Cloves */}
-              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
-                <div className="h-36 md:h-44 bg-gradient-to-br from-primary-container/60 to-primary/10 relative overflow-hidden p-3 md:p-5 flex items-end">
-                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-20 h-16 md:h-20 rounded-full bg-white/10"></div></div>
-                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
-                    <span className="material-symbols-outlined text-primary text-[18px] md:text-[22px]">local_florist</span>
-                  </div>
-                </div>
-                <div className="p-3 md:p-5 flex flex-col flex-1">
-                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★★</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(142)</span></div>
-                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Whole Cloves</h4>
-                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">50g • Zanzibar Grade</p>
-                  <div className="flex items-center justify-between mt-auto">
-                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳299</span>
-                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
-                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
+              {ALL_PRODUCTS.filter((p) => p.category === "Whole Spices").map((p) => (
+                <ProductCard key={p.id} p={p} />
+              ))}
             </div>
           </div>
         </section>
@@ -1215,76 +910,10 @@ export default function Home() {
                 View All <span className="material-symbols-outlined text-[18px] md:text-[20px]">arrow_forward</span>
               </Link>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
-              {/* Premium Almonds */}
-              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
-                <div className="h-36 md:h-52 bg-gradient-to-br from-surface-container-high to-primary-fixed/50 relative overflow-hidden p-3 md:p-5 flex items-end">
-                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-24 h-12 md:h-16 rounded-2xl bg-outline/15"></div></div>
-                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
-                    <span className="material-symbols-outlined text-outline text-[18px] md:text-[22px]">nutrition</span>
-                  </div>
-                </div>
-                <div className="p-3 md:p-5 flex flex-col flex-1">
-                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★★</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(312)</span></div>
-                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Premium Almonds</h4>
-                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">500g • California Grade A</p>
-                  <div className="flex items-center justify-between mt-auto">
-                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳649</span>
-                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
-                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              {/* Cashew W240 */}
-              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
-                <div className="h-36 md:h-52 bg-gradient-to-br from-primary-container to-tertiary-fixed/40 relative overflow-hidden p-3 md:p-5 flex items-end">
-                  <div className="absolute top-2.5 left-2.5 bg-on-surface text-surface text-[8px] md:text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Bestseller</div>
-                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-24 h-16 md:h-24 rounded-full bg-white/10"></div></div>
-                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
-                    <span className="material-symbols-outlined text-primary text-[18px] md:text-[22px]">nutrition</span>
-                  </div>
-                </div>
-                <div className="p-3 md:p-5 flex flex-col flex-1">
-                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★★</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(201)</span></div>
-                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Cashew Nuts W240</h4>
-                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">500g • Premium Grade</p>
-                  <p className="text-[9px] md:text-[11px] text-error font-medium mb-1">Out of stock</p>
-                  <div className="flex items-center justify-between mt-auto">
-                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳899</span>
-                    <button disabled className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full flex items-center gap-1 opacity-40 cursor-not-allowed">
-                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
-                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              {/* Mixed Dry Fruits */}
-              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
-                <div className="h-36 md:h-52 bg-gradient-to-br from-primary-fixed to-inverse-primary/40 relative overflow-hidden p-3 md:p-5 flex items-end">
-                  <div className="absolute top-2.5 left-2.5 bg-error text-on-error text-[8px] md:text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">20% OFF</div>
-                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-24 h-16 md:h-24 rounded-full bg-white/10"></div></div>
-                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
-                    <span className="material-symbols-outlined text-primary text-[18px] md:text-[22px]">shopping_basket</span>
-                  </div>
-                </div>
-                <div className="p-3 md:p-5 flex flex-col flex-1">
-                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★☆</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(193)</span></div>
-                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Mixed Dry Fruits</h4>
-                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">250g • Premium Selection</p>
-                  <div className="flex items-center justify-between mt-auto">
-                    <div className="flex items-baseline gap-1">
-                      <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳719</span>
-                      <span className="text-[10px] md:text-[12px] text-on-surface-variant line-through">৳899</span>
-                    </div>
-                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
-                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
+              {ALL_PRODUCTS.filter((p) => p.category === "Dry Fruits & Nuts").map((p) => (
+                <ProductCard key={p.id} p={p} />
+              ))}
             </div>
           </div>
         </section>
@@ -1303,95 +932,10 @@ export default function Home() {
                 View All <span className="material-symbols-outlined text-[18px] md:text-[20px]">arrow_forward</span>
               </Link>
             </div>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
-              {/* Yellow Moong */}
-              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
-                <div className="h-36 md:h-44 bg-gradient-to-br from-secondary-fixed to-secondary-fixed-dim/50 relative overflow-hidden p-3 md:p-5 flex items-end">
-                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-20 h-16 md:h-20 rounded-full bg-white/10"></div></div>
-                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
-                    <span className="material-symbols-outlined text-on-surface text-[18px] md:text-[22px]">set_meal</span>
-                  </div>
-                </div>
-                <div className="p-3 md:p-5 flex flex-col flex-1">
-                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★★</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(541)</span></div>
-                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Yellow Moong Dal</h4>
-                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">1kg • Premium Washed</p>
-                  <div className="flex items-center justify-between mt-auto">
-                    <div className="flex items-baseline gap-1">
-                      <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳149</span>
-                      <span className="text-[10px] md:text-[12px] text-on-surface-variant line-through">৳185</span>
-                    </div>
-                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
-                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              {/* Red Lentil */}
-              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
-                <div className="h-36 md:h-44 bg-gradient-to-br from-surface-container-high to-primary-fixed/30 relative overflow-hidden p-3 md:p-5 flex items-end">
-                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-20 h-16 md:h-20 rounded-full bg-white/10"></div></div>
-                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
-                    <span className="material-symbols-outlined text-on-surface text-[18px] md:text-[22px]">grain</span>
-                  </div>
-                </div>
-                <div className="p-3 md:p-5 flex flex-col flex-1">
-                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★☆</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(278)</span></div>
-                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Red Lentil (Masoor)</h4>
-                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">1kg • Premium Whole</p>
-                  <div className="flex items-center justify-between mt-auto">
-                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳119</span>
-                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
-                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              {/* Biryani Spice Mix */}
-              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
-                <div className="h-36 md:h-44 bg-gradient-to-br from-secondary-fixed to-secondary-container relative overflow-hidden p-3 md:p-5 flex items-end">
-                  <div className="absolute top-2.5 right-2.5 bg-primary text-on-primary text-[8px] md:text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">New</div>
-                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-20 h-16 md:h-20 rounded-full bg-white/10"></div></div>
-                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
-                    <span className="material-symbols-outlined text-secondary text-[18px] md:text-[22px]">skillet</span>
-                  </div>
-                </div>
-                <div className="p-3 md:p-5 flex flex-col flex-1">
-                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★☆</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(155)</span></div>
-                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Biryani Spice Mix</h4>
-                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">75g • Restaurant Pack</p>
-                  <div className="flex items-center justify-between mt-auto">
-                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳179</span>
-                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
-                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              {/* Chana Dal */}
-              <div className="product-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md overflow-hidden flex flex-col">
-                <div className="h-36 md:h-44 bg-gradient-to-br from-primary-container/50 to-secondary-fixed/40 relative overflow-hidden p-3 md:p-5 flex items-end">
-                  <div className="absolute inset-0 flex items-center justify-center"><div className="w-16 md:w-20 h-16 md:h-20 rounded-full bg-white/10"></div></div>
-                  <div className="relative z-10 bg-surface/90 backdrop-blur rounded-xl px-2 py-1.5 md:px-3 md:py-2 border border-white/50 shadow">
-                    <span className="material-symbols-outlined text-primary text-[18px] md:text-[22px]">eco</span>
-                  </div>
-                </div>
-                <div className="p-3 md:p-5 flex flex-col flex-1">
-                  <div className="flex items-center gap-1 mb-0.5"><span className="text-primary text-[11px] md:text-[13px]">★★★★★</span><span className="text-[9px] md:text-[11px] text-on-surface-variant">(398)</span></div>
-                  <h4 className="font-headline-md text-[13px] md:text-headline-md text-on-surface mb-0.5">Chana Dal Split</h4>
-                  <p className="text-[10px] md:text-body-md text-on-surface-variant mb-2 md:mb-3">1kg • Double Washed</p>
-                  <div className="flex items-center justify-between mt-auto">
-                    <span className="font-bold text-[17px] md:text-[22px] text-on-surface">৳139</span>
-                    <button className="bg-primary text-on-primary text-[10px] md:text-body-md font-medium px-2.5 md:px-4 py-1.5 md:py-2 rounded-full hover:bg-primary/90 transition-colors flex items-center gap-1">
-                      <span className="material-symbols-outlined text-[13px] md:text-[16px]">add_shopping_cart</span>
-                      <span className="hidden sm:inline text-[11px] md:text-body-md">Add</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
+              {ALL_PRODUCTS.filter((p) => p.category === "Dals & Pulses" || p.category === "Ready Spice Mixes").map((p) => (
+                <ProductCard key={p.id} p={p} />
+              ))}
             </div>
           </div>
         </section>
