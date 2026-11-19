@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Help & Support — Shuddhota Co.</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+        font-family: 'Material Symbols Outlined';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        -webkit-font-feature-settings: 'liga';
+        -webkit-font-smoothing: antialiased;
+    }
+    .hide-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+    /* FAQ accordion */
+    .faq-answer { display: none; }
+    .faq-item.open .faq-answer { display: block; animation: fadeIn 0.22s ease; }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .faq-chevron { transition: transform 0.22s ease; }
+
+    /* Category filter active state */
+    .cat-btn.active { background-color: #9f4122; color: #fff; border-color: #9f4122; }
+
+    /* Support card hover */
+    .support-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .support-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(159,65,34,0.12); }
+
+    /* Animated section entrance */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.3s ease forwards; }
+
+    /* Search highlight pulse */
+    @keyframes pulse-ring { 0%,100% { box-shadow: 0 0 0 0 rgba(159,65,34,0.15); } 50% { box-shadow: 0 0 0 8px rgba(159,65,34,0.0); } }
+    .search-focus:focus-within { animation: pulse-ring 1.6s ease infinite; }
+
+    /* Status badge */
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #556500; display: inline-block; animation: statusPulse 2s ease infinite; }
+    @keyframes statusPulse { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
+
+    /* Ticket card */
+    .ticket-card { transition: box-shadow 0.18s ease; }
+    .ticket-card:hover { box-shadow: 0 8px 28px rgba(159,65,34,0.10); }
+
+    /* Form input focus */
+    .support-input:focus { outline: none; border-color: #9f4122; box-shadow: 0 0 0 3px rgba(159,65,34,0.12); }
+</style>
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                "colors": {
+                    "on-secondary-fixed": "#181e00",
+                    "secondary": "#556500",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#ff8a65",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "surface-container-highest": "#e8e2d7",
+                    "on-primary-fixed-variant": "#7f2a0d",
+                    "tertiary": "#326578",
+                    "on-primary-fixed": "#3a0b00",
+                    "on-surface": "#1d1c15",
+                    "on-error-container": "#93000a",
+                    "primary": "#9f4122",
+                    "surface-container-low": "#f9f3e8",
+                    "surface-tint": "#9f4122",
+                    "secondary-fixed": "#d6ed7a",
+                    "tertiary-container": "#80b1c7",
+                    "on-surface-variant": "#56423c",
+                    "surface-bright": "#fff9ee",
+                    "on-tertiary-fixed": "#001f29",
+                    "on-secondary-fixed-variant": "#3f4c00",
+                    "on-tertiary-container": "#074457",
+                    "outline-variant": "#ddc0b8",
+                    "surface": "#fff9ee",
+                    "secondary-container": "#d6ed7a",
+                    "inverse-primary": "#ffb59e",
+                    "secondary-fixed-dim": "#bbd062",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#dfd9cf",
+                    "surface-variant": "#e8e2d7",
+                    "outline": "#89726b",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#bbe9ff",
+                    "on-secondary": "#ffffff",
+                    "inverse-on-surface": "#f6f0e5",
+                    "primary-fixed-dim": "#ffb59e",
+                    "surface-container": "#f3ede2",
+                    "primary-fixed": "#ffdbd0",
+                    "on-background": "#1d1c15",
+                    "on-secondary-container": "#5a6c00",
+                    "surface-container-high": "#ede8dd",
+                    "inverse-surface": "#333029",
+                    "on-primary-container": "#752305",
+                    "tertiary-fixed-dim": "#9ccee4",
+                    "on-tertiary-fixed-variant": "#154d5f",
+                    "surface-container-lowest": "#ffffff",
+                    "background": "#fff9ee"
+                },
+                "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+                },
+                "spacing": {
+                    "gutter": "32px",
+                    "container-padding": "64px",
+                    "unit": "8px",
+                    "section-gap": "120px",
+                    "card-internal": "40px"
+                },
+                "fontFamily": {
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "label-caps": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "display-xl": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"]
+                },
+                "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "display-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}]
+                }
+            }
+        }
+    }
+</script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden selection:bg-primary-container selection:text-on-primary-container">
+
+<!-- ─── NAVIGATION ─── -->
+<nav class="fixed top-3 md:top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-full border border-outline-variant/30 bg-surface/80 backdrop-blur-xl shadow-sm shadow-[0_8px_32px_rgba(0,0,0,0.05)] z-50 flex justify-between items-center px-4 md:px-8 py-2 md:py-3">
+    <a class="font-display-xl tracking-tighter text-primary flex items-center gap-1.5 md:gap-2 text-[15px] md:text-headline-md" href="index.html">
+        <span class="material-symbols-outlined text-[20px] md:text-[28px]">shopping_basket</span>
+        <span class="hidden sm:inline">Shuddhota CO.</span>
+        <span class="sm:hidden font-bold">Shuddhota</span>
+    </a>
+    <div class="hidden md:flex items-center gap-6">
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-body-md" href="index.html">Home</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-body-md" href="products.html">Products</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-body-md" href="#">Deals</a>
+        <a class="text-primary font-semibold transition-colors font-body-md text-body-md" href="support.html">Support</a>
+    </div>
+    <div class="flex items-center gap-2 md:gap-4">
+        <button class="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center relative">
+            <span class="material-symbols-outlined text-[20px] md:text-[24px]">shopping_cart</span>
+            <span class="absolute -top-1 -right-1 bg-primary text-on-primary text-[9px] md:text-[10px] font-bold w-3.5 h-3.5 md:w-4 md:h-4 rounded-full flex items-center justify-center">3</span>
+        </button>
+        <a href="profile.html" class="w-8 h-8 md:w-9 md:h-9 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold text-[13px] md:text-[14px] shadow-sm ring-2 ring-primary-container">
+            RK
+        </a>
+        <button id="mobile-menu-btn" class="flex md:hidden text-on-surface-variant hover:text-primary transition-colors items-center justify-center" onclick="toggleMobileMenu()">
+            <span id="hamburger-icon" class="material-symbols-outlined text-[22px]">menu</span>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile Nav Menu -->
+<div id="mobile-menu" class="hidden fixed top-[60px] left-1/2 -translate-x-1/2 w-[95%] max-w-7xl rounded-[20px] border border-outline-variant/30 bg-surface/95 backdrop-blur-xl shadow-lg z-40 md:hidden">
+    <div class="flex flex-col py-3 px-2">
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="index.html">Home</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="products.html">Products</a>
+        <a class="text-on-surface-variant font-medium hover:text-primary transition-colors font-body-md text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant" href="#">Deals</a>
+        <a class="text-primary font-bold font-body-md text-[15px] py-3 px-4 rounded-xl bg-primary-fixed/30" href="support.html">
+            <span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">help_outline</span>Help & Support</span>
+        </a>
+        <div class="h-px bg-outline-variant/20 mx-2 my-1"></div>
+        <a href="profile.html" class="flex items-center gap-2 text-on-surface-variant font-medium text-[15px] py-3 px-4 rounded-xl hover:bg-surface-variant">
+            <span class="material-symbols-outlined text-[18px]">account_circle</span>My Profile
+        </a>
+        <div class="h-px bg-outline-variant/20 mx-2 my-1"></div>
+        <a class="flex items-center justify-center gap-2 bg-primary text-on-primary font-medium text-[14px] py-3 px-4 rounded-xl hover:bg-primary/90 transition-colors" href="products.html">
+            Shop Now
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+        </a>
+    </div>
+</div>
+
+<main class="max-w-[1728px] mx-auto w-full">
+
+<!-- ─── HERO ─── -->
+<section class="relative pt-24 md:pt-36 pb-12 md:pb-16 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-primary-container/35 via-tertiary-fixed/20 to-secondary-fixed/25 -z-10"></div>
+    <div class="absolute top-20 right-10 md:right-32 w-32 md:w-64 h-32 md:h-64 rounded-full bg-primary/10 blur-3xl -z-10"></div>
+    <div class="absolute bottom-0 left-10 md:left-40 w-24 md:w-48 h-24 md:h-48 rounded-full bg-secondary-container/40 blur-3xl -z-10"></div>
+    <div class="absolute w-[300px] h-[300px] md:w-[500px] md:h-[500px] border-[40px] md:border-[60px] border-primary/5 rounded-full top-[-80px] right-[-80px] -z-10"></div>
+
+    <div class="max-w-7xl mx-auto px-6 md:px-container-padding text-center">
+        <!-- Breadcrumb -->
+        <div class="flex items-center justify-center gap-1.5 mb-6 md:mb-8">
+            <a href="index.html" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-[13px] font-medium">Home</a>
+            <span class="material-symbols-outlined text-on-surface-variant/50 text-[14px]">chevron_right</span>
+            <span class="text-primary text-[12px] md:text-[13px] font-semibold">Help & Support</span>
+        </div>
+
+        <div class="flex items-center justify-center gap-3 mb-4">
+            <div class="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-surface/80 border border-white/50 shadow-md flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-[24px] md:text-[28px]">support_agent</span>
+            </div>
+            <div class="text-left">
+                <span class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block">We're here to help</span>
+                <div class="flex items-center gap-1.5">
+                    <span class="status-dot"></span>
+                    <span class="text-[11px] md:text-[12px] text-secondary font-semibold">Support agents online</span>
+                </div>
+            </div>
+        </div>
+
+        <h1 class="font-display-xl text-[32px] sm:text-[44px] md:text-[56px] leading-tight tracking-tight text-on-surface mb-4">
+            How can we <span class="text-primary">help you?</span>
+        </h1>
+        <p class="font-body-md text-[14px] md:text-body-lg text-on-surface-variant max-w-xl mx-auto mb-8 md:mb-10">
+            Search our knowledge base, track your orders, or reach out directly — we typically respond within 2 hours.
+        </p>
+
+        <!-- Search Bar -->
+        <div class="max-w-2xl mx-auto search-focus">
+            <div class="relative bg-surface rounded-full border border-outline-variant/50 shadow-lg flex items-center gap-3 px-4 md:px-6 py-3 md:py-4">
+                <span class="material-symbols-outlined text-on-surface-variant text-[20px] md:text-[22px] shrink-0">search</span>
+                <input id="search-input" type="text" placeholder="Search for help with orders, returns, payments…" oninput="handleSearch(this.value)"
+                    class="flex-1 bg-transparent font-body-md text-[14px] md:text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none min-w-0"/>
+                <button onclick="clearSearch()" id="clear-btn" class="hidden shrink-0 text-on-surface-variant hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined text-[18px]">close</span>
+                </button>
+                <button class="shrink-0 bg-primary text-on-primary font-body-md text-[13px] md:text-[14px] font-semibold px-4 md:px-5 py-2 md:py-2.5 rounded-full hover:bg-primary/90 transition-colors whitespace-nowrap">
+                    Search
+                </button>
+            </div>
+            <!-- Popular searches -->
+            <div id="popular-tags" class="flex flex-wrap items-center justify-center gap-2 mt-4">
+                <span class="text-[11px] md:text-[12px] text-on-surface-variant font-medium">Popular:</span>
+                <button onclick="setSearch('track order')" class="text-[11px] md:text-[12px] font-medium text-on-surface-variant bg-surface/80 border border-outline-variant/40 rounded-full px-3 py-1 hover:border-primary hover:text-primary transition-colors">Track order</button>
+                <button onclick="setSearch('return policy')" class="text-[11px] md:text-[12px] font-medium text-on-surface-variant bg-surface/80 border border-outline-variant/40 rounded-full px-3 py-1 hover:border-primary hover:text-primary transition-colors">Return policy</button>
+                <button onclick="setSearch('payment')" class="text-[11px] md:text-[12px] font-medium text-on-surface-variant bg-surface/80 border border-outline-variant/40 rounded-full px-3 py-1 hover:border-primary hover:text-primary transition-colors">Payment issues</button>
+                <button onclick="setSearch('delivery')" class="text-[11px] md:text-[12px] font-medium text-on-surface-variant bg-surface/80 border border-outline-variant/40 rounded-full px-3 py-1 hover:border-primary hover:text-primary transition-colors">Delivery time</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── QUICK ACTIONS ─── -->
+<section class="py-10 md:py-14">
+    <div class="max-w-7xl mx-auto px-6 md:px-container-padding">
+        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+            <!-- Track Order -->
+            <a href="#order-tracking" class="support-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md p-4 md:p-6 flex flex-col items-start gap-3 md:gap-4 group cursor-pointer">
+                <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-tertiary-fixed/60 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-tertiary text-[20px] md:text-[22px]">local_shipping</span>
+                </div>
+                <div>
+                    <h3 class="font-headline-md text-[14px] md:text-[16px] text-on-surface font-semibold mb-1 group-hover:text-primary transition-colors">Track Order</h3>
+                    <p class="text-[11px] md:text-[12px] text-on-surface-variant leading-relaxed">Check where your package is right now</p>
+                </div>
+                <span class="material-symbols-outlined text-[16px] text-on-surface-variant/50 group-hover:text-primary group-hover:translate-x-1 transition-all mt-auto">arrow_forward</span>
+            </a>
+            <!-- Returns -->
+            <a href="#returns" class="support-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md p-4 md:p-6 flex flex-col items-start gap-3 md:gap-4 group cursor-pointer">
+                <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-secondary-fixed/60 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-secondary text-[20px] md:text-[22px]">autorenew</span>
+                </div>
+                <div>
+                    <h3 class="font-headline-md text-[14px] md:text-[16px] text-on-surface font-semibold mb-1 group-hover:text-primary transition-colors">Returns & Refunds</h3>
+                    <p class="text-[11px] md:text-[12px] text-on-surface-variant leading-relaxed">Start a return or check refund status</p>
+                </div>
+                <span class="material-symbols-outlined text-[16px] text-on-surface-variant/50 group-hover:text-primary group-hover:translate-x-1 transition-all mt-auto">arrow_forward</span>
+            </a>
+            <!-- Account Help -->
+            <a href="#account" class="support-card bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md p-4 md:p-6 flex flex-col items-start gap-3 md:gap-4 group cursor-pointer">
+                <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-primary-fixed/60 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary text-[20px] md:text-[22px]">manage_accounts</span>
+                </div>
+                <div>
+                    <h3 class="font-headline-md text-[14px] md:text-[16px] text-on-surface font-semibold mb-1 group-hover:text-primary transition-colors">Account Help</h3>
+                    <p class="text-[11px] md:text-[12px] text-on-surface-variant leading-relaxed">Password, profile, and account settings</p>
+                </div>
+                <span class="material-symbols-outlined text-[16px] text-on-surface-variant/50 group-hover:text-primary group-hover:translate-x-1 transition-all mt-auto">arrow_forward</span>
+            </a>
+            <!-- Contact Us -->
+            <a href="#contact" class="support-card bg-gradient-to-br from-primary to-on-primary-fixed-variant rounded-[20px] md:rounded-[24px] shadow-md p-4 md:p-6 flex flex-col items-start gap-3 md:gap-4 group cursor-pointer relative overflow-hidden">
+                <div class="absolute -top-6 -right-6 w-20 h-20 rounded-full border-[12px] border-white/10"></div>
+                <div class="w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-white/15 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-white text-[20px] md:text-[22px]">chat_bubble</span>
+                </div>
+                <div class="relative z-10">
+                    <h3 class="font-headline-md text-[14px] md:text-[16px] text-white font-semibold mb-1">Contact Us</h3>
+                    <p class="text-[11px] md:text-[12px] text-white/70 leading-relaxed">Talk to a real person on our team</p>
+                </div>
+                <span class="material-symbols-outlined text-[16px] text-white/60 group-hover:translate-x-1 transition-all mt-auto relative z-10">arrow_forward</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ─── ORDER TRACKING TOOL ─── -->
+<section id="order-tracking" class="py-10 md:py-14 scroll-mt-24">
+    <div class="max-w-7xl mx-auto px-6 md:px-container-padding">
+        <div class="flex items-center gap-3 mb-6 md:mb-8">
+            <div class="w-9 h-9 rounded-xl bg-tertiary-fixed/60 flex items-center justify-center">
+                <span class="material-symbols-outlined text-tertiary text-[18px]">local_shipping</span>
+            </div>
+            <div>
+                <span class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block">Real-time</span>
+                <h2 class="font-headline-md text-[20px] md:text-headline-md text-on-surface">Track Your Order</h2>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 md:gap-6">
+            <!-- Track form -->
+            <div class="lg:col-span-2 bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md p-5 md:p-7">
+                <h3 class="font-headline-md text-[15px] md:text-[17px] text-on-surface font-semibold mb-1">Enter Order Details</h3>
+                <p class="text-[12px] md:text-[13px] text-on-surface-variant mb-5">Use your order ID or the email address used at checkout.</p>
+                <div class="space-y-3">
+                    <div>
+                        <label class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1.5">Order ID</label>
+                        <input type="text" placeholder="e.g. SHD-2024-8832" class="support-input w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-2.5 md:py-3 font-body-md text-[13px] md:text-[14px] text-on-surface placeholder:text-on-surface-variant/50 transition-all"/>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="flex-1 h-px bg-outline-variant/30"></div>
+                        <span class="text-[11px] text-on-surface-variant font-medium">or</span>
+                        <div class="flex-1 h-px bg-outline-variant/30"></div>
+                    </div>
+                    <div>
+                        <label class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1.5">Email Address</label>
+                        <input type="email" placeholder="raqib@email.com" class="support-input w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-2.5 md:py-3 font-body-md text-[13px] md:text-[14px] text-on-surface placeholder:text-on-surface-variant/50 transition-all"/>
+                    </div>
+                    <button onclick="showTracking()" class="w-full bg-primary text-on-primary font-body-md text-[13px] md:text-[14px] font-semibold py-3 rounded-full hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 mt-2">
+                        <span class="material-symbols-outlined text-[18px]">search</span>
+                        Track Order
+                    </button>
+                </div>
+
+                <!-- Recent orders shortcut -->
+                <div class="mt-6 pt-5 border-t border-outline-variant/20">
+                    <p class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest mb-3">Your Recent Orders</p>
+                    <div class="space-y-2">
+                        <button onclick="loadOrder('SHD-2024-8832')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-surface-variant transition-colors group text-left">
+                            <div class="w-8 h-8 rounded-lg bg-tertiary-fixed/60 flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-tertiary text-[15px]">inventory_2</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-[12px] md:text-[13px] font-semibold text-on-surface truncate">SHD-2024-8832</p>
+                                <p class="text-[10px] md:text-[11px] text-on-surface-variant">Kashmiri Chilli · 3 items</p>
+                            </div>
+                            <span class="text-[10px] font-semibold text-secondary bg-secondary-fixed/40 px-2 py-0.5 rounded-full shrink-0">In Transit</span>
+                        </button>
+                        <button onclick="loadOrder('SHD-2024-7201')" class="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-surface-variant transition-colors group text-left">
+                            <div class="w-8 h-8 rounded-lg bg-secondary-fixed/60 flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-secondary text-[15px]">inventory_2</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-[12px] md:text-[13px] font-semibold text-on-surface truncate">SHD-2024-7201</p>
+                                <p class="text-[10px] md:text-[11px] text-on-surface-variant">Dry Fruits Mix · 2 items</p>
+                            </div>
+                            <span class="text-[10px] font-semibold text-on-primary bg-primary px-2 py-0.5 rounded-full shrink-0">Delivered</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tracking timeline (shown after clicking Track) -->
+            <div class="lg:col-span-3">
+                <!-- Default state -->
+                <div id="tracking-placeholder" class="bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md p-6 md:p-8 flex flex-col items-center justify-center h-full min-h-[280px] text-center">
+                    <div class="w-16 h-16 rounded-full bg-surface-container-low border border-outline-variant/30 flex items-center justify-center mb-4">
+                        <span class="material-symbols-outlined text-on-surface-variant text-[28px]">package_2</span>
+                    </div>
+                    <h3 class="font-headline-md text-[15px] md:text-[17px] text-on-surface font-semibold mb-2">Enter your order details</h3>
+                    <p class="text-[12px] md:text-[13px] text-on-surface-variant max-w-xs">Your live tracking timeline will appear here once you enter a valid order ID or email.</p>
+                </div>
+
+                <!-- Active tracking state (hidden by default) -->
+                <div id="tracking-result" class="hidden bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md p-5 md:p-7 fade-in">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+                        <div>
+                            <p class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest mb-0.5">Order ID</p>
+                            <h3 class="font-headline-md text-[16px] md:text-[18px] text-on-surface font-bold">SHD-2024-8832</h3>
+                        </div>
+                        <div class="flex items-center gap-2 bg-tertiary-fixed/50 border border-tertiary-fixed-dim/60 rounded-full px-3 py-1.5 self-start sm:self-auto">
+                            <span class="material-symbols-outlined text-tertiary text-[15px]">local_shipping</span>
+                            <span class="text-[11px] md:text-[12px] font-semibold text-on-surface">In Transit</span>
+                        </div>
+                    </div>
+
+                    <!-- Timeline -->
+                    <div class="relative">
+                        <!-- Line -->
+                        <div class="absolute left-4 top-4 bottom-4 w-px bg-outline-variant/40"></div>
+
+                        <div class="space-y-5">
+                            <!-- Step: Delivered (pending) -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 rounded-full border-2 border-outline-variant/40 bg-surface-container-low flex items-center justify-center shrink-0 z-10">
+                                    <span class="material-symbols-outlined text-on-surface-variant/50 text-[14px]">home</span>
+                                </div>
+                                <div class="pt-1 flex-1">
+                                    <p class="text-[13px] md:text-[14px] font-semibold text-on-surface-variant">Delivered</p>
+                                    <p class="text-[11px] text-on-surface-variant/60">Est. Jul 21, 2026</p>
+                                </div>
+                            </div>
+                            <!-- Step: Out for Delivery (pending) -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 rounded-full border-2 border-outline-variant/40 bg-surface-container-low flex items-center justify-center shrink-0 z-10">
+                                    <span class="material-symbols-outlined text-on-surface-variant/50 text-[14px]">delivery_truck_speed</span>
+                                </div>
+                                <div class="pt-1 flex-1">
+                                    <p class="text-[13px] md:text-[14px] font-semibold text-on-surface-variant">Out for Delivery</p>
+                                    <p class="text-[11px] text-on-surface-variant/60">Scheduled for Jul 21</p>
+                                </div>
+                            </div>
+                            <!-- Step: In Transit (active) -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 rounded-full border-2 border-tertiary bg-tertiary-fixed/40 flex items-center justify-center shrink-0 z-10">
+                                    <span class="material-symbols-outlined text-tertiary text-[14px]">local_shipping</span>
+                                </div>
+                                <div class="pt-1 flex-1">
+                                    <p class="text-[13px] md:text-[14px] font-semibold text-on-surface">In Transit — Dhaka Hub</p>
+                                    <p class="text-[11px] text-on-surface-variant">July 19, 2026 · 09:14 AM</p>
+                                    <p class="text-[11px] text-tertiary font-medium mt-0.5">Package arrived at sorting facility</p>
+                                </div>
+                            </div>
+                            <!-- Step: Shipped -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center shrink-0 z-10">
+                                    <span class="material-symbols-outlined text-primary text-[14px]">check</span>
+                                </div>
+                                <div class="pt-1 flex-1">
+                                    <p class="text-[13px] md:text-[14px] font-semibold text-on-surface">Shipped</p>
+                                    <p class="text-[11px] text-on-surface-variant">July 18, 2026 · 02:30 PM</p>
+                                </div>
+                            </div>
+                            <!-- Step: Order Placed -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-8 h-8 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center shrink-0 z-10">
+                                    <span class="material-symbols-outlined text-primary text-[14px]">check</span>
+                                </div>
+                                <div class="pt-1 flex-1">
+                                    <p class="text-[13px] md:text-[14px] font-semibold text-on-surface">Order Placed</p>
+                                    <p class="text-[11px] text-on-surface-variant">July 17, 2026 · 11:05 AM</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order summary bar -->
+                    <div class="mt-6 pt-5 border-t border-outline-variant/20 flex flex-wrap gap-4">
+                        <div>
+                            <p class="font-label-caps text-[9px] text-on-surface-variant uppercase tracking-widest mb-0.5">Items</p>
+                            <p class="text-[12px] md:text-[13px] font-semibold text-on-surface">Kashmiri Chilli ×2, Cumin ×1</p>
+                        </div>
+                        <div>
+                            <p class="font-label-caps text-[9px] text-on-surface-variant uppercase tracking-widest mb-0.5">Total</p>
+                            <p class="text-[12px] md:text-[13px] font-semibold text-on-surface">৳ 1,245</p>
+                        </div>
+                        <div>
+                            <p class="font-label-caps text-[9px] text-on-surface-variant uppercase tracking-widest mb-0.5">Carrier</p>
+                            <p class="text-[12px] md:text-[13px] font-semibold text-on-surface">Pathao Courier</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── RETURNS & REFUNDS ─── -->
+<section id="returns" class="py-10 md:py-14 bg-surface-container-low scroll-mt-24">
+    <div class="max-w-7xl mx-auto px-6 md:px-container-padding">
+        <div class="flex items-center gap-3 mb-6 md:mb-8">
+            <div class="w-9 h-9 rounded-xl bg-secondary-fixed/60 flex items-center justify-center">
+                <span class="material-symbols-outlined text-secondary text-[18px]">autorenew</span>
+            </div>
+            <div>
+                <span class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block">Hassle-free</span>
+                <h2 class="font-headline-md text-[20px] md:text-headline-md text-on-surface">Returns & Refunds</h2>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+            <!-- Policy cards -->
+            <div class="lg:col-span-1 space-y-3 md:space-y-4">
+                <div class="bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-sm p-4 md:p-5">
+                    <div class="flex items-center gap-2.5 mb-3">
+                        <span class="material-symbols-outlined text-secondary text-[20px]">schedule</span>
+                        <h3 class="font-semibold text-[13px] md:text-[15px] text-on-surface">7-Day Return Window</h3>
+                    </div>
+                    <p class="text-[12px] md:text-[13px] text-on-surface-variant leading-relaxed">Return any unopened product within 7 days of delivery — no questions asked.</p>
+                </div>
+                <div class="bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-sm p-4 md:p-5">
+                    <div class="flex items-center gap-2.5 mb-3">
+                        <span class="material-symbols-outlined text-tertiary text-[20px]">currency_exchange</span>
+                        <h3 class="font-semibold text-[13px] md:text-[15px] text-on-surface">Refund in 3–5 Days</h3>
+                    </div>
+                    <p class="text-[12px] md:text-[13px] text-on-surface-variant leading-relaxed">Once we receive and inspect the item, your refund is processed within 3–5 business days.</p>
+                </div>
+                <div class="bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-sm p-4 md:p-5">
+                    <div class="flex items-center gap-2.5 mb-3">
+                        <span class="material-symbols-outlined text-primary text-[20px]">local_shipping</span>
+                        <h3 class="font-semibold text-[13px] md:text-[15px] text-on-surface">Free Return Pickup</h3>
+                    </div>
+                    <p class="text-[12px] md:text-[13px] text-on-surface-variant leading-relaxed">We'll arrange a free pickup from your address for eligible returns.</p>
+                </div>
+            </div>
+
+            <!-- Return request form -->
+            <div class="lg:col-span-2 bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md p-5 md:p-7">
+                <h3 class="font-headline-md text-[15px] md:text-[17px] text-on-surface font-semibold mb-1">Request a Return</h3>
+                <p class="text-[12px] md:text-[13px] text-on-surface-variant mb-5">Fill out the form below and we'll initiate your return within 24 hours.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                    <div>
+                        <label class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1.5">Order ID *</label>
+                        <input type="text" placeholder="SHD-2024-XXXX" class="support-input w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-2.5 md:py-3 font-body-md text-[13px] md:text-[14px] text-on-surface placeholder:text-on-surface-variant/50 transition-all"/>
+                    </div>
+                    <div>
+                        <label class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1.5">Product Name *</label>
+                        <input type="text" placeholder="e.g. Kashmiri Red Chilli" class="support-input w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-2.5 md:py-3 font-body-md text-[13px] md:text-[14px] text-on-surface placeholder:text-on-surface-variant/50 transition-all"/>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1.5">Reason for Return *</label>
+                        <select class="support-input w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-2.5 md:py-3 font-body-md text-[13px] md:text-[14px] text-on-surface transition-all appearance-none cursor-pointer">
+                            <option value="">Select a reason…</option>
+                            <option>Damaged or defective product</option>
+                            <option>Wrong item received</option>
+                            <option>Quality not as expected</option>
+                            <option>Changed my mind</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1.5">Additional Details</label>
+                        <textarea rows="3" placeholder="Describe the issue in more detail (optional)…" class="support-input w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-2.5 md:py-3 font-body-md text-[13px] md:text-[14px] text-on-surface placeholder:text-on-surface-variant/50 transition-all resize-none"></textarea>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1.5">Upload Photo (optional)</label>
+                        <div class="border-2 border-dashed border-outline-variant/50 rounded-xl p-5 text-center hover:border-primary/50 transition-colors cursor-pointer">
+                            <span class="material-symbols-outlined text-on-surface-variant/50 text-[28px] block mb-1">upload_file</span>
+                            <p class="text-[12px] md:text-[13px] text-on-surface-variant">Drag & drop or <span class="text-primary font-medium cursor-pointer">browse files</span></p>
+                            <p class="text-[10px] text-on-surface-variant/60 mt-0.5">PNG, JPG up to 5 MB</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="mt-5 w-full sm:w-auto bg-primary text-on-primary font-body-md text-[13px] md:text-[14px] font-semibold px-7 py-3 rounded-full hover:bg-primary/90 transition-colors flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">send</span>
+                    Submit Return Request
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── FAQ ─── -->
+<section id="faq" class="py-10 md:py-14 scroll-mt-24">
+    <div class="max-w-7xl mx-auto px-6 md:px-container-padding">
+        <div class="flex items-center gap-3 mb-6 md:mb-8">
+            <div class="w-9 h-9 rounded-xl bg-primary-fixed/60 flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-[18px]">quiz</span>
+            </div>
+            <div>
+                <span class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block">Quick answers</span>
+                <h2 class="font-headline-md text-[20px] md:text-headline-md text-on-surface">Frequently Asked Questions</h2>
+            </div>
+        </div>
+
+        <!-- Category filters -->
+        <div class="flex flex-wrap gap-2 mb-6 md:mb-8">
+            <button onclick="filterFAQ('all')" class="cat-btn active font-body-md text-[12px] md:text-[13px] font-medium px-4 py-1.5 rounded-full border border-outline-variant/50 bg-surface text-on-surface-variant transition-all" data-cat="all">All Topics</button>
+            <button onclick="filterFAQ('orders')" class="cat-btn font-body-md text-[12px] md:text-[13px] font-medium px-4 py-1.5 rounded-full border border-outline-variant/50 bg-surface text-on-surface-variant transition-all" data-cat="orders">Orders</button>
+            <button onclick="filterFAQ('shipping')" class="cat-btn font-body-md text-[12px] md:text-[13px] font-medium px-4 py-1.5 rounded-full border border-outline-variant/50 bg-surface text-on-surface-variant transition-all" data-cat="shipping">Shipping</button>
+            <button onclick="filterFAQ('returns')" class="cat-btn font-body-md text-[12px] md:text-[13px] font-medium px-4 py-1.5 rounded-full border border-outline-variant/50 bg-surface text-on-surface-variant transition-all" data-cat="returns">Returns</button>
+            <button onclick="filterFAQ('payment')" class="cat-btn font-body-md text-[12px] md:text-[13px] font-medium px-4 py-1.5 rounded-full border border-outline-variant/50 bg-surface text-on-surface-variant transition-all" data-cat="payment">Payment</button>
+            <button onclick="filterFAQ('account')" class="cat-btn font-body-md text-[12px] md:text-[13px] font-medium px-4 py-1.5 rounded-full border border-outline-variant/50 bg-surface text-on-surface-variant transition-all" data-cat="account">Account</button>
+        </div>
+
+        <!-- FAQ list -->
+        <div id="faq-list" class="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-4">
+
+            <div class="faq-item bg-surface rounded-[20px] border border-outline-variant/40 shadow-sm overflow-hidden" data-cat="orders">
+                <button onclick="toggleFAQ(this)" class="w-full flex items-center justify-between gap-4 p-4 md:p-5 text-left">
+                    <span class="font-body-md text-[13px] md:text-[14px] font-semibold text-on-surface">How do I know my order has been confirmed?</span>
+                    <span class="material-symbols-outlined faq-chevron text-on-surface-variant shrink-0 text-[20px]">keyboard_arrow_down</span>
+                </button>
+                <div class="faq-answer px-4 md:px-5 pb-4 md:pb-5">
+                    <div class="h-px bg-outline-variant/20 mb-4"></div>
+                    <p class="text-[12px] md:text-[13px] text-on-surface-variant leading-relaxed">Once your order is placed, you'll receive a confirmation email with your order ID within a few minutes. You can also check the "Orders" tab in your profile. If you don't see a confirmation within 30 minutes, check your spam folder or contact us.</p>
+                </div>
+            </div>
+
+            <div class="faq-item bg-surface rounded-[20px] border border-outline-variant/40 shadow-sm overflow-hidden" data-cat="orders">
+                <button onclick="toggleFAQ(this)" class="w-full flex items-center justify-between gap-4 p-4 md:p-5 text-left">
+                    <span class="font-body-md text-[13px] md:text-[14px] font-semibold text-on-surface">Can I modify or cancel my order after placing it?</span>
+                    <span class="material-symbols-outlined faq-chevron text-on-surface-variant shrink-0 text-[20px]">keyboard_arrow_down</span>
+                </button>
+                <div class="faq-answer px-4 md:px-5 pb-4 md:pb-5">
+                    <div class="h-px bg-outline-variant/20 mb-4"></div>
+                    <p class="text-[12px] md:text-[13px] text-on-surface-variant leading-relaxed">You can cancel or modify your order within 1 hour of placing it. After that, the order enters our packing process and can no longer be changed. To cancel, visit your Orders page and click "Cancel Order," or contact our support team immediately.</p>
+                </div>
+            </div>
+
+            <div class="faq-item bg-surface rounded-[20px] border border-outline-variant/40 shadow-sm overflow-hidden" data-cat="shipping">
+                <button onclick="toggleFAQ(this)" class="w-full flex items-center justify-between gap-4 p-4 md:p-5 text-left">
+                    <span class="font-body-md text-[13px] md:text-[14px] font-semibold text-on-surface">How long does delivery take?</span>
+                    <span class="material-symbols-outlined faq-chevron text-on-surface-variant shrink-0 text-[20px]">keyboard_arrow_down</span>
+                </button>
+                <div class="faq-answer px-4 md:px-5 pb-4 md:pb-5">
+                    <div class="h-px bg-outline-variant/20 mb-4"></div>
+                    <p class="text-[12px] md:text-[13px] text-on-surface-variant leading-relaxed">Standard delivery within Dhaka takes 1–2 business days. Deliveries to other districts take 3–5 business days. Orders placed before 2 PM on weekdays are dispatched the same day. Express delivery (same-day in Dhaka) is available for an additional fee.</p>
+                </div>
+            </div>
+
+            <div class="faq-item bg-surface rounded-[20px] border border-outline-variant/40 shadow-sm overflow-hidden" data-cat="shipping">
+                <button onclick="toggleFAQ(this)" class="w-full flex items-center justify-between gap-4 p-4 md:p-5 text-left">
+                    <span class="font-body-md text-[13px] md:text-[14px] font-semibold text-on-surface">Is free shipping available?</span>
+                    <span class="material-symbols-outlined faq-chevron text-on-surface-variant shrink-0 text-[20px]">keyboard_arrow_down</span>
+                </button>
+                <div class="faq-answer px-4 md:px-5 pb-4 md:pb-5">
+                    <div class="h-px bg-outline-variant/20 mb-4"></div>
+                    <p class="text-[12px] md:text-[13px] text-on-surface-variant leading-relaxed">Yes! Orders above ৳ 999 qualify for free standard delivery anywhere in Bangladesh. Gold and Platinum loyalty members receive free shipping on all orders regardless of amount.</p>
+                </div>
+            </div>
+
+            <div class="faq-item bg-surface rounded-[20px] border border-outline-variant/40 shadow-sm overflow-hidden" data-cat="returns">
+                <button onclick="toggleFAQ(this)" class="w-full flex items-center justify-between gap-4 p-4 md:p-5 text-left">
+                    <span class="font-body-md text-[13px] md:text-[14px] font-semibold text-on-surface">What products are eligible for return?</span>
+                    <span class="material-symbols-outlined faq-chevron text-on-surface-variant shrink-0 text-[20px]">keyboard_arrow_down</span>
+                </button>
+                <div class="faq-answer px-4 md:px-5 pb-4 md:pb-5">
+                    <div class="h-px bg-outline-variant/20 mb-4"></div>
+                    <p class="text-[12px] md:text-[13px] text-on-surface-variant leading-relaxed">Unopened products in their original sealed packaging are eligible for return within 7 days. Due to food safety regulations, opened spice packets or dry foods cannot be returned unless they are defective or damaged on arrival.</p>
+                </div>
+            </div>
+
+            <div class="faq-item bg-surface rounded-[20px] border border-outline-variant/40 shadow-sm overflow-hidden" data-cat="returns">
+                <button onclick="toggleFAQ(this)" class="w-full flex items-center justify-between gap-4 p-4 md:p-5 text-left">
+                    <span class="font-body-md text-[13px] md:text-[14px] font-semibold text-on-surface">How will I receive my refund?</span>
+                    <span class="material-symbols-outlined faq-chevron text-on-surface-variant shrink-0 text-[20px]">keyboard_arrow_down</span>
+                </button>
+                <div class="faq-answer px-4 md:px-5 pb-4 md:pb-5">
+                    <div class="h-px bg-outline-variant/20 mb-4"></div>
+                    <p class="text-[12px] md:text-[13px] text-on-surface-variant leading-relaxed">Refunds are issued to the original payment method (bKash, Nagad, card, or COD cash return) within 3–5 business days of us receiving your return. You can also opt for store credit, which is processed instantly.</p>
+                </div>
+            </div>
+
+            <div class="faq-item bg-surface rounded-[20px] border border-outline-variant/40 shadow-sm overflow-hidden" data-cat="payment">
+                <button onclick="toggleFAQ(this)" class="w-full flex items-center justify-between gap-4 p-4 md:p-5 text-left">
+                    <span class="font-body-md text-[13px] md:text-[14px] font-semibold text-on-surface">What payment methods do you accept?</span>
+                    <span class="material-symbols-outlined faq-chevron text-on-surface-variant shrink-0 text-[20px]">keyboard_arrow_down</span>
+                </button>
+                <div class="faq-answer px-4 md:px-5 pb-4 md:pb-5">
+                    <div class="h-px bg-outline-variant/20 mb-4"></div>
+                    <p class="text-[12px] md:text-[13px] text-on-surface-variant leading-relaxed">We accept bKash, Nagad, Rocket, all major debit/credit cards (Visa, Mastercard), and Cash on Delivery (COD) across Bangladesh. EMI options are available on orders above ৳ 5,000 with partner banks.</p>
+                </div>
+            </div>
+
+            <div class="faq-item bg-surface rounded-[20px] border border-outline-variant/40 shadow-sm overflow-hidden" data-cat="account">
+                <button onclick="toggleFAQ(this)" class="w-full flex items-center justify-between gap-4 p-4 md:p-5 text-left">
+                    <span class="font-body-md text-[13px] md:text-[14px] font-semibold text-on-surface">How do loyalty points work?</span>
+                    <span class="material-symbols-outlined faq-chevron text-on-surface-variant shrink-0 text-[20px]">keyboard_arrow_down</span>
+                </button>
+                <div class="faq-answer px-4 md:px-5 pb-4 md:pb-5">
+                    <div class="h-px bg-outline-variant/20 mb-4"></div>
+                    <p class="text-[12px] md:text-[13px] text-on-surface-variant leading-relaxed">You earn 10 points per ৳ 100 spent. Points can be redeemed for discounts (100 points = ৳ 10 off). Reaching 3,000 points upgrades you to Platinum tier with exclusive benefits including free shipping and early access to deals.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- No results state (hidden) -->
+        <div id="faq-empty" class="hidden text-center py-10">
+            <span class="material-symbols-outlined text-on-surface-variant/40 text-[40px] block mb-2">search_off</span>
+            <p class="text-[14px] text-on-surface-variant">No results in this category. <button onclick="filterFAQ('all')" class="text-primary font-medium hover:underline">View all topics</button></p>
+        </div>
+    </div>
+</section>
+
+<!-- ─── SUBMIT A TICKET ─── -->
+<section id="account" class="py-10 md:py-14 bg-surface-container-low scroll-mt-24">
+    <div class="max-w-7xl mx-auto px-6 md:px-container-padding">
+        <div class="flex items-center gap-3 mb-6 md:mb-8">
+            <div class="w-9 h-9 rounded-xl bg-primary-fixed/60 flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-[18px]">confirmation_number</span>
+            </div>
+            <div>
+                <span class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block">Need more help?</span>
+                <h2 class="font-headline-md text-[20px] md:text-headline-md text-on-surface">Submit a Support Ticket</h2>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
+            <!-- My tickets sidebar -->
+            <div class="lg:col-span-1 space-y-3 md:space-y-4">
+                <div class="bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-sm p-4 md:p-5">
+                    <h3 class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest mb-3">My Open Tickets</h3>
+                    <div class="space-y-2">
+                        <div class="ticket-card bg-surface-container-low rounded-xl p-3 border border-outline-variant/30 cursor-pointer">
+                            <div class="flex items-start justify-between gap-2 mb-1.5">
+                                <p class="text-[12px] md:text-[13px] font-semibold text-on-surface leading-snug">Package arrived crushed</p>
+                                <span class="text-[9px] font-semibold text-tertiary bg-tertiary-fixed/40 px-1.5 py-0.5 rounded-full shrink-0 mt-0.5">In Review</span>
+                            </div>
+                            <p class="text-[10px] md:text-[11px] text-on-surface-variant">#TKT-4412 · Jul 17</p>
+                        </div>
+                        <div class="ticket-card bg-surface-container-low rounded-xl p-3 border border-outline-variant/30 cursor-pointer">
+                            <div class="flex items-start justify-between gap-2 mb-1.5">
+                                <p class="text-[12px] md:text-[13px] font-semibold text-on-surface leading-snug">Missing item from order</p>
+                                <span class="text-[9px] font-semibold text-secondary bg-secondary-fixed/40 px-1.5 py-0.5 rounded-full shrink-0 mt-0.5">Resolved</span>
+                            </div>
+                            <p class="text-[10px] md:text-[11px] text-on-surface-variant">#TKT-3995 · Jul 10</p>
+                        </div>
+                    </div>
+                    <button class="mt-3 w-full text-[11px] md:text-[12px] text-primary font-medium hover:underline text-center">View all tickets →</button>
+                </div>
+                <!-- Response time -->
+                <div class="bg-gradient-to-br from-secondary-fixed/40 to-tertiary-fixed/30 rounded-[20px] md:rounded-[24px] border border-outline-variant/30 p-4 md:p-5">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="material-symbols-outlined text-secondary text-[18px]">timer</span>
+                        <h3 class="font-semibold text-[13px] md:text-[14px] text-on-surface">Typical Response Times</h3>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] md:text-[12px] text-on-surface-variant">Live Chat</span>
+                            <span class="text-[11px] md:text-[12px] font-semibold text-on-surface">Under 5 min</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] md:text-[12px] text-on-surface-variant">Support Ticket</span>
+                            <span class="text-[11px] md:text-[12px] font-semibold text-on-surface">Under 2 hours</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] md:text-[12px] text-on-surface-variant">Email</span>
+                            <span class="text-[11px] md:text-[12px] font-semibold text-on-surface">Within 24 hours</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-[11px] md:text-[12px] text-on-surface-variant">Phone</span>
+                            <span class="text-[11px] md:text-[12px] font-semibold text-on-surface">Business hours</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ticket form -->
+            <div class="lg:col-span-2 bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md p-5 md:p-7">
+                <h3 class="font-headline-md text-[15px] md:text-[17px] text-on-surface font-semibold mb-1">New Support Ticket</h3>
+                <p class="text-[12px] md:text-[13px] text-on-surface-variant mb-5">We'll get back to you within 2 hours on weekdays.</p>
+                <div class="space-y-3 md:space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1.5">Your Name *</label>
+                            <input type="text" value="Raqib Karim" class="support-input w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-2.5 md:py-3 font-body-md text-[13px] md:text-[14px] text-on-surface transition-all"/>
+                        </div>
+                        <div>
+                            <label class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1.5">Email Address *</label>
+                            <input type="email" value="raqib.karim@email.com" class="support-input w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-2.5 md:py-3 font-body-md text-[13px] md:text-[14px] text-on-surface transition-all"/>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1.5">Category *</label>
+                            <select class="support-input w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-2.5 md:py-3 font-body-md text-[13px] md:text-[14px] text-on-surface transition-all appearance-none cursor-pointer">
+                                <option>Order Issue</option>
+                                <option>Delivery Problem</option>
+                                <option>Return / Refund</option>
+                                <option>Payment Help</option>
+                                <option>Account Access</option>
+                                <option>Product Quality</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1.5">Priority</label>
+                            <select class="support-input w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-2.5 md:py-3 font-body-md text-[13px] md:text-[14px] text-on-surface transition-all appearance-none cursor-pointer">
+                                <option>Normal</option>
+                                <option>Urgent</option>
+                                <option>Low</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1.5">Subject *</label>
+                        <input type="text" placeholder="Briefly describe your issue" class="support-input w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-2.5 md:py-3 font-body-md text-[13px] md:text-[14px] text-on-surface placeholder:text-on-surface-variant/50 transition-all"/>
+                    </div>
+                    <div>
+                        <label class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1.5">Message *</label>
+                        <textarea rows="4" placeholder="Tell us exactly what happened, including any order IDs or product names…" class="support-input w-full bg-surface-container-low border border-outline-variant/50 rounded-xl px-4 py-2.5 md:py-3 font-body-md text-[13px] md:text-[14px] text-on-surface placeholder:text-on-surface-variant/50 transition-all resize-none"></textarea>
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                        <p class="text-[11px] md:text-[12px] text-on-surface-variant">* Required fields. We'll reply to your registered email.</p>
+                        <button onclick="submitTicket()" class="w-full sm:w-auto bg-primary text-on-primary font-body-md text-[13px] md:text-[14px] font-semibold px-7 py-3 rounded-full hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 shrink-0">
+                            <span class="material-symbols-outlined text-[18px]">send</span>
+                            Send Ticket
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── CONTACT CHANNELS ─── -->
+<section id="contact" class="py-10 md:py-14 scroll-mt-24">
+    <div class="max-w-7xl mx-auto px-6 md:px-container-padding">
+        <div class="text-center mb-8 md:mb-10">
+            <span class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block mb-2">Still need help?</span>
+            <h2 class="font-display-xl text-[26px] sm:text-[32px] md:text-[40px] text-on-surface leading-tight">Reach us directly</h2>
+            <p class="text-[13px] md:text-body-md text-on-surface-variant mt-2 max-w-md mx-auto">Our support team is available Saturday–Thursday, 9 AM – 8 PM (BD time).</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 max-w-4xl mx-auto">
+            <!-- Live Chat -->
+            <div class="bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md p-5 md:p-6 flex flex-col items-center text-center gap-3">
+                <div class="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary text-[26px]">chat_bubble</span>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-[14px] md:text-[15px] text-on-surface mb-1">Live Chat</h3>
+                    <p class="text-[12px] md:text-[13px] text-on-surface-variant leading-relaxed">Chat with a support agent in real time. Fastest way to get help.</p>
+                </div>
+                <div class="flex items-center gap-1.5 mt-auto">
+                    <span class="status-dot"></span>
+                    <span class="text-[11px] font-medium text-secondary">Online now</span>
+                </div>
+                <button class="w-full bg-primary text-on-primary text-[13px] font-semibold py-2.5 rounded-full hover:bg-primary/90 transition-colors">Start Chat</button>
+            </div>
+
+            <!-- Phone -->
+            <div class="bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md p-5 md:p-6 flex flex-col items-center text-center gap-3">
+                <div class="w-14 h-14 rounded-2xl bg-tertiary-fixed/60 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-tertiary text-[26px]">call</span>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-[14px] md:text-[15px] text-on-surface mb-1">Phone Support</h3>
+                    <p class="text-[12px] md:text-[13px] text-on-surface-variant leading-relaxed">Call us directly for urgent issues or questions about large orders.</p>
+                </div>
+                <p class="font-bold text-[15px] md:text-[16px] text-primary mt-auto">+880-1700-000000</p>
+                <a href="tel:+8801700000000" class="w-full bg-surface-variant text-on-surface text-[13px] font-semibold py-2.5 rounded-full hover:bg-outline-variant/40 transition-colors">Call Now</a>
+            </div>
+
+            <!-- Email -->
+            <div class="bg-surface rounded-[20px] md:rounded-[24px] border border-outline-variant/40 shadow-md p-5 md:p-6 flex flex-col items-center text-center gap-3 sm:col-span-2 lg:col-span-1">
+                <div class="w-14 h-14 rounded-2xl bg-secondary-fixed/60 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-secondary text-[26px]">mail</span>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-[14px] md:text-[15px] text-on-surface mb-1">Email Us</h3>
+                    <p class="text-[12px] md:text-[13px] text-on-surface-variant leading-relaxed">Send a detailed email and we'll respond within 24 hours.</p>
+                </div>
+                <p class="font-medium text-[13px] text-primary mt-auto break-all">support@shuddhota.com</p>
+                <a href="mailto:support@shuddhota.com" class="w-full bg-surface-variant text-on-surface text-[13px] font-semibold py-2.5 rounded-full hover:bg-outline-variant/40 transition-colors">Send Email</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── KNOWLEDGE HIGHLIGHTS ─── -->
+<section class="py-10 md:py-14 bg-gradient-to-br from-primary-container/20 via-tertiary-fixed/15 to-secondary-fixed/20">
+    <div class="max-w-7xl mx-auto px-6 md:px-container-padding">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6 md:mb-8">
+            <div>
+                <span class="font-label-caps text-[9px] md:text-[10px] text-on-surface-variant uppercase tracking-widest block mb-1">Guides & Resources</span>
+                <h2 class="font-headline-md text-[20px] md:text-headline-md text-on-surface">Helpful Articles</h2>
+            </div>
+            <a href="#" class="text-primary font-medium text-[13px] hover:underline flex items-center gap-1 shrink-0">
+                View all guides <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+            <a href="#" class="group bg-surface rounded-[20px] border border-outline-variant/40 shadow-sm p-4 md:p-5 flex flex-col gap-3 hover:border-primary/40 transition-colors support-card">
+                <div class="w-9 h-9 rounded-xl bg-tertiary-fixed/50 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-tertiary text-[18px]">receipt_long</span>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-[13px] md:text-[14px] text-on-surface mb-1 group-hover:text-primary transition-colors">Understanding Your Order Invoice</h4>
+                    <p class="text-[11px] md:text-[12px] text-on-surface-variant leading-relaxed">How to read and download your invoice from the orders section.</p>
+                </div>
+                <span class="text-[11px] text-primary font-medium mt-auto">Read guide →</span>
+            </a>
+            <a href="#" class="group bg-surface rounded-[20px] border border-outline-variant/40 shadow-sm p-4 md:p-5 flex flex-col gap-3 hover:border-primary/40 transition-colors support-card">
+                <div class="w-9 h-9 rounded-xl bg-secondary-fixed/50 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-secondary text-[18px]">loyalty</span>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-[13px] md:text-[14px] text-on-surface mb-1 group-hover:text-primary transition-colors">Using Your Loyalty Points</h4>
+                    <p class="text-[11px] md:text-[12px] text-on-surface-variant leading-relaxed">Earn, redeem, and make the most of your Gold membership perks.</p>
+                </div>
+                <span class="text-[11px] text-primary font-medium mt-auto">Read guide →</span>
+            </a>
+            <a href="#" class="group bg-surface rounded-[20px] border border-outline-variant/40 shadow-sm p-4 md:p-5 flex flex-col gap-3 hover:border-primary/40 transition-colors support-card">
+                <div class="w-9 h-9 rounded-xl bg-primary-fixed/50 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary text-[18px]">payment</span>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-[13px] md:text-[14px] text-on-surface mb-1 group-hover:text-primary transition-colors">Paying with bKash or Nagad</h4>
+                    <p class="text-[11px] md:text-[12px] text-on-surface-variant leading-relaxed">Step-by-step guide to completing your payment via mobile banking.</p>
+                </div>
+                <span class="text-[11px] text-primary font-medium mt-auto">Read guide →</span>
+            </a>
+            <a href="#" class="group bg-surface rounded-[20px] border border-outline-variant/40 shadow-sm p-4 md:p-5 flex flex-col gap-3 hover:border-primary/40 transition-colors support-card">
+                <div class="w-9 h-9 rounded-xl bg-surface-container-high flex items-center justify-center">
+                    <span class="material-symbols-outlined text-on-surface-variant text-[18px]">package_2</span>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-[13px] md:text-[14px] text-on-surface mb-1 group-hover:text-primary transition-colors">Storing Your Spices Properly</h4>
+                    <p class="text-[11px] md:text-[12px] text-on-surface-variant leading-relaxed">Tips to keep your spices fresh and potent for months after delivery.</p>
+                </div>
+                <span class="text-[11px] text-primary font-medium mt-auto">Read guide →</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+</main>
+
+<!-- ─── SUCCESS TOAST ─── -->
+<div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-on-surface text-inverse-on-surface text-[13px] md:text-[14px] font-medium px-5 py-3 rounded-full shadow-2xl flex items-center gap-2 fade-in">
+    <span class="material-symbols-outlined text-secondary-fixed text-[18px]">check_circle</span>
+    <span id="toast-msg">Done!</span>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer class="bg-surface w-full py-12 md:py-section-gap border-t border-outline-variant/20 font-body-md text-body-md">
+    <div class="max-w-7xl mx-auto px-6 md:px-container-padding">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10 mb-10 md:mb-16">
+            <div class="col-span-2 md:col-span-1">
+                <div class="font-display-xl text-headline-md text-primary flex items-center gap-2 mb-3">
+                    <span class="material-symbols-outlined">shopping_basket</span>
+                    Shuddhota Co.
+                </div>
+                <p class="font-body-md text-[12px] md:text-body-md text-on-surface-variant mb-4 max-w-[220px]">Pure spices and premium dry foods, delivered fresh from farms to your kitchen.</p>
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center hover:bg-primary hover:text-on-primary cursor-pointer transition-colors">
+                        <span class="material-symbols-outlined text-[15px]">public</span>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center hover:bg-primary hover:text-on-primary cursor-pointer transition-colors">
+                        <span class="material-symbols-outlined text-[15px]">camera_alt</span>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center hover:bg-primary hover:text-on-primary cursor-pointer transition-colors">
+                        <span class="material-symbols-outlined text-[15px]">chat</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-[11px] md:text-body-md font-semibold text-on-surface mb-3 uppercase tracking-wider">Shop</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Whole Spices</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Ground Masalas</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Dry Fruits & Nuts</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Dals & Pulses</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Ready Mixes</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-[11px] md:text-body-md font-semibold text-on-surface mb-3 uppercase tracking-wider">Help</h4>
+                <ul class="space-y-2">
+                    <li><a href="#order-tracking" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Order Tracking</a></li>
+                    <li><a href="#returns" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Returns & Refunds</a></li>
+                    <li><a href="#faq" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">FAQ</a></li>
+                    <li><a href="#contact" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Contact Us</a></li>
+                    <li><a href="profile.html" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">My Account</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-[11px] md:text-body-md font-semibold text-on-surface mb-3 uppercase tracking-wider">Company</h4>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">About Us</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Our Story</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Wholesale</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Privacy Policy</a></li>
+                    <li><a href="#" class="text-on-surface-variant hover:text-primary transition-colors text-[12px] md:text-body-md">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-outline-variant/20 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p class="text-on-surface-variant text-[11px] md:text-sm">© 2024 Shuddhota Co. Pure spices, bold flavors.</p>
+            <div class="flex items-center gap-3">
+                <div class="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30">
+                    <span class="material-symbols-outlined text-secondary text-[14px] md:text-[16px]">verified</span>
+                    <span class="text-[10px] md:text-[12px] text-on-surface-variant font-medium">BSTI Certified</span>
+                </div>
+                <div class="flex items-center gap-1.5 bg-surface-container-low rounded-full px-3 py-1.5 border border-outline-variant/30">
+                    <span class="material-symbols-outlined text-secondary text-[14px] md:text-[16px]">eco</span>
+                    <span class="text-[10px] md:text-[12px] text-on-surface-variant font-medium">100% Natural</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    /* ─── Mobile Menu ─── */
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobile-menu');
+        const icon = document.getElementById('hamburger-icon');
+        menu.classList.toggle('hidden');
+        icon.textContent = menu.classList.contains('hidden') ? 'menu' : 'close';
+    }
+    document.addEventListener('click', function(e) {
+        const menu = document.getElementById('mobile-menu');
+        const btn = document.getElementById('mobile-menu-btn');
+        if (menu && !menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+            menu.classList.add('hidden');
+            document.getElementById('hamburger-icon').textContent = 'menu';
+        }
+    });
+    window.addEventListener('resize', function() {
+        if (window.innerWidth >= 768) {
+            const menu = document.getElementById('mobile-menu');
+            if (menu) { menu.classList.add('hidden'); document.getElementById('hamburger-icon').textContent = 'menu'; }
+        }
+    });
+
+    /* ─── Search ─── */
+    function handleSearch(val) {
+        document.getElementById('clear-btn').classList.toggle('hidden', val.length === 0);
+    }
+    function setSearch(val) {
+        const input = document.getElementById('search-input');
+        input.value = val;
+        handleSearch(val);
+        input.focus();
+    }
+    function clearSearch() {
+        const input = document.getElementById('search-input');
+        input.value = '';
+        handleSearch('');
+        input.focus();
+    }
+
+    /* ─── FAQ Toggle ─── */
+    function toggleFAQ(btn) {
+        const item = btn.closest('.faq-item');
+        const wasOpen = item.classList.contains('open');
+        // Close all
+        document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+    }
+
+    /* ─── FAQ Filter ─── */
+    function filterFAQ(cat) {
+        // Update buttons
+        document.querySelectorAll('.cat-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.cat === cat);
+        });
+        // Show/hide items
+        const items = document.querySelectorAll('#faq-list .faq-item');
+        let visible = 0;
+        items.forEach(item => {
+            const show = cat === 'all' || item.dataset.cat === cat;
+            item.style.display = show ? '' : 'none';
+            if (show) visible++;
+        });
+        document.getElementById('faq-empty').classList.toggle('hidden', visible > 0);
+    }
+
+    /* ─── Order Tracking ─── */
+    function showTracking() {
+        document.getElementById('tracking-placeholder').classList.add('hidden');
+        const result = document.getElementById('tracking-result');
+        result.classList.remove('hidden');
+        result.classList.add('fade-in');
+    }
+    function loadOrder(id) {
+        showTracking();
+        document.querySelector('#tracking-result h3').textContent = id;
+    }
+
+    /* ─── Ticket Submit ─── */
+    function submitTicket() {
+        showToast('Ticket submitted! We\'ll reply within 2 hours.');
+    }
+
+    /* ─── Toast ─── */
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toast-msg').textContent = msg;
+        toast.classList.remove('hidden');
+        toast.classList.add('fade-in');
+        setTimeout(() => toast.classList.add('hidden'), 3500);
+    }
+</script>
+</body>
+</html>
