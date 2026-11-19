@@ -2,8 +2,6 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useAuth } from "@/contexts/AuthContext";
-import { useRouter } from "next/navigation";
 
 export default function SigninPage() {
   const [email, setEmail] = useState("");
@@ -11,10 +9,7 @@ export default function SigninPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [error, setError] = useState({ show: false, message: "" });
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [shaking, setShaking] = useState(false);
-  const { signIn, signInWithGoogle, signInWithFacebook } = useAuth();
-  const router = useRouter();
 
   const togglePass = () => {
     setShowPassword(!showPassword);
@@ -32,39 +27,16 @@ export default function SigninPage() {
 
     setIsSigningIn(true);
 
-    const { error: signInError } = await signIn(email, password);
-
-    if (signInError) {
-      setIsSigningIn(false);
-      setError({ show: true, message: signInError.message || "Invalid email or password." });
-      setShaking(true);
-      setTimeout(() => setShaking(false), 450);
-      return;
-    }
-
     setIsSigningIn(false);
-    setShowSuccessModal(true);
-    setTimeout(() => {
-      router.push("/");
-    }, 1500);
+    setError({ show: true, message: "Sign-in is unavailable." });
   };
 
   const handleGoogleSignIn = async () => {
-    const { error: googleError } = await signInWithGoogle();
-    if (googleError) {
-      setError({ show: true, message: googleError.message || "Failed to sign in with Google." });
-      setShaking(true);
-      setTimeout(() => setShaking(false), 450);
-    }
+    setError({ show: true, message: "Social sign-in is unavailable." });
   };
 
   const handleFacebookSignIn = async () => {
-    const { error: facebookError } = await signInWithFacebook();
-    if (facebookError) {
-      setError({ show: true, message: facebookError.message || "Failed to sign in with Facebook." });
-      setShaking(true);
-      setTimeout(() => setShaking(false), 450);
-    }
+    setError({ show: true, message: "Social sign-in is unavailable." });
   };
 
   return (
@@ -533,28 +505,6 @@ export default function SigninPage() {
         </div>
       </section>
 
-      {/* ─── SUCCESS MODAL ─── */}
-      {showSuccessModal && (
-        <div id="success-modal" className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-inverse-surface/40 backdrop-blur-md"></div>
-          <div className="relative bg-surface rounded-[28px] border border-outline-variant/40 shadow-2xl p-8 md:p-12 max-w-sm w-full text-center animate-fade-up">
-            <div className="w-16 h-16 bg-secondary-container rounded-full flex items-center justify-center mx-auto mb-5">
-              <span className="material-symbols-outlined text-secondary text-[34px]">waving_hand</span>
-            </div>
-            <h3 className="font-display-xl text-[24px] text-on-surface tracking-tight mb-2">Welcome back!</h3>
-            <p className="text-on-surface-variant text-[14px] mb-7">
-              You&apos;ve signed in successfully. Ready to explore today&apos;s fresh picks?
-            </p>
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 bg-primary text-on-primary font-medium px-8 py-3 rounded-full hover:bg-primary/90 transition-colors text-[14px]"
-            >
-              Go to Home
-              <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
-            </Link>
-          </div>
-        </div>
-      )}
     </main>
   );
 }

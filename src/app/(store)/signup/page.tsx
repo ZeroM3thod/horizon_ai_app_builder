@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useCallback, useRef } from"react";
 import Link from"next/link";
-import { useAuth } from "@/contexts/AuthContext";
 
 const COUNTRY_CODES = [
  { flag:"🇧🇩", code:"+880", country:"BD" },
@@ -46,8 +45,6 @@ export default function SignupPage() {
  const [matchMsg, setMatchMsg] = useState({ text:"", color:"", hidden: true });
  const [showEmailConfirmModal, setShowEmailConfirmModal] = useState(false);
  const [showSuccessModal, setShowSuccessModal] = useState(false);
- const [isSigningUp, setIsSigningUp] = useState(false);
- const { signUp, signInWithGoogle, signInWithFacebook } = useAuth();
 
  const { password, confirmPassword } = formData;
 
@@ -132,7 +129,7 @@ export default function SignupPage() {
  };
 
  const handleSignUp = async () => {
-  const { firstName, lastName, email, password, confirmPassword, terms, phone } = formData;
+   const { firstName, email, password, confirmPassword, terms, phone } = formData;
 
   if (!firstName || !email || !password || !confirmPassword) {
     setError({ show: true, message: "Please fill in all required fields." });
@@ -152,37 +149,15 @@ export default function SignupPage() {
   }
   setPhoneError("");
   setError({ show: false, message: "" });
-  setIsSigningUp(true);
-
-  const fullPhone = phone ? `${selectedCountry.code}${phone}` : "";
-  const { error: signUpError } = await signUp(email, password, {
-    firstName,
-    lastName,
-    phone: fullPhone,
-  });
-
-  setIsSigningUp(false);
-
-  if (signUpError) {
-    setError({ show: true, message: signUpError.message || "Failed to create account. Please try again." });
-    return;
-  }
-
-  setShowEmailConfirmModal(true);
+   setError({ show: true, message: "Account creation is unavailable." });
  };
 
  const handleGoogleSignUp = async () => {
-  const { error: googleError } = await signInWithGoogle();
-  if (googleError) {
-    setError({ show: true, message: googleError.message || "Failed to sign up with Google." });
-  }
+   setError({ show: true, message: "Social sign-in is unavailable." });
  };
 
  const handleFacebookSignUp = async () => {
-  const { error: facebookError } = await signInWithFacebook();
-  if (facebookError) {
-    setError({ show: true, message: facebookError.message || "Failed to sign up with Facebook." });
-  }
+   setError({ show: true, message: "Social sign-in is unavailable." });
  };
 
  return (
@@ -449,8 +424,8 @@ export default function SignupPage() {
  </label>
  </div>
   <div className="pt-2">
-  <button type="button" onClick={handleSignUp} disabled={isSigningUp} className={`btn-primary w-full bg-primary text-on-primary font-semibold text-[14px] md:text-[18px] leading-relaxed py-3.5 md:py-4 rounded-full shadow-lg flex items-center justify-center gap-2.5 group ${isSigningUp ? "opacity-80 cursor-not-allowed" : ""}`}>
-  <span className="material-symbols-outlined text-[20px] md:text-[22px] group-hover:scale-110 transition-transform">person_add</span>{isSigningUp ? "Creating Account..." : "Create Free Account"}<span className="material-symbols-outlined text-[18px] md:text-[20px] text-secondary-fixed group-hover:translate-x-1 transition-transform">arrow_forward</span>
+  <button type="button" onClick={handleSignUp} className="btn-primary w-full bg-primary text-on-primary font-semibold text-[14px] md:text-[18px] leading-relaxed py-3.5 md:py-4 rounded-full shadow-lg flex items-center justify-center gap-2.5 group">
+  <span className="material-symbols-outlined text-[20px] md:text-[22px] group-hover:scale-110 transition-transform">person_add</span>Create Free Account<span className="material-symbols-outlined text-[18px] md:text-[20px] text-secondary-fixed group-hover:translate-x-1 transition-transform">arrow_forward</span>
   </button>
   </div>
  </div>
