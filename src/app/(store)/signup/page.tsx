@@ -24,7 +24,6 @@ const COUNTRY_CODES = [
 export default function SignupPage() {
  const [formData, setFormData] = useState({
  firstName:"",
- lastName:"",
  email:"",
  phone:"",
  password:"",
@@ -109,8 +108,7 @@ export default function SignupPage() {
  const val = type ==="checkbox"? checked : value;
  
  const keyMap: { [key: string]: string } = {
-"first-name":"firstName",
-"last-name":"lastName",
+ "full-name":"firstName",
 "email":"email",
 "phone":"phone",
 "password":"password",
@@ -156,10 +154,6 @@ export default function SignupPage() {
    setError({ show: true, message: "Social sign-in is unavailable." });
  };
 
- const handleFacebookSignUp = async () => {
-   setError({ show: true, message: "Social sign-in is unavailable." });
- };
-
  return (
  <main className="min-h-screen flex flex-col">
  <style jsx global>{`
@@ -178,37 +172,7 @@ export default function SignupPage() {
  .eye-btn { cursor: pointer; transition: color 0.15s ease; }
  .eye-btn:hover { color: #9f4122; }
 
- /* Blur-lock social button overlay */
- .social-locked-wrapper { position: relative; overflow: hidden; border-radius: 9999px; }
- .social-locked-wrapper .lock-overlay {
-   position: absolute; inset: 0; border-radius: 9999px;
-   backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
-   background: rgba(255,255,255,0.45);
-   display: flex; align-items: center; justify-content: center; gap: 6px;
-   z-index: 10; animation: lockPulse 2.6s ease-in-out infinite;
-   cursor: not-allowed; pointer-events: all;
- }
- .social-locked-wrapper .lock-overlay .lock-icon {
-   font-size: 18px; color: #9f4122; animation: lockBounce 2.6s ease-in-out infinite;
- }
- .social-locked-wrapper .lock-overlay .lock-text {
-   font-size: 12px; font-weight: 600; color: #9f4122; letter-spacing: 0.02em;
-   opacity: 0; animation: lockTextFade 2.6s ease-in-out infinite;
- }
- @keyframes lockPulse {
-   0%, 100% { background: rgba(255,255,255,0.40); }
-   50%       { background: rgba(255,255,255,0.60); }
- }
- @keyframes lockBounce {
-   0%, 100% { transform: translateY(0px) scale(1);    }
-   30%       { transform: translateY(-3px) scale(1.1); }
-   60%       { transform: translateY(1px) scale(0.95); }
- }
- @keyframes lockTextFade {
-   0%, 20%  { opacity: 0; }
-   40%, 70% { opacity: 1; }
-   90%, 100%{ opacity: 0; }
- }
+  .social-locked-wrapper { position: relative; overflow: hidden; border-radius: 9999px; }
  `}</style>
 
  <section className="relative flex-1 flex items-center justify-center px-4 pt-28 pb-16 md:pt-36 md:pb-20 overflow-hidden">
@@ -298,10 +262,6 @@ export default function SignupPage() {
 
   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
   <div className="social-locked-wrapper">
-    <div className="lock-overlay" title="Coming soon">
-      <span className="material-symbols-outlined lock-icon">lock</span>
-      <span className="lock-text">Coming soon</span>
-    </div>
   <button onClick={handleGoogleSignUp} type="button" className="btn-social flex items-center justify-center gap-2.5 border border-outline-variant/60 bg-surface rounded-full py-2.5 md:py-3 px-4 text-[13px] md:text-[14px] font-medium text-on-surface hover:border-outline-variant">
   <svg className="w-4 h-4 shrink-0"viewBox="0 0 24 24"xmlns="http://www.w3.org/2000/svg">
   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"fill="#4285F4"/>
@@ -312,36 +272,17 @@ export default function SignupPage() {
   Continue with Google
   </button>
   </div>
-  <div className="social-locked-wrapper">
-    <div className="lock-overlay" title="Coming soon">
-      <span className="material-symbols-outlined lock-icon">lock</span>
-      <span className="lock-text">Coming soon</span>
-    </div>
-  <button onClick={handleFacebookSignUp} type="button" className="btn-social flex items-center justify-center gap-2.5 border border-outline-variant/60 bg-surface rounded-full py-2.5 md:py-3 px-4 text-[13px] md:text-[14px] font-medium text-on-surface hover:border-outline-variant">
-  <svg className="w-4 h-4 shrink-0"viewBox="0 0 24 24"fill="currentColor"xmlns="http://www.w3.org/2000/svg">
-  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-  </svg>
-  Continue with Facebook
-  </button>
-  </div>
   </div>
 
  <div className="flex items-center gap-4 mb-6"><div className="flex-1 h-px bg-outline-variant/40"></div><span className="text-on-surface-variant text-[12px] font-medium">or sign up with email</span><div className="flex-1 h-px bg-outline-variant/40"></div></div>
 
  <div className="space-y-4">
- <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
- <div>
- <label className="block text-[12px] md:text-[13px] font-semibold text-on-surface mb-1.5 uppercase tracking-wider"htmlFor="first-name">First Name</label>
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <div className="sm:col-span-2">
+  <label className="block text-[12px] md:text-[13px] font-semibold text-on-surface mb-1.5 uppercase tracking-wider"htmlFor="full-name">Full Name</label>
  <div className="relative">
  <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px] md:text-[20px] pointer-events-none">person</span>
- <input type="text"id="first-name"placeholder="Rahim"value={formData.firstName} onChange={handleInputChange} className="input-field w-full bg-surface-container-low border border-outline-variant/60 rounded-full pl-10 md:pl-11 pr-4 py-3 md:py-3.5 text-[13px] md:text-[16px] text-on-surface placeholder:text-outline/60"/>
- </div>
- </div>
- <div>
- <label className="block text-[12px] md:text-[13px] font-semibold text-on-surface mb-1.5 uppercase tracking-wider"htmlFor="last-name">Last Name</label>
- <div className="relative">
- <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px] md:text-[20px] pointer-events-none">person</span>
- <input type="text"id="last-name"placeholder="Uddin"value={formData.lastName} onChange={handleInputChange} className="input-field w-full bg-surface-container-low border border-outline-variant/60 rounded-full pl-10 md:pl-11 pr-4 py-3 md:py-3.5 text-[13px] md:text-[16px] text-on-surface placeholder:text-outline/60"/>
+  <input type="text"id="full-name"placeholder="Rahim Uddin"value={formData.firstName} onChange={handleInputChange} className="input-field w-full bg-surface-container-low border border-outline-variant/60 rounded-full pl-10 md:pl-11 pr-4 py-3 md:py-3.5 text-[13px] md:text-[16px] text-on-surface placeholder:text-outline/60"/>
  </div>
  </div>
  </div>
