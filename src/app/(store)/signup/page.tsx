@@ -155,7 +155,7 @@ export default function SignupPage() {
  };
 
  return (
- <main className="min-h-screen flex flex-col">
+ <main className="min-h-[100dvh] flex flex-col">
  <style jsx global>{`
  .orb { position: absolute; border-radius: 9999px; filter: blur(80px); pointer-events: none; }
  .input-field { transition: border-color 0.2s ease, box-shadow 0.2s ease; }
@@ -172,10 +172,12 @@ export default function SignupPage() {
  .eye-btn { cursor: pointer; transition: color 0.15s ease; }
  .eye-btn:hover { color: #9f4122; }
 
-  .social-locked-wrapper { position: relative; overflow: hidden; border-radius: 9999px; }
+  .social-locked-wrapper { position: relative; width: 100%; border-radius: 9999px; }
+  .btn-social:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(159,65,34,0.18); border-color: #9f4122; }
+  .input-field { font-size: 16px; }
  `}</style>
 
- <section className="relative flex-1 flex items-center justify-center px-4 pt-28 pb-16 md:pt-36 md:pb-20 overflow-hidden">
+ <section className="relative flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-24 pb-12 sm:pt-28 sm:pb-16 md:pt-36 md:pb-20 overflow-hidden">
  <div className="absolute inset-0 bg-gradient-to-br from-tertiary-fixed/25 via-background to-primary-fixed/20 -z-10"></div>
  <div className="orb w-72 h-72 md:w-[500px] md:h-[500px] bg-primary-container/20 top-10 -right-16 md:-right-24 -z-10"></div>
  <div className="orb w-56 h-56 md:w-96 md:h-96 bg-secondary-container/25 bottom-10 -left-10 md:-left-20 -z-10"></div>
@@ -188,7 +190,7 @@ export default function SignupPage() {
  <span className="shrink-0 bg-secondary-container text-on-secondary-container text-[12px] tracking-[0.1em] font-bold px-2.5 py-1 rounded-full uppercase leading-none">Free</span>
  <span className="text-[16px] text-on-surface whitespace-nowrap">No credit card required</span>
  </div>
- <h1 className="text-[52px] leading-[1.1] tracking-tighter text-on-surface mb-6">
+ <h1 className="text-[44px] xl:text-[52px] leading-[1.1] tracking-tighter text-on-surface mb-6">
  Join the<br/>Khati<br/><span className="text-primary">Family.</span>
  </h1>
  <p className="text-[18px] leading-relaxed text-on-surface-variant mb-10 max-w-sm">
@@ -239,15 +241,15 @@ export default function SignupPage() {
  </div>
  </div>
 
- <div className="w-full animate-slide-up">
- <div className="bg-surface/90 backdrop-blur-xl rounded-[28px] md:rounded-[32px] border border-outline-variant/40 shadow-[0_24px_64px_rgba(159,65,34,0.10)] p-6 md:p-10">
+ <div className="w-full max-w-xl md:max-w-2xl lg:max-w-none mx-auto animate-slide-up">
+ <div className="bg-surface/90 backdrop-blur-xl rounded-[28px] md:rounded-[32px] border border-outline-variant/40 shadow-[0_24px_64px_rgba(159,65,34,0.10)] p-5 sm:p-8 md:p-10">
   <div className="mb-7 md:mb-8">
   <div className="flex items-center gap-2 mb-5 lg:hidden">
   <span className="material-symbols-outlined text-primary text-[22px]">shopping_basket</span>
   <span className="font-bold text-primary text-[16px] tracking-tight">Khati Family</span>
   </div>
-  <h2 className="text-[26px] md:text-[34px] leading-tight tracking-tight text-on-surface mb-1.5">Create your account</h2>
-  <p className="text-on-surface-variant text-[13px] md:text-[16px]">Already have an account? <Link href="/signin"className="text-primary font-semibold hover:underline underline-offset-2 ml-0.5">Sign in</Link></p>
+  <h2 className="text-[24px] sm:text-[28px] md:text-[34px] leading-tight tracking-tight text-on-surface mb-1.5">Create your account</h2>
+  <p className="text-on-surface-variant text-[14px] md:text-[16px]">Already have an account? <Link href="/signin"className="text-primary font-semibold hover:underline underline-offset-2 ml-0.5">Sign in</Link></p>
   </div>
 
   {/* Error Banner */}
@@ -260,37 +262,39 @@ export default function SignupPage() {
    </div>
   )}
 
-  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+  <div className="mb-6">
   <div className="social-locked-wrapper">
-  <button onClick={handleGoogleSignUp} type="button" className="btn-social flex items-center justify-center gap-2.5 border border-outline-variant/60 bg-surface rounded-full py-2.5 md:py-3 px-4 text-[13px] md:text-[14px] font-medium text-on-surface hover:border-outline-variant">
-  <svg className="w-4 h-4 shrink-0"viewBox="0 0 24 24"xmlns="http://www.w3.org/2000/svg">
-  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"fill="#4285F4"/>
-  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"fill="#34A853"/>
-  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"fill="#FBBC05"/>
-  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"fill="#EA4335"/>
-  </svg>
-  Continue with Google
+  <button
+   onClick={handleGoogleSignUp}
+   type="button"
+   className="btn-social w-full flex items-center justify-center gap-3 border border-outline-variant/60 bg-surface rounded-full h-12 md:h-[52px] px-5 text-[14px] md:text-[15px] font-medium leading-none text-on-surface hover:border-outline-variant"
+  >
+   <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+   </svg>
+   <span>Continue with Google</span>
   </button>
   </div>
   </div>
 
  <div className="flex items-center gap-4 mb-6"><div className="flex-1 h-px bg-outline-variant/40"></div><span className="text-on-surface-variant text-[12px] font-medium">or sign up with email</span><div className="flex-1 h-px bg-outline-variant/40"></div></div>
 
- <div className="space-y-4">
-  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-  <div className="sm:col-span-2">
+ <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4">
+  <div className="md:col-span-2 lg:col-span-1">
   <label className="block text-[12px] md:text-[13px] font-semibold text-on-surface mb-1.5 uppercase tracking-wider"htmlFor="full-name">Full Name</label>
  <div className="relative">
  <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px] md:text-[20px] pointer-events-none">person</span>
-  <input type="text"id="full-name"placeholder="Rahim Uddin"value={formData.firstName} onChange={handleInputChange} className="input-field w-full bg-surface-container-low border border-outline-variant/60 rounded-full pl-10 md:pl-11 pr-4 py-3 md:py-3.5 text-[13px] md:text-[16px] text-on-surface placeholder:text-outline/60"/>
- </div>
+  <input type="text"id="full-name"placeholder="Rahim Uddin"value={formData.firstName} onChange={handleInputChange} className="input-field w-full bg-surface-container-low border border-outline-variant/60 rounded-full pl-10 md:pl-11 pr-4 py-3 md:py-3.5 text-[16px] text-on-surface placeholder:text-outline/60"/>
  </div>
  </div>
  <div>
  <label className="block text-[12px] md:text-[13px] font-semibold text-on-surface mb-1.5 uppercase tracking-wider"htmlFor="email">Email Address</label>
  <div className="relative">
  <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px] md:text-[20px] pointer-events-none">mail</span>
- <input type="email"id="email"placeholder="rahim@example.com"value={formData.email} onChange={handleInputChange} className="input-field w-full bg-surface-container-low border border-outline-variant/60 rounded-full pl-10 md:pl-11 pr-4 py-3 md:py-3.5 text-[13px] md:text-[16px] text-on-surface placeholder:text-outline/60"/>
+ <input type="email"id="email"placeholder="rahim@example.com"value={formData.email} onChange={handleInputChange} className="input-field w-full bg-surface-container-low border border-outline-variant/60 rounded-full pl-10 md:pl-11 pr-4 py-3 md:py-3.5 text-[16px] text-on-surface placeholder:text-outline/60"/>
  </div>
  </div>
  <div>
@@ -330,7 +334,7 @@ export default function SignupPage() {
  placeholder={selectedCountry.country === "BD" ? "01XXXXXXXXX" : "Phone number"}
  value={formData.phone}
  onChange={(e) => { handleInputChange(e); setPhoneError(""); }}
- className="input-field flex-1 bg-surface-container-low border border-l-0 border-outline-variant/60 rounded-r-full pr-4 pl-3 py-3 md:py-3.5 text-[13px] md:text-[16px] text-on-surface placeholder:text-outline/60"
+ className="input-field flex-1 min-w-0 bg-surface-container-low border border-l-0 border-outline-variant/60 rounded-r-full pr-4 pl-3 py-3 md:py-3.5 text-[16px] text-on-surface placeholder:text-outline/60"
  style={{ borderRadius:"0 9999px 9999px 0" }}
  />
  </div>
@@ -340,7 +344,7 @@ export default function SignupPage() {
  <label className="block text-[12px] md:text-[13px] font-semibold text-on-surface mb-1.5 uppercase tracking-wider"htmlFor="password">Password</label>
  <div className="relative">
  <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px] md:text-[20px] pointer-events-none">lock</span>
- <input type={showPassword ?"text":"password"} id="password"placeholder="Min. 8 characters"value={formData.password} onChange={handleInputChange} className="input-field w-full bg-surface-container-low border border-outline-variant/60 rounded-full pl-10 md:pl-11 pr-11 md:pr-12 py-3 md:py-3.5 text-[13px] md:text-[16px] text-on-surface placeholder:text-outline/60"/>
+ <input type={showPassword ?"text":"password"} id="password"placeholder="Min. 8 characters"value={formData.password} onChange={handleInputChange} className="input-field w-full bg-surface-container-low border border-outline-variant/60 rounded-full pl-10 md:pl-11 pr-11 md:pr-12 py-3 md:py-3.5 text-[16px] text-on-surface placeholder:text-outline/60"/>
  <button type="button"className="eye-btn absolute right-4 top-1/2 -translate-y-1/2 text-outline"onClick={() => setShowPassword(!showPassword)}><span className="material-symbols-outlined text-[18px] md:text-[20px]">{showPassword ?"visibility":"visibility_off"}</span></button>
  </div>
  <div className="mt-2.5 flex items-center gap-2"><div className="flex gap-1.5 flex-1">{strength.barColors.map((color, i) => (<div key={i} className="strength-bar flex-1"style={{ backgroundColor: color, opacity: strength.score > i ? 1 : 0.3 }}></div>))}</div><span className="text-[11px] shrink-0 w-16 text-right"style={{ color: strength.color }}>{strength.label}</span></div>
@@ -349,12 +353,12 @@ export default function SignupPage() {
  <label className="block text-[12px] md:text-[13px] font-semibold text-on-surface mb-1.5 uppercase tracking-wider"htmlFor="confirm-password">Confirm Password</label>
  <div className="relative">
  <span className="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-outline text-[18px] md:text-[20px] pointer-events-none">lock_reset</span>
- <input type={showConfirmPassword ?"text":"password"} id="confirm-password"placeholder="Re-enter your password"value={formData.confirmPassword} onChange={handleInputChange} className="input-field w-full bg-surface-container-low border border-outline-variant/60 rounded-full pl-10 md:pl-11 pr-11 md:pr-12 py-3 md:py-3.5 text-[13px] md:text-[16px] text-on-surface placeholder:text-outline/60"/>
+ <input type={showConfirmPassword ?"text":"password"} id="confirm-password"placeholder="Re-enter your password"value={formData.confirmPassword} onChange={handleInputChange} className="input-field w-full bg-surface-container-low border border-outline-variant/60 rounded-full pl-10 md:pl-11 pr-11 md:pr-12 py-3 md:py-3.5 text-[16px] text-on-surface placeholder:text-outline/60"/>
  <button type="button"className="eye-btn absolute right-4 top-1/2 -translate-y-1/2 text-outline"onClick={() => setShowConfirmPassword(!showConfirmPassword)}><span className="material-symbols-outlined text-[18px] md:text-[20px]">{showConfirmPassword ?"visibility":"visibility_off"}</span></button>
  </div>
  {!matchMsg.hidden && <p className="mt-1.5 text-[11px] ml-4"style={{ color: matchMsg.color }}>{matchMsg.text}</p>}
  </div>
- <div className="space-y-3 pt-1">
+ <div className="space-y-3 pt-1 md:col-span-2 lg:col-span-1">
  <label className="flex items-start gap-3 cursor-pointer group">
  <input type="checkbox"id="terms"checked={formData.terms} onChange={handleInputChange} className="custom-checkbox mt-0.5 w-4 h-4 rounded border-outline-variant/60 text-primary focus:ring-primary/30 shrink-0"required />
  <span className="text-[12px] md:text-[13px] text-on-surface-variant leading-snug group-hover:text-on-surface transition-colors">I agree to the <Link href="#"className="text-primary font-semibold hover:underline underline-offset-2 mx-1">Terms of Service</Link> and <Link href="#"className="text-primary font-semibold hover:underline underline-offset-2 mx-1">Privacy Policy</Link></span>
@@ -364,18 +368,18 @@ export default function SignupPage() {
  <span className="text-[12px] md:text-[13px] text-on-surface-variant leading-snug group-hover:text-on-surface transition-colors">Send me exclusive deals, new arrivals, and seasonal offers</span>
  </label>
  </div>
-  <div className="pt-2">
+  <div className="pt-2 md:col-span-2 lg:col-span-1">
   <button type="button" onClick={handleSignUp} className="btn-primary w-full bg-primary text-on-primary font-semibold text-[14px] md:text-[18px] leading-relaxed py-3.5 md:py-4 rounded-full shadow-lg flex items-center justify-center gap-2.5 group">
   <span className="material-symbols-outlined text-[20px] md:text-[22px] group-hover:scale-110 transition-transform">person_add</span>Create Free Account<span className="material-symbols-outlined text-[18px] md:text-[20px] text-secondary-fixed group-hover:translate-x-1 transition-transform">arrow_forward</span>
   </button>
   </div>
  </div>
 
- <div className="mt-6 pt-5 border-t border-outline-variant/20 flex items-center justify-center gap-4 flex-wrap">
+ <div className="mt-6 pt-5 border-t border-outline-variant/20 flex items-center justify-center gap-x-4 gap-y-2 flex-wrap">
  <div className="flex items-center gap-1.5"><span className="material-symbols-outlined text-secondary text-[15px]">lock</span><span className="text-[11px] text-on-surface-variant">SSL Secured</span></div>
- <div className="w-px h-4 bg-outline-variant/40"></div>
+ <div className="hidden sm:block w-px h-4 bg-outline-variant/40"></div>
  <div className="flex items-center gap-1.5"><span className="material-symbols-outlined text-secondary text-[15px]">verified_user</span><span className="text-[11px] text-on-surface-variant">Data Protected</span></div>
- <div className="w-px h-4 bg-outline-variant/40"></div>
+ <div className="hidden sm:block w-px h-4 bg-outline-variant/40"></div>
  <div className="flex items-center gap-1.5"><span className="material-symbols-outlined text-secondary text-[15px]">verified</span><span className="text-[11px] text-on-surface-variant">BSTI Certified</span></div>
  </div>
  </div>
@@ -387,7 +391,7 @@ export default function SignupPage() {
  {showEmailConfirmModal && (
  <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
  <div className="absolute inset-0 bg-inverse-surface/40 backdrop-blur-md"></div>
- <div className="relative bg-surface rounded-[28px] border border-outline-variant/40 shadow-2xl p-8 md:p-10 max-w-sm w-full text-center animate-slide-up">
+ <div className="relative bg-surface rounded-[28px] border border-outline-variant/40 shadow-2xl p-8 md:p-10 max-w-sm w-full max-h-[90dvh] overflow-y-auto text-center animate-slide-up">
  {/* Animated envelope icon */}
  <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-5 relative">
  <span className="material-symbols-outlined text-primary text-[40px]">mark_email_unread</span>
@@ -438,7 +442,7 @@ export default function SignupPage() {
  {showSuccessModal && (
  <div id="success-modal" className="fixed inset-0 z-[100] flex items-center justify-center p-4">
  <div className="absolute inset-0 bg-inverse-surface/40 backdrop-blur-md" onClick={() => setShowSuccessModal(false)}></div>
- <div className="relative bg-surface rounded-[28px] border border-outline-variant/40 shadow-2xl p-8 md:p-12 max-w-sm w-full text-center animate-slide-up">
+ <div className="relative bg-surface rounded-[28px] border border-outline-variant/40 shadow-2xl p-8 md:p-12 max-w-sm w-full max-h-[90dvh] overflow-y-auto text-center animate-slide-up">
  <div className="w-16 h-16 bg-secondary-container rounded-full flex items-center justify-center mx-auto mb-5">
  <span className="material-symbols-outlined text-secondary text-[34px]">check_circle</span>
  </div>
